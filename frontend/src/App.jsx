@@ -10,6 +10,7 @@ import { Sparkles, Bot } from 'lucide-react';
 
 // Views
 import { AuthView } from './views/AuthView';
+import { AdminAuthView } from './views/AdminAuthView';
 import { ProfileWizardView } from './views/ProfileWizardView';
 import { EmployeeDashboardView } from './views/EmployeeDashboardView';
 import { CompetenciesView } from './views/CompetenciesView';
@@ -30,10 +31,22 @@ import { NotificationsView } from './views/NotificationsView';
 import { ProfileSettingsView } from './views/ProfileSettingsView';
 
 export default function App() {
-  const { isAuthenticated, currentScreen, userProfile, setIsAiDrawerOpen, t } = useApp();
+  const { isAuthenticated, currentScreen, userProfile, isAdminPortalMode, setIsAiDrawerOpen, t } = useApp();
 
-  // If not authenticated or on login screen, render AuthView
-  if (!isAuthenticated || currentScreen === 'login') {
+  // If not authenticated or on login screen:
+  if (!isAuthenticated || currentScreen === 'login' || currentScreen === 'admin-login') {
+    // Check if accessing admin gateway via URL or state
+    const isExplicitAdminRoute = isAdminPortalMode || currentScreen === 'admin-login' || window.location.pathname.startsWith('/admin') || window.location.hash.startsWith('#admin');
+
+    if (isExplicitAdminRoute) {
+      return (
+        <div className="min-h-screen bg-[#081326] font-sans">
+          <AdminAuthView />
+          <Toast />
+        </div>
+      );
+    }
+
     return (
       <div className="min-h-screen bg-[#0F2942] font-sans">
         <AuthView />

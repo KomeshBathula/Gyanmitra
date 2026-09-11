@@ -62,27 +62,27 @@ export const AdminAssessmentsAuditView = () => {
   return (
     <div className="space-y-6 max-w-7xl mx-auto pb-12 text-slate-100">
       {/* Top Banner */}
-      <div className="bg-[#111F38] rounded-2xl border border-[#1E2E4A] p-6 shadow-xl">
+      <div className="bg-[#111F38] rounded-2xl border border-[#1E2E4A] p-6 shadow-md">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div>
             <div className="flex items-center space-x-2">
-              <span className="px-2.5 py-0.5 rounded text-xs font-bold bg-purple-900/60 text-purple-300 border border-purple-600/50">
+              <span className="px-2.5 py-0.5 rounded text-xs font-bold bg-blue-900/60 text-blue-300 border border-blue-600/40">
                 Governance Audit Console
               </span>
-              <span className="text-xs text-slate-400">MoSPI Psychometric Integrity</span>
+              <span className="text-xs text-slate-400">MoSPI Examination Integrity</span>
             </div>
             <h2 className="text-xl font-bold text-white mt-2">Assessments Governance & Policy Audit</h2>
             <p className="text-xs text-slate-400 mt-1">
-              Verify examination compliance, monitor passing thresholds, and manage live AI-generated assessment banks.
+              Verify examination compliance, monitor passing thresholds, and manage live assessment banks.
             </p>
           </div>
 
           <button
             onClick={() => setCurrentScreen('admin-quiz-studio')}
-            className="px-4 py-2 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white text-xs font-bold shadow-lg transition-all flex items-center space-x-2 cursor-pointer"
+            className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold shadow-md transition-all flex items-center space-x-2 cursor-pointer"
           >
             <Zap className="w-4 h-4 text-amber-300" />
-            <span>Open Groq AI Quiz Studio</span>
+            <span>AI Quiz Studio</span>
           </button>
         </div>
       </div>

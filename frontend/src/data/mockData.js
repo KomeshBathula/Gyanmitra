@@ -812,6 +812,7 @@ export const ADMIN_DEPARTMENTS_CONFIG = [
 ];
 
 export const ADMIN_LEARNERS_DIRECTORY = [
+  // STATISTICAL CADRE
   {
     id: "lrn_001",
     name: "Rajeswari Malluri",
@@ -858,6 +859,52 @@ export const ADMIN_LEARNERS_DIRECTORY = [
     lastActive: "1 hour ago"
   },
   {
+    id: "lrn_006",
+    name: "K. Ranganathan",
+    employeeId: "DES-TN-2016-0412",
+    designation: "Joint Director (DES Tamil Nadu)",
+    department: "State Directorate of Economics & Statistics",
+    departmentId: "statistical",
+    ministry: "MoSPI State DES Deputation",
+    cadre: "State Statistical Service",
+    location: "Chennai, Tamil Nadu",
+    email: "ranganathan.des@tn.gov.in",
+    avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&auto=format&fit=crop&q=80",
+    competencyScore: 71,
+    karmaCredits: 710,
+    aparStatus: "Compliant (79%)",
+    activeCoursesCount: 4,
+    completedAssessments: 4,
+    skillGaps: [
+      { name: "State Domestic Product (GSDP) Compilation", current: 2, target: 4, priority: "High" }
+    ],
+    lastActive: "2 days ago"
+  },
+  {
+    id: "lrn_007",
+    name: "Priya Sundaram, SSS",
+    employeeId: "MOSPI-SSS-2021-0834",
+    designation: "Senior Statistical Officer",
+    department: "Field Operations Division (FOD - NSSO)",
+    departmentId: "statistical",
+    ministry: "Ministry of Statistics & PI",
+    cadre: "Subordinate Statistical Service (SSS)",
+    location: "Bengaluru Regional Office",
+    email: "priya.sundaram@gov.in",
+    avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&auto=format&fit=crop&q=80",
+    competencyScore: 81,
+    karmaCredits: 820,
+    aparStatus: "Compliant (86%)",
+    activeCoursesCount: 3,
+    completedAssessments: 5,
+    skillGaps: [
+      { name: "Periodic Labour Force Survey (PLFS) Sampling", current: 3, target: 4, priority: "Medium" }
+    ],
+    lastActive: "40 mins ago"
+  },
+
+  // CIVIL ADMINISTRATION CADRE
+  {
     id: "lrn_003",
     name: "Vikramaditya Rao, IAS",
     employeeId: "CIVIL-DOPT-2019-0122",
@@ -880,6 +927,75 @@ export const ADMIN_LEARNERS_DIRECTORY = [
     ],
     lastActive: "35 mins ago"
   },
+  {
+    id: "lrn_008",
+    name: "Sneha Sen, CSS",
+    employeeId: "CIVIL-CSS-2020-0381",
+    designation: "Under Secretary (Administrative Reforms)",
+    department: "Department of Administrative Reforms & Public Grievances",
+    departmentId: "civil",
+    ministry: "Ministry of Personnel, PG and Pensions",
+    cadre: "Central Secretariat Service (CSS)",
+    location: "Sardar Patel Bhawan, New Delhi",
+    email: "sneha.sen@gov.in",
+    avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80",
+    competencyScore: 76,
+    karmaCredits: 740,
+    aparStatus: "Compliant (84%)",
+    activeCoursesCount: 4,
+    completedAssessments: 5,
+    skillGaps: [
+      { name: "e-Office 7.0 Digitization Protocols", current: 2, target: 4, priority: "High" },
+      { name: "CPGRAMS Citizen Grievance Redressal", current: 3, target: 4, priority: "Medium" }
+    ],
+    lastActive: "2 hours ago"
+  },
+  {
+    id: "lrn_009",
+    name: "Alok Vardhan, IAS",
+    employeeId: "CIVIL-IAS-2015-0078",
+    designation: "Director (Policy & Capacity Governance)",
+    department: "Cabinet Secretariat & Capacity Building Commission",
+    departmentId: "civil",
+    ministry: "Cabinet Secretariat",
+    cadre: "Indian Administrative Service (IAS)",
+    location: "Rashtrapati Bhavan, New Delhi",
+    email: "alok.vardhan@gov.in",
+    avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80",
+    competencyScore: 91,
+    karmaCredits: 1150,
+    aparStatus: "Exemplary (96%)",
+    activeCoursesCount: 1,
+    completedAssessments: 9,
+    skillGaps: [
+      { name: "Generative AI Policy Oversight in Governance", current: 3, target: 5, priority: "Medium" }
+    ],
+    lastActive: "10 mins ago"
+  },
+  {
+    id: "lrn_010",
+    name: "Meera Nambiar",
+    employeeId: "CIVIL-DOPT-2022-0941",
+    designation: "Section Officer (Karmayogi Cell)",
+    department: "Training Division, DoPT",
+    departmentId: "civil",
+    ministry: "Ministry of Personnel",
+    cadre: "Central Secretariat Service (CSS)",
+    location: "Old JNU Campus, New Delhi",
+    email: "meera.nambiar@gov.in",
+    avatar: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=150&auto=format&fit=crop&q=80",
+    competencyScore: 69,
+    karmaCredits: 580,
+    aparStatus: "In Progress (68%)",
+    activeCoursesCount: 5,
+    completedAssessments: 3,
+    skillGaps: [
+      { name: "Annual Capacity Building Plan (ACBP) Drafting", current: 2, target: 4, priority: "High" }
+    ],
+    lastActive: "5 hours ago"
+  },
+
+  // MUNICIPAL ADMINISTRATION CADRE
   {
     id: "lrn_004",
     name: "Smt. Ananya Deshmukh",
@@ -904,8 +1020,76 @@ export const ADMIN_LEARNERS_DIRECTORY = [
     lastActive: "3 hours ago"
   },
   {
+    id: "lrn_011",
+    name: "Rajeshwar Patil",
+    employeeId: "ULB-MUNI-2018-0523",
+    designation: "Chief Accounts & Revenue Officer",
+    department: "Urban Local Bodies (ULB) Finance Cell",
+    departmentId: "municipal",
+    ministry: "Ministry of Housing and Urban Affairs (MoHUA)",
+    cadre: "Municipal Finance Cadre",
+    location: "Greater Mumbai Municipal Corp",
+    email: "rajeshwar.patil@mcgm.gov.in",
+    avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&auto=format&fit=crop&q=80",
+    competencyScore: 74,
+    karmaCredits: 730,
+    aparStatus: "Compliant (80%)",
+    activeCoursesCount: 3,
+    completedAssessments: 4,
+    skillGaps: [
+      { name: "Municipal Double Entry Accounting System", current: 2, target: 4, priority: "High" }
+    ],
+    lastActive: "1 day ago"
+  },
+  {
+    id: "lrn_012",
+    name: "Tanvi Saxena",
+    employeeId: "ULB-TOWN-2020-0199",
+    designation: "Town Planning & GIS Executive Engineer",
+    department: "Town Planning & Smart Cities Mission",
+    departmentId: "municipal",
+    ministry: "MoHUA",
+    cadre: "Urban Engineering Cadre",
+    location: "Delhi Municipal Corporation",
+    email: "tanvi.saxena@mcd.nic.in",
+    avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&auto=format&fit=crop&q=80",
+    competencyScore: 83,
+    karmaCredits: 890,
+    aparStatus: "Compliant (89%)",
+    activeCoursesCount: 2,
+    completedAssessments: 7,
+    skillGaps: [
+      { name: "Smart Urban Drainage & Flood Modeling", current: 2, target: 4, priority: "High" }
+    ],
+    lastActive: "45 mins ago"
+  },
+  {
+    id: "lrn_013",
+    name: "Gurpreet Singh",
+    employeeId: "ULB-SAN-2019-0647",
+    designation: "Municipal Health & Sanitation Officer",
+    department: "Swachh Bharat Urban Governance Unit",
+    departmentId: "municipal",
+    ministry: "MoHUA",
+    cadre: "Municipal Public Health Cadre",
+    location: "Chandigarh Municipal Corp",
+    email: "gurpreet.singh@chd.nic.in",
+    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80",
+    competencyScore: 70,
+    karmaCredits: 670,
+    aparStatus: "Compliant (75%)",
+    activeCoursesCount: 4,
+    completedAssessments: 4,
+    skillGaps: [
+      { name: "Solid Waste Biomining & Carbon Audits", current: 1, target: 3, priority: "High" }
+    ],
+    lastActive: "3 hours ago"
+  },
+
+  // REVENUE & FINANCE CADRE
+  {
     id: "lrn_005",
-    name: "Shri Santosh Nair",
+    name: "Shri Santosh Nair, IRS",
     employeeId: "REV-IRS-2017-0331",
     designation: "Assistant Commissioner of Taxes",
     department: "Revenue & Commercial Taxes",
@@ -926,26 +1110,70 @@ export const ADMIN_LEARNERS_DIRECTORY = [
     lastActive: "Yesterday"
   },
   {
-    id: "lrn_006",
-    name: "K. Ranganathan",
-    employeeId: "DES-TN-2016-0412",
-    designation: "Joint Director (DES Tamil Nadu)",
-    department: "State Directorate of Economics & Statistics",
-    departmentId: "statistical",
-    ministry: "MoSPI State DES Deputation",
-    cadre: "State Statistical Service",
-    location: "Chennai, Tamil Nadu",
-    email: "ranganathan.des@tn.gov.in",
-    avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&auto=format&fit=crop&q=80",
-    competencyScore: 71,
-    karmaCredits: 710,
-    aparStatus: "Compliant (79%)",
-    activeCoursesCount: 4,
+    id: "lrn_014",
+    name: "Kavita Krishnamurthy",
+    employeeId: "REV-GST-2019-0419",
+    designation: "Deputy Commissioner (GST Audit & Intelligence)",
+    department: "Central Board of Indirect Taxes and Customs (CBIC)",
+    departmentId: "revenue",
+    ministry: "Department of Revenue, MoF",
+    cadre: "Indian Revenue Service (Customs & Indirect Taxes)",
+    location: "Bengaluru GST Bhawan",
+    email: "kavita.k@gst.gov.in",
+    avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80",
+    competencyScore: 86,
+    karmaCredits: 940,
+    aparStatus: "Exemplary (92%)",
+    activeCoursesCount: 2,
+    completedAssessments: 8,
+    skillGaps: [
+      { name: "E-Invoicing Fraud Detection & Graph Analytics", current: 2, target: 4, priority: "High" }
+    ],
+    lastActive: "20 mins ago"
+  },
+  {
+    id: "lrn_015",
+    name: "Arvind Mehrotra",
+    employeeId: "REV-IRS-2016-0158",
+    designation: "Joint Commissioner (Faceless Assessment)",
+    department: "Central Board of Direct Taxes (CBDT)",
+    departmentId: "revenue",
+    ministry: "Ministry of Finance",
+    cadre: "Indian Revenue Service (Income Tax)",
+    location: "Aayakar Bhavan, Mumbai",
+    email: "arvind.mehrotra@incometax.gov.in",
+    avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80",
+    competencyScore: 88,
+    karmaCredits: 980,
+    aparStatus: "Exemplary (95%)",
+    activeCoursesCount: 2,
+    completedAssessments: 9,
+    skillGaps: [
+      { name: "Cross-Border Base Erosion & BEPS Protocols", current: 3, target: 5, priority: "Medium" }
+    ],
+    lastActive: "1 hour ago"
+  },
+  {
+    id: "lrn_016",
+    name: "Deepa Srinivasan",
+    employeeId: "REV-TREAS-2020-0772",
+    designation: "Senior Treasury & Accounts Officer",
+    department: "Directorate of Treasuries and Accounts",
+    departmentId: "revenue",
+    ministry: "State Finance Department & MoF",
+    cadre: "State Treasury Accounts Service",
+    location: "Fort St. George, Chennai",
+    email: "deepa.s@tn.gov.in",
+    avatar: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=150&auto=format&fit=crop&q=80",
+    competencyScore: 72,
+    karmaCredits: 700,
+    aparStatus: "Compliant (77%)",
+    activeCoursesCount: 3,
     completedAssessments: 4,
     skillGaps: [
-      { name: "State Domestic Product (GSDP) Compilation", current: 2, target: 4, priority: "High" }
+      { name: "Public Financial Management System (PFMS) E-Payment", current: 2, target: 4, priority: "High" }
     ],
-    lastActive: "2 days ago"
+    lastActive: "4 hours ago"
   }
 ];
 

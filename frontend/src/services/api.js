@@ -100,6 +100,10 @@ export const api = {
     return apiRequest('/competencies/skill-gaps', {}, fallback);
   },
 
+  getGapDetail: async (gapId, fallback) => {
+    return apiRequest(`/competencies/gap/${gapId}`, {}, fallback);
+  },
+
   getLearningPath: async (fallback) => {
     return apiRequest('/competencies/learning-path', {}, fallback);
   },

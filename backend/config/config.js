@@ -1,4 +1,12 @@
 import dotenv from 'dotenv';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Load from backend/.env or parent .env
+dotenv.config({ path: path.resolve(__dirname, '../.env') });
 dotenv.config();
 
 export const config = {
@@ -10,5 +18,5 @@ export const config = {
   defaultUser: 'usr_001',
   systemName: 'GyanMitra Official Statistics Competency Intelligence Platform',
   groqApiKey: process.env.GROQ_API_KEY || '',
-  groqModel: process.env.GROQ_MODEL || 'llama-3.3-70b-versatile'
+  groqModel: process.env.GROQ_MODEL || 'qwen/qwen3.8-27b'
 };

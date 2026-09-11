@@ -11,7 +11,12 @@ import {
   LogOut,
   Sparkles,
   ArrowRightLeft,
-  ExternalLink
+  ExternalLink,
+  Search,
+  Globe,
+  Sun,
+  Menu,
+  Check
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 
@@ -23,13 +28,31 @@ export const AdminHeader = () => {
     adminDepartmentsConfig,
     loginUser,
     logoutUser,
-    showToast
+    notifications,
+    language,
+    setLanguage,
+    toggleSidebar,
+    isSidebarOpen,
+    showToast,
+    setCurrentScreen,
+    t
   } = useApp();
 
   const [isDeptDropdownOpen, setIsDeptDropdownOpen] = useState(false);
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
+  const [isNotifMenuOpen, setIsNotifMenuOpen] = useState(false);
+  const [isLangMenuOpen, setIsLangMenuOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const activeDeptConfig = adminDepartmentsConfig?.find(d => d.id === adminDepartment) || adminDepartmentsConfig?.[0];
+  const unreadCount = notifications.filter(n => !n.read).length;
+
+  const getInitials = (name) => {
+    if (!name) return 'AD';
+    const parts = name.split(' ');
+    if (parts.length >= 2) return `${parts[0][0]}${parts[1][0]}`.toUpperCase();
+    return name.substring(0, 2).toUpperCase();
+  };
 
   const getDeptIcon = (iconName) => {
     switch (iconName) {
@@ -45,162 +68,275 @@ export const AdminHeader = () => {
   const ActiveIcon = getDeptIcon(activeDeptConfig?.icon);
 
   return (
-    <header className="bg-[#080E1C] border-b border-[#1E2E4A] text-slate-100 select-none z-30 sticky top-0 shadow-xl">
-      {/* Top Official National Bar */}
-      <div className="bg-[#050A14] border-b border-[#162544] px-4 sm:px-6 py-1 text-[11px] text-slate-400 flex items-center justify-between">
-        <div className="flex items-center space-x-3">
-          <span className="font-semibold text-slate-300">Government of India • Ministry Administrative Gateway</span>
-          <span className="hidden md:inline text-slate-600">|</span>
-          <span className="hidden md:inline text-amber-400 font-medium">Mission Karmayogi Bharat (NPCSCB)</span>
-        </div>
-        <div className="flex items-center space-x-3 text-[10px]">
-          <span className="px-2 py-0.5 rounded bg-purple-950 text-purple-300 border border-purple-800 font-mono font-bold">
-            ADMIN ROOT MODE
-          </span>
-          <span className="text-slate-500">Security Tier: Level 4 HAG</span>
-        </div>
-      </div>
-
-      {/* Main Admin Navigation Bar */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between gap-4">
-        {/* Left: Ministry Governance Brand */}
-        <div className="flex items-center space-x-3">
-          <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-purple-700 via-indigo-600 to-blue-600 p-0.5 shadow-lg flex items-center justify-center flex-shrink-0">
-            <div className="w-full h-full bg-[#0B1528] rounded-[14px] flex items-center justify-center">
-              <Shield className="w-5 h-5 text-amber-400" />
-            </div>
-          </div>
-          <div>
+    <header className="sticky top-0 z-40 bg-[#0B1528] text-white border-b border-[#1E2E4A] select-none">
+      <div className="px-4 sm:px-6 py-2.5 flex items-center justify-between gap-3 sm:gap-6">
+        {/* Left: Emblem, GyanMitra Brand & Hamburger */}
+        <div className="flex items-center space-x-3 sm:space-x-4">
+          <div
+            className="flex items-center space-x-2 cursor-pointer"
+            onClick={() => setCurrentScreen('admin-dashboard')}
+          >
+            {/* Orange iGOT Emblem */}
             <div className="flex items-center space-x-2">
-              <h1 className="text-base font-black text-white tracking-tight leading-none">
-                GyanMitra <span className="text-purple-400 font-extrabold">Governance Console</span>
-              </h1>
-              <span className="px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-amber-950 text-amber-400 border border-amber-500/40 hidden sm:inline-block">
-                Ministry Admin
-              </span>
+              <div className="w-8 h-8 flex items-center justify-center text-[#FF9933]">
+                <svg className="w-7 h-7" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2L14.5 8.5H21.5L16 12.5L18 19L12 15L6 19L8 12.5L2.5 8.5H9.5L12 2Z" />
+                </svg>
+              </div>
+              <div className="flex flex-col">
+                <div className="flex items-center space-x-1.5">
+                  <span className="text-[#FF9933] font-black text-sm tracking-tight leading-none font-serif">
+                    कर्मयोगी भारत
+                  </span>
+                  <span className="px-1.5 py-0.2 rounded text-[9px] font-bold bg-blue-900/60 text-blue-300 border border-blue-600/40">
+                    ADMIN
+                  </span>
+                </div>
+                <span className="text-[10px] text-slate-400 font-sans tracking-wide">
+                  GyanMitra Governance
+                </span>
+              </div>
             </div>
-            <p className="text-[10px] text-slate-400 mt-0.5">
-              Official Statistics & Public Cadre Competency Intelligence Portal
-            </p>
           </div>
+
+          {/* Hamburger Menu Box Button */}
+          <button
+            onClick={toggleSidebar}
+            className="p-1.5 rounded-lg bg-[#162544] hover:bg-[#1E335A] text-slate-300 hover:text-white border border-[#1E3A6D] transition-all cursor-pointer"
+            title={isSidebarOpen ? "Collapse Menu" : "Open Menu"}
+            aria-label="Toggle menu"
+          >
+            <Menu className="w-5 h-5" />
+          </button>
         </div>
 
-        {/* Center: Admin Department Switcher Dropdown */}
+        {/* Center: Admin Department Switcher */}
         <div className="relative hidden md:block">
           <button
             onClick={() => setIsDeptDropdownOpen(!isDeptDropdownOpen)}
-            className="flex items-center space-x-2.5 px-4 py-2 rounded-xl bg-[#111F38] hover:bg-[#162A4D] border border-[#223963] text-xs font-bold text-slate-100 transition-all shadow-md cursor-pointer group"
+            className="flex items-center space-x-2.5 px-3 py-1.5 rounded-xl bg-[#111F38] hover:bg-[#162A4D] border border-[#1E3A6D] text-xs font-bold text-slate-100 transition-all cursor-pointer group"
           >
-            <div className="w-6 h-6 rounded-lg bg-purple-900/60 border border-purple-500/50 text-purple-300 flex items-center justify-center">
-              <ActiveIcon className="w-3.5 h-3.5" />
+            <div className="w-6 h-6 rounded-lg bg-blue-900/60 border border-blue-500/40 text-blue-300 flex items-center justify-center">
+              <ActiveIcon className="w-3.5 h-3.5 text-blue-400" />
             </div>
             <div className="text-left">
-              <p className="text-[10px] text-slate-400 font-normal leading-none">Admin Cadre Department</p>
-              <p className="text-xs font-black text-white mt-0.5">{activeDeptConfig?.name}</p>
+              <p className="text-[9px] text-slate-400 font-normal leading-none">Cadre Department</p>
+              <p className="text-xs font-bold text-white mt-0.5">{activeDeptConfig?.name}</p>
             </div>
-            <ChevronDown className="w-4 h-4 text-slate-400 group-hover:text-white transition-transform" />
+            <ChevronDown className="w-3.5 h-3.5 text-slate-400 group-hover:text-white transition-transform" />
           </button>
 
           {/* Department Selection Menu */}
           {isDeptDropdownOpen && (
-            <div className="absolute left-0 mt-2 w-80 bg-[#0F1E36] rounded-2xl border border-[#233B67] shadow-2xl p-2 z-50 animate-in fade-in">
-              <p className="px-3 py-1.5 text-[10px] font-bold text-slate-400 uppercase tracking-wider">
-                Select Administration Cadre
-              </p>
-              <div className="space-y-1">
-                {adminDepartmentsConfig?.map((dept) => {
-                  const Icon = getDeptIcon(dept.icon);
-                  const isSelected = dept.id === adminDepartment;
-                  return (
-                    <button
-                      key={dept.id}
-                      onClick={() => {
-                        switchAdminDepartment(dept.id);
-                        setIsDeptDropdownOpen(false);
-                      }}
-                      className={`w-full text-left p-2.5 rounded-xl text-xs flex items-center space-x-3 transition-colors cursor-pointer ${
-                        isSelected
-                          ? 'bg-purple-900/60 border border-purple-500/50 text-white font-bold'
-                          : 'hover:bg-[#162544] text-slate-300 border border-transparent'
-                      }`}
-                    >
-                      <div className="w-7 h-7 rounded-lg bg-[#0B1528] border border-[#1E2E4A] flex items-center justify-center text-purple-400 flex-shrink-0">
-                        <Icon className="w-4 h-4" />
-                      </div>
-                      <div className="flex-1 truncate">
-                        <p className="font-bold text-white truncate">{dept.name}</p>
-                        <p className="text-[10px] text-slate-400 truncate">{dept.badge} • {dept.totalLearners} Learners</p>
-                      </div>
-                    </button>
-                  );
-                })}
+            <>
+              <div className="fixed inset-0 z-40" onClick={() => setIsDeptDropdownOpen(false)}></div>
+              <div className="absolute left-0 mt-2 w-80 bg-[#111F38] rounded-2xl border border-[#1E3A6D] shadow-2xl p-2 z-50 animate-in fade-in">
+                <p className="px-3 py-1.5 text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                  Select Administration Cadre
+                </p>
+                <div className="space-y-1">
+                  {adminDepartmentsConfig?.map((dept) => {
+                    const Icon = getDeptIcon(dept.icon);
+                    const isSelected = dept.id === adminDepartment;
+                    return (
+                      <button
+                        key={dept.id}
+                        onClick={() => {
+                          switchAdminDepartment(dept.id);
+                          setIsDeptDropdownOpen(false);
+                        }}
+                        className={`w-full text-left p-2.5 rounded-xl text-xs flex items-center space-x-3 transition-colors cursor-pointer ${
+                          isSelected
+                            ? 'bg-blue-900/60 border border-blue-500/50 text-white font-bold'
+                            : 'hover:bg-[#162544] text-slate-300 border border-transparent'
+                        }`}
+                      >
+                        <div className="w-7 h-7 rounded-lg bg-[#0B1528] border border-[#1E2E4A] flex items-center justify-center text-blue-400 flex-shrink-0">
+                          <Icon className="w-4 h-4" />
+                        </div>
+                        <div className="flex-1 truncate">
+                          <p className="font-bold text-white truncate">{dept.name}</p>
+                          <p className="text-[10px] text-slate-400 truncate">{dept.badge} • {dept.totalLearners} Learners</p>
+                        </div>
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
-            </div>
+            </>
           )}
         </div>
 
-        {/* Right: Role Switcher & Profile Options */}
-        <div className="flex items-center space-x-3">
+        {/* Right Action Icons */}
+        <div className="flex items-center space-x-2 sm:space-x-3">
           {/* Fast Switch to Employee / Learner View */}
           <button
             onClick={() => loginUser('employee')}
-            className="px-3 py-1.5 rounded-xl bg-[#13233F] hover:bg-[#1A3158] text-blue-300 hover:text-white border border-blue-500/30 text-xs font-bold transition-all flex items-center space-x-1.5 shadow-sm cursor-pointer"
-            title="Switch to Employee / Learner UI to test learner experience"
+            className="px-3 py-1.5 rounded-xl bg-[#162544] hover:bg-[#1E3A6D] text-blue-300 hover:text-white border border-[#1E3A6D] text-xs font-bold transition-all flex items-center space-x-1.5 cursor-pointer"
+            title="Switch to Learner View"
           >
-            <ArrowRightLeft className="w-3.5 h-3.5 text-amber-300" />
-            <span className="hidden sm:inline">Switch to Learner View</span>
+            <ArrowRightLeft className="w-3.5 h-3.5 text-amber-400" />
+            <span className="hidden sm:inline">Learner View</span>
           </button>
 
-          {/* Admin Profile Dropdown */}
+          {/* Language Selector */}
+          <div className="relative">
+            <button
+              onClick={() => setIsLangMenuOpen(!isLangMenuOpen)}
+              className="flex items-center space-x-1 px-2.5 py-1 rounded-lg text-xs font-bold bg-[#162544] hover:bg-[#1E335A] text-slate-200 border border-[#1E3A6D] transition-colors cursor-pointer"
+            >
+              <Globe className="w-3.5 h-3.5 text-blue-400" />
+              <span className="uppercase">{language}</span>
+              <ChevronDown className="w-3 h-3 text-slate-400" />
+            </button>
+
+            {isLangMenuOpen && (
+              <>
+                <div className="fixed inset-0 z-40" onClick={() => setIsLangMenuOpen(false)}></div>
+                <div className="absolute right-0 mt-2 w-36 bg-[#111F38] rounded-xl shadow-xl border border-[#1E3A6D] py-1 z-50">
+                  {[
+                    { code: 'en', label: 'English (EN)' },
+                    { code: 'hi', label: 'हिन्दी (HI)' },
+                    { code: 'te', label: 'తెలుగు (TE)' }
+                  ].map((l) => (
+                    <button
+                      key={l.code}
+                      onClick={() => {
+                        setLanguage(l.code);
+                        setIsLangMenuOpen(false);
+                      }}
+                      className={`w-full text-left px-3 py-2 text-xs font-semibold flex items-center justify-between hover:bg-[#162544] cursor-pointer ${
+                        language === l.code ? 'text-blue-400 bg-[#162544]' : 'text-slate-300'
+                      }`}
+                    >
+                      <span>{l.label}</span>
+                      {language === l.code && <Check className="w-3.5 h-3.5 text-blue-400" />}
+                    </button>
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
+
+          {/* Notification Bell */}
+          <div className="relative">
+            <button
+              onClick={() => setIsNotifMenuOpen(!isNotifMenuOpen)}
+              className="p-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-[#162544] relative transition-colors cursor-pointer"
+            >
+              <Bell className="w-4 h-4" />
+              <span className="absolute -top-1 -right-1 bg-[#E11D48] text-white text-[9px] font-black px-1.5 py-0.2 rounded-full flex items-center justify-center border-2 border-[#0B1528] shadow-xs">
+                {unreadCount > 7 ? '7+' : unreadCount > 0 ? unreadCount : '3'}
+              </span>
+            </button>
+
+            {isNotifMenuOpen && (
+              <>
+                <div className="fixed inset-0 z-40" onClick={() => setIsNotifMenuOpen(false)}></div>
+                <div className="absolute right-0 mt-2 w-80 sm:w-96 bg-[#111F38] text-slate-200 rounded-2xl shadow-2xl border border-[#1E3A6D] py-2 z-50 animate-in fade-in">
+                  <div className="px-4 py-2 border-b border-[#1E3A6D] flex items-center justify-between">
+                    <span className="text-xs font-bold text-white">Cadre Notifications</span>
+                    <button
+                      onClick={() => {
+                        setCurrentScreen('notifications');
+                        setIsNotifMenuOpen(false);
+                      }}
+                      className="text-[11px] text-blue-400 font-bold hover:underline cursor-pointer"
+                    >
+                      View All
+                    </button>
+                  </div>
+                  <div className="max-h-80 overflow-y-auto divide-y divide-[#1E3A6D]">
+                    {notifications.slice(0, 4).map((n) => (
+                      <div
+                        key={n.id}
+                        onClick={() => {
+                          setCurrentScreen(n.actionLink || 'notifications');
+                          setIsNotifMenuOpen(false);
+                        }}
+                        className="p-3 hover:bg-[#162544] cursor-pointer transition-colors"
+                      >
+                        <div className="flex items-start justify-between">
+                          <p className="text-xs font-semibold text-white">{n.title}</p>
+                          <span className="text-[10px] text-slate-400">{n.time}</span>
+                        </div>
+                        <p className="text-[11px] text-slate-400 mt-1 line-clamp-2">{n.description}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </>
+            )}
+          </div>
+
+          {/* User Avatar with Emerald Dot */}
           <div className="relative">
             <button
               onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}
-              className="flex items-center space-x-2 p-1.5 pl-2 rounded-xl bg-[#111F38] hover:bg-[#162544] border border-[#1E2E4A] cursor-pointer"
+              className="flex items-center space-x-2 p-0.5 rounded-full hover:ring-2 hover:ring-blue-400 transition-all cursor-pointer"
             >
-              <img
-                src={userProfile?.avatar || "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&auto=format&fit=crop&q=80"}
-                alt={userProfile?.name}
-                className="w-7 h-7 rounded-lg object-cover border border-purple-400"
-              />
-              <div className="text-left hidden lg:block pr-1">
-                <p className="text-xs font-bold text-white truncate max-w-[130px]">{userProfile?.name}</p>
-                <p className="text-[10px] text-purple-300 truncate max-w-[130px]">{userProfile?.adminType || 'Director'}</p>
+              <div className="relative">
+                <div className="w-8 h-8 rounded-full bg-[#059669] text-white flex items-center justify-center font-bold text-xs shadow-xs border-2 border-[#1E3A6D]">
+                  {getInitials(userProfile?.name)}
+                </div>
+                <span className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-emerald-400 border-2 border-[#0B1528]"></span>
               </div>
-              <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
             </button>
 
             {isProfileDropdownOpen && (
-              <div className="absolute right-0 mt-2 w-64 bg-[#0F1E36] rounded-2xl border border-[#233B67] shadow-2xl p-2 z-50 animate-in fade-in text-xs space-y-2">
-                <div className="p-3 bg-[#0B1528] rounded-xl border border-[#1E2E4A]">
-                  <p className="font-bold text-white">{userProfile?.name}</p>
-                  <p className="text-[11px] text-purple-300">{userProfile?.designation}</p>
-                  <p className="text-[10px] text-slate-400 mt-1">{userProfile?.department}</p>
-                  <p className="text-[10px] font-mono text-slate-500 mt-0.5">{userProfile?.employeeId}</p>
-                </div>
+              <>
+                <div className="fixed inset-0 z-40" onClick={() => setIsProfileDropdownOpen(false)}></div>
+                <div className="absolute right-0 mt-2 w-64 bg-[#111F38] text-slate-200 rounded-2xl shadow-2xl border border-[#1E3A6D] py-2 z-50 animate-in fade-in">
+                  <div className="px-4 py-3 border-b border-[#1E3A6D] bg-[#0A1324] rounded-t-2xl">
+                    <p className="text-xs font-bold text-white">{userProfile?.name}</p>
+                    <p className="text-[11px] text-slate-400">{userProfile?.email}</p>
+                    <div className="mt-2 flex items-center justify-between">
+                      <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-blue-900/60 text-blue-200 border border-blue-700">
+                        {userProfile?.adminType || 'Cadre Director'}
+                      </span>
+                      <span className="text-[10px] text-emerald-400 font-bold">
+                        {activeDeptConfig?.name.split('&')[0]}
+                      </span>
+                    </div>
+                  </div>
 
-                <div className="space-y-1">
-                  <button
-                    onClick={() => {
-                      loginUser('trainer');
-                      setIsProfileDropdownOpen(false);
-                    }}
-                    className="w-full text-left p-2 rounded-lg hover:bg-[#162544] text-slate-300 hover:text-white flex items-center space-x-2 cursor-pointer"
-                  >
-                    <ArrowRightLeft className="w-3.5 h-3.5 text-purple-400" />
-                    <span>Switch to Trainer View</span>
-                  </button>
-                  <button
-                    onClick={() => {
-                      logoutUser();
-                      setIsProfileDropdownOpen(false);
-                    }}
-                    className="w-full text-left p-2 rounded-lg hover:bg-rose-950/60 text-rose-300 hover:text-rose-200 flex items-center space-x-2 cursor-pointer"
-                  >
-                    <LogOut className="w-3.5 h-3.5 text-rose-400" />
-                    <span>Sign Out of Admin Console</span>
-                  </button>
+                  <div className="py-1">
+                    <button
+                      onClick={() => {
+                        loginUser('employee');
+                        setIsProfileDropdownOpen(false);
+                      }}
+                      className="w-full text-left px-4 py-2 text-xs text-slate-300 hover:bg-[#162544] flex items-center space-x-2 cursor-pointer"
+                    >
+                      <ArrowRightLeft className="w-4 h-4 text-blue-400" />
+                      <span>Switch to Learner View</span>
+                    </button>
+                    <button
+                      onClick={() => {
+                        loginUser('trainer');
+                        setIsProfileDropdownOpen(false);
+                      }}
+                      className="w-full text-left px-4 py-2 text-xs text-slate-300 hover:bg-[#162544] flex items-center space-x-2 cursor-pointer"
+                    >
+                      <User className="w-4 h-4 text-slate-400" />
+                      <span>Switch to Trainer View</span>
+                    </button>
+                  </div>
+
+                  <div className="border-t border-[#1E3A6D] pt-1">
+                    <button
+                      onClick={() => {
+                        setIsProfileDropdownOpen(false);
+                        logoutUser();
+                      }}
+                      className="w-full text-left px-4 py-2 text-xs text-rose-400 hover:bg-rose-950/40 flex items-center space-x-2 font-medium cursor-pointer"
+                    >
+                      <LogOut className="w-4 h-4 text-rose-400" />
+                      <span>Sign Out</span>
+                    </button>
+                  </div>
                 </div>
-              </div>
+              </>
             )}
           </div>
         </div>

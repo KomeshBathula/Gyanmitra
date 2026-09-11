@@ -61,7 +61,7 @@ Important: "correctAnswer" MUST be an integer 0, 1, 2, or 3 representing the zer
             'Authorization': `Bearer ${apiKey.trim()}`
           },
           body: JSON.stringify({
-            model: config.groqModel || 'llama-3.3-70b-versatile',
+            model: config.groqModel || 'qwen/qwen3.8-27b',
             messages: [
               {
                 role: 'system',
@@ -74,7 +74,7 @@ Important: "correctAnswer" MUST be an integer 0, 1, 2, or 3 representing the zer
             ],
             response_format: { type: 'json_object' },
             temperature: 0.3,
-            max_tokens: 3000
+            max_tokens: 500
           })
         });
 
@@ -120,8 +120,75 @@ Important: "correctAnswer" MUST be an integer 0, 1, 2, or 3 representing the zer
   },
 
   /**
-   * Template question generator for offline/mock mode
+   * AI Assistant Chat powered by Groq LLM
    */
+  chatAssistant: async ({ message, chatHistory = [], userCadre = "Statistical Officer" }) => {
+    const apiKey = config.groqApiKey || process.env.GROQ_API_KEY;
+
+    if (apiKey && apiKey.trim() !== '') {
+      try {
+        const systemPrompt = `You are GyanMitra AI — an intelligent official statistics and competency assistant for Government of India employees (MoSPI, NSSTA, DoPT, iGOT Karmayogi).
+You answer statistical methodology, survey design, sampling, National Accounts (GDP/GVA), APAR compliance, and civil service capacity building questions with precision, citing official government frameworks where applicable. User cadre: ${userCadre}. Keep responses clear, helpful, professional, and well-grounded.`;
+
+        const messages = [
+          { role: 'system', content: systemPrompt },
+          ...(Array.isArray(chatHistory) ? chatHistory.slice(-4) : []),
+          { role: 'user', content: message }
+        ];
+
+        const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${apiKey.trim()}`
+          },
+          body: JSON.stringify({
+            model: config.groqModel || 'qwen/qwen3.8-27b',
+            messages,
+            temperature: 0.5,
+            max_tokens: 1000
+          })
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          const reply = data.choices?.[0]?.message?.content;
+          if (reply) {
+            return {
+              mode: "groq-ai",
+              model: config.groqModel || 'qwen/qwen3.8-27b',
+              reply: reply.trim(),
+              groundedSource: "MoSPI Official Frameworks & NSSTA Guidelines"
+            };
+          }
+        }
+      } catch (err) {
+        console.warn("[Groq API] Chat exception:", err.message);
+      }
+    }
+
+    // Fallback response when offline
+    let reply = "GyanMitra Statistical RAG: I have referenced MoSPI guidelines and NSSTA manuals to assist your inquiry.";
+    let sources = ["MoSPI ACBP Framework 2026", "NSSTA Training Manual"];
+
+    const msg = (message || '').toLowerCase();
+    if (msg.includes("gap") || msg.includes("python") || msg.includes("skill")) {
+      reply = "Your primary skill gap is in Python for Data Analysis (Level 2 vs Level 4 required for official microdata processing). I recommend completing the NSSTA 'Python for Microdata' module.";
+      sources = ["MoSPI ACBP Competency Matrix 2026"];
+    } else if (msg.includes("sampling") || msg.includes("nss") || msg.includes("fsu")) {
+      reply = "In National Sample Surveys, Multi-Stage Stratified Sampling selects Census villages (FSUs) via PPSWR in Stage 1, followed by systematic household selection (SSUs) in Stage 2.";
+      sources = ["NSS 79th Round Sampling Methodology Manual"];
+    } else if (msg.includes("apar") || msg.includes("cbp") || msg.includes("karmayogi")) {
+      reply = "Your APAR-linked CBP courses are aligned with DoPT guidelines. Completing courses on iGOT Bharat earns verified Karma Points towards your official annual performance appraisal.";
+      sources = ["DoPT Karmayogi Bharat Guidelines 2026"];
+    }
+
+    return {
+      mode: "mock",
+      reply,
+      groundedSource: sources.join(" • ")
+    };
+  },
   getTemplateQuestions: (documentName, count = 5, difficulty = "Medium") => {
     const templates = [
       {

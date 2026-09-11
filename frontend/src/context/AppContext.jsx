@@ -98,12 +98,16 @@ export const AppProvider = ({ children }) => {
     document.documentElement.style.fontSize = `${fontScale}%`;
   }, [fontScale]);
 
-  // URL & API Synchronization on Screen Navigation (Clean URLs: /login, /dashboard, etc.)
+  // URL & API Synchronization on Screen Navigation (Clean URLs: /login, /admin, /dashboard, etc.)
   const setCurrentScreen = useCallback((screenId) => {
     setCurrentScreenState(screenId);
 
-    // Sync browser URL clean path (e.g. /login, /dashboard, /competencies, /skill-gaps)
-    const targetPath = (screenId === 'login' || !screenId) ? '/login' : `/${screenId}`;
+    // Sync browser URL clean path
+    const targetPath = (screenId === 'login' || !screenId)
+      ? '/login'
+      : (screenId === 'admin-login' || screenId === 'admin')
+      ? '/admin'
+      : `/${screenId}`;
     if (window.location.pathname !== targetPath) {
       window.history.pushState(null, '', targetPath);
     }
@@ -158,15 +162,22 @@ export const AppProvider = ({ children }) => {
       const hash = window.location.hash.replace(/^#\/?/, '').toLowerCase();
       if (!path && hash) path = hash;
 
-      if (!path || path === 'login') {
+      if (path === 'admin' || path.startsWith('admin/')) {
+        setIsAdminPortalMode(true);
+        if (!isAuthenticated) {
+          setCurrentScreenState('admin-login');
+        } else if (userProfile?.role === 'admin') {
+          setCurrentScreenState('admin-dashboard');
+        }
+      } else if (!path || path === 'login') {
+        setIsAdminPortalMode(false);
         setCurrentScreenState('login');
         if (window.location.pathname !== '/login') {
           window.history.replaceState(null, '', '/login');
         }
       } else if (path === 'page/home' || path === 'home') {
+        setIsAdminPortalMode(false);
         setCurrentScreenState('dashboard');
-      } else if (path === 'admin') {
-        setIsAdminPortalMode(true);
       } else if (isAuthenticated) {
         setCurrentScreenState(path);
       }
@@ -179,7 +190,7 @@ export const AppProvider = ({ children }) => {
       window.removeEventListener('popstate', handleUrlChange);
       window.removeEventListener('hashchange', handleUrlChange);
     };
-  }, [isAuthenticated]);
+  }, [isAuthenticated, userProfile]);
 
   // Secure Login Handler (Supports 'employee', 'trainer', 'admin', or 'admin_civil', 'admin_municipal', etc.)
   const loginUser = async (roleOrPresetKey, credentials = {}) => {
@@ -201,19 +212,28 @@ export const AppProvider = ({ children }) => {
     setIsAuthenticated(true);
 
     const assessmentKey = `gyanmitra_initial_assessment_${finalProfile.email || 'user'}`;
+    const promptedKey = `gyanmitra_initial_assessment_prompted_${finalProfile.email || 'user'}`;
     const alreadyTaken = localStorage.getItem(assessmentKey) === 'true';
+    const alreadyPrompted = localStorage.getItem(promptedKey) === 'true';
     setHasCompletedInitialAssessment(alreadyTaken);
 
     if (effectiveRole === 'trainer') {
+      setIsAdminPortalMode(false);
       setCurrentScreen('trainer-dashboard');
       showToast(`Welcome ${finalProfile.name}! Logged into NSSTA Trainer Portal.`, "success");
     } else if (effectiveRole === 'admin') {
+      setIsAdminPortalMode(true);
       setCurrentScreen('admin-dashboard');
       showToast(`Welcome ${finalProfile.name}! Logged into ${finalProfile.department || 'Governance Admin Portal'}.`, "success");
     } else {
+      setIsAdminPortalMode(false);
       setCurrentScreen('dashboard');
-      if (!alreadyTaken) {
+      // Strictly show ONLY ONCE when user signs in for the first time
+      if (!alreadyTaken && !alreadyPrompted) {
         setShowInitialAssessmentModal(true);
+        localStorage.setItem(promptedKey, 'true');
+      } else {
+        setShowInitialAssessmentModal(false);
       }
       showToast(`Welcome ${finalProfile.name}! Logged into iGOT Karmayogi Bharat.`, "success");
     }
@@ -254,6 +274,7 @@ export const AppProvider = ({ children }) => {
     setHasCompletedInitialAssessment(true);
     if (userProfile?.email) {
       localStorage.setItem(`gyanmitra_initial_assessment_${userProfile.email}`, 'true');
+      localStorage.setItem(`gyanmitra_initial_assessment_prompted_${userProfile.email}`, 'true');
     }
     try {
       if (!document.fullscreenElement && document.documentElement.requestFullscreen) {
@@ -269,17 +290,27 @@ export const AppProvider = ({ children }) => {
     setHasCompletedInitialAssessment(true);
     if (userProfile?.email) {
       localStorage.setItem(`gyanmitra_initial_assessment_${userProfile.email}`, 'true');
+      localStorage.setItem(`gyanmitra_initial_assessment_prompted_${userProfile.email}`, 'true');
     }
     showToast("Initial baseline assessment postponed. You can start it anytime from the sidebar.", "info");
   };
 
   // Logout Handler
   const logoutUser = () => {
+    const wasAdmin = userProfile?.role === 'admin' || isAdminPortalMode;
     setIsAuthenticated(false);
     setShowInitialAssessmentModal(false);
-    setCurrentScreenState('login');
-    window.history.pushState(null, '', '/login');
-    showToast("Signed out successfully from Parichay SSO.", "info");
+    if (wasAdmin) {
+      setIsAdminPortalMode(true);
+      setCurrentScreenState('admin-login');
+      window.history.pushState(null, '', '/admin');
+      showToast("Signed out of Admin Console.", "info");
+    } else {
+      setIsAdminPortalMode(false);
+      setCurrentScreenState('login');
+      window.history.pushState(null, '', '/login');
+      showToast("Signed out successfully from Parichay SSO.", "info");
+    }
   };
 
   // Closed Loop Competency Update after completing Quiz/Assessment

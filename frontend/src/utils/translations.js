@@ -88,6 +88,7 @@ export const translations = {
     colDeficit: "Deficit Gap",
     colPriority: "Cadre Priority",
     colAction: "Recommended Action",
+    viewDetails: "View Details",
     takeAssessmentBtn: "Take Assessment",
     viewCourseBtn: "View Course",
 
@@ -297,6 +298,7 @@ export const translations = {
     colDeficit: "कमी का अंतर",
     colPriority: "संवर्ग प्राथमिकता",
     colAction: "अनुशंसित कार्रवाई",
+    viewDetails: "विवरण देखें",
     takeAssessmentBtn: "मूल्यांकन दें",
     viewCourseBtn: "पाठ्यक्रम देखें",
 
@@ -506,6 +508,7 @@ export const translations = {
     colDeficit: "లోటు అంతరం",
     colPriority: "కేడర్ ప్రాధాన్యత",
     colAction: "సిఫార్సు చేసిన చర్య",
+    viewDetails: "వివరాలు చూడండి",
     takeAssessmentBtn: "పరీక్ష రాయండి",
     viewCourseBtn: "కోర్సు చూడండి",
 

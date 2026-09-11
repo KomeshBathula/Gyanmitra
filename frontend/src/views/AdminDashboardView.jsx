@@ -29,43 +29,41 @@ export const AdminDashboardView = () => {
   return (
     <div className="space-y-6 max-w-7xl mx-auto pb-12 text-slate-100">
       {/* Executive Welcome & Cadre Banner */}
-      <div className="bg-gradient-to-r from-[#122347] via-[#101D38] to-[#0D182E] rounded-3xl border border-[#223963] p-6 sm:p-8 shadow-2xl relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-purple-600/10 rounded-full blur-3xl pointer-events-none -mr-20 -mt-20"></div>
-
-        <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+      <div className="bg-[#111F38] rounded-2xl border border-[#1E2E4A] p-6 shadow-md">
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
           <div className="space-y-2">
             <div className="flex items-center space-x-2">
-              <span className="px-3 py-0.5 rounded-full text-xs font-extrabold bg-purple-900/80 text-purple-300 border border-purple-500/50 flex items-center space-x-1.5">
-                <Shield className="w-3.5 h-3.5 text-purple-400" />
-                <span>Executive Command Center</span>
+              <span className="px-2.5 py-0.5 rounded text-xs font-bold bg-blue-900/60 text-blue-300 border border-blue-600/40 flex items-center space-x-1.5">
+                <Shield className="w-3.5 h-3.5 text-blue-400" />
+                <span>Command Center</span>
               </span>
-              <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-blue-950 text-blue-300 border border-blue-600/40">
+              <span className="px-2.5 py-0.5 rounded text-xs font-bold bg-[#0B1528] text-slate-300 border border-[#1E2E4A]">
                 {activeDept?.name}
               </span>
             </div>
-            <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
-              National Cadre Competency Intelligence
+            <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight">
+              Cadre Competency Intelligence & Governance
             </h2>
             <p className="text-xs sm:text-sm text-slate-300 max-w-2xl leading-relaxed">
-              Real-time monitoring across <strong className="text-white">{activeDept?.totalLearners}</strong> officers in {activeDept?.name}. Calibrated against Mission Karmayogi Bharat ACBP 2026 milestones.
+              Monitoring <strong className="text-white">{activeDept?.totalLearners}</strong> officers in {activeDept?.name}. Aligned with Mission Karmayogi Annual Capacity Building Plans.
             </p>
           </div>
 
-          {/* Quick Action Buttons */}
+          {/* Action Buttons */}
           <div className="flex flex-wrap items-center gap-2.5">
             <button
               onClick={() => setCurrentScreen('admin-quiz-studio')}
-              className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white text-xs font-black shadow-lg transition-all flex items-center space-x-2 cursor-pointer border border-purple-400/50"
+              className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold shadow-md transition-all flex items-center space-x-2 cursor-pointer"
             >
               <Zap className="w-4 h-4 text-amber-300" />
-              <span>Groq AI Quiz Studio</span>
+              <span>AI Quiz Studio</span>
             </button>
             <button
               onClick={() => setCurrentScreen('admin-learners')}
-              className="px-4 py-2.5 rounded-xl bg-[#162544] hover:bg-[#1E3A6D] text-slate-200 hover:text-white text-xs font-bold transition-colors cursor-pointer border border-[#1E2E4A] flex items-center space-x-1.5"
+              className="px-4 py-2 rounded-xl bg-[#162544] hover:bg-[#1E3A6D] text-slate-200 hover:text-white text-xs font-bold transition-colors cursor-pointer border border-[#1E2E4A] flex items-center space-x-1.5"
             >
               <Users className="w-4 h-4 text-blue-400" />
-              <span>Learner Passbooks</span>
+              <span>Learner Directory</span>
             </button>
           </div>
         </div>
@@ -75,7 +73,7 @@ export const AdminDashboardView = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <div className="bg-[#111F38] rounded-2xl border border-[#1E2E4A] p-5 shadow-lg">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Department Strength</span>
+            <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Cadre Strength</span>
             <Users className="w-4 h-4 text-blue-400" />
           </div>
           <h3 className="text-2xl font-black text-white mt-2">{activeDept?.totalLearners}</h3>
@@ -103,9 +101,9 @@ export const AdminDashboardView = () => {
         <div className="bg-[#111F38] rounded-2xl border border-[#1E2E4A] p-5 shadow-lg">
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">ACBP Certification</span>
-            <CheckCircle2 className="w-4 h-4 text-purple-400" />
+            <CheckCircle2 className="w-4 h-4 text-blue-400" />
           </div>
-          <h3 className="text-2xl font-black text-purple-300 mt-2">{activeDept?.complianceRate}</h3>
+          <h3 className="text-2xl font-black text-blue-300 mt-2">{activeDept?.complianceRate}</h3>
           <p className="text-[11px] text-slate-400 mt-1">Mission Karmayogi Compliant</p>
         </div>
       </div>
@@ -115,17 +113,17 @@ export const AdminDashboardView = () => {
         {/* Left Column: Live AI Assessments & Skill Deficits (2 Cols) */}
         <div className="lg:col-span-2 space-y-6">
           {/* Live Assessments Managed by Admin */}
-          <div className="bg-[#111F38] rounded-3xl border border-[#1E2E4A] p-6 shadow-xl space-y-4">
+          <div className="bg-[#111F38] rounded-2xl border border-[#1E2E4A] p-6 shadow-md space-y-4">
             <div className="flex items-center justify-between">
               <div>
                 <h3 className="text-xs font-bold text-slate-300 uppercase tracking-wider">
-                  Live AI-Generated Quizzes ({generatedQuizzes.length})
+                  Live Quizzes ({generatedQuizzes.length})
                 </h3>
                 <p className="text-xs text-slate-400 mt-0.5">Published directly to user learner dashboards</p>
               </div>
               <button
                 onClick={() => setCurrentScreen('admin-quiz-studio')}
-                className="text-xs text-purple-400 hover:underline font-semibold cursor-pointer"
+                className="text-xs text-blue-400 hover:underline font-semibold cursor-pointer"
               >
                 + Create New Quiz
               </button>
@@ -135,7 +133,7 @@ export const AdminDashboardView = () => {
               {generatedQuizzes.slice(0, 3).map((quiz) => (
                 <div
                   key={quiz.id}
-                  className="p-4 rounded-2xl bg-[#0B1528] border border-[#1E2E4A] hover:border-purple-500/50 transition-all flex items-center justify-between gap-4"
+                  className="p-4 rounded-xl bg-[#0B1528] border border-[#1E2E4A] hover:border-blue-500/50 transition-all flex items-center justify-between gap-4"
                 >
                   <div className="space-y-1 truncate">
                     <div className="flex items-center space-x-2">
@@ -159,14 +157,14 @@ export const AdminDashboardView = () => {
           </div>
 
           {/* Critical Skill Deficits Across Cadres */}
-          <div className="bg-[#111F38] rounded-3xl border border-[#1E2E4A] p-6 shadow-xl space-y-4">
+          <div className="bg-[#111F38] rounded-2xl border border-[#1E2E4A] p-6 shadow-md space-y-4">
             <h3 className="text-xs font-bold text-slate-300 uppercase tracking-wider">
               Workforce Skill Deficits in {activeDept?.name}
             </h3>
 
             <div className="space-y-3">
               {adminOrgData.workforceSkillGaps.map((item, idx) => (
-                <div key={idx} className="p-3.5 rounded-2xl bg-[#0B1528] border border-[#1E2E4A] space-y-1.5">
+                <div key={idx} className="p-3.5 rounded-xl bg-[#0B1528] border border-[#1E2E4A] space-y-1.5">
                   <div className="flex items-center justify-between text-xs">
                     <span className="font-bold text-white">{item.skill}</span>
                     <span className="font-bold text-rose-400">{item.gapPercentage}% Deficit ({item.affectedCount} Officers)</span>
@@ -188,28 +186,28 @@ export const AdminDashboardView = () => {
         {/* Right Column: Governance Actions & Department Comparison (1 Col) */}
         <div className="space-y-6">
           {/* Quick Command Actions */}
-          <div className="bg-[#111F38] rounded-3xl border border-[#1E2E4A] p-5 shadow-xl space-y-3">
+          <div className="bg-[#111F38] rounded-2xl border border-[#1E2E4A] p-5 shadow-md space-y-3">
             <h4 className="text-xs font-bold text-slate-300 uppercase tracking-wider pb-2 border-b border-[#1E2E4A]">
               Administrative Actions
             </h4>
 
             <button
               onClick={() => setCurrentScreen('admin-quiz-studio')}
-              className="w-full p-3 rounded-2xl bg-[#0B1528] hover:bg-[#162544] border border-[#1E2E4A] hover:border-purple-500/50 text-left transition-all flex items-center justify-between group cursor-pointer"
+              className="w-full p-3 rounded-xl bg-[#0B1528] hover:bg-[#162544] border border-[#1E2E4A] hover:border-blue-500/50 text-left transition-all flex items-center justify-between group cursor-pointer"
             >
               <div>
-                <p className="text-xs font-bold text-white group-hover:text-purple-300">Upload Material & Generate Quiz</p>
-                <p className="text-[10px] text-slate-400 mt-0.5">Groq Llama 3.3 Powered</p>
+                <p className="text-xs font-bold text-white group-hover:text-blue-300">Upload Material & Generate Quiz</p>
+                <p className="text-[10px] text-slate-400 mt-0.5">Groq AI Powered Studio</p>
               </div>
-              <ArrowRight className="w-4 h-4 text-purple-400" />
+              <ArrowRight className="w-4 h-4 text-blue-400" />
             </button>
 
             <button
               onClick={() => setCurrentScreen('admin-learners')}
-              className="w-full p-3 rounded-2xl bg-[#0B1528] hover:bg-[#162544] border border-[#1E2E4A] hover:border-blue-500/50 text-left transition-all flex items-center justify-between group cursor-pointer"
+              className="w-full p-3 rounded-xl bg-[#0B1528] hover:bg-[#162544] border border-[#1E2E4A] hover:border-blue-500/50 text-left transition-all flex items-center justify-between group cursor-pointer"
             >
               <div>
-                <p className="text-xs font-bold text-white group-hover:text-blue-300">Learner Passbooks Directory</p>
+                <p className="text-xs font-bold text-white group-hover:text-blue-300">Learner Directory</p>
                 <p className="text-[10px] text-slate-400 mt-0.5">Inspect & Mandate Modules</p>
               </div>
               <ArrowRight className="w-4 h-4 text-blue-400" />
@@ -217,10 +215,10 @@ export const AdminDashboardView = () => {
 
             <button
               onClick={() => setCurrentScreen('admin-analytics')}
-              className="w-full p-3 rounded-2xl bg-[#0B1528] hover:bg-[#162544] border border-[#1E2E4A] hover:border-emerald-500/50 text-left transition-all flex items-center justify-between group cursor-pointer"
+              className="w-full p-3 rounded-xl bg-[#0B1528] hover:bg-[#162544] border border-[#1E2E4A] hover:border-emerald-500/50 text-left transition-all flex items-center justify-between group cursor-pointer"
             >
               <div>
-                <p className="text-xs font-bold text-white group-hover:text-emerald-300">Cadre Benchmarking Analytics</p>
+                <p className="text-xs font-bold text-white group-hover:text-emerald-300">Cadre Analytics</p>
                 <p className="text-[10px] text-slate-400 mt-0.5">Civil vs Municipal vs MoSPI</p>
               </div>
               <ArrowRight className="w-4 h-4 text-emerald-400" />
@@ -228,18 +226,18 @@ export const AdminDashboardView = () => {
 
             <button
               onClick={() => setCurrentScreen('admin-assessments')}
-              className="w-full p-3 rounded-2xl bg-[#0B1528] hover:bg-[#162544] border border-[#1E2E4A] hover:border-amber-500/50 text-left transition-all flex items-center justify-between group cursor-pointer"
+              className="w-full p-3 rounded-xl bg-[#0B1528] hover:bg-[#162544] border border-[#1E2E4A] hover:border-amber-500/50 text-left transition-all flex items-center justify-between group cursor-pointer"
             >
               <div>
                 <p className="text-xs font-bold text-white group-hover:text-amber-300">Assessments & Policy Audits</p>
-                <p className="text-[10px] text-slate-400 mt-0.5">Pass Rates & Integrity Logs</p>
+                <p className="text-[10px] text-slate-400 mt-0.5">Pass Rates & Audit Logs</p>
               </div>
               <ArrowRight className="w-4 h-4 text-amber-400" />
             </button>
           </div>
 
           {/* Department Cadres Switcher Box */}
-          <div className="bg-[#111F38] rounded-3xl border border-[#1E2E4A] p-5 shadow-xl space-y-3">
+          <div className="bg-[#111F38] rounded-2xl border border-[#1E2E4A] p-5 shadow-md space-y-3">
             <h4 className="text-xs font-bold text-slate-300 uppercase tracking-wider pb-2 border-b border-[#1E2E4A]">
               Cadre Overview
             </h4>

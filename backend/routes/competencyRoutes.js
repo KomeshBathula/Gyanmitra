@@ -53,6 +53,19 @@ const handleSkillGaps = async (req, res, next) => {
 router.get('/skill-gaps', handleSkillGaps);
 router.get('/gaps', handleSkillGaps);
 
+// GET /api/competencies/gap/:gapId & /api/competencies/skill-gaps/:gapId
+router.get(['/gap/:gapId', '/skill-gaps/:gapId'], async (req, res, next) => {
+  try {
+    const details = await skillGapService.getGapDetailById(req.user?._id, req.params.gapId);
+    return res.json({
+      success: true,
+      data: details
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
 // GET /api/competencies/learning-path & /api/competencies/path
 const handleLearningPath = async (req, res, next) => {
   try {

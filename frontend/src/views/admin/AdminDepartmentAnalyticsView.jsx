@@ -62,11 +62,11 @@ export const AdminDepartmentAnalyticsView = () => {
   return (
     <div className="space-y-6 max-w-7xl mx-auto pb-12 text-slate-100">
       {/* Top Banner */}
-      <div className="bg-[#111F38] rounded-2xl border border-[#1E2E4A] p-6 shadow-xl">
+      <div className="bg-[#111F38] rounded-2xl border border-[#1E2E4A] p-6 shadow-md">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div>
             <div className="flex items-center space-x-2">
-              <span className="px-2.5 py-0.5 rounded text-xs font-bold bg-purple-900/60 text-purple-300 border border-purple-600/50">
+              <span className="px-2.5 py-0.5 rounded text-xs font-bold bg-blue-900/60 text-blue-300 border border-blue-600/40">
                 Department Cadre Analytics
               </span>
               <span className="text-xs text-slate-400">Comparative Governance Matrix</span>
@@ -87,39 +87,33 @@ export const AdminDepartmentAnalyticsView = () => {
             <div
               key={dept.id}
               onClick={() => switchAdminDepartment(dept.id)}
-              className={`p-5 rounded-3xl border transition-all cursor-pointer shadow-lg flex flex-col justify-between ${
+              className={`p-5 rounded-2xl border transition-all cursor-pointer shadow-md flex flex-col justify-between ${
                 isSelected
-                  ? 'bg-[#152342] border-purple-500 ring-2 ring-purple-500/30'
-                  : 'bg-[#111F38] border-[#1E2E4A] hover:border-[#2A4374]'
+                  ? 'bg-[#15284F] border-blue-500 ring-2 ring-blue-500/30'
+                  : 'bg-[#111F38] border-[#1E2E4A] hover:bg-[#162544]'
               }`}
             >
               <div>
                 <div className="flex items-center justify-between">
-                  <span className="text-[10px] font-extrabold uppercase tracking-wider text-purple-300">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-blue-300">
                     {dept.badge}
                   </span>
                   {isSelected && (
-                    <span className="px-2 py-0.5 rounded-full text-[9px] font-black bg-purple-600 text-white">
-                      ACTIVE
-                    </span>
+                    <span className="w-2 h-2 rounded-full bg-blue-400"></span>
                   )}
                 </div>
-                <h3 className="text-base font-bold text-white mt-2">{dept.name}</h3>
-                <p className="text-[11px] text-slate-400 mt-1 leading-relaxed">{dept.description}</p>
+                <h3 className="text-sm font-bold text-white mt-2 leading-snug">{dept.name}</h3>
+                <p className="text-xs text-slate-400 mt-1">{dept.totalLearners} Officers</p>
               </div>
 
-              <div className="pt-4 mt-4 border-t border-[#1E2E4A] space-y-2">
-                <div className="flex items-center justify-between text-xs">
-                  <span className="text-slate-400">Total Officers:</span>
-                  <span className="font-bold text-white">{dept.totalLearners}</span>
+              <div className="mt-4 pt-3 border-t border-[#1E2E4A] flex items-center justify-between">
+                <div>
+                  <span className="text-[10px] text-slate-400">Mean Score</span>
+                  <p className="text-lg font-black text-emerald-400">{dept.avgCompetency}%</p>
                 </div>
-                <div className="flex items-center justify-between text-xs">
-                  <span className="text-slate-400">Avg Competency:</span>
-                  <span className="font-bold text-emerald-400">{dept.avgCompetency}%</span>
-                </div>
-                <div className="flex items-center justify-between text-xs">
-                  <span className="text-slate-400">Compliance Rate:</span>
-                  <span className="font-bold text-blue-400">{dept.complianceRate}</span>
+                <div className="text-right">
+                  <span className="text-[10px] text-slate-400">Compliance</span>
+                  <p className="text-xs font-bold text-blue-300">{dept.complianceRate}</p>
                 </div>
               </div>
             </div>
@@ -127,11 +121,11 @@ export const AdminDepartmentAnalyticsView = () => {
         })}
       </div>
 
-      {/* Detailed Comparison Table */}
-      <div className="bg-[#111F38] rounded-3xl border border-[#1E2E4A] shadow-xl overflow-hidden">
+      {/* Cadre Comparative Table */}
+      <div className="bg-[#111F38] rounded-2xl border border-[#1E2E4A] shadow-md overflow-hidden">
         <div className="px-6 py-4 border-b border-[#1E2E4A] bg-[#0E1B33]">
           <h3 className="text-xs font-bold text-slate-300 uppercase tracking-wider">
-            Comparative Cadre Performance & Deficit Matrix
+            Comparative Cadre Competency Ledger
           </h3>
         </div>
 
@@ -141,31 +135,40 @@ export const AdminDepartmentAnalyticsView = () => {
               <tr>
                 <th className="px-6 py-3.5">Cadre / Department</th>
                 <th className="px-4 py-3.5 text-center">Workforce Strength</th>
-                <th className="px-4 py-3.5 text-center">Competency Index</th>
+                <th className="px-4 py-3.5 text-center">Avg Competency</th>
                 <th className="px-4 py-3.5 text-center">ACBP Compliance</th>
-                <th className="px-6 py-3.5">Primary Skill Deficit Area</th>
+                <th className="px-6 py-3.5">Top Skill Deficit Area</th>
+                <th className="px-4 py-3.5 text-right">Action</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-[#1E2E4A]/60">
-              {cadreComparisonData.map((item, idx) => (
-                <tr key={idx} className="hover:bg-[#162544]/60 transition-colors">
-                  <td className="px-6 py-4 font-bold text-white">{item.cadre}</td>
-                  <td className="px-4 py-4 text-center text-slate-300 font-mono">{item.totalStrength.toLocaleString()}</td>
-                  <td className="px-4 py-4 text-center">
-                    <span className="font-black text-emerald-400">{item.avgScore}%</span>
+              {cadreComparisonData.map((row, rIdx) => (
+                <tr key={rIdx} className="hover:bg-[#162544]/60 transition-colors">
+                  <td className="px-6 py-4 font-bold text-white">
+                    {row.cadre}
                   </td>
-                  <td className="px-4 py-4 text-center font-bold text-blue-400">{item.compliance}</td>
+                  <td className="px-4 py-4 text-center font-mono text-slate-300">
+                    {row.totalStrength.toLocaleString()}
+                  </td>
+                  <td className="px-4 py-4 text-center">
+                    <span className="font-black text-emerald-400">{row.avgScore}%</span>
+                  </td>
+                  <td className="px-4 py-4 text-center font-semibold text-blue-300">
+                    {row.compliance}
+                  </td>
                   <td className="px-6 py-4">
                     <div className="flex items-center space-x-2">
-                      <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${
-                        item.severity === 'High'
-                          ? 'bg-rose-950 text-rose-300 border border-rose-600/50'
-                          : 'bg-amber-950 text-amber-300 border border-amber-600/50'
-                      }`}>
-                        {item.severity}
-                      </span>
-                      <span className="text-slate-200">{item.topDeficit}</span>
+                      <span className={`w-2 h-2 rounded-full ${row.severity === 'High' ? 'bg-rose-400' : 'bg-amber-400'}`}></span>
+                      <span className="text-slate-300">{row.topDeficit}</span>
                     </div>
+                  </td>
+                  <td className="px-4 py-4 text-right">
+                    <button
+                      onClick={() => switchAdminDepartment(row.deptId)}
+                      className="px-3 py-1.5 rounded-xl bg-[#0B1528] hover:bg-[#162544] text-blue-300 hover:text-white border border-[#1E2E4A] font-bold text-xs transition-colors cursor-pointer"
+                    >
+                      Inspect Cadre
+                    </button>
                   </td>
                 </tr>
               ))}

@@ -60,29 +60,27 @@ const handleGenerateQuiz = async (req, res, next) => {
   }
 };
 
-const handleChat = (req, res) => {
-  const { message } = req.body;
-  let reply = "GyanMitra Statistical RAG: I have referenced MoSPI guidelines and NSSTA manuals to assist your inquiry.";
-  let sources = ["MoSPI ACBP Framework 2026", "NSSTA Training Manual"];
+const handleChat = async (req, res, next) => {
+  try {
+    const { message, chatHistory } = req.body;
+    const userCadre = req.user?.cadre || req.user?.department || "Statistical Officer";
 
-  const msg = (message || '').toLowerCase();
-  if (msg.includes("gap") || msg.includes("python") || msg.includes("skill")) {
-    reply = "Your primary skill gap is in Python for Data Analysis (Level 2 vs Level 4 required for official microdata processing). I recommend completing the NSSTA 'Python for Microdata' module.";
-    sources = ["MoSPI ACBP Competency Matrix 2026"];
-  } else if (msg.includes("sampling") || msg.includes("nss") || msg.includes("fsu")) {
-    reply = "In National Sample Surveys, Multi-Stage Stratified Sampling selects Census villages (FSUs) via PPSWR in Stage 1, followed by systematic household selection (SSUs) in Stage 2.";
-    sources = ["NSS 79th Round Sampling Methodology Manual"];
-  } else if (msg.includes("apar") || msg.includes("cbp") || msg.includes("karmayogi")) {
-    reply = "Your APAR-linked CBP courses are aligned with DoPT guidelines. Completing courses on iGOT Bharat earns verified Karma Points towards your official annual performance appraisal.";
-    sources = ["DoPT Karmayogi Bharat Guidelines 2026"];
+    const result = await groqService.chatAssistant({
+      message,
+      chatHistory,
+      userCadre
+    });
+
+    return res.json({
+      success: true,
+      mode: result.mode,
+      model: result.model,
+      reply: result.reply,
+      groundedSource: result.groundedSource
+    });
+  } catch (err) {
+    next(err);
   }
-
-  return res.json({
-    success: true,
-    mode: "mock",
-    reply,
-    groundedSource: sources.join(" • ")
-  });
 };
 
 // GET /api/ai/quizzes - List all generated quizzes available for user dashboards

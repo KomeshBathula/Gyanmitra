@@ -177,6 +177,16 @@ async function runTests() {
     }
   });
 
+  // 11b. Gap Intelligence Details API
+  await assertTest('GET /api/competencies/gap/:gapId - Returns syllabus and policy details', async () => {
+    const res = await fetch(`${baseUrl}/api/competencies/gap/gap-1`);
+    if (res.status !== 200) throw new Error(`Expected 200, got ${res.status}`);
+    const json = await res.json();
+    if (!json.success || !json.data.syllabusModules || !json.data.cadrePolicy) {
+      throw new Error('Gap detail response structure invalid');
+    }
+  });
+
   // 12. Personalized Recommendations
   await assertTest('GET /api/competencies/recommendations - Recommends courses matching gaps', async () => {
     const res = await fetch(`${baseUrl}/api/competencies/recommendations`);
