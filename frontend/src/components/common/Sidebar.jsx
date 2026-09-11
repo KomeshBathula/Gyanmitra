@@ -15,10 +15,7 @@ import {
   HelpCircle,
   Download,
   ChevronDown,
-  ChevronUp,
-  FileText,
-  Settings,
-  LogOut
+  ChevronUp
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 
