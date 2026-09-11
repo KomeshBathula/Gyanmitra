@@ -191,6 +191,7 @@ export const AppProvider = ({ children }) => {
       showToast(`Welcome Dr. Arvind Mehta! Logged into MoSPI Workforce Intelligence Gateway.`, "success");
     } else {
       setCurrentScreen('dashboard');
+      showToast(`Welcome Rajesh Kumar Ji! Logged into Government Employee Portal.`, "success");
       showToast(`Welcome ${finalProfile.name}! Logged into iGOT Karmayogi Bharat.`, "success");
     }
   };
@@ -199,6 +200,7 @@ export const AppProvider = ({ children }) => {
   const logoutUser = () => {
     setIsAuthenticated(false);
     setCurrentScreenState('login');
+    window.history.pushState(null, '', '/');
     window.history.pushState(null, '', '/login');
     showToast("Signed out successfully from Parichay SSO.", "info");
   };
