@@ -212,6 +212,11 @@ export const LearningPathView = () => {
                       <Building2 className="w-3 h-3 text-slate-500 inline mr-1 flex-shrink-0" />
                       <span>By {course.provider}</span>
                     </p>
+                    {(course.provider || '').includes('NSSTA') && (
+                      <span className="inline-block mt-0.5 px-2 py-0.5 rounded text-[9px] font-extrabold bg-purple-900/70 text-purple-300 border border-purple-500/50">
+                        NSSTA TPAC Recommended Programme
+                      </span>
+                    )}
                   </div>
                 </div>
               </div>

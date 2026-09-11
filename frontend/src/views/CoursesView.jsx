@@ -312,11 +312,19 @@ export const CoursesView = () => {
               {/* Right Course Info Content */}
               <div className="flex-1 space-y-2 min-w-0">
                 {/* Top Badge Tags: Course Type & Difficulty */}
-                <div className="flex items-center justify-between gap-2">
-                  <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-amber-400/20 text-amber-400 border border-amber-400/40 flex items-center space-x-1">
-                    <Play className="w-2.5 h-2.5 fill-amber-400" />
-                    <span>{course.type}</span>
-                  </span>
+                <div className="flex items-center justify-between gap-2 flex-wrap">
+                  <div className="flex items-center space-x-2">
+                    <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-amber-400/20 text-amber-400 border border-amber-400/40 flex items-center space-x-1">
+                      <Play className="w-2.5 h-2.5 fill-amber-400" />
+                      <span>{course.type}</span>
+                    </span>
+
+                    {(course.providerType === 'NSSTA' || (course.provider || '').includes('NSSTA')) && (
+                      <span className="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-purple-900/70 text-purple-300 border border-purple-500/50">
+                        NSSTA TPAC Recommended
+                      </span>
+                    )}
+                  </div>
 
                   <span
                     className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold flex items-center space-x-1 ${
