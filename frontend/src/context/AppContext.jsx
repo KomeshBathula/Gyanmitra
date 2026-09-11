@@ -52,6 +52,8 @@ export const AppProvider = ({ children }) => {
   const [currentQuizData, setCurrentQuizData] = useState(null);
   const [lastQuizResult, setLastQuizResult] = useState(null);
   const [generatedQuizzes, setGeneratedQuizzes] = useState([MOCK_GENERATED_QUIZ]);
+  const [showInitialAssessmentModal, setShowInitialAssessmentModal] = useState(false);
+  const [hasCompletedInitialAssessment, setHasCompletedInitialAssessment] = useState(false);
 
   // Notifications State
   const [notifications, setNotifications] = useState(NOTIFICATIONS_LIST);
@@ -183,6 +185,10 @@ export const AppProvider = ({ children }) => {
     setUserProfile(finalProfile);
     setIsAuthenticated(true);
 
+    const assessmentKey = `gyanmitra_initial_assessment_${finalProfile.email || 'user'}`;
+    const alreadyTaken = localStorage.getItem(assessmentKey) === 'true';
+    setHasCompletedInitialAssessment(alreadyTaken);
+
     if (role === 'trainer') {
       setCurrentScreen('trainer-dashboard');
       showToast(`Welcome Dr. Meenakshi Sundaram! Logged into NSSTA Trainer Portal.`, "success");
@@ -191,13 +197,42 @@ export const AppProvider = ({ children }) => {
       showToast(`Welcome Dr. Arvind Mehta! Logged into MoSPI Workforce Intelligence Gateway.`, "success");
     } else {
       setCurrentScreen('dashboard');
+      if (!alreadyTaken) {
+        setShowInitialAssessmentModal(true);
+      }
       showToast(`Welcome ${finalProfile.name}! Logged into iGOT Karmayogi Bharat.`, "success");
     }
+  };
+
+  // Launch Assessment in Full Screen Mode
+  const startAssessmentFullScreen = () => {
+    setShowInitialAssessmentModal(false);
+    setHasCompletedInitialAssessment(true);
+    if (userProfile?.email) {
+      localStorage.setItem(`gyanmitra_initial_assessment_${userProfile.email}`, 'true');
+    }
+    try {
+      if (!document.fullscreenElement && document.documentElement.requestFullscreen) {
+        document.documentElement.requestFullscreen().catch(() => {});
+      }
+    } catch (e) {}
+    setCurrentScreen('assessment');
+  };
+
+  // Dismiss Initial Assessment Prompt on Sign-in
+  const dismissInitialAssessmentModal = () => {
+    setShowInitialAssessmentModal(false);
+    setHasCompletedInitialAssessment(true);
+    if (userProfile?.email) {
+      localStorage.setItem(`gyanmitra_initial_assessment_${userProfile.email}`, 'true');
+    }
+    showToast("Initial baseline assessment postponed. You can start it anytime from the sidebar.", "info");
   };
 
   // Logout Handler
   const logoutUser = () => {
     setIsAuthenticated(false);
+    setShowInitialAssessmentModal(false);
     setCurrentScreenState('login');
     window.history.pushState(null, '', '/login');
     showToast("Signed out successfully from Parichay SSO.", "info");
@@ -206,6 +241,11 @@ export const AppProvider = ({ children }) => {
   // Closed Loop Competency Update after completing Quiz/Assessment
   const updateCompetencyAfterQuiz = async (quizResult) => {
     const { scorePercentage, competencyImpacted = "Python for Data Analysis" } = quizResult;
+    
+    if (userProfile?.email) {
+      localStorage.setItem(`gyanmitra_initial_assessment_${userProfile.email}`, 'true');
+      setHasCompletedInitialAssessment(true);
+    }
     
     // Trigger POST to /api/competencies/update-from-assessment
     await api.updateCompetencyFromAssessment({ scorePercentage, competencyImpacted });
@@ -361,7 +401,11 @@ export const AppProvider = ({ children }) => {
         sendAiMessage,
         toastMessage,
         showToast,
-        updateCompetencyAfterQuiz,
+        showInitialAssessmentModal,
+        setShowInitialAssessmentModal,
+        hasCompletedInitialAssessment,
+        startAssessmentFullScreen,
+        dismissInitialAssessmentModal,
         reportsCatalog: REPORTS_CATALOG,
         trainerBatchData: TRAINER_BATCH_DATA,
         adminOrgData: ADMIN_ORG_DATA,

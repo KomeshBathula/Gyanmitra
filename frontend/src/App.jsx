@@ -3,6 +3,7 @@ import { useApp } from './context/AppContext';
 import { Header } from './components/common/Header';
 import { Sidebar } from './components/common/Sidebar';
 import { Toast } from './components/common/Toast';
+import { InitialAssessmentModal } from './components/common/InitialAssessmentModal';
 import { AIAssistantDrawer } from './components/ai/AIAssistantDrawer';
 import { Sparkles, Bot } from 'lucide-react';
 
@@ -35,6 +36,16 @@ export default function App() {
     return (
       <div className="min-h-screen bg-[#0F2942] font-sans">
         <AuthView />
+        <Toast />
+      </div>
+    );
+  }
+
+  // If taking Competency Assessment, render dedicated full-screen examination view
+  if (currentScreen === 'assessment') {
+    return (
+      <div className="fixed inset-0 z-50 bg-[#0B1528] overflow-y-auto">
+        <AssessmentView />
         <Toast />
       </div>
     );
@@ -135,6 +146,9 @@ export default function App() {
 
       {/* Floating Global AI Assistant Drawer */}
       <AIAssistantDrawer />
+
+      {/* One-Time Initial Competency Assessment Modal */}
+      <InitialAssessmentModal />
 
       {/* Feedback Toast */}
       <Toast />
