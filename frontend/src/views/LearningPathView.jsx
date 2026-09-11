@@ -6,22 +6,16 @@ import {
   BookOpen,
   CheckCircle2,
   Calendar,
-  Layers,
-  ChevronRight,
-  ExternalLink,
-  Award,
   Sparkles
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 
 export const LearningPathView = () => {
-  const { setCurrentScreen, showToast, t } = useApp();
   const { setCurrentScreen, showToast } = useApp();
   const [activeTab, setActiveTab] = useState('contents'); // 'contents', 'events'
   const [activePill, setActivePill] = useState('inprogress'); // 'inprogress', 'completed', 'unenrolled'
   const [activeCourseModal, setActiveCourseModal] = useState(null);
 
-  // Exact dataset matching iGOT Karmayogi "My Learning" screenshot
   // Exact dataset matching iGOT Karmayogi "My Learning" screenshot (media_1789127587336.png)
   const myLearningCourses = [
     {
@@ -95,7 +89,6 @@ export const LearningPathView = () => {
       isRetired: false,
       status: 'inprogress',
       bgGradient: 'from-yellow-700 via-amber-800 to-yellow-950',
-      thumbnailText: 'Basic Awareness about Marketing Concepts',
       thumbnailText: 'Awareness on Marketing Concepts',
       thumbnailSub: 'Department of Posts',
       syllabus: [
@@ -116,7 +109,6 @@ export const LearningPathView = () => {
       isRetired: false,
       status: 'inprogress',
       bgGradient: 'from-slate-700 via-indigo-950 to-slate-900',
-      thumbnailText: 'Disciplinary Proceedings',
       thumbnailText: 'Disciplinary Proceedings in Government',
       thumbnailSub: 'Government of India Rules',
       syllabus: [
@@ -309,7 +301,6 @@ export const LearningPathView = () => {
                   <div className="relative w-28 h-20 rounded-xl overflow-hidden flex-shrink-0 bg-slate-800 border border-[#1E2E4A] shadow-inner flex flex-col justify-between p-1.5">
                     {/* Retired Diagonal Ribbon */}
                     {course.isRetired && (
-                      <div className="absolute top-0 left-0 bg-[#E11D48] text-white text-[8px] font-black px-3 py-0.5 -rotate-45 -translate-x-3 translate-y-1 shadow-md uppercase tracking-wider">
                       <div className="absolute top-0 left-0 bg-[#E11D48] text-white text-[8px] font-black px-3 py-0.5 -rotate-45 -translate-x-3 translate-y-1 shadow-md uppercase tracking-wider z-20">
                         Retired
                       </div>
