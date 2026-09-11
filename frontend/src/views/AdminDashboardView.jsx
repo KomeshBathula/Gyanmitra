@@ -1,0 +1,114 @@
+import React from 'react';
+import { Building2, Sparkles, TrendingUp, AlertTriangle, Users } from 'lucide-react';
+import { useApp } from '../context/AppContext';
+
+export const AdminDashboardView = () => {
+  const { adminOrgData } = useApp();
+
+  return (
+    <div className="space-y-6 max-w-6xl mx-auto pb-12">
+      {/* Top Banner */}
+      <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-gov">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div>
+            <span className="px-2.5 py-0.5 rounded text-xs font-semibold bg-purple-50 text-purple-800 border border-purple-200">
+              National Cadre Intelligence
+            </span>
+            <h2 className="text-xl font-bold text-slate-900 mt-1">Workforce Competency Intelligence</h2>
+            <p className="text-xs text-slate-500">
+              Ministry-wide capacity building monitoring across 12,450 statistical officers nationwide.
+            </p>
+          </div>
+
+          <span className="text-xs text-slate-500 font-mono">Synced: Today 14:00 IST</span>
+        </div>
+      </div>
+
+      {/* Top Organization KPIs */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="bg-white rounded-xl border border-slate-200 p-5 shadow-gov">
+          <span className="text-xs font-semibold text-slate-500 uppercase">Total Tracked Workforce</span>
+          <h3 className="text-2xl font-black text-slate-900 mt-1">{adminOrgData.totalEmployees}</h3>
+          <p className="text-[11px] text-slate-500 mt-1">MoSPI, SSS & State DES</p>
+        </div>
+
+        <div className="bg-white rounded-xl border border-slate-200 p-5 shadow-gov">
+          <span className="text-xs font-semibold text-slate-500 uppercase">National Avg Competency</span>
+          <h3 className="text-2xl font-black text-blue-700 mt-1">{adminOrgData.avgCompetencyScore}</h3>
+          <p className="text-[11px] text-emerald-700 font-semibold mt-1">↑ +5.8% YOY</p>
+        </div>
+
+        <div className="bg-white rounded-xl border border-slate-200 p-5 shadow-gov">
+          <span className="text-xs font-semibold text-slate-500 uppercase">Critical Skill Gaps</span>
+          <h3 className="text-2xl font-black text-red-600 mt-1">{adminOrgData.criticalGapsCount} Domains</h3>
+          <p className="text-[11px] text-slate-500 mt-1">Python & AI/ML Priority</p>
+        </div>
+
+        <div className="bg-white rounded-xl border border-slate-200 p-5 shadow-gov">
+          <span className="text-xs font-semibold text-slate-500 uppercase">ACBP 2026 Target Completion</span>
+          <h3 className="text-2xl font-black text-emerald-600 mt-1">{adminOrgData.trainingCompletionRate}</h3>
+          <p className="text-[11px] text-slate-500 mt-1">Mission Karmayogi Compliant</p>
+        </div>
+      </div>
+
+      {/* Critical Workforce Skill Gaps */}
+      <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-gov space-y-4">
+        <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider pb-2 border-b border-slate-100">
+          Critical Workforce Skill Deficits Across Cadres
+        </h3>
+
+        <div className="space-y-3">
+          {adminOrgData.workforceSkillGaps.map((item, idx) => (
+            <div key={idx} className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5">
+              <div className="flex items-center justify-between text-xs">
+                <span className="font-bold text-slate-800">{item.skill}</span>
+                <span className="font-bold text-red-700">{item.gapPercentage}% Workforce Deficit ({item.affectedCount} Officers)</span>
+              </div>
+              <div className="w-full bg-slate-200 h-2 rounded-full overflow-hidden">
+                <div
+                  className={`h-2 rounded-full ${
+                    item.gapPercentage > 35 ? 'bg-red-600' : 'bg-amber-500'
+                  }`}
+                  style={{ width: `${item.gapPercentage}%` }}
+                ></div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Division Comparison Table */}
+      <div className="bg-white rounded-xl border border-slate-200 shadow-gov overflow-hidden">
+        <div className="px-6 py-4 border-b border-slate-100 bg-slate-50">
+          <h3 className="text-xs font-bold text-slate-800 uppercase tracking-wider">
+            Division & Directorate Performance Comparison
+          </h3>
+        </div>
+        <table className="w-full text-left text-xs">
+          <thead className="bg-slate-100 text-slate-700 font-bold border-b border-slate-200">
+            <tr>
+              <th className="px-6 py-3">Division / Cadre</th>
+              <th className="px-4 py-3 text-center">Employees</th>
+              <th className="px-4 py-3 text-center">Avg Competency</th>
+              <th className="px-4 py-3 text-center">Critical Gaps</th>
+              <th className="px-6 py-3 text-right">Training Completion</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-slate-100">
+            {adminOrgData.departments.map((dept, idx) => (
+              <tr key={idx} className="hover:bg-slate-50">
+                <td className="px-6 py-3.5 font-bold text-slate-900">{dept.name}</td>
+                <td className="px-4 py-3.5 text-center text-slate-600">{dept.employees.toLocaleString()}</td>
+                <td className="px-4 py-3.5 text-center font-bold text-blue-700">{dept.avgCompetency}%</td>
+                <td className="px-4 py-3.5 text-center">
+                  <span className="px-2 py-0.5 rounded bg-red-50 text-red-700 font-bold">{dept.criticalGaps} Gaps</span>
+                </td>
+                <td className="px-6 py-3.5 text-right font-bold text-emerald-700">{dept.completion}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+};
