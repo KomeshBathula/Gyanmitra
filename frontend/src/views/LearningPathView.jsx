@@ -6,7 +6,7 @@ import {
   BookOpen,
   CheckCircle2,
   Calendar,
-  Sparkles,
+  Award,
   Loader2
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
@@ -29,22 +29,14 @@ export const LearningPathView = () => {
   const [activePill, setActivePill] = useState('inprogress'); // 'inprogress', 'completed', 'unenrolled'
   const [activeCourseModal, setActiveCourseModal] = useState(null);
 
-  const [inprogressList, setInprogressList] = useState([]);
-  const [completedList, setCompletedList] = useState([]);
-  const [unenrolledList, setUnenrolledList] = useState([]);
   const [inprogressList, setInprogressList] = useState(MY_LEARNING_INPROGRESS);
   const [completedList, setCompletedList] = useState(MY_LEARNING_COMPLETED);
   const [unenrolledList, setUnenrolledList] = useState(MY_LEARNING_UNENROLLED);
   const [isLoading, setIsLoading] = useState(false);
 
-  // Load My Learning datasets from backend Express API
-  // Load My Learning datasets from backend Express API with instant fallback
+  // Load My Learning datasets from backend Express API with fallback
   const loadMyLearningData = () => {
     setIsLoading(true);
-    api.getMyLearning().then(res => {
-      if (res?.inprogress) setInprogressList(res.inprogress);
-      if (res?.completed) setCompletedList(res.completed);
-      if (res?.unenrolled) setUnenrolledList(res.unenrolled);
     api.getMyLearning('', {
       inprogress: MY_LEARNING_INPROGRESS,
       completed: MY_LEARNING_COMPLETED,
@@ -171,8 +163,6 @@ export const LearningPathView = () => {
 
       {/* Main Content Area */}
       {activeTab === 'contents' ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pt-2">
-          {currentList.map((course) => (
         currentList.length === 0 ? (
           <div className="bg-[#0B1528] rounded-3xl border border-[#1E2E4A] p-12 text-center space-y-4">
             <BookOpen className="w-12 h-12 text-slate-500 mx-auto" />
@@ -289,10 +279,10 @@ export const LearningPathView = () => {
                         {course.progress >= 100 ? (
                           <button
                             onClick={() => startCourseQuiz(course)}
-                            className="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white text-xs font-bold transition-all shadow-md flex items-center space-x-1.5 cursor-pointer whitespace-nowrap"
+                            className="px-3.5 py-1.5 rounded-xl bg-[#1B365D] hover:bg-[#254A80] border border-blue-500/40 text-white text-xs font-bold transition-all shadow-sm flex items-center space-x-1.5 cursor-pointer whitespace-nowrap"
                           >
-                            <Sparkles className="w-3.5 h-3.5 text-amber-300 flex-shrink-0" />
-                            <span className="whitespace-nowrap">Take Quiz</span>
+                            <Award className="w-3.5 h-3.5 text-amber-300 flex-shrink-0" />
+                            <span className="whitespace-nowrap">Take Assessment</span>
                           </button>
                         ) : (
                           <button
@@ -315,10 +305,10 @@ export const LearningPathView = () => {
                     <div className="flex items-center space-x-2 flex-shrink-0">
                       <button
                         onClick={() => startCourseQuiz(course)}
-                        className="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white text-xs font-bold shadow-md flex items-center space-x-1.5 cursor-pointer transition-all whitespace-nowrap hover:shadow-indigo-500/25"
+                        className="px-3.5 py-1.5 rounded-xl bg-[#1B365D] hover:bg-[#254A80] border border-blue-500/40 text-white text-xs font-bold shadow-sm flex items-center space-x-1.5 cursor-pointer transition-all whitespace-nowrap"
                       >
-                        <Sparkles className="w-3.5 h-3.5 text-amber-300 flex-shrink-0" />
-                        <span className="whitespace-nowrap">Take Quiz</span>
+                        <Award className="w-3.5 h-3.5 text-amber-300 flex-shrink-0" />
+                        <span className="whitespace-nowrap">Take Assessment</span>
                       </button>
                       <button
                         onClick={() => setActiveCourseModal(course)}
@@ -423,15 +413,15 @@ export const LearningPathView = () => {
 
               {/* Department Admin Quiz Status Banner */}
               {activeCourseModal.progress >= 100 ? (
-                <div className="p-4 rounded-2xl bg-gradient-to-r from-purple-950/80 to-indigo-950/80 border border-purple-500/50 space-y-2">
+                <div className="p-4 rounded-2xl bg-[#111F38] border border-blue-500/40 space-y-2">
                   <div className="flex items-center justify-between">
-                    <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-purple-500/30 text-purple-300 border border-purple-400/40 flex items-center space-x-1">
-                      <Sparkles className="w-3 h-3 text-amber-300" />
-                      <span>Department Admin Assessment Unlocked</span>
+                    <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-blue-900/60 text-blue-200 border border-blue-400/40 flex items-center space-x-1.5">
+                      <Award className="w-3 h-3 text-amber-300" />
+                      <span>Cadre Certification Assessment Available</span>
                     </span>
                     <span className="text-[10px] text-emerald-400 font-bold">100% Completed</span>
                   </div>
-                  <p className="text-xs text-purple-200">
+                  <p className="text-xs text-slate-300">
                     Your Department Admin has published a certification quiz specifically for your cadre role. Completing this quiz in full-screen mode will validate your competencies and generate targeted module recommendations.
                   </p>
                 </div>
@@ -503,10 +493,10 @@ export const LearningPathView = () => {
                       setActiveCourseModal(null);
                       startCourseQuiz(selectedCourse);
                     }}
-                    className="px-5 py-2 text-xs font-bold text-white bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 rounded-2xl shadow-xl transition-all cursor-pointer flex items-center space-x-1.5 whitespace-nowrap"
+                    className="px-5 py-2 text-xs font-bold text-white bg-[#1B365D] hover:bg-[#254A80] border border-blue-400/40 rounded-2xl shadow-xl transition-all cursor-pointer flex items-center space-x-1.5 whitespace-nowrap"
                   >
-                    <Sparkles className="w-3.5 h-3.5 text-amber-300 flex-shrink-0" />
-                    <span>Take Quiz (Full-Screen)</span>
+                    <Award className="w-3.5 h-3.5 text-amber-300 flex-shrink-0" />
+                    <span>Take Assessment (Full-Screen)</span>
                   </button>
                 ) : (
                   <button

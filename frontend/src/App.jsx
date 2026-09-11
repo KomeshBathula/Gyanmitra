@@ -6,7 +6,7 @@ import { Toast } from './components/common/Toast';
 import { InitialAssessmentModal } from './components/common/InitialAssessmentModal';
 import { AdminLayout } from './components/admin/AdminLayout';
 import { AIAssistantDrawer } from './components/ai/AIAssistantDrawer';
-import { Sparkles, Bot } from 'lucide-react';
+import { MessageSquareText } from 'lucide-react';
 
 // Views
 import { AuthView } from './views/AuthView';
@@ -151,16 +151,14 @@ export default function App() {
         </main>
       </div>
 
-      {/* Floating GyanMitra AI Assistant Mascot Button */}
+      {/* Official GyanMitra Helpdesk & Knowledge Support Button */}
       <button
         onClick={() => setIsAiDrawerOpen(true)}
-        className="fixed bottom-6 right-6 z-40 w-14 h-14 rounded-full bg-[#1D4ED8] hover:bg-[#2563EB] text-white shadow-2xl hover:scale-105 transition-all flex items-center justify-center border-2 border-white/80 cursor-pointer group"
-        title="Ask GyanMitra AI Assistant"
+        className="fixed bottom-6 right-6 z-40 w-13 h-13 rounded-full bg-[#1B365D] hover:bg-[#234578] text-white shadow-xl hover:scale-105 transition-all flex items-center justify-center border-2 border-white/80 cursor-pointer group"
+        title="GyanMitra Knowledge Support"
+        aria-label="Open Knowledge Support"
       >
-        <div className="relative flex items-center justify-center">
-          <Bot className="w-7 h-7 text-white group-hover:rotate-6 transition-transform" />
-          <Sparkles className="w-3.5 h-3.5 text-amber-300 fill-amber-300 absolute -top-1 -right-1 animate-pulse" />
-        </div>
+        <MessageSquareText className="w-6 h-6 text-white" />
       </button>
 
       {/* Floating Global AI Assistant Drawer */}

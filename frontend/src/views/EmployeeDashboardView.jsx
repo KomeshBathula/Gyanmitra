@@ -4,7 +4,7 @@ import {
   ChevronRight,
   Award,
   Clock,
-  Sparkles,
+  ShieldCheck,
   Zap,
   TrendingUp,
   BookOpen,
@@ -121,7 +121,7 @@ export const EmployeeDashboardView = () => {
           {/* Banner Text Content */}
           <div className="flex-1 space-y-2 text-center md:text-left">
             <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-blue-50 text-[#0074CB] text-xs font-bold border border-blue-200">
-              <Sparkles className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
+              <Award className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
               <span>GyanMitra • Learning Incentive</span>
             </div>
             <h2 className="text-lg sm:text-2xl font-black text-[#1B365D] tracking-tight leading-snug">
@@ -234,11 +234,11 @@ export const EmployeeDashboardView = () => {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div>
             <div className="flex items-center space-x-2">
-              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-purple-900/60 text-purple-300 border border-purple-500/50 flex items-center space-x-1">
-                <Sparkles className="w-3 h-3 text-purple-400" />
-                <span>Admin Generated • Groq AI Powered</span>
+              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-blue-900/60 text-blue-200 border border-blue-500/40 flex items-center space-x-1.5">
+                <ShieldCheck className="w-3 h-3 text-blue-400" />
+                <span>MoSPI Cadre Assessment</span>
               </span>
-              <span className="text-xs text-slate-400">MoSPI Induction & Training Assessments</span>
+              <span className="text-xs text-slate-400">Official Induction & Training Assessments</span>
             </div>
             <h3 className="text-lg font-black text-white mt-1">Live Material Assessments</h3>
           </div>
@@ -287,9 +287,9 @@ export const EmployeeDashboardView = () => {
                   </span>
                   <button
                     onClick={() => startGeneratedQuiz(quiz)}
-                    className="px-4 py-2 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white text-xs font-bold transition-all shadow-md flex items-center space-x-1.5 cursor-pointer"
+                    className="px-4 py-2 rounded-xl bg-[#1B365D] hover:bg-[#254A80] border border-blue-500/40 text-white text-xs font-bold transition-all shadow-sm flex items-center space-x-1.5 cursor-pointer"
                   >
-                    <span>Take Quiz</span>
+                    <span>Take Assessment</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </button>
                 </div>

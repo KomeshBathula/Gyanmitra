@@ -8,7 +8,7 @@ import {
   Zap,
   Globe,
   CheckCircle2,
-  Sparkles,
+  Layers,
   Loader2
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
@@ -78,7 +78,7 @@ export const MarketplaceView = () => {
               : 'border-transparent text-slate-400 hover:text-white'
           }`}
         >
-          <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+          <Layers className="w-3.5 h-3.5 text-blue-400" />
           <span>Augmented Reality</span>
         </button>
       </div>
@@ -150,8 +150,8 @@ export const MarketplaceView = () => {
               className="bg-[#0B1528] rounded-3xl border border-[#1E2E4A] p-6 space-y-4 hover:border-blue-500 transition-all"
             >
               <div className="flex items-center justify-between">
-                <span className="px-2.5 py-1 rounded-full text-xs font-bold bg-amber-400/20 text-amber-300 border border-amber-400/40 flex items-center space-x-1">
-                  <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+                <span className="px-2.5 py-1 rounded-full text-xs font-bold bg-blue-900/40 text-blue-300 border border-blue-500/40 flex items-center space-x-1">
+                  <Layers className="w-3.5 h-3.5 text-blue-400" />
                   <span>{ar.device}</span>
                 </span>
                 <span className="text-xs font-mono text-slate-400">{ar.duration}</span>

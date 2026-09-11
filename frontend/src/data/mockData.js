@@ -1198,7 +1198,7 @@ export const ADMIN_ASSESSMENTS_AUDIT_DATA = {
   auditAlerts: [
     { id: "aud-1", type: "warning", message: "Municipal Cadre GIS Quiz pass rate is 58% (below 70% threshold). Remedial course assigned.", time: "2 hours ago" },
     { id: "aud-2", type: "success", message: "DoPT DPDP Act Compliance Assessment certified 1,420 IAS/CSS officers.", time: "1 day ago" },
-    { id: "aud-3", type: "info", message: "Groq AI Generated Assessment on NSS 79th Round published to 4,850 Field Investigators.", time: "2 days ago" }
+    { id: "aud-3", type: "info", message: "Cadre Assessment on NSS 79th Round published to 4,850 Field Investigators.", time: "2 days ago" }
   ]
 };
 

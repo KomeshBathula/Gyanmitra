@@ -4,7 +4,6 @@ import {
   ArrowRight,
   CheckCircle2,
   AlertCircle,
-  Sparkles,
   ArrowLeft,
   FileText,
   Maximize2,
@@ -545,7 +544,7 @@ export const QuizTakingView = () => {
                 onClick={handleCompleteQuiz}
                 className="px-7 py-3 rounded-2xl text-xs font-black text-white bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 shadow-2xl transition-all cursor-pointer flex items-center space-x-2"
               >
-                <Sparkles className="w-4 h-4 text-amber-300" />
+                <CheckCircle2 className="w-4 h-4 text-white" />
                 <span>{isSubmitting ? "Validating Answers..." : "Submit Final Assessment & Validate"}</span>
               </button>
             )}

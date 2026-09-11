@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import {
-  Sparkles,
   ArrowRight,
   CheckCircle2,
   AlertTriangle,
@@ -117,7 +116,7 @@ export const SkillGapView = () => {
           }}
           className="px-4 py-2.5 bg-[#1B365D] hover:bg-[#152c4d] text-white text-xs font-bold rounded-xl shadow-sm transition-all flex items-center space-x-1.5 cursor-pointer"
         >
-          <Sparkles className="w-3.5 h-3.5 text-[#FFA730]" />
+          <Compass className="w-3.5 h-3.5 text-[#FFA730]" />
           <span>{t('learningPathTitle')}</span>
         </button>
       </div>

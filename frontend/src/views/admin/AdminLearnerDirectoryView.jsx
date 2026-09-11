@@ -11,7 +11,6 @@ import {
   Eye,
   PlusCircle,
   X,
-  Sparkles,
   Shield,
   Zap,
   Clock,

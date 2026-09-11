@@ -12,7 +12,6 @@ import {
   Check,
   Building2,
   Layers,
-  Sparkles,
   ExternalLink,
   Loader2
 } from 'lucide-react';
