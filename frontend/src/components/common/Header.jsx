@@ -41,7 +41,7 @@ export const Header = () => {
   const [isLangMenuOpen, setIsLangMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
 
-  const unreadCount = notifications.filter(n => !n.read).length;
+  const unreadCount = notifications?.filter(n => !n.read)?.length || 0;
 
   const getInitials = (name) => {
     if (!name) return 'RM';
@@ -206,7 +206,7 @@ export const Header = () => {
                     </button>
                   </div>
                   <div className="max-h-80 overflow-y-auto divide-y divide-[#1E3A6D]">
-                    {notifications.slice(0, 4).map((n) => (
+                    {(notifications || []).slice(0, 4).map((n) => (
                       <div
                         key={n.id}
                         onClick={() => {
@@ -236,7 +236,7 @@ export const Header = () => {
             >
               <div className="relative">
                 <div className="w-8 h-8 rounded-full bg-[#059669] text-white flex items-center justify-center font-bold text-xs shadow-xs border-2 border-[#1E3A6D]">
-                  {getInitials(userProfile.name)}
+                  {getInitials(userProfile?.name)}
                 </div>
                 <span className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-emerald-400 border-2 border-[#0B1528]"></span>
               </div>
@@ -247,20 +247,20 @@ export const Header = () => {
                 <div className="fixed inset-0 z-40" onClick={() => setIsProfileMenuOpen(false)}></div>
                 <div className="absolute right-0 mt-2 w-64 bg-[#111F38] text-slate-200 rounded-2xl shadow-2xl border border-[#1E3A6D] py-2 z-50 animate-in fade-in">
                   <div className="px-4 py-3 border-b border-[#1E3A6D] bg-[#0A1324] rounded-t-2xl">
-                    <p className="text-xs font-bold text-white">{userProfile.name}</p>
-                    <p className="text-[11px] text-slate-400">{userProfile.email}</p>
+                    <p className="text-xs font-bold text-white">{userProfile?.name || 'Statistical Officer'}</p>
+                    <p className="text-[11px] text-slate-400">{userProfile?.email || 'officer@mospi.gov.in'}</p>
                     <div className="mt-2 flex items-center justify-between">
                       <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-blue-900/60 text-blue-200 border border-blue-700">
-                        {userProfile.cadre}
+                        {userProfile?.cadre || 'MoSPI Cadre'}
                       </span>
-                      {userProfile.role === 'trainer' ? (
+                      {userProfile?.role === 'trainer' ? (
                         <span className="text-[10px] text-emerald-400 font-bold">
                           Course Director
                         </span>
                       ) : (
                         <span className="text-[10px] text-amber-400 font-bold flex items-center">
                           <Zap className="w-3 h-3 mr-0.5 fill-amber-400 text-amber-400" />
-                          {userProfile.karmayogiCredits || 799} Pts
+                          {userProfile?.karmayogiCredits ?? 799} Pts
                         </span>
                       )}
                     </div>

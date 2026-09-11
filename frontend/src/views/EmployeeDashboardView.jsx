@@ -166,7 +166,7 @@ export const EmployeeDashboardView = () => {
       {/* 2. Welcome Greeting */}
       <div>
         <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
-          Welcome Back, {userProfile.name}
+          Welcome Back, {userProfile?.name || 'Statistical Officer'}
         </h1>
       </div>
 
@@ -243,17 +243,18 @@ export const EmployeeDashboardView = () => {
             <h3 className="text-lg font-black text-white mt-1">Live Material Assessments</h3>
           </div>
           <span className="text-xs text-slate-400">
-            {generatedQuizzes.length} Assessment{generatedQuizzes.length === 1 ? '' : 's'} Available
+            {(generatedQuizzes || []).length} Assessment{(generatedQuizzes || []).length === 1 ? '' : 's'} Available
           </span>
         </div>
 
-        {generatedQuizzes.length === 0 ? (
+        {/* Live Quizzes List */}
+        {(!generatedQuizzes || generatedQuizzes.length === 0) ? (
           <div className="p-6 rounded-3xl bg-[#111F38] border border-[#1E335A] text-center text-xs text-slate-400">
             No live quizzes published yet. Assessments created by Ministry Administrators will appear here.
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {generatedQuizzes.map((quiz) => (
+            {(generatedQuizzes || []).map((quiz) => (
               <div
                 key={quiz.id}
                 className="bg-[#111F38] rounded-3xl border border-[#1E335A] hover:border-purple-500/80 p-5 shadow-lg flex flex-col justify-between transition-all group"
