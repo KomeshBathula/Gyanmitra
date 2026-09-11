@@ -15,6 +15,7 @@ import {
   Search,
   Globe,
   Sun,
+  Moon,
   Menu,
   Check
 } from 'lucide-react';
@@ -35,7 +36,9 @@ export const AdminHeader = () => {
     isSidebarOpen,
     showToast,
     setCurrentScreen,
-    t
+    t,
+    theme,
+    toggleTheme
   } = useApp();
 
   const [isDeptDropdownOpen, setIsDeptDropdownOpen] = useState(false);
@@ -217,6 +220,20 @@ export const AdminHeader = () => {
               </>
             )}
           </div>
+
+          {/* Theme Sun/Moon Toggle Button */}
+          <button
+            onClick={toggleTheme}
+            className="p-1.5 rounded-lg text-slate-300 hover:text-amber-300 hover:bg-[#162544] transition-all cursor-pointer flex items-center justify-center"
+            title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+            aria-label="Toggle Theme"
+          >
+            {theme === 'dark' ? (
+              <Sun className="w-4 h-4 text-amber-300 hover:rotate-45 transition-transform" />
+            ) : (
+              <Moon className="w-4 h-4 text-purple-600 hover:-rotate-12 transition-transform" />
+            )}
+          </button>
 
           {/* Notification Bell */}
           <div className="relative">

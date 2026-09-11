@@ -98,6 +98,30 @@ export const AppProvider = ({ children }) => {
     document.documentElement.style.fontSize = `${fontScale}%`;
   }, [fontScale]);
 
+  // Dark & Light Theme State
+  const [theme, setTheme] = useState(() => {
+    return localStorage.getItem('gyanmitra_theme') || 'dark';
+  });
+
+  useEffect(() => {
+    if (theme === 'light') {
+      document.documentElement.classList.add('light');
+      document.documentElement.classList.remove('dark');
+    } else {
+      document.documentElement.classList.add('dark');
+      document.documentElement.classList.remove('light');
+    }
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme((prev) => {
+      const nextTheme = prev === 'dark' ? 'light' : 'dark';
+      localStorage.setItem('gyanmitra_theme', nextTheme);
+      showToast(`Switched to ${nextTheme === 'dark' ? 'Dark' : 'Light'} Theme`, 'info');
+      return nextTheme;
+    });
+  };
+
   // URL & API Synchronization on Screen Navigation (Clean URLs: /login, /admin, /dashboard, etc.)
   const setCurrentScreen = useCallback((screenId) => {
     setCurrentScreenState(screenId);
@@ -587,7 +611,10 @@ export const AppProvider = ({ children }) => {
         trainerBatchData: TRAINER_BATCH_DATA,
         adminOrgData: ADMIN_ORG_DATA,
         aiPrompts: AI_ASSISTANT_PROMPTS,
-        standardQuestions: ASSESSMENT_QUESTIONS
+        standardQuestions: ASSESSMENT_QUESTIONS,
+        theme,
+        setTheme,
+        toggleTheme
       }}
     >
       {children}

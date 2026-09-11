@@ -66,3 +66,177 @@
   @apply inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-900 border border-emerald-200;
 }
 
+/* ============================================================
+   GYANMITRA THEME SYSTEM: DARK & LIGHT PALETTES
+   ============================================================ */
+
+/* Dark Mode Defaults */
+html.dark {
+  color-scheme: dark;
+}
+
+html.dark body {
+  background-color: #0B1528;
+  color: #F8FAFC;
+}
+
+/* Light Mode Comprehensive Color Palette Overrides */
+html.light {
+  color-scheme: light;
+}
+
+html.light body {
+  background-color: #F8FAFC !important;
+  color: #0F172A !important;
+}
+
+/* 1. Main View & Page Backgrounds */
+html.light .bg-\[\#0B1528\],
+html.light .bg-\[\#070D18\],
+html.light .bg-\[\#081326\],
+html.light .bg-\[\#0F2942\],
+html.light .bg-\[\#060D1A\] {
+  background-color: #F8FAFC !important;
+}
+
+/* 2. Top Header & Navigation Bars */
+html.light header.sticky {
+  background-color: #FFFFFF !important;
+  border-bottom-color: #E2E8F0 !important;
+  box-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.05) !important;
+}
+
+/* 3. Sidebars */
+html.light aside {
+  background-color: #FFFFFF !important;
+  border-right-color: #E2E8F0 !important;
+}
+
+/* 4. Cards, Containers, and Modals */
+html.light .bg-\[\#111F38\],
+html.light .bg-\[\#0F172A\] {
+  background-color: #FFFFFF !important;
+  border-color: #E2E8F0 !important;
+  box-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.06), 0 1px 2px -1px rgba(15, 23, 42, 0.06) !important;
+}
+
+/* 5. Sub-Cards, Inner Surfaces, and Containers */
+html.light .bg-\[\#080E1C\],
+html.light .bg-\[\#0A1324\],
+html.light .bg-\[\#162544\],
+html.light .bg-\[\#1A2C4E\],
+html.light .bg-\[\#162A4D\],
+html.light .bg-\[\#12233F\],
+html.light .bg-\[\#13223D\],
+html.light .bg-\[\#1E2E4A\] {
+  background-color: #F1F5F9 !important;
+  border-color: #E2E8F0 !important;
+}
+
+/* 6. Form Inputs & Textareas */
+html.light input:not([type="checkbox"]):not([type="radio"]),
+html.light textarea,
+html.light select {
+  background-color: #FFFFFF !important;
+  color: #0F172A !important;
+  border-color: #CBD5E1 !important;
+}
+html.light input::placeholder,
+html.light textarea::placeholder {
+  color: #94A3B8 !important;
+}
+
+/* 7. Borders Across Elements */
+html.light .border-\[\#1E2E4A\],
+html.light .border-\[\#1E3A6D\],
+html.light .border-\[\#1E335A\],
+html.light .border-\[\#2A3E66\],
+html.light .border-\[\#15284F\],
+html.light .border-\[\#2A4374\],
+html.light .border-\[\#1D3663\],
+html.light .border-\[\#1E3A5F\],
+html.light .border-\[\#1A2C4E\] {
+  border-color: #E2E8F0 !important;
+}
+
+/* 8. Interactive Hover Overrides */
+html.light .hover\:bg-\[\#162544\]:hover,
+html.light .hover\:bg-\[\#1E335A\]:hover,
+html.light .hover\:bg-\[\#1E3A6D\]:hover,
+html.light .hover\:bg-\[\#162A4D\]:hover,
+html.light .hover\:bg-\[\#111F38\]:hover {
+  background-color: #E2E8F0 !important;
+}
+
+/* 9. Text Palette Overrides */
+html.light .text-white {
+  color: #0F172A !important;
+}
+
+html.light .text-slate-100 {
+  color: #0F172A !important;
+}
+
+html.light .text-slate-200 {
+  color: #1E293B !important;
+}
+
+html.light .text-slate-300 {
+  color: #334155 !important;
+}
+
+html.light .text-slate-400 {
+  color: #64748B !important;
+}
+
+/* 10. Safeguard Colored Buttons, Badges, Pills & Gradients (Keep White Text) */
+html.light .bg-blue-600,
+html.light .bg-blue-500,
+html.light .bg-blue-700,
+html.light .bg-emerald-600,
+html.light .bg-emerald-700,
+html.light .bg-green-600,
+html.light .bg-purple-600,
+html.light .bg-purple-700,
+html.light .bg-red-600,
+html.light .bg-rose-600,
+html.light .bg-amber-600,
+html.light .bg-\[\#1D4ED8\],
+html.light .bg-\[\#2563EB\],
+html.light .bg-\[\#E11D48\],
+html.light .bg-\[\#059669\],
+html.light .bg-\[\#FF9933\],
+html.light [class*="bg-gradient-to"] {
+  color: #FFFFFF !important;
+}
+
+html.light .bg-blue-600 *,
+html.light .bg-blue-500 *,
+html.light .bg-blue-700 *,
+html.light .bg-emerald-600 *,
+html.light .bg-emerald-700 *,
+html.light .bg-green-600 *,
+html.light .bg-purple-600 *,
+html.light .bg-purple-700 *,
+html.light .bg-red-600 *,
+html.light .bg-rose-600 *,
+html.light .bg-amber-600 *,
+html.light .bg-\[\#1D4ED8\] *,
+html.light .bg-\[\#2563EB\] *,
+html.light .bg-\[\#E11D48\] *,
+html.light .bg-\[\#059669\] *,
+html.light .bg-\[\#FF9933\] *,
+html.light [class*="bg-gradient-to"] * {
+  color: inherit !important;
+}
+
+/* 11. Subtle Badge Background Adjustments for High Contrast */
+html.light .bg-blue-900\/60,
+html.light .bg-indigo-900\/60,
+html.light .bg-amber-950\/80,
+html.light .bg-emerald-950\/80 {
+  background-color: #F1F5F9 !important;
+  border-color: #E2E8F0 !important;
+}
+
+
