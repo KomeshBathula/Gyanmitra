@@ -178,6 +178,7 @@ export const AppProvider = ({ children }) => {
   const logoutUser = () => {
     setIsAuthenticated(false);
     setCurrentScreenState('login');
+    window.location.hash = '';
     window.history.pushState(null, '', '/');
     showToast("Signed out successfully from Parichay SSO.", "info");
   };
