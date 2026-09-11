@@ -1,61 +1,63 @@
 import express from 'express';
+import { groqService } from '../services/groqService.js';
+import { db } from '../data/db.js';
+import { successResponse, errorResponse } from '../utils/response.js';
 
 const router = express.Router();
 
-const mockQuestions = (documentName = "NSS_Sampling_Guidelines.pdf") => [
-  {
-    id: 1,
-    question: `Based on Section 2 of ${documentName}: What is the primary purpose of selecting First Stage Units with PPSWR in NSS Surveys?`,
-    options: [
-      "To equalize sample weights among all rural blocks.",
-      "To give larger population clusters a proportionally higher inclusion probability, minimizing overall survey variance.",
-      "To eliminate the need for Second Stage Unit (SSU) listing.",
-      "To standardize interview questionnaire length."
-    ],
-    correctAnswer: 1,
-    explanation: "PPSWR sampling ensures unit inclusion probability matches population weight, ensuring unbiased estimations for village aggregates.",
-    sourceCitation: `${documentName} (Page 18, Para 2.4)`
-  },
-  {
-    id: 2,
-    question: `According to the calculation guidelines in ${documentName}: How is casualty multiplier adjustment applied when households cannot be surveyed?`,
-    options: [
-      "The sample district is removed from the estimation frame.",
-      "A casualty factor (Allocated SSUs / Surveyed SSUs) is applied to the sample multiplier.",
-      "The missing sample is replaced without official notice.",
-      "All weights are uniformly incremented by 1%."
-    ],
-    correctAnswer: 1,
-    explanation: "Casualty adjustment maintains unbiased population aggregate estimates during non-response.",
-    sourceCitation: `${documentName} (Page 42, Formula 5.3)`
-  },
-  {
-    id: 3,
-    question: `Under the National Accounts GDP Framework: Which approach is integrated with MCA-21 corporate financial filings?`,
-    options: [
-      "Expenditure Approach via Household Budget Surveys",
-      "Production Approach (GVA) via Enterprise Balance Sheets",
-      "Income Approach via Direct Tax Filings only",
-      "Fixed Capital Formation Deflator Method"
-    ],
-    correctAnswer: 1,
-    explanation: "MCA-21 integration compiles GVA by aggregating corporate value added from registered enterprise financial statements.",
-    sourceCitation: "National Accounts Statistics Compilation Manual (Chapter 4, Para 4.2)"
+const handleGenerateQuiz = async (req, res, next) => {
+  try {
+    const {
+      documentName = "NSS_Sampling_Guidelines.pdf",
+      documentText = "",
+      topic = "Official Statistics & Survey Sampling",
+      questionCount = 5,
+      difficulty = "Medium",
+      questionType = "MCQ",
+      title
+    } = req.body;
+
+    // Generate questions using Groq API (or high-fidelity MoSPI template fallback)
+    const result = await groqService.generateQuizQuestions({
+      documentName,
+      documentText,
+      topic,
+      questionCount: Number(questionCount) || 5,
+      difficulty,
+      questionType
+    });
+
+    // Create persistent quiz record so it reflects on user dashboards
+    const generatedQuiz = {
+      id: `quiz-gen-${Date.now()}`,
+      title: title || `AI Assessment: ${documentName.replace(/\.[^/.]+$/, '').replace(/_/g, ' ')}`,
+      documentName,
+      topic,
+      difficulty,
+      questionCount: result.questions.length,
+      createdAt: "Just now",
+      createdBy: req.user?.name || "Dr. Mehta (Admin)",
+      isLive: true,
+      mode: result.mode,
+      questions: result.questions
+    };
+
+    // Save to database
+    db.generatedQuizzes.unshift(generatedQuiz);
+
+    return res.json({
+      success: true,
+      mode: result.mode,
+      model: result.model,
+      document: documentName,
+      difficulty,
+      totalQuestions: result.questions.length,
+      questions: result.questions,
+      quiz: generatedQuiz
+    });
+  } catch (err) {
+    next(err);
   }
-];
-
-const handleGenerateQuiz = (req, res) => {
-  const { documentName = "NSS_Sampling_Guidelines.pdf", difficulty = "Medium" } = req.body;
-  const questions = mockQuestions(documentName);
-
-  return res.json({
-    success: true,
-    mode: "mock",
-    document: documentName,
-    difficulty,
-    totalQuestions: questions.length,
-    questions
-  });
 };
 
 const handleChat = (req, res) => {
@@ -83,6 +85,20 @@ const handleChat = (req, res) => {
   });
 };
 
+// GET /api/ai/quizzes - List all generated quizzes available for user dashboards
+router.get('/quizzes', (req, res) => {
+  return successResponse(res, db.generatedQuizzes, "List of generated quizzes");
+});
+
+// GET /api/ai/quizzes/:id - Get specific generated quiz with questions
+router.get('/quizzes/:id', (req, res) => {
+  const quiz = db.generatedQuizzes.find(q => q.id === req.params.id);
+  if (!quiz) {
+    return errorResponse(res, "Generated quiz not found", "Not Found", 404);
+  }
+  return successResponse(res, quiz, "Generated quiz details");
+});
+
 // Route definitions supporting both paths
 router.post('/generate-quiz', handleGenerateQuiz);
 router.post('/quiz/generate', handleGenerateQuiz);
@@ -90,4 +106,5 @@ router.post('/assistant-chat', handleChat);
 router.post('/chat', handleChat);
 
 export default router;
+
 

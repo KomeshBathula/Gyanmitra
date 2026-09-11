@@ -109,6 +109,9 @@ export const AppProvider = ({ children }) => {
     if (screenId === 'competencies' || screenId === 'dashboard') {
       api.getCompetenciesOverview(COMPETENCY_OVERVIEW).then(res => {
         if (res?.data) setCompetencyOverview(res.data);
+      });
+      api.getGeneratedQuizzes([MOCK_GENERATED_QUIZ]).then(res => {
+        if (res?.data && Array.isArray(res.data)) setGeneratedQuizzes(res.data);
         setIsLoadingApi(false);
       });
     } else if (screenId === 'skill-gaps') {
@@ -311,6 +314,14 @@ export const AppProvider = ({ children }) => {
     showToast(`Competency Profile Updated! Score: ${scorePercentage}%`, "success");
   };
 
+  // Launch AI-generated quiz
+  const startGeneratedQuiz = (quizData) => {
+    setCurrentQuizData(quizData);
+    setActiveQuizType('ai-generated');
+    setCurrentScreen('quiz-taking');
+    showToast(`Starting Quiz: ${quizData.title}`, "info");
+  };
+
   // AI Chat send message
   const sendAiMessage = async (userText) => {
     const userMsg = {
@@ -390,6 +401,7 @@ export const AppProvider = ({ children }) => {
         setLastQuizResult,
         generatedQuizzes,
         setGeneratedQuizzes,
+        startGeneratedQuiz,
         notifications,
         setNotifications,
         isAiDrawerOpen,

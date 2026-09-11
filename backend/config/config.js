@@ -8,5 +8,7 @@ export const config = {
   corsOrigin: process.env.CORS_ORIGIN || 'http://localhost:5173',
   phase: 'Phase 1 - Prototype Mock Architecture',
   defaultUser: 'usr_001',
-  systemName: 'GyanMitra Official Statistics Competency Intelligence Platform'
+  systemName: 'GyanMitra Official Statistics Competency Intelligence Platform',
+  groqApiKey: process.env.GROQ_API_KEY || '',
+  groqModel: process.env.GROQ_MODEL || 'llama-3.3-70b-versatile'
 };

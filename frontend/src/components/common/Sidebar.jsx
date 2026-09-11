@@ -33,15 +33,21 @@ export const Sidebar = () => {
   const [isAchievementsOpen, setIsAchievementsOpen] = useState(true);
   const [isQuickActionsOpen, setIsQuickActionsOpen] = useState(true);
 
+  const isAdmin = userProfile?.role === 'admin';
+
   // Core Navigation Items matching the architecture diagram
-  const primaryNavItems = [
-    { id: 'dashboard', label: 'User Dashboard', icon: Home },
-    { id: 'assessment', label: 'Competency Assessment', icon: Award },
-    { id: 'learning-path', label: 'Learning Path & Recommendations', icon: BookOpen },
-    { id: 'ai-quiz', label: 'Upload Material & Generate Quiz', icon: Zap },
-    { id: 'progress', label: 'Progress Tracking', icon: Clock },
-    { id: 'admin-dashboard', label: 'Analytics Dashboard', icon: Shield }
+  const allPrimaryNavItems = [
+    { id: 'dashboard', label: 'User Dashboard', icon: Home, roles: ['employee', 'trainer', 'admin'] },
+    { id: 'assessment', label: 'Competency Assessment', icon: Award, roles: ['employee', 'trainer', 'admin'] },
+    { id: 'learning-path', label: 'Learning Path & Recommendations', icon: BookOpen, roles: ['employee', 'trainer', 'admin'] },
+    { id: 'ai-quiz', label: 'Upload Material & Generate Quiz', icon: Zap, roles: ['admin'] },
+    { id: 'progress', label: 'Progress Tracking', icon: Clock, roles: ['employee', 'trainer', 'admin'] },
+    { id: 'admin-dashboard', label: 'Analytics Dashboard', icon: Shield, roles: ['trainer', 'admin'] }
   ];
+
+  const primaryNavItems = allPrimaryNavItems.filter(item => 
+    !item.roles || item.roles.includes(userProfile?.role || 'employee')
+  );
 
   // Secondary Learning & Resource Discovery
   const secondaryNavItems = [

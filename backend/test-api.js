@@ -331,7 +331,17 @@ async function runTests() {
     if (nomRes.status !== 200) throw new Error('NSSTA nominate failed');
   });
 
-  // 25. 404 Route Not Found
+  // 25. Live AI-Generated Quizzes Feed
+  await assertTest('GET /api/ai/quizzes - Returns persistent generated quizzes feed for user dashboard', async () => {
+    const res = await fetch(`${baseUrl}/api/ai/quizzes`);
+    if (res.status !== 200) throw new Error(`Expected 200, got ${res.status}`);
+    const json = await res.json();
+    if (!json.success || !Array.isArray(json.data) || json.data.length === 0) {
+      throw new Error('Generated quizzes list invalid');
+    }
+  });
+
+  // 26. 404 Route Not Found
   await assertTest('GET /api/non-existent-route - Returns 404 error response', async () => {
     const res = await fetch(`${baseUrl}/api/non-existent-route`);
     if (res.status !== 404) throw new Error(`Expected 404, got ${res.status}`);

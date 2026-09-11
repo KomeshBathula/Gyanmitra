@@ -119,6 +119,14 @@ export const api = {
     }, fallback);
   },
 
+  getGeneratedQuizzes: async (fallback) => {
+    return apiRequest('/ai/quizzes', {}, fallback);
+  },
+
+  getGeneratedQuizById: async (id, fallback) => {
+    return apiRequest(`/ai/quizzes/${id}`, {}, fallback);
+  },
+
   sendAIChat: async (message, fallback) => {
     return apiRequest('/ai/assistant-chat', {
       method: 'POST',

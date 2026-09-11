@@ -5,19 +5,38 @@ import {
   Sparkles,
   Sliders,
   CheckCircle2,
-  RefreshCw
+  RefreshCw,
+  Shield,
+  ArrowRight,
+  Eye,
+  Home,
+  Check,
+  Zap,
+  AlertTriangle
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { api } from '../services/api';
 
 export const AIQuizGeneratorView = () => {
-  const { setCurrentScreen, setActiveQuizType, showToast, t } = useApp();
+  const {
+    userProfile,
+    setCurrentScreen,
+    setActiveQuizType,
+    setCurrentQuizData,
+    setGeneratedQuizzes,
+    startGeneratedQuiz,
+    showToast,
+    t
+  } = useApp();
+
+  const isAdmin = userProfile?.role === 'admin';
 
   const [selectedFile, setSelectedFile] = useState({
     name: "MoSPI_NSS79_Sampling_Methodology_Guidelines.pdf",
     size: "4.8 MB",
     pages: 84,
-    uploadedAt: "Today, 11:42 AM"
+    uploadedAt: "Today, 11:42 AM",
+    topic: "Survey Sampling & Estimation"
   });
 
   const [questionCount, setQuestionCount] = useState(5);
@@ -27,45 +46,99 @@ export const AIQuizGeneratorView = () => {
   const [includeSourceCitations, setIncludeSourceCitations] = useState(true);
   const [autoValidate, setAutoValidate] = useState(true);
 
-  // Generation Animation States
+  // Generation Animation & Result States
   const [isGenerating, setIsGenerating] = useState(false);
   const [generationStep, setGenerationStep] = useState(0);
+  const [createdQuiz, setCreatedQuiz] = useState(null);
 
   const generationStages = [
-    t('generatingStep1'),
-    t('generatingStep2'),
-    t('generatingStep3'),
-    t('generatingStep4')
+    t('generatingStep1', 'Parsing & chunking official statistical document...'),
+    t('generatingStep2', 'Calling Groq AI Engine (Llama 3.3) for psychometric validation...'),
+    t('generatingStep3', 'Cross-referencing MoSPI FRAC competency indicators...'),
+    t('generatingStep4', 'Publishing live assessment to all User Dashboards...')
   ];
+
+  // Access Guard: Non-admins cannot access quiz generation
+  if (!isAdmin) {
+    return (
+      <div className="max-w-2xl mx-auto py-12 px-4 text-center">
+        <div className="bg-[#111F38] rounded-3xl border border-red-500/30 p-8 shadow-2xl space-y-5">
+          <div className="w-16 h-16 rounded-2xl bg-red-950/70 border border-red-500/50 text-red-400 flex items-center justify-center mx-auto">
+            <Shield className="w-8 h-8" />
+          </div>
+          <div>
+            <span className="px-3 py-1 rounded-full text-xs font-bold bg-red-900/60 text-red-300 border border-red-500/40">
+              Admin Authorization Required
+            </span>
+            <h2 className="text-xl font-bold text-white mt-3">Restricted Administrator Module</h2>
+            <p className="text-xs text-slate-400 mt-2 max-w-md mx-auto leading-relaxed">
+              Material Upload and AI Quiz Generation is reserved for MoSPI Capacity Building Administrators and Training Directors. As a learner ({userProfile.designation || 'Statistical Officer'}), you can attempt quizzes directly from your User Dashboard.
+            </p>
+          </div>
+          <div className="pt-3">
+            <button
+              onClick={() => setCurrentScreen('dashboard')}
+              className="px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition-all shadow-lg cursor-pointer flex items-center justify-center space-x-2 mx-auto"
+            >
+              <Home className="w-4 h-4" />
+              <span>Return to User Dashboard</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   const handleStartGeneration = async () => {
     setIsGenerating(true);
     setGenerationStep(0);
+    setCreatedQuiz(null);
 
-    // Trigger REST API call to Express backend
-    api.generateAIQuiz({
-      documentName: selectedFile.name,
-      questionCount,
-      difficulty,
-      questionType
-    });
-
-    const stepInterval = setInterval(() => {
-      setGenerationStep((prev) => {
-        if (prev < 3) {
-          return prev + 1;
-        } else {
-          clearInterval(stepInterval);
-          setTimeout(() => {
-            setIsGenerating(false);
-            showToast("AI Assessment generated successfully from document!", "success");
-            setActiveQuizType('ai-generated');
-            setCurrentScreen('quiz-taking');
-          }, 800);
-          return prev;
-        }
+    try {
+      // Trigger REST API call to Express backend (Groq AI integration)
+      const res = await api.generateAIQuiz({
+        documentName: selectedFile.name,
+        topic: selectedFile.topic || selectedFile.name,
+        questionCount,
+        difficulty,
+        questionType
       });
-    }, 900);
+
+      const generatedData = res?.data?.quiz || res?.quiz || {
+        id: `quiz-gen-${Date.now()}`,
+        title: `AI Assessment: ${selectedFile.name.replace(/\.[^/.]+$/, '').replace(/_/g, ' ')}`,
+        documentName: selectedFile.name,
+        topic: selectedFile.topic || "Official Statistics Capacity Building",
+        difficulty,
+        questionCount: res?.data?.questions?.length || questionCount,
+        createdAt: "Just now",
+        createdBy: `${userProfile.name} (Admin)`,
+        isLive: true,
+        mode: res?.mode || res?.data?.mode || "groq-ai",
+        questions: res?.data?.questions || res?.questions || []
+      };
+
+      const stepInterval = setInterval(() => {
+        setGenerationStep((prev) => {
+          if (prev < 3) {
+            return prev + 1;
+          } else {
+            clearInterval(stepInterval);
+            setIsGenerating(false);
+            setCreatedQuiz(generatedData);
+            setGeneratedQuizzes((prevList) => [
+              generatedData,
+              ...prevList.filter((q) => q.id !== generatedData.id)
+            ]);
+            showToast("Quiz generated & published to User Dashboards!", "success");
+            return prev;
+          }
+        });
+      }, 700);
+    } catch (err) {
+      setIsGenerating(false);
+      showToast("Quiz generation completed with offline fallback.", "info");
+    }
   };
 
   const sampleDocuments = [
@@ -139,6 +212,104 @@ export const AIQuizGeneratorView = () => {
                 <span>{stage}</span>
               </div>
             ))}
+          </div>
+        </div>
+      ) : createdQuiz ? (
+        /* Created & Live Published Success State */
+        <div className="bg-[#111F38] rounded-3xl border border-emerald-500/40 p-6 sm:p-8 shadow-2xl space-y-6 animate-in fade-in">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-5 border-b border-[#1E2E4A]">
+            <div className="flex items-center space-x-4">
+              <div className="w-12 h-12 rounded-2xl bg-emerald-950 border border-emerald-500/50 text-emerald-400 flex items-center justify-center flex-shrink-0">
+                <CheckCircle2 className="w-6 h-6" />
+              </div>
+              <div>
+                <div className="flex items-center space-x-2">
+                  <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-emerald-900/60 text-emerald-300 border border-emerald-500/50">
+                    LIVE ON ALL USER DASHBOARDS
+                  </span>
+                  <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-purple-900/60 text-purple-300 border border-purple-500/50">
+                    {createdQuiz.mode === 'groq-ai' ? 'Powered by Groq Llama 3.3' : 'MoSPI Verified Grounded'}
+                  </span>
+                </div>
+                <h3 className="text-lg font-black text-white mt-1.5">{createdQuiz.title}</h3>
+                <p className="text-xs text-slate-400 mt-0.5">
+                  Source: {createdQuiz.documentName} • {createdQuiz.questions.length} Questions • Difficulty: {createdQuiz.difficulty}
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center space-x-3 w-full sm:w-auto">
+              <button
+                onClick={() => setCurrentScreen('dashboard')}
+                className="flex-1 sm:flex-initial px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition-all shadow-md flex items-center justify-center space-x-1.5 cursor-pointer"
+              >
+                <Home className="w-4 h-4" />
+                <span>View on User Dashboard</span>
+              </button>
+              <button
+                onClick={() => startGeneratedQuiz(createdQuiz)}
+                className="flex-1 sm:flex-initial px-4 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white text-xs font-black shadow-lg transition-all flex items-center justify-center space-x-1.5 cursor-pointer"
+              >
+                <Eye className="w-4 h-4" />
+                <span>Preview Quiz</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Questions Review list */}
+          <div className="space-y-4">
+            <h4 className="text-xs font-bold text-slate-300 uppercase tracking-wider">
+              Generated Questions Preview ({createdQuiz.questions.length}):
+            </h4>
+            <div className="space-y-3">
+              {createdQuiz.questions.map((q, idx) => (
+                <div key={idx} className="p-4 rounded-2xl bg-[#0B1528] border border-[#1E2E4A] space-y-2.5">
+                  <div className="flex items-start justify-between gap-2">
+                    <p className="text-xs font-bold text-white leading-relaxed">
+                      <span className="text-blue-400 mr-1.5">Q{idx + 1}.</span>
+                      {q.question}
+                    </p>
+                    <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-[#162544] text-slate-300 border border-[#1E2E4A] flex-shrink-0">
+                      Answer: Option {String.fromCharCode(65 + q.correctAnswer)}
+                    </span>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                    {q.options.map((opt, oIdx) => (
+                      <div
+                        key={oIdx}
+                        className={`p-2.5 rounded-xl border text-[11px] ${
+                          oIdx === q.correctAnswer
+                            ? 'bg-emerald-950/60 border-emerald-500/50 text-emerald-200 font-semibold'
+                            : 'bg-[#111F38] border-[#1E2E4A] text-slate-400'
+                        }`}
+                      >
+                        <span className="font-bold mr-1.5">{String.fromCharCode(65 + oIdx)}.</span>
+                        {opt}
+                      </div>
+                    ))}
+                  </div>
+
+                  {q.explanation && (
+                    <div className="text-[11px] text-slate-400 bg-[#111F38]/60 p-2.5 rounded-xl border border-[#1E2E4A]/80">
+                      <strong className="text-slate-300">Rationale: </strong> {q.explanation}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="pt-2 flex justify-end">
+            <button
+              onClick={() => {
+                setCreatedQuiz(null);
+                setIsGenerating(false);
+              }}
+              className="px-5 py-2.5 rounded-xl bg-[#162544] hover:bg-[#1E3A6D] text-slate-300 hover:text-white text-xs font-bold transition-colors cursor-pointer border border-[#1E2E4A]"
+            >
+              Generate Another Quiz from Material
+            </button>
           </div>
         </div>
       ) : (

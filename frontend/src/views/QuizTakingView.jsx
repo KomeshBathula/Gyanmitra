@@ -3,17 +3,27 @@ import {
   BookOpen,
   ArrowRight,
   CheckCircle2,
-  AlertCircle
+  AlertCircle,
+  Sparkles,
+  ArrowLeft,
+  FileText
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 
 export const QuizTakingView = () => {
-  const { setCurrentScreen, setLastQuizResult, updateCompetencyAfterQuiz } = useApp();
+  const {
+    currentQuizData,
+    setCurrentScreen,
+    setLastQuizResult,
+    updateCompetencyAfterQuiz,
+    showToast
+  } = useApp();
+
   const [currentIdx, setCurrentIdx] = useState(0);
   const [selectedAnswers, setSelectedAnswers] = useState({});
   const [showInstantExplanation, setShowInstantExplanation] = useState(false);
 
-  const quiz = {
+  const defaultQuiz = {
     title: "AI Generated Assessment: NSS 79th Round Sampling & Estimation Protocol",
     documentSource: "MoSPI_NSS79_Sampling_Methodology_Guidelines.pdf",
     questions: [
@@ -59,6 +69,14 @@ export const QuizTakingView = () => {
     ]
   };
 
+  const quiz = currentQuizData && currentQuizData.questions && currentQuizData.questions.length > 0
+    ? {
+        title: currentQuizData.title || "AI Generated Assessment",
+        documentSource: currentQuizData.documentName || currentQuizData.topic || "MoSPI Guidelines",
+        questions: currentQuizData.questions
+      }
+    : defaultQuiz;
+
   const totalQ = quiz.questions.length;
   const currentQ = quiz.questions[currentIdx];
 
@@ -96,32 +114,45 @@ export const QuizTakingView = () => {
   };
 
   return (
-    <div className="space-y-6 max-w-4xl mx-auto pb-12">
+    <div className="space-y-6 max-w-4xl mx-auto pb-12 text-slate-100">
       {/* Header Banner */}
-      <div className="bg-white rounded-xl border border-slate-200 p-5 shadow-gov flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+      <div className="bg-[#111F38] rounded-2xl border border-[#1E2E4A] p-5 sm:p-6 shadow-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
           <div className="flex items-center space-x-2">
-            <span className="px-2 py-0.5 rounded text-[11px] font-bold bg-purple-50 text-purple-800 border border-purple-200">
-              AI Grounded Assessment
+            <span className="px-2.5 py-0.5 rounded text-[11px] font-bold bg-purple-900/60 text-purple-300 border border-purple-600/50 flex items-center space-x-1">
+              <Sparkles className="w-3 h-3 text-purple-400" />
+              <span>AI Grounded Assessment</span>
             </span>
-            <span className="text-xs text-slate-500">Source: {quiz.documentSource}</span>
+            <span className="text-xs text-slate-400 truncate max-w-xs sm:max-w-md">
+              Source: {quiz.documentSource}
+            </span>
           </div>
-          <h2 className="text-base font-bold text-slate-900 mt-1">{quiz.title}</h2>
+          <h2 className="text-base sm:text-lg font-bold text-white mt-1.5">{quiz.title}</h2>
         </div>
 
-        <span className="text-xs font-semibold text-slate-600 bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-200">
-          Question {currentIdx + 1} of {totalQ}
-        </span>
+        <div className="flex items-center space-x-2 self-end sm:self-auto">
+          <button
+            onClick={() => setCurrentScreen('dashboard')}
+            className="px-3 py-1.5 rounded-xl text-xs font-semibold text-slate-400 hover:text-white bg-[#0B1528] hover:bg-[#162544] border border-[#1E2E4A] transition-colors cursor-pointer flex items-center space-x-1"
+          >
+            <ArrowLeft className="w-3.5 h-3.5" />
+            <span>Dashboard</span>
+          </button>
+          <span className="text-xs font-bold text-blue-400 bg-blue-950/80 px-3 py-1.5 rounded-xl border border-blue-600/50">
+            Q {currentIdx + 1} of {totalQ}
+          </span>
+        </div>
       </div>
 
       {/* Question Card */}
-      <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-gov space-y-4">
-        <h3 className="text-sm font-bold text-slate-900 leading-relaxed">
+      <div className="bg-[#111F38] rounded-3xl border border-[#1E2E4A] p-6 sm:p-8 shadow-xl space-y-5">
+        <h3 className="text-sm sm:text-base font-bold text-white leading-relaxed">
+          <span className="text-blue-400 mr-2">Q{currentIdx + 1}.</span>
           {currentQ.question}
         </h3>
 
         {/* Options */}
-        <div className="space-y-2.5 pt-2">
+        <div className="space-y-3 pt-2">
           {currentQ.options.map((opt, oIdx) => {
             const isSelected = selectedAnswers[currentQ.id] === oIdx;
             const isCorrect = oIdx === currentQ.correctAnswer;
@@ -131,19 +162,19 @@ export const QuizTakingView = () => {
               <button
                 key={oIdx}
                 onClick={() => handleSelectOption(oIdx)}
-                className={`w-full text-left p-3.5 rounded-xl border text-xs transition-all flex items-start space-x-3 ${
+                className={`w-full text-left p-4 rounded-2xl border text-xs sm:text-sm transition-all flex items-start space-x-3 cursor-pointer ${
                   isSelected
                     ? isCorrect
-                      ? 'bg-emerald-50 border-emerald-500 text-emerald-900 font-semibold ring-2 ring-emerald-500/20'
-                      : 'bg-rose-50 border-rose-500 text-rose-900 font-semibold ring-2 ring-rose-500/20'
-                    : 'bg-white hover:bg-slate-50 border-slate-200 text-slate-700'
+                      ? 'bg-emerald-950/80 border-emerald-500 text-emerald-100 font-semibold ring-2 ring-emerald-500/30'
+                      : 'bg-rose-950/80 border-rose-500 text-rose-100 font-semibold ring-2 ring-rose-500/30'
+                    : 'bg-[#0B1528] hover:bg-[#162544] border-[#1E2E4A] text-slate-200'
                 }`}
               >
                 <span
-                  className={`w-5 h-5 rounded-md flex items-center justify-center text-[11px] font-bold flex-shrink-0 mt-0.5 ${
+                  className={`w-6 h-6 rounded-lg flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5 ${
                     isSelected
                       ? isCorrect ? 'bg-emerald-600 text-white' : 'bg-rose-600 text-white'
-                      : 'bg-slate-100 text-slate-600'
+                      : 'bg-[#162544] text-slate-300 border border-[#1E2E4A]'
                   }`}
                 >
                   {letter}
@@ -156,27 +187,29 @@ export const QuizTakingView = () => {
 
         {/* Source Citation & Explanation Box */}
         {showInstantExplanation && selectedAnswers[currentQ.id] !== undefined && (
-          <div className="mt-4 p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs space-y-2 animate-in fade-in">
-            <div className="flex items-center space-x-2 font-bold text-blue-900">
-              <BookOpen className="w-4 h-4 text-blue-700" />
-              <span>Source Grounding & Rationale:</span>
+          <div className="mt-4 p-4 rounded-2xl bg-[#0B1528] border border-blue-900/60 text-xs space-y-2 animate-in fade-in">
+            <div className="flex items-center space-x-2 font-bold text-blue-300">
+              <BookOpen className="w-4 h-4 text-blue-400" />
+              <span>MoSPI Source Grounding & Official Rationale:</span>
             </div>
-            <p className="text-slate-700 leading-relaxed">{currentQ.explanation}</p>
-            <div className="text-blue-800 text-[11px] font-mono pt-1">
-              📍 Citation: <strong>{currentQ.sourceCitation}</strong>
-            </div>
+            <p className="text-slate-300 leading-relaxed">{currentQ.explanation}</p>
+            {currentQ.sourceCitation && (
+              <div className="text-blue-400 text-[11px] font-mono pt-1">
+                📍 Citation: <strong>{currentQ.sourceCitation}</strong>
+              </div>
+            )}
           </div>
         )}
 
         {/* Navigation Buttons */}
-        <div className="pt-4 border-t border-slate-100 flex items-center justify-between">
+        <div className="pt-5 border-t border-[#1E2E4A] flex items-center justify-between">
           <button
             disabled={currentIdx === 0}
             onClick={() => {
               setCurrentIdx(currentIdx - 1);
               setShowInstantExplanation(true);
             }}
-            className="px-3.5 py-1.5 rounded-lg text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 disabled:opacity-40"
+            className="px-4 py-2 rounded-xl text-xs font-semibold text-slate-300 bg-[#162544] hover:bg-[#1E3A6D] hover:text-white disabled:opacity-30 disabled:pointer-events-none transition-colors cursor-pointer border border-[#1E2E4A]"
           >
             Previous Question
           </button>
@@ -185,17 +218,17 @@ export const QuizTakingView = () => {
             <button
               onClick={() => {
                 setCurrentIdx(currentIdx + 1);
-                setShowInstantExplanation(selectedAnswers[quiz.questions[currentIdx + 1].id] !== undefined);
+                setShowInstantExplanation(selectedAnswers[quiz.questions[currentIdx + 1]?.id] !== undefined);
               }}
-              className="px-4 py-1.5 rounded-lg text-xs font-bold text-white bg-gov-blue hover:bg-gov-navy flex items-center space-x-1"
+              className="px-5 py-2.5 rounded-xl text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 flex items-center space-x-1.5 shadow-lg transition-all cursor-pointer"
             >
               <span>Next Question</span>
-              <ArrowRight className="w-3.5 h-3.5" />
+              <ArrowRight className="w-4 h-4" />
             </button>
           ) : (
             <button
               onClick={handleCompleteQuiz}
-              className="px-5 py-2 rounded-lg text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 shadow-gov"
+              className="px-6 py-2.5 rounded-xl text-xs font-bold text-white bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 shadow-xl transition-all cursor-pointer"
             >
               Complete Quiz & Update Profile
             </button>
@@ -205,3 +238,4 @@ export const QuizTakingView = () => {
     </div>
   );
 };
+

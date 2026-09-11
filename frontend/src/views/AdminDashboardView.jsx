@@ -24,7 +24,14 @@ export const AdminDashboardView = () => {
           </div>
 
           <div className="flex items-center space-x-3">
-            <span className="text-xs text-slate-400 font-mono bg-[#0B1528] px-3 py-1.5 rounded-lg border border-[#1E2E4A]">
+            <button
+              onClick={() => setCurrentScreen('ai-quiz')}
+              className="px-4 py-2 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white text-xs font-bold shadow-lg transition-all flex items-center space-x-2 cursor-pointer border border-purple-400/40"
+            >
+              <Sparkles className="w-4 h-4 text-amber-300" />
+              <span>Upload Material & Generate Quiz (Groq AI)</span>
+            </button>
+            <span className="text-xs text-slate-400 font-mono bg-[#0B1528] px-3 py-1.5 rounded-lg border border-[#1E2E4A] hidden sm:inline-block">
               Synced: Live IST
             </span>
           </div>
