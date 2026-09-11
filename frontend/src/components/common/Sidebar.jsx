@@ -33,25 +33,34 @@ export const Sidebar = () => {
   const [isAchievementsOpen, setIsAchievementsOpen] = useState(true);
   const [isQuickActionsOpen, setIsQuickActionsOpen] = useState(true);
 
-  // Top Nav Items from iGOT Screenshot
-  const navItems = [
-    { id: 'dashboard', label: 'Home', icon: Home },
+  // Core Navigation Items matching the architecture diagram
+  const primaryNavItems = [
+    { id: 'dashboard', label: 'User Dashboard', icon: Home },
+    { id: 'assessment', label: 'Competency Assessment', icon: Award },
+    { id: 'learning-path', label: 'Learning Path & Recommendations', icon: BookOpen },
+    { id: 'ai-quiz', label: 'Upload Material & Generate Quiz', icon: Zap },
+    { id: 'progress', label: 'Progress Tracking', icon: Clock },
+    { id: 'admin-dashboard', label: 'Analytics Dashboard', icon: Shield }
+  ];
+
+  // Secondary Learning & Resource Discovery
+  const secondaryNavItems = [
     { id: 'courses', label: 'Explore Content', icon: Compass },
     { id: 'marketplace', label: 'Marketplace', icon: ShoppingBag },
-    { id: 'learning-path', label: 'My Learning', icon: BookOpen },
     { id: 'competencies', label: 'Learner Passbook', icon: FileCheck },
-    { id: 'ai-assistant', label: 'Discuss', icon: MessageSquare },
-    { id: 'assessment', label: 'Events', icon: Calendar },
-    { id: 'reports', label: 'View More', icon: MoreHorizontal }
+    { id: 'ai-assistant', label: 'Ask AI Assistant', icon: MessageSquare }
   ];
 
   return (
     <aside className="w-64 bg-[#0B1528] text-slate-200 flex flex-col flex-shrink-0 min-h-[calc(100vh-57px)] border-r border-[#1E2E4A] select-none py-3 justify-between">
       {/* Top Navigation Links */}
       <div className="flex-1 overflow-y-auto px-3 space-y-4">
-        {/* Main Nav Items List */}
+        {/* Core Architecture Modules */}
         <div className="space-y-1">
-          {navItems.map((item) => {
+          <p className="px-3 text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">
+            Core Application Features
+          </p>
+          {primaryNavItems.map((item) => {
             const Icon = item.icon;
             const isActive = currentScreen === item.id;
 
@@ -62,14 +71,43 @@ export const Sidebar = () => {
                   setCurrentScreen(item.id);
                   if (window.innerWidth < 768) setIsSidebarOpen(false);
                 }}
-                className={`w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
+                className={`w-full flex items-center space-x-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
                   isActive
-                    ? 'bg-white text-slate-900 font-bold shadow-md'
+                    ? 'bg-blue-600 text-white font-bold shadow-md'
                     : 'text-slate-300 hover:text-white hover:bg-[#162544]'
                 }`}
               >
-                <Icon className={`w-4 h-4 ${isActive ? 'text-slate-900' : 'text-slate-400'}`} />
-                <span>{item.label}</span>
+                <Icon className={`w-4 h-4 ${isActive ? 'text-white' : 'text-blue-400'}`} />
+                <span className="truncate">{item.label}</span>
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Content & Resources Section */}
+        <div className="space-y-1 pt-2 border-t border-[#1E2E4A]/60">
+          <p className="px-3 text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">
+            Content & Repositories
+          </p>
+          {secondaryNavItems.map((item) => {
+            const Icon = item.icon;
+            const isActive = currentScreen === item.id;
+
+            return (
+              <button
+                key={item.id}
+                onClick={() => {
+                  setCurrentScreen(item.id);
+                  if (window.innerWidth < 768) setIsSidebarOpen(false);
+                }}
+                className={`w-full flex items-center space-x-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
+                  isActive
+                    ? 'bg-blue-600 text-white font-bold shadow-md'
+                    : 'text-slate-300 hover:text-white hover:bg-[#162544]'
+                }`}
+              >
+                <Icon className={`w-4 h-4 ${isActive ? 'text-white' : 'text-slate-400'}`} />
+                <span className="truncate">{item.label}</span>
               </button>
             );
           })}

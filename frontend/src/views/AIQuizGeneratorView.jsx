@@ -76,25 +76,25 @@ export const AIQuizGeneratorView = () => {
   ];
 
   return (
-    <div className="space-y-6 max-w-5xl mx-auto pb-12">
+    <div className="space-y-6 max-w-5xl mx-auto pb-12 text-slate-100">
       {/* Top Banner */}
-      <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-gov">
+      <div className="bg-[#111F38] rounded-2xl border border-[#1E2E4A] p-6 shadow-xl">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div>
             <div className="flex items-center space-x-2">
-              <span className="px-2.5 py-0.5 rounded text-xs font-semibold bg-purple-50 text-purple-800 border border-purple-200">
+              <span className="px-2.5 py-0.5 rounded text-xs font-bold bg-purple-900/60 text-purple-300 border border-purple-600/50">
                 AI / RAG Assessment Engine
               </span>
               <span className="text-xs text-slate-400">Grounded Generation</span>
             </div>
-            <h2 className="text-xl font-bold text-slate-900 mt-1">{t('aiQuizTitle')}</h2>
-            <p className="text-xs text-slate-500">
+            <h2 className="text-xl font-bold text-white mt-2">{t('aiQuizTitle')}</h2>
+            <p className="text-xs text-slate-400 mt-1">
               {t('aiQuizSub')}
             </p>
           </div>
 
-          <div className="flex items-center space-x-2 text-xs font-medium text-purple-700 bg-purple-50 px-3 py-1.5 rounded-lg border border-purple-200">
-            <Sparkles className="w-4 h-4 text-purple-600" />
+          <div className="flex items-center space-x-2 text-xs font-medium text-purple-300 bg-purple-950/80 px-3 py-1.5 rounded-xl border border-purple-600/50">
+            <Sparkles className="w-4 h-4 text-purple-400" />
             <span>{t('ragSourcesGrounding')}</span>
           </div>
         </div>
@@ -102,16 +102,16 @@ export const AIQuizGeneratorView = () => {
 
       {isGenerating ? (
         /* Live Generation Simulation Pipeline */
-        <div className="bg-white rounded-2xl border border-slate-200 p-8 shadow-gov text-center space-y-6 animate-in fade-in">
-          <div className="w-16 h-16 rounded-full bg-purple-50 border border-purple-200 flex items-center justify-center mx-auto">
-            <RefreshCw className="w-8 h-8 text-purple-600 animate-spin" />
+        <div className="bg-[#111F38] rounded-2xl border border-[#1E2E4A] p-8 shadow-xl text-center space-y-6 animate-in fade-in">
+          <div className="w-16 h-16 rounded-full bg-purple-900/50 border border-purple-600/50 flex items-center justify-center mx-auto">
+            <RefreshCw className="w-8 h-8 text-purple-400 animate-spin" />
           </div>
 
           <div className="space-y-2 max-w-md mx-auto">
-            <h3 className="text-lg font-bold text-slate-900">
+            <h3 className="text-lg font-bold text-white">
               Generating Source-Grounded Assessment...
             </h3>
-            <p className="text-xs text-purple-800 font-semibold min-h-[20px]">
+            <p className="text-xs text-purple-300 font-semibold min-h-[20px]">
               {generationStages[generationStep]}
             </p>
           </div>
@@ -121,18 +121,18 @@ export const AIQuizGeneratorView = () => {
             {generationStages.map((stage, sIdx) => (
               <div
                 key={sIdx}
-                className={`p-3 rounded-lg text-xs flex items-center space-x-3 border transition-all ${
+                className={`p-3 rounded-xl text-xs flex items-center space-x-3 border transition-all ${
                   generationStep > sIdx
-                    ? 'bg-emerald-50 text-emerald-800 border-emerald-200 font-medium'
+                    ? 'bg-emerald-950/70 text-emerald-300 border-emerald-600/50 font-medium'
                     : generationStep === sIdx
-                    ? 'bg-purple-50 text-purple-900 border-purple-300 font-bold animate-pulse'
-                    : 'bg-slate-50 text-slate-400 border-slate-200'
+                    ? 'bg-purple-900/60 text-purple-200 border-purple-500 font-bold animate-pulse'
+                    : 'bg-[#0B1528] text-slate-500 border-[#1E2E4A]'
                 }`}
               >
                 {generationStep > sIdx ? (
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0" />
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0" />
                 ) : (
-                  <span className="w-4 h-4 rounded-full bg-slate-200 text-slate-600 text-[10px] flex items-center justify-center font-bold flex-shrink-0">
+                  <span className="w-4 h-4 rounded-full bg-slate-800 text-slate-300 text-[10px] flex items-center justify-center font-bold flex-shrink-0">
                     {sIdx + 1}
                   </span>
                 )}
@@ -147,28 +147,28 @@ export const AIQuizGeneratorView = () => {
           {/* Upload Area (2 Cols) */}
           <div className="lg:col-span-2 space-y-5">
             {/* Drag and drop upload box */}
-            <div className="bg-white rounded-xl border-2 border-dashed border-blue-300 p-8 shadow-gov hover:border-blue-500 transition-colors text-center space-y-4">
-              <div className="w-14 h-14 rounded-full bg-blue-50 border border-blue-200 text-blue-600 flex items-center justify-center mx-auto">
+            <div className="bg-[#111F38] rounded-2xl border-2 border-dashed border-blue-600/50 p-8 shadow-xl hover:border-blue-400 transition-colors text-center space-y-4">
+              <div className="w-14 h-14 rounded-full bg-blue-900/50 border border-blue-600/50 text-blue-400 flex items-center justify-center mx-auto">
                 <UploadCloud className="w-7 h-7" />
               </div>
 
               <div>
-                <h3 className="text-base font-bold text-slate-900">{t('uploadMaterial')}</h3>
-                <p className="text-xs text-slate-500 mt-1">
+                <h3 className="text-base font-bold text-white">{t('uploadMaterial')}</h3>
+                <p className="text-xs text-slate-400 mt-1">
                   {t('dragDropText')}
                 </p>
               </div>
 
               <div className="flex flex-wrap justify-center gap-2 text-[11px] text-slate-400">
-                <span className="px-2 py-0.5 bg-slate-100 rounded">PDF</span>
-                <span className="px-2 py-0.5 bg-slate-100 rounded">DOCX</span>
-                <span className="px-2 py-0.5 bg-slate-100 rounded">PPTX</span>
-                <span className="px-2 py-0.5 bg-slate-100 rounded">TXT</span>
+                <span className="px-2.5 py-0.5 bg-[#0B1528] rounded-md border border-[#1E2E4A]">PDF</span>
+                <span className="px-2.5 py-0.5 bg-[#0B1528] rounded-md border border-[#1E2E4A]">DOCX</span>
+                <span className="px-2.5 py-0.5 bg-[#0B1528] rounded-md border border-[#1E2E4A]">PPTX</span>
+                <span className="px-2.5 py-0.5 bg-[#0B1528] rounded-md border border-[#1E2E4A]">TXT</span>
                 <span className="text-slate-400">• Max file size: 50MB</span>
               </div>
 
               <div className="pt-2">
-                <label className="cursor-pointer inline-flex items-center space-x-2 px-4 py-2 rounded-lg bg-gov-blue hover:bg-gov-navy text-white text-xs font-bold transition-colors shadow-gov">
+                <label className="cursor-pointer inline-flex items-center space-x-2 px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition-all shadow-md">
                   <span>Select Document</span>
                   <input
                     type="file"
@@ -191,17 +191,17 @@ export const AIQuizGeneratorView = () => {
 
             {/* Currently Selected Document */}
             {selectedFile && (
-              <div className="bg-white rounded-xl border border-slate-200 p-4 shadow-gov flex items-center justify-between">
+              <div className="bg-[#111F38] rounded-2xl border border-[#1E2E4A] p-4 shadow-xl flex items-center justify-between">
                 <div className="flex items-center space-x-3">
-                  <div className="p-3 bg-blue-50 text-blue-700 rounded-lg border border-blue-200">
+                  <div className="p-3 bg-blue-900/60 text-blue-300 rounded-xl border border-blue-600/50">
                     <FileText className="w-6 h-6" />
                   </div>
                   <div>
-                    <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800">
+                    <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-950/80 text-emerald-300 border border-emerald-600/50">
                       Document Parsed & Indexed
                     </span>
-                    <h4 className="text-xs font-bold text-slate-900 mt-0.5">{selectedFile.name}</h4>
-                    <p className="text-[11px] text-slate-500">
+                    <h4 className="text-xs font-bold text-white mt-1">{selectedFile.name}</h4>
+                    <p className="text-[11px] text-slate-400 mt-0.5">
                       Size: {selectedFile.size} • Pages: {selectedFile.pages} • Uploaded: {selectedFile.uploadedAt}
                     </p>
                   </div>
@@ -209,7 +209,7 @@ export const AIQuizGeneratorView = () => {
 
                 <button
                   onClick={() => showToast("Parsing summary: 84 pages indexed into 312 semantic chunks.", "info")}
-                  className="px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-100 rounded-lg border border-slate-200"
+                  className="px-3 py-1.5 text-xs font-semibold text-slate-300 hover:text-white bg-[#0B1528] hover:bg-[#162544] rounded-xl border border-[#1E2E4A] transition-colors cursor-pointer"
                 >
                   Inspect Chunks
                 </button>
@@ -217,11 +217,11 @@ export const AIQuizGeneratorView = () => {
             )}
 
             {/* Quick Sample Government Training Materials */}
-            <div className="bg-slate-50 rounded-xl border border-slate-200 p-4 space-y-2">
-              <span className="text-xs font-bold text-slate-700 uppercase tracking-wider block">
+            <div className="bg-[#111F38] rounded-2xl border border-[#1E2E4A] p-4 space-y-2">
+              <span className="text-xs font-bold text-slate-300 uppercase tracking-wider block mb-2">
                 Or Select from Official MoSPI Library:
               </span>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                 {sampleDocuments.map((doc, dIdx) => (
                   <button
                     key={dIdx}
@@ -234,10 +234,10 @@ export const AIQuizGeneratorView = () => {
                       });
                       showToast(`Loaded: ${doc.name}`, "info");
                     }}
-                    className={`text-left p-2.5 rounded-lg border text-xs transition-colors flex items-center justify-between ${
+                    className={`text-left p-3 rounded-xl border text-xs transition-colors flex items-center justify-between cursor-pointer ${
                       selectedFile.name === doc.name
-                        ? 'bg-blue-50 border-blue-300 text-blue-900 font-semibold'
-                        : 'bg-white hover:bg-slate-100 border-slate-200 text-slate-700'
+                        ? 'bg-blue-900/40 border-blue-500 text-white font-semibold'
+                        : 'bg-[#0B1528] hover:bg-[#162544] border-[#1E2E4A] text-slate-300'
                     }`}
                   >
                     <div className="truncate pr-2">
@@ -245,7 +245,7 @@ export const AIQuizGeneratorView = () => {
                       <span className="text-[10px] text-slate-400">{doc.topic} • {doc.size}</span>
                     </div>
                     {selectedFile.name === doc.name && (
-                      <CheckCircle2 className="w-4 h-4 text-blue-600 flex-shrink-0" />
+                      <CheckCircle2 className="w-4 h-4 text-blue-400 flex-shrink-0" />
                     )}
                   </button>
                 ))}
@@ -255,26 +255,26 @@ export const AIQuizGeneratorView = () => {
 
           {/* Configuration Panel (1 Col) */}
           <div className="space-y-4">
-            <div className="bg-white rounded-xl border border-slate-200 p-5 shadow-gov space-y-4">
-              <div className="flex items-center space-x-2 pb-2 border-b border-slate-100">
-                <Sliders className="w-4 h-4 text-gov-blue" />
-                <h4 className="text-xs font-bold text-slate-800 uppercase tracking-wider">
+            <div className="bg-[#111F38] rounded-2xl border border-[#1E2E4A] p-5 shadow-xl space-y-4">
+              <div className="flex items-center space-x-2 pb-2 border-b border-[#1E2E4A]">
+                <Sliders className="w-4 h-4 text-blue-400" />
+                <h4 className="text-xs font-bold text-slate-200 uppercase tracking-wider">
                   Assessment Configuration
                 </h4>
               </div>
 
               {/* Question Count */}
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1.5">{t('numQuestions')}</label>
+                <label className="block text-xs font-semibold text-slate-300 mb-1.5">{t('numQuestions')}</label>
                 <div className="grid grid-cols-3 gap-2">
                   {[5, 10, 20].map((num) => (
                     <button
                       key={num}
                       onClick={() => setQuestionCount(num)}
-                      className={`py-1.5 text-xs font-bold rounded-lg border transition-all ${
+                      className={`py-1.5 text-xs font-bold rounded-xl border transition-all cursor-pointer ${
                         questionCount === num
-                          ? 'bg-blue-600 text-white border-blue-700'
-                          : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
+                          ? 'bg-blue-600 text-white border-blue-500'
+                          : 'bg-[#0B1528] text-slate-300 border-[#1E2E4A] hover:bg-[#162544]'
                       }`}
                     >
                       {num} {t('questionCount')}
@@ -285,11 +285,11 @@ export const AIQuizGeneratorView = () => {
 
               {/* Difficulty Level */}
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1.5">{t('selectDifficulty')}</label>
+                <label className="block text-xs font-semibold text-slate-300 mb-1.5">{t('selectDifficulty')}</label>
                 <select
                   value={difficulty}
                   onChange={(e) => setDifficulty(e.target.value)}
-                  className="w-full px-3 py-2 text-xs bg-slate-50 border border-slate-300 rounded-lg focus:ring-1 focus:ring-blue-600"
+                  className="w-full px-3 py-2 text-xs bg-[#0B1528] text-slate-200 border border-[#1E2E4A] rounded-xl focus:ring-1 focus:ring-blue-500"
                 >
                   <option value="Basic">{t('difficultyBasic')}</option>
                   <option value="Medium">{t('difficultyIntermediate')}</option>
@@ -300,16 +300,16 @@ export const AIQuizGeneratorView = () => {
 
               {/* Question Type */}
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1.5">Question Format</label>
+                <label className="block text-xs font-semibold text-slate-300 mb-1.5">Question Format</label>
                 <div className="grid grid-cols-2 gap-2">
                   {['MCQ', 'True / False', 'Assertion-Reason', 'Case Study'].map((qt) => (
                     <button
                       key={qt}
                       onClick={() => setQuestionType(qt)}
-                      className={`py-1.5 text-xs font-semibold rounded-lg border transition-all ${
+                      className={`py-1.5 text-xs font-semibold rounded-xl border transition-all cursor-pointer ${
                         questionType === qt
-                          ? 'bg-blue-50 text-blue-900 border-blue-400 font-bold'
-                          : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'
+                          ? 'bg-blue-900/60 text-blue-200 border-blue-500 font-bold'
+                          : 'bg-[#0B1528] text-slate-400 border-[#1E2E4A] hover:bg-[#162544]'
                       }`}
                     >
                       {qt}
@@ -319,15 +319,15 @@ export const AIQuizGeneratorView = () => {
               </div>
 
               {/* Toggle Options */}
-              <div className="space-y-2 pt-2 border-t border-slate-100 text-xs">
+              <div className="space-y-2 pt-2 border-t border-[#1E2E4A] text-xs">
                 <label className="flex items-center space-x-2 cursor-pointer">
                   <input
                     type="checkbox"
                     checked={includeExplanations}
                     onChange={(e) => setIncludeExplanations(e.target.checked)}
-                    className="rounded text-blue-600 focus:ring-blue-500 w-3.5 h-3.5"
+                    className="rounded text-blue-600 focus:ring-blue-500 w-3.5 h-3.5 bg-[#0B1528] border-[#1E2E4A]"
                   />
-                  <span className="text-slate-700">Include Official Rationale</span>
+                  <span className="text-slate-300">Include Official Rationale</span>
                 </label>
 
                 <label className="flex items-center space-x-2 cursor-pointer">
@@ -335,9 +335,9 @@ export const AIQuizGeneratorView = () => {
                     type="checkbox"
                     checked={includeSourceCitations}
                     onChange={(e) => setIncludeSourceCitations(e.target.checked)}
-                    className="rounded text-blue-600 focus:ring-blue-500 w-3.5 h-3.5"
+                    className="rounded text-blue-600 focus:ring-blue-500 w-3.5 h-3.5 bg-[#0B1528] border-[#1E2E4A]"
                   />
-                  <span className="text-slate-700">Attach Document Page Citations</span>
+                  <span className="text-slate-300">Attach Document Page Citations</span>
                 </label>
 
                 <label className="flex items-center space-x-2 cursor-pointer">
@@ -345,9 +345,9 @@ export const AIQuizGeneratorView = () => {
                     type="checkbox"
                     checked={autoValidate}
                     onChange={(e) => setAutoValidate(e.target.checked)}
-                    className="rounded text-blue-600 focus:ring-blue-500 w-3.5 h-3.5"
+                    className="rounded text-blue-600 focus:ring-blue-500 w-3.5 h-3.5 bg-[#0B1528] border-[#1E2E4A]"
                   />
-                  <span className="text-slate-700">Auto-Validate Answer Key with RAG</span>
+                  <span className="text-slate-300">Auto-Validate Answer Key with RAG</span>
                 </label>
               </div>
 
@@ -355,7 +355,7 @@ export const AIQuizGeneratorView = () => {
               <div className="pt-3">
                 <button
                   onClick={handleStartGeneration}
-                  className="w-full py-2.5 bg-gradient-to-r from-gov-blue to-purple-800 hover:from-gov-navy hover:to-purple-900 text-white text-xs font-bold rounded-xl shadow-gov hover:shadow-gov-md transition-all flex items-center justify-center space-x-2"
+                  className="w-full py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white text-xs font-bold rounded-xl shadow-lg transition-all flex items-center justify-center space-x-2 cursor-pointer"
                 >
                   <Sparkles className="w-4 h-4 text-amber-300" />
                   <span>{t('generateQuizBtn')}</span>

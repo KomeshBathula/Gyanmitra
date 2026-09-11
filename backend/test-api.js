@@ -1,12 +1,18 @@
 import http from 'http';
 import { spawn } from 'child_process';
+import { fileURLToPath } from 'url';
+import path from 'path';
 
 const PORT = 5001;
 process.env.PORT = PORT;
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const serverPath = path.join(__dirname, 'server.js');
+
 console.log('--- Starting GyanMitra Phase 1 Backend Verification Test Suite ---');
 
-const serverProcess = spawn('node', ['backend/server.js'], {
+const serverProcess = spawn('node', [serverPath], {
   env: { ...process.env, PORT: `${PORT}` },
   stdio: ['ignore', 'pipe', 'pipe']
 });

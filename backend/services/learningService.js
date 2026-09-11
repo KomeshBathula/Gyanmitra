@@ -28,7 +28,23 @@ export const learningService = {
       };
     });
 
-    const resultRoadmap = pathway.length > 0 ? pathway : [];
+    const resultRoadmap = pathway.length > 0 ? pathway : [
+      {
+        step: 1,
+        id: "path-1",
+        title: "Foundation Training on Python for Large Microdata",
+        provider: "NSSTA Greater Noida",
+        duration: "15 Hours",
+        skillLevel: "Level 3",
+        competency: "Python for Data Analysis",
+        why: "Essential for automated microdata validation in NSS 79th Round.",
+        status: "current",
+        progress: 40,
+        score: "In Progress",
+        completionDate: "Target Q2 2026"
+      }
+    ];
+
     return {
       roadmap: resultRoadmap,
       steps: resultRoadmap,
