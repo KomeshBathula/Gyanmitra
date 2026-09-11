@@ -58,6 +58,8 @@ export const AppProvider = ({ children }) => {
 
   // AI Assistant Drawer & Chat State
   const [isAiDrawerOpen, setIsAiDrawerOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const toggleSidebar = () => setIsSidebarOpen(prev => !prev);
   const [aiChatMessages, setAiChatMessages] = useState([
     {
       id: 'msg-1',
@@ -347,6 +349,9 @@ export const AppProvider = ({ children }) => {
         setNotifications,
         isAiDrawerOpen,
         setIsAiDrawerOpen,
+        isSidebarOpen,
+        setIsSidebarOpen,
+        toggleSidebar,
         aiChatMessages,
         sendAiMessage,
         toastMessage,

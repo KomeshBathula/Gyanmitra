@@ -29,6 +29,8 @@ export const Header = () => {
     setCurrentScreen,
     notifications,
     setIsAiDrawerOpen,
+    isSidebarOpen,
+    toggleSidebar,
     language,
     setLanguage,
     t,
@@ -161,13 +163,10 @@ export const Header = () => {
         {/* Left: Hamburger & Brand Identity */}
         <div className="flex items-center space-x-3 sm:space-x-4">
           <button
-            onClick={() => {
-              if (currentRole === 'trainer') setCurrentScreen('trainer-dashboard');
-              else if (currentRole === 'admin') setCurrentScreen('admin-dashboard');
-              else setCurrentScreen('dashboard');
-            }}
-            className="p-1.5 rounded-lg text-slate-700 hover:bg-slate-100 transition-colors cursor-pointer"
-            title="Menu"
+            onClick={toggleSidebar}
+            className="p-2 rounded-xl text-slate-700 hover:bg-slate-100 hover:text-[#1B365D] border border-transparent hover:border-slate-200 transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#2087d8]"
+            title={isSidebarOpen ? "Collapse Navigation Menu" : "Open Navigation Menu"}
+            aria-label="Toggle navigation menu"
           >
             <Menu className="w-5 h-5 text-slate-700" />
           </button>
