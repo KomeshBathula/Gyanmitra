@@ -173,21 +173,29 @@ export const db = {
   completedCourses: [
     {
       id: "ml-c-1",
-      title: "Foundation Training on Python for Large Microdata",
-      provider: "National Statistical Systems Training Academy (NSSTA)",
+      courseId: "IGOT-POST-2023-01",
+      title: "Post Office Savings Bank (POSB) & IPPB Operations",
+      provider: "Rafi Ahmed Kidwai National Postal Academy (RAKNPA)",
       type: "Course",
       level: "Intermediate",
       duration: "4h 30m",
       progress: 100,
       isRetired: false,
       status: "completed",
-      bgGradient: "from-emerald-900 via-slate-900 to-teal-950",
-      thumbnailText: "Python for Microdata Analysis",
-      thumbnailSub: "NSSTA Greater Noida",
-      completedOn: "28 Aug 2024"
+      bgGradient: "from-amber-900 via-slate-900 to-red-950",
+      thumbnailText: "POSB & IPPB Operations",
+      thumbnailSub: "RAK National Postal Academy",
+      completedOn: "28 Aug 2024",
+      syllabus: [
+        "Module 1: POSB Account Regulations & Core Banking (CBS) Procedures",
+        "Module 2: India Post Payments Bank (IPPB) AePS & Micro-ATM Transactions",
+        "Module 3: Direct Benefit Transfer (DBT) & KYC Verification Workflows",
+        "Module 4: Cash Limit Management, Counter Balancing & Fraud Safeguards"
+      ]
     },
     {
       id: "ml-c-2",
+      courseId: "IGOT-CCS-1964-02",
       title: "Code of Ethics and Conduct for Public Servants",
       provider: "LBSNAA Mussoorie",
       type: "Course",
@@ -199,7 +207,13 @@ export const db = {
       bgGradient: "from-indigo-900 via-slate-900 to-blue-950",
       thumbnailText: "Public Service Ethics",
       thumbnailSub: "Mission Karmayogi Bharat",
-      completedOn: "14 Jul 2024"
+      completedOn: "14 Jul 2024",
+      syllabus: [
+        "Module 1: Principles of Public Service Integrity and Impartiality",
+        "Module 2: Prevention of Corruption & Conflict of Interest",
+        "Module 3: Citizen-Centric Service Delivery & Accountability",
+        "Module 4: Whistleblower Protection and Official Vigilance Protocols"
+      ]
     }
   ],
 

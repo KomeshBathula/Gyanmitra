@@ -7,27 +7,28 @@ export const mockUsers = [
   {
     _id: "usr_001",
     name: "Rajeswari Malluri",
-    employeeId: "MOSPI-GDS-89211",
-    designation: "Branch Postmaster / Statistical Officer",
-    group: "GDS / Subordinate Statistical Service",
-    department: "Andhra Pradesh Postal Circle & SDRD Field Unit",
-    ministry: "Ministry of Communications & MoSPI",
-    division: "National Sample Survey Field Operations",
-    cadre: "Andhra Pradesh Circle & Subordinate Cadre",
-    location: "Vijayawada, Andhra Pradesh",
+    employeeId: "DOP-AP-GDS-89211",
+    designation: "Branch Postmaster / Postal Operations Officer",
+    group: "Department of Posts Operational Cadre",
+    department: "Department of Posts (India Post)",
+    departmentId: "postal",
+    ministry: "Ministry of Communications",
+    division: "Postal Operations & Dak Karmayogi Division",
+    cadre: "Department of Posts - Postal Services Cadre",
+    location: "Vijayawada Division, Andhra Pradesh Circle",
     email: "mallurirajeswari8@gmail.com",
     phone: "+91 6304299961",
-    reportingOfficer: "Superintendent of Post Offices / Director (SDRD)",
+    reportingOfficer: "Superintendent of Post Offices (SPOs), Vijayawada Division",
     yearsOfExperience: 6,
-    education: "Bachelor of Science (Statistics & Maths), Andhra University",
+    education: "B.Sc. & Post Graduate Diploma in Public Administration",
     roleResponsibilities: [
-      "Field data collection & CAPI survey administration for NSS rounds",
-      "Postal statistical record keeping and monthly returns compilation",
-      "Public grievances data monitoring and CRM ticket resolution"
+      "Branch Post Office counter operations, POSB savings accounts & IPPB AePS micro-banking",
+      "Mail, Speed Post and commercial parcel booking, dispatch & delivery management",
+      "Dak Karmayogi citizen service delivery, CPGRAMS ticket resolution & DBT payouts"
     ],
     previousTraining: [
-      "Foundation Training on CAPI Survey Tools (NSSTA 2023)",
-      "Citizen-Centric Public Service Delivery (DoPT 2024)"
+      "Core Banking Operations & Micro-ATM Finacle (RAKNPA 2023)",
+      "Dak Karmayogi Citizen-Centric Public Service Delivery (DoP 2024)"
     ],
     karmayogiCredits: 799,
     currentRank: "146th Rank",
@@ -35,16 +36,17 @@ export const mockUsers = [
     badgesEarned: 0,
     certificatesCount: 75,
     postsCount: 0,
-    profileCompletion: 36.7,
+    profileCompletion: 86.5,
     role: "EMPLOYEE",
     avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80",
-    bio: "Statistical Officer in field operations focusing on NSS household data validation and digital public services delivery.",
+    bio: "Postal Operations Officer managing Branch Post Office counter operations, Dak Karmayogi citizen services, POSB/IPPB financial inclusion, and mail delivery.",
     competencies: [
-      { id: "stat-1", name: "Survey Design & Sampling", currentLevel: 3, targetLevel: 4 },
-      { id: "stat-2", name: "Field Data Validation (CAPI)", currentLevel: 3, targetLevel: 4 },
-      { id: "tech-1", name: "Python for Data Analysis", currentLevel: 2, targetLevel: 4 },
-      { id: "gov-1", name: "DPDP Act 2023 & Data Privacy", currentLevel: 2, targetLevel: 3 },
-      { id: "mgmt-1", name: "Citizen Communication & Public Grievances", currentLevel: 4, targetLevel: 4 }
+      { id: "post-1", name: "Post Office Operations & Mail Logistics", currentLevel: 3, targetLevel: 4 },
+      { id: "post-2", name: "Post Office Savings Bank (POSB) & IPPB Micro-Banking", currentLevel: 2, targetLevel: 4 },
+      { id: "post-3", name: "Dak Ghar Niryat Kendra (DNK) & Commercial Parcel Logistics", currentLevel: 1, targetLevel: 3 },
+      { id: "post-4", name: "Post Office Act 2023 Statutory Compliance & Security", currentLevel: 2, targetLevel: 3 },
+      { id: "post-5", name: "Customer Relationship Management & CPGRAMS in India Post", currentLevel: 3, targetLevel: 4 },
+      { id: "gov-1", name: "Code of Ethics, Counter Cash Integrity & Prevention of Vigilance Lapses", currentLevel: 4, targetLevel: 4 }
     ],
     completedCourses: [
       "crs-101",

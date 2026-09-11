@@ -39,58 +39,58 @@ export const QuizTakingView = () => {
 
   const defaultQuiz = {
     id: "quiz-gen-101",
-    title: "AI Assessment: NSS 79th Round Sampling & Estimation Protocol",
-    documentSource: "MoSPI_NSS79_Sampling_Methodology_Guidelines.pdf",
+    title: "Department Admin Assessment: Post Office Operations & Banking Guidelines",
+    documentSource: "India_Post_Operations_and_POSB_Guidelines_2024.pdf",
     courseId: "ml-c-1",
-    courseTitle: "Foundation Training on Python for Large Microdata",
-    department: "Survey Design and Research Division (SDRD)",
-    createdBy: "Dr. Arvind Mehta (ADG, SDRD - Department Admin)",
-    targetUserName: userProfile?.name || "Rajesh Kumar",
+    courseTitle: "Post Office Savings Bank (POSB) & IPPB Operations",
+    department: "Department of Posts (India Post)",
+    createdBy: "Superintendent of Post Offices (Admin)",
+    targetUserName: userProfile?.name || "Rajeswari Malluri",
     questions: [
       {
         id: 1,
-        question: "According to Section 2.4 of the uploaded NSS 79th Round manual, what is the exact population threshold for forming an independent rural sub-stratum?",
+        question: "According to Department of Posts guidelines, what is the mandatory verification procedure before executing an Aadhaar-enabled Payment System (AePS) cash withdrawal at a Branch Post Office?",
         options: [
-          "Villages with census population of 5,000 or more form an independent sub-stratum.",
-          "Villages with census population of 10,000 or more are split into two sub-districts.",
-          "Sub-stratification is solely decided at the discretion of the State DES Director.",
-          "Only villages with 100% electrified households form Sub-stratum 1."
+          "Biometric fingerprint / iris authentication of the beneficiary via Micro-ATM / DARPAN device with live CBS balance confirmation.",
+          "Verbal confirmation of customer account number without biometric capture.",
+          "Accepting handwritten signed slips without terminal authentication.",
+          "Delegating authentication to an unregistered local shopkeeper."
         ],
         correctAnswer: 0,
-        explanation: "As specified in Section 2.4.1 (page 18): 'In rural sector, all large villages having population 5,000 or more as per Census 2011 shall form a separate sub-stratum to avoid sampling variance.'",
-        sourceCitation: "Page 18, Para 2.4.1 (Sampling Methodology Manual)",
-        relatedModule: "Module 1: Vectorized operations on multi-gigabyte survey files",
-        moduleId: 1
-      },
-      {
-        id: 2,
-        question: "How does the manual mandate calculating the casualty multiplier adjustment when an allocated sample hamlet cannot be surveyed due to physical inaccessibility?",
-        options: [
-          "The entire district's survey results are invalidated.",
-          "A casualty adjustment factor (Total allocated SSUs / Surveyed SSUs) is applied to the sample multiplier.",
-          "The missing hamlet is arbitrarily substituted with a neighboring village without record.",
-          "The weight of all other states in India is increased by 0.5%."
-        ],
-        correctAnswer: 1,
-        explanation: "Para 3.12 (Casualty Handling): Sample weights are dynamically re-adjusted by the ratio of allocated over surveyed sampling units.",
-        sourceCitation: "Page 34, Formula 3.12 (Casualty Multiplier Equation)",
-        relatedModule: "Module 2: Handling complex survey weights & stratified multipliers",
+        explanation: "Standard Operating Procedure mandates live two-factor biometric authentication on the approved Micro-ATM/DARPAN device to prevent unauthorized withdrawals and reconcile CBS balance.",
+        sourceCitation: "POSB-IPPB SOP Manual 2024, Chapter 3 (AePS Cash Management)",
+        relatedModule: "Module 2: India Post Payments Bank (IPPB) AePS & Micro-ATM Transactions",
         moduleId: 2
       },
       {
-        id: 3,
-        question: "Which data consistency rule is enforced for CAPI Schedule 21.1 electronic survey forms?",
+        id: 2,
+        question: "Under the Post Office Act 2023, what statutory condition allows authorized postal officers to intercept or detain an article in transit?",
         options: [
-          "Automated ratio checks trigger a supervisor hard-warning if household consumer expenditure exceeds 50x monthly income.",
-          "Field investigators can bypass household roster verification if time is short.",
-          "All data must be stored in plaintext XML without encryption on Android tablets.",
-          "Geo-tagging is strictly optional for rural First Stage Units."
+          "Solely on personal curiosity of the delivery postman.",
+          "In the interest of state security, friendly relations with foreign states, public order, emergency, or suspected contraband contravening customs law.",
+          "Whenever a package weighs more than 500 grams regardless of contents.",
+          "Only when authorized by a private commercial courier firm."
+        ],
+        correctAnswer: 1,
+        explanation: "Section 9 of the Post Office Act 2023 empowers the Central Government and notified officers to intercept, open, or detain goods for security, public order, and customs contraband prevention.",
+        sourceCitation: "Post Office Act 2023, Section 9 (Statutory Powers of Interception)",
+        relatedModule: "Module 1: POSB Account Regulations & Core Banking (CBS) Procedures",
+        moduleId: 1
+      },
+      {
+        id: 3,
+        question: "What is the prescribed daily cash retention limit protocol when a Branch Post Office receives high-volume Direct Benefit Transfer (DBT) deposits exceeding authorized chest limit?",
+        options: [
+          "Excess cash must be remitted immediately to the Account Office (Sub-Post Office) under secure remittance bag protocol on the same working day.",
+          "Hold excess cash in personal custody over the weekend without intimation.",
+          "Distribute excess cash to local residents as temporary unsecured credit.",
+          "Discard cash registers and record deposits the following month."
         ],
         correctAnswer: 0,
-        explanation: "Page 67, CAPI Protocol Annexure: Automated ratio validation prevents illogical consumer expenditure entries before tablet form submission.",
-        sourceCitation: "Annexure C, Page 67 (CAPI Quality Assurance)",
-        relatedModule: "Module 3: Automated consistency checks & outlier detection rules",
-        moduleId: 3
+        explanation: "Departmental financial rules strictly require that any cash in excess of the sanctioned branch cash limit be remitted to the Head/Sub-Post Office with complete SO slips and transit insurance.",
+        sourceCitation: "Postal Manual Volume VI, Part III (Rules for Branch Offices)",
+        relatedModule: "Module 4: Cash Limit Management, Counter Balancing & Fraud Safeguards",
+        moduleId: 4
       }
     ]
   };
@@ -238,27 +238,53 @@ export const QuizTakingView = () => {
         console.warn('[Quiz] Backend sync skipped or timed out, evaluated locally:', e.message);
       }
 
-      // Dynamic Follow-up Course Recommendations
-      const recommendedCourses = [
-        {
-          id: "crs-101",
-          title: "Python for Microdata Processing & NSS Vectorization",
-          provider: "NSSTA Greater Noida",
-          difficulty: "Level 3 (Proficient)",
-          duration: "20 Hours",
-          matchScore: isPassed ? 98 : 92,
-          recommendationReason: isPassed
-            ? "Next-level advanced competency track for high-throughput official survey processing."
-            : "Remedial core curriculum to strengthen multi-stage sampling and survey script vectorization."
-        },
+      // Dynamic Follow-up Course Recommendations tailored to job role & department
+      const isPostal = (quiz.department || userProfile?.department || "").toLowerCase().includes("post") ||
+                       (quiz.courseTitle || "").toLowerCase().includes("post") ||
+                       (quiz.courseTitle || "").toLowerCase().includes("posb") ||
+                       (userProfile?.cadre || "").toLowerCase().includes("post");
+
+      const recommendedCourses = isPostal ? [
         {
           id: "crs-102",
-          title: "Applied Machine Learning for National Accounts & Imputation",
-          provider: "iGOT Karmayogi",
-          difficulty: "Level 3-4 (Advanced)",
-          duration: "24 Hours",
+          title: "Dak Ghar Niryat Kendra (DNK) & Commercial Parcel Logistics",
+          provider: "Department of Posts",
+          difficulty: "Level 3 (Proficient)",
+          duration: "18 Hours",
+          matchScore: isPassed ? 98 : 92,
+          recommendationReason: isPassed
+            ? "Next-level advanced progression track for hub postal export processing and commercial parcel logistics."
+            : "Core curriculum to bridge identified competency gap in barcoded parcel tracking and DNK portal operations."
+        },
+        {
+          id: "crs-103",
+          title: "Customer Relationship Management & CPGRAMS in India Post",
+          provider: "Department of Posts",
+          difficulty: "Level 3 (Proficient)",
+          duration: "10 Hours",
           matchScore: 94,
-          recommendationReason: "Recommended follow-up module for missing-value imputation and automated classification."
+          recommendationReason: "Recommended follow-up module for time-bound public grievance redressal and citizen charter compliance."
+        }
+      ] : [
+        {
+          id: "crs-201",
+          title: "Public Administration Governance & Citizen Service Delivery",
+          provider: "LBSNAA Mussoorie",
+          difficulty: "Level 3 (Proficient)",
+          duration: "15 Hours",
+          matchScore: isPassed ? 98 : 92,
+          recommendationReason: isPassed
+            ? "Advanced administrative competency track for executive governance."
+            : "Core curriculum to strengthen regulatory compliance and service delivery."
+        },
+        {
+          id: "crs-202",
+          title: "Central Civil Services Financial Rules & Public Procurement (GeM)",
+          provider: "National Institute of Financial Management",
+          difficulty: "Level 3-4 (Advanced)",
+          duration: "20 Hours",
+          matchScore: 94,
+          recommendationReason: "Recommended follow-up module for statutory procurement and financial compliance."
         }
       ];
 

@@ -2,17 +2,18 @@ export const USER_PRESETS = {
   employee: {
     id: "usr_emp_001",
     name: "Rajeswari Malluri",
-    employeeId: "GOI-MOSPI-2018-0492",
-    designation: "Deputy Director (ISS)",
-    department: "Survey Design and Research Division (SDRD)",
-    ministry: "Ministry of Statistics & Programme Implementation (MoSPI)",
-    cadre: "Indian Statistical Service (ISS)",
-    location: "Sardar Patel Bhawan, New Delhi",
+    employeeId: "GOI-POST-2018-0492",
+    designation: "Branch Postmaster / Postal Operations Officer",
+    department: "Department of Posts (India Post)",
+    departmentId: "postal",
+    ministry: "Ministry of Communications (Department of Posts)",
+    cadre: "Department of Posts - Postal Services Cadre",
+    location: "Vijayawada Division, Andhra Pradesh Postal Circle",
     email: "rajeswari.malluri@gov.in",
-    phone: "+91 11 2338 XXXX",
-    reportingOfficer: "Dr. Arvind Mehta, Senior Economic Adviser",
+    phone: "+91 866 245 XXXX",
+    reportingOfficer: "Superintendent of Post Offices (SPOs), Vijayawada Division",
     experienceYears: 7,
-    education: "M.Sc. in Statistics, University of Delhi",
+    education: "B.Sc. & Post Graduate Diploma in Public Administration",
     avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80",
     karmayogiCredits: 799,
     currentRank: "146th Rank",
@@ -151,94 +152,94 @@ export const USER_PRESETS = {
 export const INITIAL_USER = USER_PRESETS.employee;
 
 export const COMPETENCY_OVERVIEW = {
-  overallScore: 68,
+  overallScore: 74,
   monthlyDelta: "+8%",
   categories: [
-    { id: "stat", name: "Statistical Competencies", score: 82, target: 85, color: "blue", count: 8 },
-    { id: "tech", name: "Technical & Coding Competencies", score: 61, target: 80, color: "amber", count: 6 },
-    { id: "gov", name: "Digital Governance & Data Privacy", score: 74, target: 75, color: "emerald", count: 5 },
-    { id: "mgmt", name: "Behavioural & Statistical Leadership", score: 78, target: 80, color: "indigo", count: 4 }
+    { id: "post-ops", name: "Postal Operations & Logistics", score: 82, target: 85, color: "blue", count: 8 },
+    { id: "fin-serv", name: "Financial Services & IPPB Banking", score: 64, target: 80, color: "amber", count: 6 },
+    { id: "digi-gov", name: "Digital Governance & Citizen Delivery", score: 76, target: 80, color: "emerald", count: 5 },
+    { id: "ethics", name: "Public Service Ethics & Compliance", score: 85, target: 85, color: "indigo", count: 4 }
   ]
 };
 
 export const INITIAL_SKILL_GAPS = [
   {
     id: "gap-1",
-    competency: "Python for Data Analysis",
-    category: "Technical",
+    competency: "Post Office Savings Bank (POSB) & IPPB Micro-Banking",
+    category: "Financial Services",
     currentLevel: 2,
     requiredLevel: 4,
     gap: 2,
     priority: "High",
-    evidence: "Assessment score: 58% on pandas/numpy data transformation. Role requires Level 4 for National Sample Survey automated data validation.",
-    why: "Your demonstrated competency in Python is Level 2 (Basic scripting), while the ISS Deputy Director role mandates Level 4 (Advanced ETL, vectorization, and survey microdata processing).",
-    recommendedCourse: "Python for Official Statistics & Microdata Processing",
-    provider: "NSSTA Greater Noida"
+    evidence: "Assessment score: 58% on CBS Finacle and AePS micro-banking workflows. Role requires Level 4 for branch operational compliance.",
+    why: "Your demonstrated competency in POSB/IPPB operations is Level 2, while the Branch Postmaster / Postal Officer role mandates Level 4 (Core Banking, AePS, and DBT reconciliation).",
+    recommendedCourse: "Post Office Savings Bank (POSB) & IPPB Operations",
+    provider: "RAK National Postal Academy"
   },
   {
     id: "gap-2",
-    competency: "AI / Machine Learning in Statistics",
-    category: "Technical",
+    competency: "Dak Ghar Niryat Kendra (DNK) & Commercial Parcel Logistics",
+    category: "Postal Operations",
     currentLevel: 1,
     requiredLevel: 3,
     gap: 2,
     priority: "High",
-    evidence: "Assessment score: 40% on predictive modeling and outlier detection. MoSPI 2026 AI Framework requires Level 3 for automated census anomaly detection.",
-    why: "Demonstrated awareness level (Level 1). Modern statistical compilation mandates ML techniques for automated imputation and satellite data integration.",
-    recommendedCourse: "Applied Machine Learning for National Accounts & Survey Imputation",
-    provider: "iGOT Karmayogi"
+    evidence: "Assessment score: 42% on commercial customs clearance and DNK export booking. Department of Posts 2026 Mandate requires Level 3 for hub postal export processing.",
+    why: "Demonstrated awareness level (Level 1). Modern postal branches require Level 3 for electronic postal customs declarations (PBE-III) and e-commerce logistics.",
+    recommendedCourse: "Dak Ghar Niryat Kendra (DNK) & International Parcel Logistics",
+    provider: "Department of Posts"
   },
   {
     id: "gap-3",
-    competency: "Data Visualization & Executive BI",
-    category: "Technical",
-    currentLevel: 2,
-    requiredLevel: 3,
-    gap: 1,
-    priority: "Medium",
-    evidence: "Assessment score: 68%. Ministry requires automated PowerBI / Open Source Dashboards for Cabinet Secretariat briefings.",
-    why: "Good static chart knowledge, but interactive dashboard design for high-frequency indicators (CPI, IIP) requires Level 3 competency.",
-    recommendedCourse: "Interactive Statistical Dashboards & Data Storytelling",
-    provider: "NSSTA Greater Noida"
-  },
-  {
-    id: "gap-4",
-    competency: "National Data Governance & DPDP Act 2023",
+    competency: "Customer Relationship Management & CPGRAMS in India Post",
     category: "Digital Governance",
     currentLevel: 2,
     requiredLevel: 3,
     gap: 1,
     priority: "Medium",
-    evidence: "Assessment score: 70%. Need advanced compliance training for anonymizing unit-level survey records under DPDP Act 2023.",
-    why: "Mandatory MoSPI compliance for open-access microdata dissemination requires certified Level 3 privacy engineering skills.",
-    recommendedCourse: "Data Anonymization and Privacy Compliance in Official Statistics",
-    provider: "iGOT Karmayogi"
+    evidence: "Assessment score: 68%. Timely resolution of public grievances under CPGRAMS and Dak Karmayogi SLAs requires certified Level 3 CRM proficiency.",
+    why: "Good standard ticketing knowledge, but handling complex citizen escalations and TAT SLAs requires Level 3 competency.",
+    recommendedCourse: "Customer Relationship Management in India Post",
+    provider: "Department of Posts"
+  },
+  {
+    id: "gap-4",
+    competency: "Post Office Act 2023 Statutory Compliance & Security",
+    category: "Public Service Ethics",
+    currentLevel: 2,
+    requiredLevel: 3,
+    gap: 1,
+    priority: "Medium",
+    evidence: "Assessment score: 70%. Need updated compliance certification for intercept powers and customs security under Post Office Act 2023.",
+    why: "Mandatory Department of Posts compliance requires certified Level 3 understanding of statutory amendments over 1898 Act.",
+    recommendedCourse: "Post Office Act 2023: Regulatory Framework & Powers",
+    provider: "RAK National Postal Academy"
   },
   {
     id: "gap-5",
-    competency: "Survey Sampling & Multi-Stage Design",
-    category: "Statistical",
+    competency: "Postal Life Insurance (PLI/RPLI) Underwriting",
+    category: "Financial Services",
     currentLevel: 4,
     requiredLevel: 4,
     gap: 0,
     priority: "Completed",
-    evidence: "Assessment score: 94%. Demonstrated mastery in Stratified Multi-stage Cluster Sampling during NSS 79th Round.",
+    evidence: "Assessment score: 94%. Demonstrated mastery in PLI/RPLI policy issuance and premium collection.",
     why: "Fully aligned with cadre requirement. You have achieved full Level 4 benchmark.",
     recommendedCourse: null,
-    provider: "NSSTA Aligned"
+    provider: "RAKNPA Aligned"
   },
   {
     id: "gap-6",
-    competency: "SQL & Enterprise Statistical Databases",
-    category: "Technical",
+    competency: "Counter Cash Operations & Safe Custody Protocols",
+    category: "Postal Operations",
     currentLevel: 3,
     requiredLevel: 3,
     gap: 0,
     priority: "Completed",
-    evidence: "Assessment score: 88%. Strong performance in multi-table relational joins, indexing, and PostgreSQL query optimization.",
-    why: "Competency matches role benchmark. Recommended for mentoring junior statistical officers.",
+    evidence: "Assessment score: 88%. Strong performance in daily account balancing, SO summary reconciliation, and safe cash limits.",
+    why: "Competency matches role benchmark. Recommended for mentoring junior postal assistants.",
     recommendedCourse: null,
-    provider: "iGOT Aligned"
+    provider: "Department of Posts Aligned"
   }
 ];
 
@@ -246,179 +247,164 @@ export const LEARNING_PATHWAY = [
   {
     step: 1,
     id: "path-1",
-    title: "Python Fundamentals for Government Statisticians",
-    provider: "iGOT Karmayogi",
-    duration: "14 Hours (Self-Paced)",
+    title: "Post Office Act 2023: Regulatory Framework & Modern Postal Governance",
+    provider: "RAK National Postal Academy",
+    duration: "10 Hours (Self-Paced)",
     skillLevel: "Level 2 (Intermediate)",
-    competency: "Python for Data Analysis",
+    competency: "Post Office Act 2023 Statutory Compliance & Security",
     status: "completed",
     progress: 100,
-    score: "92% Score",
+    score: "94% Score",
     completionDate: "Completed on 14 Jan 2026",
-    badges: ["iGOT Certified", "Prerequisite Done"],
-    why: "Foundational syntax and data types mandatory before survey-scale algorithmic computation."
+    badges: ["RAKNPA Certified", "Statutory Prerequisite"],
+    why: "Foundational legal framework and security standards governing modern postal networks."
   },
   {
     step: 2,
     id: "path-2",
-    title: "Python for Microdata Processing & NSS Vectorization",
-    provider: "NSSTA Greater Noida (Blended)",
-    duration: "20 Hours (6 Modules)",
+    title: "Post Office Savings Bank (POSB) & IPPB Operations",
+    provider: "RAK National Postal Academy (Blended)",
+    duration: "16 Hours (5 Modules)",
     skillLevel: "Level 3 (Proficient)",
-    competency: "Python for Data Analysis",
+    competency: "Post Office Savings Bank (POSB) & IPPB Micro-Banking",
     status: "current",
     progress: 65,
-    score: "Module 4 of 6",
+    score: "Module 3 of 5",
     completionDate: "Target: 28 Sep 2026",
     badges: ["High Priority Gap", "Active Course"],
-    why: "Directly bridges your High Priority Level 2 -> Level 4 skill gap for handling large-scale unit level data in SDRD."
+    why: "Directly bridges your High Priority Level 2 -> Level 4 skill gap for handling Finacle CBS, AePS, and micro-banking in postal branches."
   },
   {
     step: 3,
     id: "path-3",
-    title: "Statistical Visualization with Python & Open-Source BI",
-    provider: "iGOT Karmayogi",
-    duration: "12 Hours",
+    title: "Customer Relationship Management & CPGRAMS in India Post",
+    provider: "Department of Posts (iGOT)",
+    duration: "8 Hours",
     skillLevel: "Level 3 (Proficient)",
-    competency: "Data Visualization & Executive BI",
+    competency: "Customer Relationship Management & CPGRAMS in India Post",
     status: "upcoming",
     progress: 0,
     score: "Pending Start",
     completionDate: "Target: 15 Oct 2026",
     badges: ["Medium Priority Gap"],
-    why: "Prepares you to build dynamic visual bulletins for monthly CPI/IIP dissemination."
+    why: "Prepares you to handle citizen grievances, delivery escalations, and CPGRAMS compliance."
   },
   {
     step: 4,
     id: "path-4",
-    title: "Applied Machine Learning for National Accounts & Imputation",
-    provider: "NSSTA Greater Noida (Residential / Hybrid)",
-    duration: "24 Hours (5 Days)",
+    title: "Dak Ghar Niryat Kendra (DNK) & Commercial Parcel Logistics",
+    provider: "Department of Posts & RAKNPA",
+    duration: "18 Hours (4 Modules)",
     skillLevel: "Level 3 (Advanced)",
-    competency: "AI / Machine Learning in Statistics",
+    competency: "Dak Ghar Niryat Kendra (DNK) & Commercial Parcel Logistics",
     status: "upcoming",
     progress: 0,
-    score: "Nomination Approved",
+    score: "Pending Start",
     completionDate: "Target: 10 Nov 2026",
-    badges: ["High Priority Gap", "Residential Workshop"],
-    why: "Fulfills the MoSPI 2026 AI Directive for automated missing-value imputation in Annual Survey of Industries."
-  },
-  {
-    step: 5,
-    id: "path-5",
-    title: "Executive AI Leadership & Big Data Governance for MoSPI",
-    provider: "iGOT Karmayogi / NITI Aayog",
-    duration: "18 Hours",
-    skillLevel: "Level 4 (Expert)",
-    competency: "AI / Machine Learning & Digital Governance",
-    status: "future",
-    progress: 0,
-    score: "Locked",
-    completionDate: "Target: Dec 2026",
-    badges: ["Cadre Milestone", "Leadership Track"],
-    why: "Capstone module required for consideration for Joint Director level statistical architecture."
+    badges: ["High Priority Gap", "Export Logistics"],
+    why: "Mastery in cross-border e-commerce parcel export documentation and DNK operational software."
   }
 ];
 
 export const COURSES_CATALOG = [
   {
     id: "crs-101",
-    title: "Python for Microdata Processing & NSS Vectorization",
-    provider: "NSSTA Greater Noida",
-    providerType: "NSSTA",
-    code: "NSSTA-STAT-2026-08",
-    description: "Hands-on data manipulation with Pandas, Polars, and NumPy specifically structured around NSSO Schedule 10/21.1 microdata files, weight adjustments, and multi-round tabulation.",
-    competency: "Python for Data Analysis",
-    category: "Technical",
-    duration: "20 Hours",
+    title: "Post Office Savings Bank (POSB) & IPPB Operations",
+    provider: "RAK National Postal Academy",
+    providerType: "RAKNPA",
+    code: "RAKNPA-POSB-2026-01",
+    description: "Comprehensive operational manual and CBS Finacle guidelines for Post Office Savings Bank (POSB) accounts, IPPB AePS micro-banking, and direct benefit transfer (DBT) workflows.",
+    competency: "Post Office Savings Bank (POSB) & IPPB Micro-Banking",
+    category: "Financial Services",
+    duration: "16 Hours",
     difficulty: "Intermediate (Level 3)",
-    matchScore: 96,
-    format: "Blended (Self-paced + 2 Live Labs)",
-    rating: 4.8,
-    enrolledCount: 342,
+    matchScore: 98,
+    format: "Blended (Self-paced + Live Simulation)",
+    rating: 4.9,
+    enrolledCount: 4280,
     isRecommended: true,
     gapId: "gap-1",
-    modulesCount: 6,
+    modulesCount: 4,
     syllabus: [
-      "Vectorized operations on multi-gigabyte survey files",
-      "Handling complex survey weights & stratified multipliers",
-      "Automated consistency checks & outlier detection rules",
-      "Exporting compliant statistical tables for Annual Reports"
+      "POSB Account Regulations & Core Banking (CBS) Procedures",
+      "India Post Payments Bank (IPPB) AePS & Micro-ATM Transactions",
+      "Direct Benefit Transfer (DBT) & KYC Verification Workflows",
+      "Cash Limit Management, Counter Balancing & Fraud Safeguards"
     ]
   },
   {
     id: "crs-102",
-    title: "Applied Machine Learning for National Accounts & Imputation",
-    provider: "iGOT Karmayogi",
+    title: "Dak Ghar Niryat Kendra (DNK) & Commercial Parcel Logistics",
+    provider: "Department of Posts",
     providerType: "iGOT",
-    code: "IGOT-MOSPI-ML-402",
-    description: "Modern machine learning workflows for official statistics: Random Forests and KNN for item non-response imputation, automated commodity classification (NIC/HS code matching).",
-    competency: "AI / Machine Learning in Statistics",
-    category: "Technical",
-    duration: "24 Hours",
-    difficulty: "Advanced (Level 3-4)",
+    code: "DOP-DNK-2026-02",
+    description: "Operational framework for Dak Ghar Niryat Kendras: onboarding MSME exporters, processing Postal Bill of Exports (PBE-III), and barcoded end-to-end commercial parcel tracking.",
+    competency: "Dak Ghar Niryat Kendra (DNK) & Commercial Parcel Logistics",
+    category: "Postal Operations",
+    duration: "18 Hours",
+    difficulty: "Advanced (Level 3)",
     matchScore: 94,
     format: "Online (Self-Paced with Proctoring)",
-    rating: 4.9,
-    enrolledCount: 512,
+    rating: 4.85,
+    enrolledCount: 3150,
     isRecommended: true,
     gapId: "gap-2",
-    modulesCount: 8,
+    modulesCount: 4,
     syllabus: [
-      "Introduction to Predictive Models in Official Statistics",
-      "Automated Coding of Industrial Classifications (NIC 2008)",
-      "Non-response Imputation using Machine Learning vs Hot-Deck",
-      "Validation protocols and audit trails for automated estimates"
+      "Overview of Dak Ghar Niryat Kendra (DNK) Portal Architecture",
+      "Postal Bill of Export (PBE-III) Electronic Customs Filing",
+      "Barcoded Parcel Processing, Speed Post & Air Cargo Routing",
+      "Cross-Border Customer Inquiries, Claims & SLA Escalations"
     ]
   },
   {
     id: "crs-103",
-    title: "Interactive Statistical Dashboards & Data Storytelling",
-    provider: "NSSTA Greater Noida",
-    providerType: "NSSTA",
-    code: "NSSTA-TECH-2026-14",
-    description: "Creating accessible, interactive data visualizers and executive dashboards using Plotly, Streamlit, and PowerBI compliant with GoI Web Accessibility Guidelines (GIGW 3.0).",
-    competency: "Data Visualization & Executive BI",
-    category: "Technical",
-    duration: "12 Hours",
+    title: "Customer Relationship Management & CPGRAMS in India Post",
+    provider: "Department of Posts",
+    providerType: "iGOT",
+    code: "DOP-CRM-2026-03",
+    description: "Citizen-centric public grievance redressal for postal services: resolving CPGRAMS tickets, handling public queries, managing TAT SLAs, and ensuring Dak Karmayogi customer service standards.",
+    competency: "Customer Relationship Management & CPGRAMS in India Post",
+    category: "Digital Governance",
+    duration: "10 Hours",
     difficulty: "Intermediate (Level 3)",
-    matchScore: 89,
+    matchScore: 91,
     format: "Online Self-paced",
-    rating: 4.7,
-    enrolledCount: 420,
+    rating: 4.75,
+    enrolledCount: 2940,
     isRecommended: true,
     gapId: "gap-3",
     modulesCount: 4,
     syllabus: [
-      "GIGW 3.0 Accessible Visual Design Principles",
-      "Interactive Time Series for Price Indices (CPI/WPI/IIP)",
-      "Geographical heatmaps and State DES comparative dashboards",
-      "Exporting automated high-res vector graphics for Parliament reports"
+      "Principles of Citizen-Centric Public Service Delivery",
+      "CRM Software Navigation & Ticket Escalation Pathways",
+      "CPGRAMS Grievance Handling & Time-Bound Redressal (TAT SLAs)",
+      "Feedback Loops and Citizen Satisfaction Metrics"
     ]
   },
   {
     id: "crs-104",
-    title: "Data Anonymization and Privacy Compliance in Official Statistics",
-    provider: "iGOT Karmayogi",
-    providerType: "iGOT",
-    code: "IGOT-GOV-PRIV-301",
-    description: "Deep dive into the Digital Personal Data Protection (DPDP) Act 2023 and Statistical Disclosure Control (SDC) methods including k-anonymity and differential privacy for public datasets.",
-    competency: "National Data Governance & DPDP Act 2023",
-    category: "Digital Governance",
-    duration: "10 Hours",
+    title: "Post Office Act 2023: Regulatory Framework & Statutory Powers",
+    provider: "RAK National Postal Academy",
+    providerType: "RAKNPA",
+    code: "RAKNPA-ACT-2026-04",
+    description: "Statutory provisions of Post Office Act 2023: emergency interception powers, customs coordination for contraband control, security mandates, and modernization of postal infrastructure.",
+    competency: "Post Office Act 2023 Statutory Compliance & Security",
+    category: "Public Service Ethics",
+    duration: "12 Hours",
     difficulty: "Intermediate (Level 3)",
-    matchScore: 86,
-    format: "Online Self-paced",
+    matchScore: 89,
+    format: "Interactive E-Learning",
     rating: 4.9,
-    enrolledCount: 780,
+    enrolledCount: 5120,
     isRecommended: true,
     gapId: "gap-4",
-    modulesCount: 5,
+    modulesCount: 4,
     syllabus: [
-      "DPDP Act 2023 Obligations for Government Data Custodians",
-      "Statistical Disclosure Control (SDC) Principles",
-      "Microdata perturbation, suppression, and microaggregation",
-      "Synthetic Data generation for open government portals"
+      "Legislative Intent & Key Amendments over the 1898 Act",
+      "Statutory Powers of Interception, Security & Emergency Rules",
+      "Customs Coordination, Contraband Prevention & Dangerous Goods",
+      "Digital Postal Network Integration & Governance Protocols"
     ]
   },
   {
@@ -476,77 +462,78 @@ export const ASSESSMENT_QUESTIONS = [
   {
     id: 1,
     category: "Survey Sampling",
-    competency: "Survey Sampling & Design",
-    question: "In the National Sample Survey (NSS) multi-stage stratified design, what is the primary purpose of selecting First Stage Units (FSUs) with Probability Proportional to Size with Replacement (PPSWR) using census population as size measure?",
+    category: "Postal Operations",
+    competency: "Post Office Operations & Mail Logistics",
+    question: "Under Department of Posts Standard Operating Procedures, what is the mandatory sequence for processing and dispatching barcoded Speed Post and Registered Articles at a Branch Post Office?",
     options: [
-      "To equalize the workload among field investigators across all sample villages.",
-      "To give larger population clusters a proportionally higher chance of selection, minimizing variance of total estimates.",
-      "To ensure equal probability of selection for every household across all strata without weight adjustment.",
-      "To eliminate the need for listing stage in Second Stage Units (SSUs)."
+      "Immediate scanning of barcodes into the DARPAN application, electronic bag generation, and secure manifest printout before closing mail transit bags.",
+      "Manual verbal tally without barcode scanning to speed up dispatch.",
+      "Holding mail bags until a commercial private courier vehicle arrives.",
+      "Opening sealed parcels to inspect domestic correspondence without statutory warrant."
     ],
-    correctAnswer: 1,
-    explanation: "PPSWR sampling with size as census population ensures that larger units have an inclusion probability proportional to their size, which significantly reduces the variance of aggregate total estimates when unit sizes vary widely.",
-    sourceRef: "NSSTA Survey Sampling Manual, Chapter 4 (Multi-Stage Sampling Framework)"
+    correctAnswer: 0,
+    explanation: "DARPAN digital SOP mandates barcode scanning for every article, generating system-verified electronic bag manifests to ensure 100% track-and-trace visibility on the national postal portal.",
+    sourceRef: "Postal Manual Volume V (Mails & Dispatch Operations, Rule 42)"
   },
   {
     id: 2,
-    category: "Technical - Python",
-    competency: "Python for Data Analysis",
-    question: "When processing a 15-million record unit-level survey file in Python, which method provides the most memory-efficient vectorization for applying survey multiplier weights across sub-strata?",
+    category: "Financial Services",
+    competency: "Post Office Savings Bank (POSB) & IPPB Micro-Banking",
+    question: "When performing an Aadhaar-enabled Payment System (AePS) cash withdrawal at a Branch Post Office via Micro-ATM, what security check is mandatory to prevent fraudulent transactions?",
     options: [
-      "Iterating through DataFrame rows with `df.iterrows()` and multiplying column by column.",
-      "Using `numpy.select()` or Pandas column-wise broadcasted arithmetic `df['weighted_val'] = df['raw_val'] * df['multiplier']`.",
-      "Writing a custom recursive Python function with `for` loop across dictionary indices.",
-      "Exporting the dataframe to a nested JSON object and applying a mapping lambda."
+      "Accepting third-party verbal guarantees without customer presence.",
+      "Live biometric fingerprint or iris authentication of the account holder on the certified biometric scanner alongside CBS balance confirmation.",
+      "Allowing cash withdrawal using photocopies of Aadhaar cards without biometric matching.",
+      "Delegating biometric capture to an unverified third party."
     ],
     correctAnswer: 1,
-    explanation: "Column-wise vectorization in NumPy/Pandas executes operations in contiguous C memory buffers via SIMD instructions, achieving orders of magnitude faster execution and minimal RAM allocation compared to row iteration.",
-    sourceRef: "MoSPI Data Science Handbook (Python for Official Statistics, Section 3.2)"
+    explanation: "AePS guidelines strictly enforce two-factor biometric verification in real-time to prevent unauthorized financial withdrawals from beneficiary accounts.",
+    sourceRef: "India Post Payments Bank (IPPB) Micro-Banking Operating Guidelines, Section 4.3"
   },
   {
     id: 3,
-    category: "National Accounts",
-    competency: "Macro-Economic Statistics",
-    question: "In the compilation of Gross Value Added (GVA) at Basic Prices under the System of National Accounts (SNA 2008), what is the exact formula linking GVA at Basic Prices to Gross Domestic Product (GDP) at Market Prices?",
+    category: "Postal Regulations",
+    competency: "Post Office Act 2023 Statutory Compliance & Security",
+    question: "Under Section 9 of the Post Office Act 2023, what grounds empower designated postal authorities to intercept, detain, or open postal articles in domestic transmission?",
     options: [
-      "GDP at Market Prices = GVA at Basic Prices + Product Taxes - Product Subsidies",
-      "GDP at Market Prices = GVA at Basic Prices - Production Taxes + Production Subsidies",
-      "GDP at Market Prices = GVA at Factor Cost + Direct Corporate Taxes",
-      "GDP at Market Prices = GVA at Basic Prices + Intermediate Consumption"
+      "Only in the interest of state security, friendly relations with foreign states, public order, emergency, or suspected contraband contravening statutory customs laws.",
+      "Arbitrary discretion of the delivery postman without written authorization.",
+      "Whenever the sender fails to provide an email address.",
+      "Solely upon the commercial request of competitor transport companies."
     ],
     correctAnswer: 0,
-    explanation: "Under SNA 2008 and Indian National Accounts Statistics: GDP at Market Prices = GVA at Basic Prices + Net Taxes on Products (i.e. Product Taxes minus Product Subsidies).",
-    sourceRef: "Central Statistics Office (CSO) National Accounts Sources & Methods Manual, 2015"
+    explanation: "Section 9 of Post Office Act 2023 explicitly limits statutory interception powers to national security, public safety, emergency, and contraband prohibition under official authorization.",
+    sourceRef: "Post Office Act 2023, Section 9 (Statutory Interception and Examination Powers)"
   },
   {
     id: 4,
-    category: "Technical - AI/ML",
-    competency: "AI / Machine Learning in Statistics",
-    question: "When applying machine learning algorithms to impute missing values in enterprise survey microdata (such as ASI), why is K-Nearest Neighbors (KNN) or Random Forest imputation preferred over mean/median replacement?",
+    category: "Postal Export Logistics",
+    competency: "Dak Ghar Niryat Kendra (DNK) & Commercial Parcel Logistics",
+    question: "What is the primary electronic customs documentation generated on the DNK portal before an export parcel is accepted for cross-border transmission?",
     options: [
-      "Mean replacement artificially inflates standard deviation and distorts correlation structure, whereas multivariate ML imputation preserves non-linear inter-variable dependencies.",
-      "Mean replacement requires GPU acceleration while KNN runs instantaneously on all dataset sizes.",
-      "Machine learning models guarantee that imputed values will have zero sampling error.",
-      "Official statistical standards strictly forbid statistical averages in government publications."
+      "Postal Bill of Export (PBE-III) with electronic customs declaration and HS Code item classification.",
+      "Informal handwritten delivery memo without customs filing.",
+      "Domestic inland transit docket only.",
+      "Unregistered air waybill without KYC verification."
     ],
     correctAnswer: 0,
-    explanation: "Single-value imputation (mean/median) severely attenuates variance and correlations among variables. Multivariate ML models preserve joint distributions and multi-attribute characteristics across industry classifications.",
-    sourceRef: "UN Statistical Commission Guidelines on Machine Learning for Official Statistics (UNECE HLG-MOS)"
+    explanation: "Dak Ghar Niryat Kendras integrate with CBIC customs servers to generate electronic PBE-III declarations enabling paperless commercial parcel exports for MSME artisans.",
+    sourceRef: "Department of Posts DNK Guidelines & CBIC Notification on Postal Exports 2023"
   },
   {
     id: 5,
-    category: "Digital Governance",
-    competency: "National Data Governance & DPDP Act 2023",
-    question: "Under the Digital Personal Data Protection (DPDP) Act 2023, what is the primary requirement when releasing anonymized public research datasets derived from household socio-economic surveys?",
+    category: "Digital Governance & CRM",
+    competency: "Customer Relationship Management & CPGRAMS in India Post",
+    question: "Under the India Post Citizen Charter and CPGRAMS framework, what is the maximum Turnaround Time (TAT) SLA for resolving standard citizen delivery grievances?",
     options: [
-      "Every respondent's Aadhaar number must be printed in the open survey report for transparency.",
-      "Adequate Statistical Disclosure Control (SDC) must prevent re-identification through quasi-identifiers (e.g. combination of pin code, age, gender, occupation).",
-      "Data can only be shared with foreign commercial entities without any security oversight.",
-      "Anonymization is only optional if the survey was conducted in rural areas."
+      "90 working days with no periodic escalation.",
+      "Within 7 working days, with auto-escalation to the Divisional Superintendent if unresolved.",
+      "Grievances are voluntary and have no time commitment.",
+      "30 days for tier-1 cities and 1 year for rural post offices."
     ],
     correctAnswer: 1,
-    explanation: "Under the DPDP Act 2023 and MoSPI Microdata Dissemination Policy, quasi-identifiers must be transformed (via top-coding, microaggregation, or suppression) to eliminate the probability of re-identifying individuals.",
-    sourceRef: "Ministry of Electronics & Information Technology (MeitY) & MoSPI Data Privacy Directive 2024"
+    explanation: "Under Dak Karmayogi citizen delivery standards and CPGRAMS 7.0, delivery inquiries must be redressed within 7 working days, supported by supervisory escalation metrics.",
+    sourceRef: "Department of Posts Citizen Charter & CPGRAMS Time-Bound Redressal Framework"
   }
 ];
 
@@ -621,7 +608,7 @@ export const NOTIFICATIONS_LIST = [
   {
     id: "notif-1",
     title: "High-Priority Skill Bridge Recommended",
-    description: "Your recent assessment indicates a gap in Python for Data Analysis. NSSTA Course 'Python for Microdata' has been prioritized on your pathway.",
+    description: "Your recent assessment indicates a gap in Post Office Savings Bank (POSB) & IPPB Micro-Banking. RAKNPA Course 'POSB & IPPB Operations' has been prioritized on your pathway.",
     time: "10 mins ago",
     priority: "high",
     read: false,
@@ -630,8 +617,8 @@ export const NOTIFICATIONS_LIST = [
   },
   {
     id: "notif-2",
-    title: "NSSTA Greater Noida Workshop Nomination Open",
-    description: "Nominations for 'Applied Machine Learning in Official Statistics (Batch 14)' closing on 30 Sep 2026. Approved by Cadre Controlling Authority.",
+    title: "RAK National Postal Academy Workshop Nomination Open",
+    description: "Nominations for 'Dak Ghar Niryat Kendra & Commercial Parcel Logistics (Batch 6)' closing on 30 Sep 2026. Approved by Postal Cadre Controlling Authority.",
     time: "2 hours ago",
     priority: "high",
     read: false,
@@ -821,21 +808,34 @@ export const ADMIN_DEPARTMENTS_CONFIG = [
     criticalGaps: 5,
     topFocus: "Corporate MCA-21 Integration & Tax Audits",
     description: "Direct & indirect taxation, Treasury accounts, corporate financial filings, and municipal revenue reconciliation."
+  },
+  {
+    id: "postal",
+    name: "Department of Posts (India Post)",
+    badge: "Postal Services & Dak Karmayogi",
+    color: "red",
+    icon: "Mail",
+    totalLearners: "36,200",
+    avgCompetency: 74.5,
+    complianceRate: "86.1%",
+    criticalGaps: 3,
+    topFocus: "POSB/IPPB Micro-Banking & DNK Logistics",
+    description: "Branch Post Offices, Mail & Parcel Logistics, Core Banking Services, Dak Ghar Niryat Kendras and Citizen Delivery."
   }
 ];
 
 export const ADMIN_LEARNERS_DIRECTORY = [
-  // STATISTICAL CADRE
+  // POSTAL & ALLIED CADRES
   {
     id: "lrn_001",
     name: "Rajeswari Malluri",
-    employeeId: "MOSPI-GDS-89211",
-    designation: "Statistical Officer / BPM",
-    department: "Survey Design and Research Division (SDRD)",
-    departmentId: "statistical",
-    ministry: "MoSPI & Communications",
-    cadre: "Subordinate Statistical Service (SSS)",
-    location: "Vijayawada, Andhra Pradesh",
+    employeeId: "GOI-POST-2018-0492",
+    designation: "Branch Postmaster / Postal Operations Officer",
+    department: "Department of Posts (India Post)",
+    departmentId: "postal",
+    ministry: "Ministry of Communications",
+    cadre: "Department of Posts - Postal Services Cadre",
+    location: "Vijayawada Division, Andhra Pradesh Circle",
     email: "mallurirajeswari8@gmail.com",
     avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80",
     competencyScore: 78,
@@ -844,8 +844,8 @@ export const ADMIN_LEARNERS_DIRECTORY = [
     activeCoursesCount: 4,
     completedAssessments: 6,
     skillGaps: [
-      { name: "Python for Data Analysis", current: 2, target: 4, priority: "High" },
-      { name: "CAPI Validation Rules", current: 3, target: 4, priority: "Medium" }
+      { name: "POSB & IPPB Micro-Banking", current: 2, target: 4, priority: "High" },
+      { name: "DNK Commercial Parcel Logistics", current: 1, target: 3, priority: "High" }
     ],
     lastActive: "15 mins ago"
   },

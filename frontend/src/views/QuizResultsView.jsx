@@ -56,29 +56,55 @@ export const QuizResultsView = () => {
         }
       ];
 
+  const isPostalFallback = (lastQuizResult?.department || userProfile?.department || "").toLowerCase().includes("post") ||
+                           (lastQuizResult?.courseTitle || "").toLowerCase().includes("post") ||
+                           (lastQuizResult?.courseTitle || "").toLowerCase().includes("posb") ||
+                           (userProfile?.cadre || "").toLowerCase().includes("post");
+
   // Recommended Follow-up Courses
   const recommendedCourses = lastQuizResult?.recommendedCourses && lastQuizResult.recommendedCourses.length > 0
     ? lastQuizResult.recommendedCourses
-    : [
-        {
-          id: "crs-101",
-          title: "Python for Microdata Processing & NSS Vectorization",
-          provider: "NSSTA Greater Noida",
-          difficulty: "Level 3 (Proficient)",
-          duration: "20 Hours",
-          matchScore: isPassed ? 98 : 92,
-          recommendationReason: isPassed
-            ? "Next-level advanced progression track following successful certification."
-            : "Core curriculum to bridge identified competency gap in survey data processing."
-        },
+    : isPostalFallback ? [
         {
           id: "crs-102",
-          title: "Applied Machine Learning for National Accounts & Imputation",
-          provider: "iGOT Karmayogi",
-          difficulty: "Level 3-4 (Advanced)",
-          duration: "24 Hours",
+          title: "Dak Ghar Niryat Kendra (DNK) & Commercial Parcel Logistics",
+          provider: "Department of Posts",
+          difficulty: "Level 3 (Proficient)",
+          duration: "18 Hours",
+          matchScore: isPassed ? 98 : 92,
+          recommendationReason: isPassed
+            ? "Next-level advanced progression track for hub postal export processing and commercial parcel logistics."
+            : "Core curriculum to bridge identified competency gap in barcoded parcel tracking and DNK portal operations."
+        },
+        {
+          id: "crs-103",
+          title: "Customer Relationship Management & CPGRAMS in India Post",
+          provider: "Department of Posts",
+          difficulty: "Level 3 (Proficient)",
+          duration: "10 Hours",
           matchScore: 94,
-          recommendationReason: "Recommended follow-up module for missing-value imputation and automated classification."
+          recommendationReason: "Recommended follow-up module for time-bound public grievance redressal and citizen charter compliance."
+        }
+      ] : [
+        {
+          id: "crs-201",
+          title: "Public Administration Governance & Citizen Service Delivery",
+          provider: "LBSNAA Mussoorie",
+          difficulty: "Level 3 (Proficient)",
+          duration: "15 Hours",
+          matchScore: isPassed ? 98 : 92,
+          recommendationReason: isPassed
+            ? "Advanced administrative competency track for executive governance."
+            : "Core curriculum to strengthen regulatory compliance and service delivery."
+        },
+        {
+          id: "crs-202",
+          title: "Central Civil Services Financial Rules & Public Procurement (GeM)",
+          provider: "National Institute of Financial Management",
+          difficulty: "Level 3-4 (Advanced)",
+          duration: "20 Hours",
+          matchScore: 94,
+          recommendationReason: "Recommended follow-up module for statutory procurement and financial compliance."
         }
       ];
 
