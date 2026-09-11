@@ -87,14 +87,17 @@ export const AIQuizGeneratorView = () => {
               </span>
               <span className="text-xs text-slate-400">Grounded Generation</span>
             </div>
+            <h2 className="text-xl font-bold text-slate-900 mt-1">AI Assessment Generator</h2>
             <h2 className="text-xl font-bold text-slate-900 mt-1">{t('aiQuizTitle')}</h2>
             <p className="text-xs text-slate-500">
+              Upload official learning materials (PDF/PPT/DOCX) and generate source-grounded quizzes, MCQs, and competency checks.
               {t('aiQuizSub')}
             </p>
           </div>
 
           <div className="flex items-center space-x-2 text-xs font-medium text-purple-700 bg-purple-50 px-3 py-1.5 rounded-lg border border-purple-200">
             <Sparkles className="w-4 h-4 text-purple-600" />
+            <span>RAG Verified Grounding</span>
             <span>{t('ragSourcesGrounding')}</span>
           </div>
         </div>
