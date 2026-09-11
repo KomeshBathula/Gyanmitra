@@ -67,11 +67,11 @@ export const Header = () => {
                 </svg>
               </div>
               <div className="flex flex-col">
-                <span className="text-[#FF9933] font-black text-sm tracking-tight leading-none font-serif">
-                  कर्मयोगी भारत
+                <span className="text-[#FF9933] font-black text-sm sm:text-base tracking-tight leading-none font-sans font-bold">
+                  GyanMitra (ज्ञानमित्र)
                 </span>
                 <span className="text-[10px] text-slate-400 font-sans tracking-wide">
-                  GyanMitra MoSPI
+                  Skill Intelligence Platform • MoSPI
                 </span>
               </div>
             </div>

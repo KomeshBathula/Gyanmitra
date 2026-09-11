@@ -54,7 +54,7 @@ export const MarketplaceView = () => {
       {/* Title */}
       <div>
         <h1 className="text-2xl font-black text-white tracking-tight">
-          The iGOT Marketplace
+          The GyanMitra Marketplace
         </h1>
       </div>
 

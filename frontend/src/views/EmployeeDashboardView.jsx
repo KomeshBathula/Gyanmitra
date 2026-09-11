@@ -122,7 +122,7 @@ export const EmployeeDashboardView = () => {
           <div className="flex-1 space-y-2 text-center md:text-left">
             <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-blue-50 text-[#0074CB] text-xs font-bold border border-blue-200">
               <Sparkles className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
-              <span>कर्मयोगी भारत • Karmayogi Incentive</span>
+              <span>GyanMitra • Learning Incentive</span>
             </div>
             <h2 className="text-lg sm:text-2xl font-black text-[#1B365D] tracking-tight leading-snug">
               {carouselSlides[activeSlide].title}
