@@ -106,7 +106,7 @@ export const Header = () => {
                   setCurrentScreen('courses');
                 }
               }}
-              className="absolute right-1 top-1/2 -translate-y-1/2 px-3 py-1 text-xs font-semibold bg-[#124B88] hover:bg-[#1963B5] text-slate-100 rounded-full transition-colors cursor-pointer"
+              className="absolute right-1 top-1/2 -translate-y-1/2 px-3 py-1 text-xs font-bold bg-[#1B365D] hover:bg-[#264092] text-white rounded-full transition-colors cursor-pointer shadow-xs"
             >
               Search
             </button>
