@@ -1,5 +1,7 @@
 import { db } from '../data/db.js';
-import { calculateSkillGaps } from '../utils/skillGapCalculator.js';
+import { Competency } from '../models/Competency.js';
+import { User } from '../models/User.js';
+import mongoose from 'mongoose';
 
 export const competencyService = {
   getOverview: async (userId) => {
@@ -7,6 +9,12 @@ export const competencyService = {
   },
 
   getCompetenciesList: async () => {
+    if (mongoose.connection.readyState === 1) {
+      try {
+        const comps = await Competency.find().lean();
+        if (comps && comps.length > 0) return comps;
+      } catch (err) {}
+    }
     return db.competenciesList;
   },
 
@@ -39,9 +47,24 @@ export const competencyService = {
       user.karmayogiCredits = (user.karmayogiCredits || 799) + (scorePercentage >= 70 ? 100 : 25);
     }
 
+    // Persist to MongoDB if connected
+    if (mongoose.connection.readyState === 1 && user) {
+      try {
+        await User.findByIdAndUpdate(user._id, {
+          $set: {
+            competencies: user.competencies,
+            karmayogiCredits: user.karmayogiCredits
+          }
+        });
+      } catch (err) {
+        console.warn("[CompetencyService] Could not persist to MongoDB:", err.message);
+      }
+    }
+
     return {
       updatedOverview: db.competencies,
       updatedUserCredits: user?.karmayogiCredits
     };
   }
 };
+

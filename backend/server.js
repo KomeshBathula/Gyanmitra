@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import { config } from './config/config.js';
 import { authMiddleware } from './middleware/authMiddleware.js';
 import { errorMiddleware, notFoundMiddleware } from './middleware/errorMiddleware.js';
+import { connectDatabase, getDbStatus } from './config/database.js';
 
 import authRoutes from './routes/authRoutes.js';
 import competencyRoutes from './routes/competencyRoutes.js';
@@ -32,8 +33,9 @@ app.get('/api/health', (req, res) => {
   res.json({
     success: true,
     service: "GyanMitra Official Statistical Intelligence Backend",
-    phase: "Phase 1 - Complete Mock Architecture",
+    phase: "Phase 1 - MongoDB Integrated Architecture",
     status: "operational",
+    database: getDbStatus(),
     ministry: "Ministry of Statistics & Programme Implementation (MoSPI)",
     partners: ["NSSTA Academy", "iGOT Karmayogi Bharat"],
     timestamp: new Date().toISOString()
@@ -58,9 +60,10 @@ app.use('/api/ai', aiRoutes);
 app.use(notFoundMiddleware);
 app.use(errorMiddleware);
 
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
   console.log(`[GyanMitra Express API] Server running on http://localhost:${PORT}`);
-  console.log(`[GyanMitra Express API] Phase 1 demo-ready backend active.`);
+  console.log(`[GyanMitra Express API] MongoDB Integrated & demo-ready backend active.`);
+  await connectDatabase();
 });
 
 

@@ -17,6 +17,7 @@ export const config = {
   phase: 'Phase 1 - Prototype Mock Architecture',
   defaultUser: 'usr_001',
   systemName: 'GyanMitra Official Statistics Competency Intelligence Platform',
+  mongodbUri: process.env.MONGODB_URI || 'mongodb://127.0.0.1:27018/gyanmitra',
   groqApiKey: process.env.GROQ_API_KEY || '',
   groqModel: process.env.GROQ_MODEL || 'qwen/qwen3.8-27b'
 };
