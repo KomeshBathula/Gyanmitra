@@ -91,12 +91,12 @@ export const AppProvider = ({ children }) => {
     document.documentElement.style.fontSize = `${fontScale}%`;
   }, [fontScale]);
 
-  // URL & API Synchronization on Screen Navigation (Clean URLs: /dashboard, /competencies, etc.)
+  // URL & API Synchronization on Screen Navigation (Clean URLs: /login, /dashboard, etc.)
   const setCurrentScreen = useCallback((screenId) => {
     setCurrentScreenState(screenId);
 
-    // Sync browser URL clean path (e.g. /dashboard, /competencies, /skill-gaps)
-    const targetPath = (screenId === 'login' || !screenId) ? '/' : `/${screenId}`;
+    // Sync browser URL clean path (e.g. /login, /dashboard, /competencies, /skill-gaps)
+    const targetPath = (screenId === 'login' || !screenId) ? '/login' : `/${screenId}`;
     if (window.location.pathname !== targetPath) {
       window.history.pushState(null, '', targetPath);
     }
@@ -148,12 +148,17 @@ export const AppProvider = ({ children }) => {
       const hash = window.location.hash.replace(/^#\/?/, '').toLowerCase();
       if (!path && hash) path = hash;
 
-      if (path === 'admin') {
-        setIsAdminPortalMode(true);
-      } else if (path && path !== 'login' && isAuthenticated) {
-        setCurrentScreenState(path);
-      } else if (!path && isAuthenticated) {
+      if (!path || path === 'login') {
+        setCurrentScreenState('login');
+        if (window.location.pathname !== '/login') {
+          window.history.replaceState(null, '', '/login');
+        }
+      } else if (path === 'page/home' || path === 'home') {
         setCurrentScreenState('dashboard');
+      } else if (path === 'admin') {
+        setIsAdminPortalMode(true);
+      } else if (isAuthenticated) {
+        setCurrentScreenState(path);
       }
     };
 
@@ -186,7 +191,7 @@ export const AppProvider = ({ children }) => {
       showToast(`Welcome Dr. Arvind Mehta! Logged into MoSPI Workforce Intelligence Gateway.`, "success");
     } else {
       setCurrentScreen('dashboard');
-      showToast(`Welcome Rajesh Kumar Ji! Logged into Government Employee Portal.`, "success");
+      showToast(`Welcome ${finalProfile.name}! Logged into iGOT Karmayogi Bharat.`, "success");
     }
   };
 
@@ -194,7 +199,7 @@ export const AppProvider = ({ children }) => {
   const logoutUser = () => {
     setIsAuthenticated(false);
     setCurrentScreenState('login');
-    window.history.pushState(null, '', '/');
+    window.history.pushState(null, '', '/login');
     showToast("Signed out successfully from Parichay SSO.", "info");
   };
 
