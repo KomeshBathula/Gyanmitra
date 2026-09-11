@@ -170,7 +170,7 @@ export const SkillGapView = () => {
                     <td className="px-6 py-3.5 font-bold text-slate-900">
                       {gap.competency}
                     </td>
-                    <td className="px-4 py-3.5 text-slate-600">{gap.category}</td>
+                    <td className="px-4 py-3.5 text-slate-600">{gap.category || gap.domain || 'Statistical'}</td>
                     <td className="px-4 py-3.5 text-center">
                       <span className="px-2.5 py-1 rounded-full bg-slate-100 text-slate-800 font-semibold border border-slate-200">
                         {t('level')} {gap.currentLevel}
@@ -178,7 +178,7 @@ export const SkillGapView = () => {
                     </td>
                     <td className="px-4 py-3.5 text-center">
                       <span className="px-2.5 py-1 rounded-full bg-blue-100 text-blue-900 font-bold border border-blue-200">
-                        {t('level')} {gap.requiredLevel}
+                        {t('level')} {gap.requiredLevel ?? gap.targetLevel ?? 3}
                       </span>
                     </td>
                     <td className="px-4 py-3.5">
@@ -325,7 +325,7 @@ export const SkillGapView = () => {
                 </div>
                 <div className="text-right">
                   <span className="text-[11px] font-bold text-blue-800 block">Cadre Mandated Level</span>
-                  <span className="text-sm font-extrabold text-blue-900">Level {selectedGap.requiredLevel} / 5</span>
+                  <span className="text-sm font-extrabold text-blue-900">Level {selectedGap.requiredLevel ?? selectedGap.targetLevel ?? 3} / 5</span>
                 </div>
               </div>
 
