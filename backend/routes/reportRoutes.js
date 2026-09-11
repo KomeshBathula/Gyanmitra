@@ -1,16 +1,39 @@
 import express from 'express';
+import { reportService } from '../services/reportService.js';
+import { successResponse } from '../utils/response.js';
 
 const router = express.Router();
 
-router.get('/', (req, res) => {
-  res.json({
-    success: true,
-    reports: [
-      { id: "rep-1", title: "Annual Capacity Building Plan (ACBP) 2026 Compliance Audit", code: "REP-MOSPI-ACBP-2026-Q3", format: "PDF" },
-      { id: "rep-2", title: "National Statistical Cadre Skill Gap Intelligence Report", code: "REP-NSSTA-GAP-2026-08", format: "PDF" },
-      { id: "rep-3", title: "iGOT Karmayogi Course Completion & Credit Roster", code: "REP-IGOT-ROSTER-2026-M8", format: "CSV" }
-    ]
-  });
+// GET /api/reports - Reports Catalog
+router.get('/', async (req, res, next) => {
+  try {
+    const list = await reportService.getReportsCatalog();
+    return res.json({ success: true, count: list.length, data: list });
+  } catch (err) {
+    next(err);
+  }
 });
+
+// GET /api/reports/competency
+router.get('/competency', async (req, res, next) => {
+  try {
+    const rep = await reportService.getCompetencyReport();
+    return successResponse(res, rep, "Competency report generated");
+  } catch (err) {
+    next(err);
+  }
+});
+
+// GET /api/reports/training & /api/reports/compliance
+const getComplianceReport = async (req, res, next) => {
+  try {
+    const rep = await reportService.getTrainingComplianceReport();
+    return successResponse(res, rep, "Training compliance report generated");
+  } catch (err) {
+    next(err);
+  }
+};
+router.get('/training', getComplianceReport);
+router.get('/compliance', getComplianceReport);
 
 export default router;

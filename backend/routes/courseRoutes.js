@@ -1,151 +1,138 @@
 import express from 'express';
+import { mockIgotAdapter } from '../integrations/igot/mockIgotAdapter.js';
+import { learningService } from '../services/learningService.js';
+import { successResponse, errorResponse } from '../utils/response.js';
 import { db } from '../data/db.js';
 
 const router = express.Router();
 
 // GET /api/courses - Explore all contents with filtering & sorting
-router.get('/', (req, res) => {
-  const { category, sector, subSector, search, sortBy } = req.query;
-  let items = [...db.coursesCatalog];
-
-  // Category filter
-  if (category && category !== 'all') {
-    items = items.filter(c => c.category.toLowerCase() === category.toLowerCase());
+router.get('/', async (req, res, next) => {
+  try {
+    const result = await mockIgotAdapter.searchCourses(req.query);
+    return res.json({
+      success: true,
+      totalIndexed: 9159,
+      count: result.courses.length,
+      data: result.courses
+    });
+  } catch (err) {
+    next(err);
   }
-
-  // Sector filter
-  if (sector && sector !== 'all') {
-    items = items.filter(c => c.sector.toLowerCase() === sector.toLowerCase());
-  }
-
-  // Sub-sector filter
-  if (subSector && subSector !== 'all') {
-    items = items.filter(c => c.subSector.toLowerCase() === subSector.toLowerCase());
-  }
-
-  // Search filter
-  if (search) {
-    const q = search.toLowerCase();
-    items = items.filter(c =>
-      c.title.toLowerCase().includes(q) ||
-      c.provider.toLowerCase().includes(q) ||
-      c.code.toLowerCase().includes(q) ||
-      c.description.toLowerCase().includes(q)
-    );
-  }
-
-  // Sorting
-  if (sortBy === 'popular') {
-    items.sort((a, b) => b.karmaPoints - a.karmaPoints);
-  } else if (sortBy === 'az') {
-    items.sort((a, b) => a.title.localeCompare(b.title));
-  } else {
-    // Default newest
-    items.sort((a, b) => (b.isNew ? 1 : 0) - (a.isNew ? 1 : 0));
-  }
-
-  res.json({
-    success: true,
-    totalIndexed: 9159,
-    count: items.length,
-    data: items
-  });
 });
 
-// GET /api/courses/:id - Course detail by ID
-router.get('/:id', (req, res) => {
-  const course = db.coursesCatalog.find(c => c.id === req.params.id);
-  if (!course) {
-    return res.status(404).json({ success: false, message: 'Course not found' });
+// GET /api/courses/search - Dedicated search endpoint
+router.get('/search', async (req, res, next) => {
+  try {
+    const { q, ...rest } = req.query;
+    const result = await mockIgotAdapter.searchCourses({ search: q, ...rest });
+    return successResponse(res, result.courses, `Found ${result.courses.length} courses matching search`);
+  } catch (err) {
+    next(err);
   }
-  res.json({ success: true, data: course });
 });
 
 // GET /api/courses/marketplace/providers - iGOT Marketplace Providers
-router.get('/marketplace/providers', (req, res) => {
-  const { search } = req.query;
-  let providers = [...db.marketplaceProviders];
-  if (search) {
-    const q = search.toLowerCase();
-    providers = providers.filter(p =>
-      p.name.toLowerCase().includes(q) ||
-      p.category.toLowerCase().includes(q) ||
-      p.description.toLowerCase().includes(q)
-    );
+router.get('/marketplace/providers', async (req, res, next) => {
+  try {
+    const { search } = req.query;
+    let providers = [...db.marketplaceProviders];
+    if (search) {
+      const q = search.toLowerCase();
+      providers = providers.filter(p =>
+        p.name.toLowerCase().includes(q) ||
+        p.category.toLowerCase().includes(q) ||
+        p.description.toLowerCase().includes(q)
+      );
+    }
+    return res.json({ success: true, count: providers.length, data: providers });
+  } catch (err) {
+    next(err);
   }
-  res.json({ success: true, count: providers.length, data: providers });
 });
 
 // GET /api/courses/marketplace/ar - Augmented Reality Modules
-router.get('/marketplace/ar', (req, res) => {
-  res.json({ success: true, count: db.marketplaceAR.length, data: db.marketplaceAR });
-});
-
-// GET /api/courses/my-learning - User's enrolled, completed, and unenrolled courses
-router.get('/my-learning/all', (req, res) => {
-  const { status } = req.query; // 'inprogress', 'completed', 'unenrolled'
-  if (status === 'completed') {
-    return res.json({ success: true, count: db.completedCourses.length, data: db.completedCourses });
+router.get('/marketplace/ar', async (req, res, next) => {
+  try {
+    return res.json({ success: true, count: db.marketplaceAR.length, data: db.marketplaceAR });
+  } catch (err) {
+    next(err);
   }
-  if (status === 'unenrolled') {
-    return res.json({ success: true, count: db.unenrolledCourses.length, data: db.unenrolledCourses });
+});
+
+// GET /api/courses/my-learning - User's enrolled learning modules
+router.get('/my-learning', async (req, res, next) => {
+  try {
+    const learningData = await learningService.getMyLearning(req.query.status);
+    return res.json({ success: true, data: learningData });
+  } catch (err) {
+    next(err);
   }
-  // Default inprogress
-  res.json({
-    success: true,
-    inprogress: db.myLearningCourses,
-    completed: db.completedCourses,
-    unenrolled: db.unenrolledCourses
-  });
 });
 
-// POST /api/courses/enroll - Enroll in a course
-router.post('/enroll', (req, res) => {
-  const { courseId, title, provider, duration, level } = req.body;
-  const newCourse = {
-    id: `ml-${Date.now()}`,
-    title: title || 'New Enrolled Course',
-    provider: provider || 'iGOT Karmayogi',
-    type: 'Course',
-    level: level || 'Beginner',
-    duration: duration || '1h 00m',
-    progress: 0,
-    isRetired: false,
-    status: 'inprogress',
-    bgGradient: 'from-blue-900 via-indigo-950 to-slate-900',
-    thumbnailText: title || 'New Course',
-    thumbnailSub: provider || 'iGOT Karmayogi',
-    syllabus: [
-      'Module 1: Orientation and Introduction',
-      'Module 2: Core Practical Concepts',
-      'Module 3: Case Studies & Government Applications',
-      'Module 4: Final Certification Assessment'
-    ]
-  };
-
-  db.myLearningCourses.push(newCourse);
-  res.json({
-    success: true,
-    message: `Enrolled successfully in ${newCourse.title}`,
-    data: newCourse
-  });
+// GET /api/courses/my-learning/all - Direct multi-status compatibility
+router.get('/my-learning/all', async (req, res, next) => {
+  try {
+    const learningData = await learningService.getMyLearning(req.query.status);
+    return res.json({
+      success: true,
+      ...learningData,
+      data: learningData
+    });
+  } catch (err) {
+    next(err);
+  }
 });
 
-// PUT /api/courses/progress - Update progress in a course
-router.put('/progress', (req, res) => {
-  const { courseId, progress } = req.body;
-  const course = db.myLearningCourses.find(c => c.id === courseId);
-  if (course) {
-    course.progress = Math.min(100, Math.max(0, progress));
-    if (course.progress === 100) {
-      course.status = 'completed';
-      course.completedOn = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
-      // move to completed
-      db.completedCourses.push(course);
+// POST /api/courses/enroll or POST /api/courses/:id/enroll - Course enrollment
+const handleEnroll = async (req, res, next) => {
+  try {
+    const courseId = req.params.id || req.body.courseId || req.body.id;
+    const enrollResult = await mockIgotAdapter.enrollCourse(req.user?._id || "usr_001", courseId, req.body);
+    return res.json({
+      success: true,
+      message: enrollResult.message,
+      data: enrollResult.enrollment
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+router.post('/enroll', handleEnroll);
+router.post('/:id/enroll', handleEnroll);
+
+// PUT /api/courses/progress or PUT /api/courses/:id/progress - Course progress update
+const handleProgress = async (req, res, next) => {
+  try {
+    const courseId = req.params.id || req.body.courseId || req.body.id;
+    const progress = req.body.progress ?? 0;
+    const updated = await learningService.updateCourseProgress(courseId, progress);
+    if (!updated) {
+      return errorResponse(res, "Course not found in user's enrolled learning ledger", null, 404);
     }
-    return res.json({ success: true, message: 'Progress updated', data: course });
+    return res.json({
+      success: true,
+      message: "Progress updated in Karmayogi learning ledger",
+      data: updated
+    });
+  } catch (err) {
+    next(err);
   }
-  res.status(404).json({ success: false, message: 'Course not found' });
+};
+router.put('/progress', handleProgress);
+router.put('/:id/progress', handleProgress);
+
+// GET /api/courses/:id - Course detail by ID
+router.get('/:id', async (req, res, next) => {
+  try {
+    const course = await mockIgotAdapter.getCourseDetails(req.params.id);
+    if (!course) {
+      return errorResponse(res, "Course not found", "Not Found", 404);
+    }
+    return res.json({ success: true, data: course });
+  } catch (err) {
+    next(err);
+  }
 });
 
 export default router;

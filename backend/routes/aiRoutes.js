@@ -2,63 +2,63 @@ import express from 'express';
 
 const router = express.Router();
 
-// POST /api/ai/generate-quiz
-router.post('/generate-quiz', (req, res) => {
-  const { documentName = "NSS_Sampling_Guidelines.pdf", questionCount = 5, difficulty = "Medium" } = req.body;
+const mockQuestions = (documentName = "NSS_Sampling_Guidelines.pdf") => [
+  {
+    id: 1,
+    question: `Based on Section 2 of ${documentName}: What is the primary purpose of selecting First Stage Units with PPSWR in NSS Surveys?`,
+    options: [
+      "To equalize sample weights among all rural blocks.",
+      "To give larger population clusters a proportionally higher inclusion probability, minimizing overall survey variance.",
+      "To eliminate the need for Second Stage Unit (SSU) listing.",
+      "To standardize interview questionnaire length."
+    ],
+    correctAnswer: 1,
+    explanation: "PPSWR sampling ensures unit inclusion probability matches population weight, ensuring unbiased estimations for village aggregates.",
+    sourceCitation: `${documentName} (Page 18, Para 2.4)`
+  },
+  {
+    id: 2,
+    question: `According to the calculation guidelines in ${documentName}: How is casualty multiplier adjustment applied when households cannot be surveyed?`,
+    options: [
+      "The sample district is removed from the estimation frame.",
+      "A casualty factor (Allocated SSUs / Surveyed SSUs) is applied to the sample multiplier.",
+      "The missing sample is replaced without official notice.",
+      "All weights are uniformly incremented by 1%."
+    ],
+    correctAnswer: 1,
+    explanation: "Casualty adjustment maintains unbiased population aggregate estimates during non-response.",
+    sourceCitation: `${documentName} (Page 42, Formula 5.3)`
+  },
+  {
+    id: 3,
+    question: `Under the National Accounts GDP Framework: Which approach is integrated with MCA-21 corporate financial filings?`,
+    options: [
+      "Expenditure Approach via Household Budget Surveys",
+      "Production Approach (GVA) via Enterprise Balance Sheets",
+      "Income Approach via Direct Tax Filings only",
+      "Fixed Capital Formation Deflator Method"
+    ],
+    correctAnswer: 1,
+    explanation: "MCA-21 integration compiles GVA by aggregating corporate value added from registered enterprise financial statements.",
+    sourceCitation: "National Accounts Statistics Compilation Manual (Chapter 4, Para 4.2)"
+  }
+];
 
-  const generatedQuestions = [
-    {
-      id: 1,
-      question: `Based on Section 2 of ${documentName}: What is the primary purpose of selecting First Stage Units with PPSWR in NSS Surveys?`,
-      options: [
-        "To equalize sample weights among all rural blocks.",
-        "To give larger population clusters a proportionally higher inclusion probability, minimizing overall survey variance.",
-        "To eliminate the need for Second Stage Unit (SSU) listing.",
-        "To standardize interview questionnaire length."
-      ],
-      correctAnswer: 1,
-      explanation: "PPSWR sampling ensures unit inclusion probability matches population weight, ensuring unbiased estimations for village aggregates.",
-      sourceCitation: `${documentName} (Page 18, Para 2.4)`
-    },
-    {
-      id: 2,
-      question: `According to the calculation guidelines in ${documentName}: How is casualty multiplier adjustment applied when households cannot be surveyed?`,
-      options: [
-        "The sample district is removed from the estimation frame.",
-        "A casualty factor (Allocated SSUs / Surveyed SSUs) is applied to the sample multiplier.",
-        "The missing sample is replaced without official notice.",
-        "All weights are uniformly incremented by 1%."
-      ],
-      correctAnswer: 1,
-      explanation: "Casualty adjustment maintains unbiased population aggregate estimates during non-response.",
-      sourceCitation: `${documentName} (Page 42, Formula 5.3)`
-    },
-    {
-      id: 3,
-      question: `Under the National Accounts GDP Framework: Which approach is integrated with MCA-21 corporate financial filings?`,
-      options: [
-        "Expenditure Approach via Household Budget Surveys",
-        "Production Approach (GVA) via Enterprise Balance Sheets",
-        "Income Approach via Direct Tax Filings only",
-        "Fixed Capital Formation Deflator Method"
-      ],
-      correctAnswer: 1,
-      explanation: "MCA-21 integration compiles GVA by aggregating corporate value added from registered enterprise financial statements.",
-      sourceCitation: "National Accounts Statistics Compilation Manual (Chapter 4, Para 4.2)"
-    }
-  ];
+const handleGenerateQuiz = (req, res) => {
+  const { documentName = "NSS_Sampling_Guidelines.pdf", difficulty = "Medium" } = req.body;
+  const questions = mockQuestions(documentName);
 
-  res.json({
+  return res.json({
     success: true,
+    mode: "mock",
     document: documentName,
     difficulty,
-    totalQuestions: generatedQuestions.length,
-    questions: generatedQuestions
+    totalQuestions: questions.length,
+    questions
   });
-});
+};
 
-// POST /api/ai/assistant-chat
-router.post('/assistant-chat', (req, res) => {
+const handleChat = (req, res) => {
   const { message } = req.body;
   let reply = "GyanMitra Statistical RAG: I have referenced MoSPI guidelines and NSSTA manuals to assist your inquiry.";
   let sources = ["MoSPI ACBP Framework 2026", "NSSTA Training Manual"];
@@ -75,11 +75,18 @@ router.post('/assistant-chat', (req, res) => {
     sources = ["DoPT Karmayogi Bharat Guidelines 2026"];
   }
 
-  res.json({
+  return res.json({
     success: true,
+    mode: "mock",
     reply,
     groundedSource: sources.join(" • ")
   });
-});
+};
+
+// Route definitions supporting both paths
+router.post('/generate-quiz', handleGenerateQuiz);
+router.post('/quiz/generate', handleGenerateQuiz);
+router.post('/assistant-chat', handleChat);
+router.post('/chat', handleChat);
 
 export default router;
