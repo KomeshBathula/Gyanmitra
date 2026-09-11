@@ -36,11 +36,21 @@ export const AppProvider = ({ children }) => {
     return translations[language]?.[key] || translations['en']?.[key] || fallback || key;
   }, [language]);
 
-  // Authentication & Role State
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [currentRole, setCurrentRole] = useState('employee'); // 'employee' | 'trainer' | 'admin'
-  const [currentScreen, setCurrentScreenState] = useState('login'); // screen identifier
-  const [userProfile, setUserProfile] = useState(INITIAL_USER);
+  // Authentication & Role State (Persisted across tab reloads)
+  const savedAuth = typeof window !== 'undefined' && localStorage.getItem('gyanmitra_authenticated') === 'true';
+  const savedProfileStr = typeof window !== 'undefined' ? localStorage.getItem('gyanmitra_profile') : null;
+  let initialProfile = INITIAL_USER;
+  try {
+    if (savedProfileStr) initialProfile = JSON.parse(savedProfileStr);
+  } catch (e) {
+    initialProfile = INITIAL_USER;
+  }
+  const initialRole = initialProfile?.role || 'employee';
+
+  const [isAuthenticated, setIsAuthenticated] = useState(savedAuth);
+  const [currentRole, setCurrentRole] = useState(initialRole);
+  const [currentScreen, setCurrentScreenState] = useState(savedAuth ? 'dashboard' : 'login'); // screen identifier
+  const [userProfile, setUserProfile] = useState(initialProfile);
   const [isAdminPortalMode, setIsAdminPortalMode] = useState(false);
   const [adminDepartment, setAdminDepartment] = useState('civil'); // 'civil' | 'municipal' | 'statistical' | 'revenue'
   const [adminLearners, setAdminLearners] = useState(ADMIN_LEARNERS_DIRECTORY);
@@ -206,8 +216,15 @@ export const AppProvider = ({ children }) => {
       } else if (path === 'page/home' || path === 'home') {
         setIsAdminPortalMode(false);
         setCurrentScreenState('dashboard');
-      } else if (isAuthenticated) {
-        setCurrentScreenState(path);
+      } else {
+        const isUserAuth = isAuthenticated || (typeof window !== 'undefined' && localStorage.getItem('gyanmitra_authenticated') === 'true');
+        if (isUserAuth) {
+          setCurrentScreenState(path);
+          fetchDataForScreen(path);
+        } else {
+          sessionStorage.setItem('gyanmitra_target_screen', path);
+          setCurrentScreenState('login');
+        }
       }
     };
 
@@ -245,19 +262,28 @@ export const AppProvider = ({ children }) => {
     const alreadyPrompted = localStorage.getItem(promptedKey) === 'true';
     setHasCompletedInitialAssessment(alreadyTaken);
 
+    localStorage.setItem('gyanmitra_authenticated', 'true');
+    localStorage.setItem('gyanmitra_profile', JSON.stringify(finalProfile));
+    localStorage.setItem('gyanmitra_role', effectiveRole);
+
+    const pendingTarget = typeof window !== 'undefined' ? sessionStorage.getItem('gyanmitra_target_screen') : null;
+
     if (effectiveRole === 'trainer') {
       setIsAdminPortalMode(false);
-      setCurrentScreen('trainer-dashboard');
+      setCurrentScreen(pendingTarget || 'trainer-dashboard');
+      if (pendingTarget) sessionStorage.removeItem('gyanmitra_target_screen');
       showToast(`Welcome ${finalProfile.name}! Logged into NSSTA Trainer Portal.`, "success");
     } else if (effectiveRole === 'admin') {
       setIsAdminPortalMode(true);
-      setCurrentScreen('admin-dashboard');
+      setCurrentScreen(pendingTarget || 'admin-dashboard');
+      if (pendingTarget) sessionStorage.removeItem('gyanmitra_target_screen');
       showToast(`Welcome ${finalProfile.name}! Logged into ${finalProfile.department || 'Governance Admin Portal'}.`, "success");
     } else {
       setIsAdminPortalMode(false);
-      setCurrentScreen('dashboard');
+      setCurrentScreen(pendingTarget || 'dashboard');
+      if (pendingTarget) sessionStorage.removeItem('gyanmitra_target_screen');
       // Strictly show ONLY ONCE when user signs in for the first time
-      if (!alreadyTaken && !alreadyPrompted) {
+      if (!alreadyTaken && !alreadyPrompted && !pendingTarget) {
         setShowInitialAssessmentModal(true);
         localStorage.setItem(promptedKey, 'true');
       } else {
@@ -328,6 +354,9 @@ export const AppProvider = ({ children }) => {
     const wasAdmin = userProfile?.role === 'admin' || isAdminPortalMode;
     setIsAuthenticated(false);
     setShowInitialAssessmentModal(false);
+    localStorage.removeItem('gyanmitra_authenticated');
+    localStorage.removeItem('gyanmitra_profile');
+    localStorage.removeItem('gyanmitra_role');
     if (wasAdmin) {
       setIsAdminPortalMode(true);
       setCurrentScreenState('admin-login');
