@@ -57,7 +57,7 @@ export const Header = () => {
         <div className="flex items-center space-x-3 sm:space-x-4">
           <div
             className="flex items-center space-x-2 cursor-pointer"
-            onClick={() => setCurrentScreen('dashboard')}
+            onClick={() => setCurrentScreen(userProfile?.role === 'trainer' ? 'trainer-dashboard' : 'dashboard')}
           >
             {/* Orange iGOT Emblem */}
             <div className="flex items-center space-x-2">
@@ -67,11 +67,20 @@ export const Header = () => {
                 </svg>
               </div>
               <div className="flex flex-col">
-                <span className="text-[#FF9933] font-black text-sm sm:text-base tracking-tight leading-none font-sans font-bold">
-                  GyanMitra (ज्ञानमित्र)
-                </span>
+                <div className="flex items-center space-x-1.5">
+                  <span className="text-[#FF9933] font-black text-sm sm:text-base tracking-tight leading-none font-sans font-bold">
+                    GyanMitra (ज्ञानमित्र)
+                  </span>
+                  {userProfile?.role === 'trainer' && (
+                    <span className="px-1.5 py-0.5 rounded text-[9px] font-bold bg-emerald-900/70 text-emerald-300 border border-emerald-500/50">
+                      NSSTA FACULTY
+                    </span>
+                  )}
+                </div>
                 <span className="text-[10px] text-slate-400 font-sans tracking-wide">
-                  Skill Intelligence Platform • MoSPI
+                  {userProfile?.role === 'trainer'
+                    ? 'NSSTA Greater Noida • Faculty Portal'
+                    : 'Skill Intelligence Platform • MoSPI'}
                 </span>
               </div>
             </div>
@@ -244,10 +253,16 @@ export const Header = () => {
                       <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-blue-900/60 text-blue-200 border border-blue-700">
                         {userProfile.cadre}
                       </span>
-                      <span className="text-[10px] text-amber-400 font-bold flex items-center">
-                        <Zap className="w-3 h-3 mr-0.5 fill-amber-400 text-amber-400" />
-                        {userProfile.karmayogiCredits || 799} Pts
-                      </span>
+                      {userProfile.role === 'trainer' ? (
+                        <span className="text-[10px] text-emerald-400 font-bold">
+                          Course Director
+                        </span>
+                      ) : (
+                        <span className="text-[10px] text-amber-400 font-bold flex items-center">
+                          <Zap className="w-3 h-3 mr-0.5 fill-amber-400 text-amber-400" />
+                          {userProfile.karmayogiCredits || 799} Pts
+                        </span>
+                      )}
                     </div>
                   </div>
 
