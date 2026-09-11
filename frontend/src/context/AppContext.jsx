@@ -61,6 +61,7 @@ export const AppProvider = ({ children }) => {
   const [competencyOverview, setCompetencyOverview] = useState(COMPETENCY_OVERVIEW);
   const [skillGaps, setSkillGaps] = useState(INITIAL_SKILL_GAPS);
   const [learningPathway, setLearningPathway] = useState(LEARNING_PATHWAY);
+  const [learningPathFilter, setLearningPathFilter] = useState(null);
   const [courses, setCourses] = useState(COURSES_CATALOG);
 
   // Assessment & Quiz Engine State
@@ -647,6 +648,8 @@ export const AppProvider = ({ children }) => {
         openCourseModule,
         targetModuleForReview,
         setTargetModuleForReview,
+        learningPathFilter,
+        setLearningPathFilter,
         notifications,
         setNotifications,
         isAiDrawerOpen,
