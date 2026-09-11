@@ -6,8 +6,6 @@ import {
   BookOpen,
   FileCheck,
   MessageSquare,
-  Calendar,
-  MoreHorizontal,
   Award,
   Clock,
   Zap,
@@ -28,7 +26,6 @@ export const Sidebar = () => {
     userProfile,
     isSidebarOpen,
     setIsSidebarOpen,
-    logoutUser,
     t
   } = useApp();
 
