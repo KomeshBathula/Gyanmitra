@@ -6,12 +6,11 @@ import {
   ArrowRight,
   User,
   GraduationCap,
-  Building2,
   Key,
-  CheckCircle2,
-  AlertCircle,
-  HelpCircle,
-  Globe
+  Globe,
+  Sparkles,
+  Award,
+  CheckCircle2
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 
@@ -55,27 +54,29 @@ export const AuthView = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-900 via-gov-navy to-slate-900 flex flex-col justify-between text-slate-100 relative">
+    <div className="min-h-screen bg-[#0F2942] flex flex-col justify-between text-slate-100 relative">
       {/* Tricolor Top Bar */}
-      <div className="h-1 bg-gradient-to-r from-orange-500 via-white to-green-600"></div>
+      <div className="tricolor-border"></div>
 
-      {/* Top Government Strip */}
-      <div className="py-2 px-6 flex items-center justify-between border-b border-white/10 text-xs">
+      {/* Top Government of India & iGOT Karmayogi Strip */}
+      <div className="py-2 px-6 flex items-center justify-between border-b border-white/10 text-xs bg-[#0a1c2e]">
         <div className="flex items-center space-x-2">
-          <Shield className="w-4 h-4 text-amber-400" />
-          <span className="font-semibold tracking-wide">{t('govIndia')}</span>
+          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span className="font-semibold tracking-wide text-white">{t('govIndia')}</span>
           <span className="text-slate-500 hidden sm:inline">|</span>
-          <span className="text-slate-300 hidden md:inline">{t('mospiMinistry')}</span>
+          <span className="text-slate-300 font-medium hidden sm:inline">कर्मयोगी भारत • Karmayogi Bharat</span>
+          <span className="text-slate-500 hidden md:inline">|</span>
+          <span className="text-slate-400 hidden md:inline">{t('mospiMinistry')}</span>
         </div>
 
         <div className="flex items-center space-x-3">
           {/* Multilingual Switcher: English | हिन्दी | తెలుగు */}
-          <div className="flex items-center space-x-1 bg-slate-800/90 p-0.5 rounded-lg border border-slate-700 text-[11px]">
+          <div className="flex items-center space-x-1 bg-slate-800 p-0.5 rounded-lg border border-slate-700 text-[11px]">
             <Globe className="w-3.5 h-3.5 text-blue-400 ml-1.5 mr-0.5" />
             <button
               onClick={() => setLanguage('en')}
               className={`px-2 py-0.5 rounded text-[10px] font-bold transition-all ${
-                language === 'en' ? 'bg-blue-600 text-white' : 'text-slate-300 hover:text-white'
+                language === 'en' ? 'bg-blue-600 text-white shadow-xs' : 'text-slate-300 hover:text-white'
               }`}
             >
               English
@@ -83,7 +84,7 @@ export const AuthView = () => {
             <button
               onClick={() => setLanguage('hi')}
               className={`px-2 py-0.5 rounded text-[10px] font-bold transition-all ${
-                language === 'hi' ? 'bg-blue-600 text-white' : 'text-slate-300 hover:text-white'
+                language === 'hi' ? 'bg-blue-600 text-white shadow-xs' : 'text-slate-300 hover:text-white'
               }`}
             >
               हिन्दी
@@ -91,7 +92,7 @@ export const AuthView = () => {
             <button
               onClick={() => setLanguage('te')}
               className={`px-2 py-0.5 rounded text-[10px] font-bold transition-all ${
-                language === 'te' ? 'bg-blue-600 text-white' : 'text-slate-300 hover:text-white'
+                language === 'te' ? 'bg-blue-600 text-white shadow-xs' : 'text-slate-300 hover:text-white'
               }`}
             >
               తెలుగు
@@ -99,11 +100,12 @@ export const AuthView = () => {
           </div>
 
           {isAdminPortalMode ? (
-            <span className="px-2.5 py-0.5 rounded bg-purple-900/80 text-purple-200 border border-purple-600 text-[10px] font-mono font-bold">
+            <span className="px-2.5 py-0.5 rounded bg-purple-900/90 text-purple-200 border border-purple-600 text-[10px] font-mono font-bold">
               🔐 System Admin
             </span>
           ) : (
-            <span className="hidden sm:inline-block px-2 py-0.5 rounded bg-white/10 text-amber-300 text-[10px] font-mono">
+            <span className="hidden sm:inline-flex items-center px-2 py-0.5 rounded bg-slate-800 text-amber-300 text-[10px] font-semibold border border-slate-700">
+              <Shield className="w-3 h-3 mr-1 text-amber-400" />
               Parichay SSO
             </span>
           )}
@@ -111,29 +113,33 @@ export const AuthView = () => {
       </div>
 
       {/* Main Container */}
-      <div className="flex-1 flex items-center justify-center p-4 sm:p-6 my-4">
-        <div className="w-full max-w-md bg-white text-slate-900 rounded-2xl shadow-2xl border border-slate-200 overflow-hidden">
+      <div className="flex-1 flex items-center justify-center p-4 sm:p-6 my-6">
+        <div className="w-full max-w-md bg-white text-slate-900 rounded-2xl shadow-2xl border border-slate-200/90 overflow-hidden">
           {/* Header Banner */}
           <div className={`p-6 text-white text-center relative ${
             isAdminPortalMode
               ? 'bg-gradient-to-r from-purple-950 via-slate-900 to-indigo-950'
-              : 'bg-gradient-to-r from-gov-navy to-gov-blue'
+              : 'karmayogi-header-gradient'
           }`}>
-            <div className="w-14 h-14 mx-auto rounded-xl bg-white/10 border border-white/20 flex items-center justify-center shadow-inner mb-3">
+            {/* Dual Emblem Badge */}
+            <div className="w-14 h-14 mx-auto rounded-2xl bg-white/10 border border-white/20 flex items-center justify-center shadow-inner mb-3">
               {isAdminPortalMode ? (
                 <Shield className="w-7 h-7 text-purple-300" />
               ) : (
-                <span className="text-amber-400 font-serif font-black text-xl">ज्ञान</span>
+                <div className="text-center leading-none">
+                  <span className="text-[#FF9933] text-sm block font-serif font-black">iGOT</span>
+                  <span className="text-white text-[9px] font-sans tracking-wider uppercase font-bold">Bharat</span>
+                </div>
               )}
             </div>
 
-            <h2 className="text-xl font-bold tracking-tight">
+            <h2 className="text-xl font-extrabold tracking-tight">
               {isAdminPortalMode ? "MoSPI System Admin Gateway" : "GyanMitra | ज्ञानमित्र"}
             </h2>
-            <p className="text-xs text-blue-200 mt-1">
+            <p className="text-xs text-blue-200 mt-1 font-medium">
               {isAdminPortalMode
                 ? "National Workforce Competency Intelligence Administration"
-                : "AI-Powered Capacity Building for India's Official Statistical System"}
+                : "Mission Karmayogi • MoSPI Statistical Capacity Platform"}
             </p>
           </div>
 
@@ -145,33 +151,33 @@ export const AuthView = () => {
                 <button
                   type="button"
                   onClick={() => setUserLoginType('employee')}
-                  className={`py-2 px-3 rounded-lg transition-all flex items-center justify-center space-x-1.5 ${
+                  className={`py-2 px-3 rounded-lg transition-all flex items-center justify-center space-x-1.5 cursor-pointer ${
                     userLoginType === 'employee'
-                      ? 'bg-white text-gov-navy shadow-sm'
+                      ? 'bg-white text-[#1B365D] shadow-sm font-extrabold'
                       : 'text-slate-600 hover:text-slate-900'
                   }`}
                 >
                   <User className="w-3.5 h-3.5 text-blue-600" />
-                  <span>{t('officialLoginTab', 'Government Official (ISS / SSS / MoSPI)')}</span>
+                  <span className="truncate">{t('officialLoginTab', 'Government Official (ISS / SSS / MoSPI)')}</span>
                 </button>
 
                 <button
                   type="button"
                   onClick={() => setUserLoginType('trainer')}
-                  className={`py-2 px-3 rounded-lg transition-all flex items-center justify-center space-x-1.5 ${
+                  className={`py-2 px-3 rounded-lg transition-all flex items-center justify-center space-x-1.5 cursor-pointer ${
                     userLoginType === 'trainer'
-                      ? 'bg-white text-gov-navy shadow-sm'
+                      ? 'bg-white text-[#1B365D] shadow-sm font-extrabold'
                       : 'text-slate-600 hover:text-slate-900'
                   }`}
                 >
                   <GraduationCap className="w-3.5 h-3.5 text-emerald-600" />
-                  <span>{t('trainerLoginTab', 'NSSTA Faculty / Trainer')}</span>
+                  <span className="truncate">{t('trainerLoginTab', 'NSSTA Faculty / Trainer')}</span>
                 </button>
               </div>
 
               {/* Login Form for Official / Trainer */}
               <form onSubmit={handleUserSignIn} className="p-6 sm:p-8 space-y-4">
-                <div className="p-2.5 rounded-lg bg-blue-50 border border-blue-200 text-[11px] text-blue-900 flex items-center space-x-2">
+                <div className="p-2.5 rounded-xl bg-blue-50 border border-blue-200 text-[11px] text-blue-900 flex items-center space-x-2">
                   <span className="w-2 h-2 rounded-full bg-blue-600"></span>
                   <span>
                     Logging in as: <strong>{userLoginType === 'employee' ? 'Government Employee / ISS Officer' : 'NSSTA Faculty / Course Trainer'}</strong>
@@ -189,7 +195,7 @@ export const AuthView = () => {
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       required
-                      className="w-full pl-9 pr-3 py-2 text-xs bg-slate-50 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:bg-white"
+                      className="w-full pl-9 pr-3 py-2 text-xs bg-slate-50 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#264092] focus:bg-white transition-all"
                     />
                   </div>
                 </div>
@@ -210,13 +216,13 @@ export const AuthView = () => {
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       required
-                      className="w-full pl-9 pr-3 py-2 text-xs bg-slate-50 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:bg-white"
+                      className="w-full pl-9 pr-3 py-2 text-xs bg-slate-50 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#264092] focus:bg-white transition-all"
                     />
                   </div>
                 </div>
 
                 {/* Simulated Captcha */}
-                <div className="bg-slate-50 p-2.5 rounded-lg border border-slate-200 flex items-center justify-between">
+                <div className="bg-slate-50 p-2.5 rounded-xl border border-slate-200 flex items-center justify-between">
                   <div className="flex items-center space-x-2">
                     <span className="font-mono text-xs tracking-widest px-2.5 py-1 bg-slate-200 text-slate-800 font-bold rounded select-none line-through">
                       7 N 9 K P
@@ -248,7 +254,7 @@ export const AuthView = () => {
                 {/* Sign In Buttons */}
                 <button
                   type="submit"
-                  className="w-full py-2.5 px-4 bg-gov-blue hover:bg-gov-navy text-white text-xs font-bold rounded-lg shadow-gov hover:shadow-gov-md transition-all flex items-center justify-center space-x-2"
+                  className="w-full py-2.5 px-4 bg-[#1B365D] hover:bg-[#152c4d] text-white text-xs font-bold rounded-lg shadow-sm hover:shadow-md transition-all flex items-center justify-center space-x-2 cursor-pointer"
                 >
                   <span>Sign In as {userLoginType === 'employee' ? 'Official' : 'Trainer'}</span>
                   <ArrowRight className="w-3.5 h-3.5" />
@@ -264,17 +270,17 @@ export const AuthView = () => {
                 <button
                   type="button"
                   onClick={handleSsoLogin}
-                  className="w-full py-2.5 px-4 bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold rounded-lg border border-slate-300 transition-colors flex items-center justify-center space-x-2"
+                  className="w-full py-2.5 px-4 bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold rounded-lg border border-slate-300 transition-colors flex items-center justify-center space-x-2 cursor-pointer"
                 >
                   <Shield className="w-4 h-4 text-blue-700" />
-                  <span>Single Sign-On (Parichay SSO)</span>
+                  <span>Single Sign-On (Jan Parichay SSO)</span>
                 </button>
               </form>
             </div>
           ) : (
             /* Dedicated Admin URL Gateway Form (/admin or #admin) */
             <form onSubmit={handleAdminSignIn} className="p-6 sm:p-8 space-y-4 animate-in fade-in">
-              <div className="p-3 rounded-lg bg-purple-50 border border-purple-200 text-xs text-purple-900 space-y-1">
+              <div className="p-3 rounded-xl bg-purple-50 border border-purple-200 text-xs text-purple-900 space-y-1">
                 <div className="flex items-center space-x-1.5 font-bold">
                   <Lock className="w-3.5 h-3.5 text-purple-700" />
                   <span>Restricted Access: System Administrator</span>
@@ -330,7 +336,7 @@ export const AuthView = () => {
 
               <button
                 type="submit"
-                className="w-full py-2.5 px-4 bg-purple-900 hover:bg-purple-950 text-white text-xs font-bold rounded-lg shadow-gov transition-all flex items-center justify-center space-x-2"
+                className="w-full py-2.5 px-4 bg-purple-900 hover:bg-purple-950 text-white text-xs font-bold rounded-lg shadow-sm transition-all flex items-center justify-center space-x-2 cursor-pointer"
               >
                 <Shield className="w-4 h-4 text-purple-300" />
                 <span>Authenticate as System Administrator</span>
@@ -343,7 +349,7 @@ export const AuthView = () => {
                     setIsAdminPortalMode(false);
                     window.history.pushState(null, '', '/');
                   }}
-                  className="text-xs text-blue-700 hover:underline"
+                  className="text-xs text-blue-700 hover:underline cursor-pointer"
                 >
                   ← Return to Official / Trainer Login Portal
                 </button>
@@ -355,7 +361,7 @@ export const AuthView = () => {
           <div className="p-4 bg-slate-50 border-t border-slate-200 text-center text-[11px] text-slate-500">
             <p className="flex items-center justify-center space-x-1">
               <Lock className="w-3 h-3 text-emerald-600 inline" />
-              <span>Authorized for Government of India Official Statistical System</span>
+              <span>Integrated with Mission Karmayogi (NPCSCB) & MoSPI</span>
             </p>
             {!isAdminPortalMode && (
               <p className="mt-2 text-[10px] text-slate-400">
@@ -378,9 +384,10 @@ export const AuthView = () => {
       </div>
 
       {/* Page Footer */}
-      <footer className="py-3 px-6 text-center text-[11px] text-slate-400 border-t border-white/10">
-        <p>© 2026 Ministry of Statistics & Programme Implementation (MoSPI), Government of India. All Rights Reserved.</p>
+      <footer className="py-3 px-6 text-center text-[11px] text-slate-400 border-t border-white/10 bg-[#0a1c2e]">
+        <p>© 2026 Ministry of Statistics & Programme Implementation (MoSPI) & Karmayogi Bharat, Government of India. All Rights Reserved.</p>
       </footer>
     </div>
   );
 };
+

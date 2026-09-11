@@ -10,7 +10,8 @@ import {
   Search,
   Globe,
   Sliders,
-  Type
+  Award,
+  Zap
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 
@@ -59,28 +60,41 @@ export const Header = () => {
   const roleBadge = getRoleBadge();
 
   return (
-    <header className="sticky top-0 z-40 bg-white border-b border-slate-200 shadow-2xs">
-      {/* Top MoSPI / GoI Strip */}
-      <div className="bg-gov-dark text-slate-200 text-[11px] px-4 py-1.5 flex items-center justify-between border-b border-slate-800">
+    <header className="sticky top-0 z-40 bg-white border-b border-slate-200/90 shadow-sm">
+      {/* Top Government of India & iGOT Karmayogi Strip */}
+      <div className="bg-[#0F2942] text-slate-200 text-[11px] px-4 py-1.5 flex items-center justify-between border-b border-slate-800">
         <div className="flex items-center space-x-3">
           <div className="flex items-center space-x-1.5 font-medium tracking-wide">
-            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-            <span>{t('govIndia')}</span>
+            {/* Ashoka Stambh / Emblem Representation */}
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span className="text-white font-semibold">{t('govIndia')}</span>
           </div>
           <span className="text-slate-600">|</span>
-          <span className="hidden sm:inline text-slate-300">
+          <span className="hidden sm:inline text-slate-300 font-medium">
+            कर्मयोगी भारत • Karmayogi Bharat
+          </span>
+          <span className="text-slate-600 hidden md:inline">|</span>
+          <span className="hidden md:inline text-slate-400 text-[10px]">
             {t('mospiMinistry')}
           </span>
         </div>
 
         <div className="flex items-center space-x-3 sm:space-x-4">
-          <span className="hidden md:inline-flex items-center text-slate-300 text-xs">
+          {/* KarmaPoints Chip */}
+          <div className="hidden lg:flex items-center space-x-1 bg-amber-950/60 border border-amber-600/40 text-amber-300 px-2 py-0.5 rounded-full text-[11px] font-bold shadow-xs">
+            <Zap className="w-3 h-3 text-amber-400 fill-amber-400" />
+            <span>{userProfile.karmayogiCredits || 1250}</span>
+            <span className="text-amber-200/70 text-[10px] font-normal">KarmaPoints</span>
+          </div>
+
+          {/* Parichay SSO Indicator */}
+          <span className="hidden sm:inline-flex items-center text-slate-300 text-[11px] bg-slate-800/80 px-2 py-0.5 rounded border border-slate-700">
             <Shield className="w-3 h-3 mr-1 text-amber-400" />
             {t('parichaySso')}
           </span>
 
           {/* Multilingual Selector: English | हिन्दी | తెలుగు */}
-          <div className="flex items-center space-x-1 bg-slate-800/90 p-0.5 rounded-lg border border-slate-700 text-[11px]">
+          <div className="flex items-center space-x-1 bg-slate-800 p-0.5 rounded-lg border border-slate-700 text-[11px]">
             <Globe className="w-3.5 h-3.5 text-blue-400 ml-1.5 mr-0.5" />
             <button
               onClick={() => setLanguage('en')}
@@ -114,63 +128,70 @@ export const Header = () => {
       </div>
 
       {/* Tricolor Accent Stripe */}
-      <div className="h-0.5 bg-gradient-to-r from-orange-500 via-white to-green-600"></div>
+      <div className="tricolor-border"></div>
 
-      {/* Main Header Bar */}
+      {/* Main Karmayogi Bharat & GyanMitra Header Bar */}
       <div className="px-4 sm:px-6 py-2.5 flex items-center justify-between gap-4">
-        {/* Logo & Title */}
+        {/* Brand & Platform Identity */}
         <div
-          className="flex items-center space-x-3 cursor-pointer"
+          className="flex items-center space-x-3 cursor-pointer select-none"
           onClick={() => {
             if (currentRole === 'trainer') setCurrentScreen('trainer-dashboard');
             else if (currentRole === 'admin') setCurrentScreen('admin-dashboard');
             else setCurrentScreen('dashboard');
           }}
         >
-          <div className="w-10 h-10 rounded-lg bg-gov-navy flex items-center justify-center text-white font-bold shadow-gov border border-slate-700 flex-shrink-0">
-            <div className="text-center leading-none">
-              <span className="text-amber-400 text-xs block font-serif">ज्ञान</span>
-              <span className="text-white text-[10px] font-sans tracking-tight">MITRA</span>
+          {/* Dual Emblem Badge */}
+          <div className="flex items-center space-x-2">
+            <div className="w-10 h-10 rounded-xl bg-[#1B365D] flex items-center justify-center text-white font-black shadow-md border border-blue-900 flex-shrink-0">
+              <div className="text-center leading-tight">
+                <span className="text-[#FF9933] text-[11px] block font-serif font-black">iGOT</span>
+                <span className="text-white text-[9px] font-sans tracking-widest uppercase">Bharat</span>
+              </div>
             </div>
-          </div>
-          <div>
-            <div className="flex items-center space-x-2">
-              <h1 className="text-base font-extrabold text-gov-navy tracking-tight">GyanMitra</h1>
-              <span className="hidden sm:inline-block px-2 py-0.5 rounded text-[10px] font-semibold bg-blue-50 text-blue-800 border border-blue-200">
-                MoSPI AI Intel
-              </span>
+
+            <div>
+              <div className="flex items-center space-x-2">
+                <h1 className="text-base font-extrabold text-[#1B365D] tracking-tight flex items-center space-x-1.5">
+                  <span>GyanMitra</span>
+                  <span className="text-amber-600 font-serif text-sm font-normal">| ज्ञानमित्र</span>
+                </h1>
+                <span className="hidden sm:inline-block px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-50 text-amber-900 border border-amber-300">
+                  MoSPI Wing
+                </span>
+              </div>
+              <p className="text-[11px] text-slate-500 hidden md:block">
+                Integrated Capacity Building Platform for Official Statistics
+              </p>
             </div>
-            <p className="text-[11px] text-slate-500 hidden md:block">
-              {t('tagline')}
-            </p>
           </div>
         </div>
 
-        {/* Global Search Bar (Desktop) */}
-        <div className="hidden lg:flex items-center flex-1 max-w-xs relative mx-4">
+        {/* Global Search Bar (Karmayogi LMS Search) */}
+        <div className="hidden lg:flex items-center flex-1 max-w-sm relative mx-4">
           <Search className="w-4 h-4 text-slate-400 absolute left-3" />
           <input
             type="text"
-            placeholder={t('searchPlaceholder')}
-            className="w-full pl-9 pr-3 py-1.5 text-xs bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-600 focus:bg-white text-slate-800"
+            placeholder={t('searchPlaceholder') || "Search courses, FRAC competencies, MoSPI guidelines..."}
+            className="w-full pl-9 pr-3 py-1.5 text-xs bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#264092] focus:bg-white text-slate-800 transition-all"
           />
         </div>
 
-        {/* Right Tools & User Profile */}
+        {/* Right Actions & User Profile */}
         <div className="flex items-center space-x-2 sm:space-x-3">
-          {/* Authenticated Role Status Badge (No public switcher) */}
+          {/* Authenticated Role Status Badge */}
           <div className={`hidden sm:inline-flex items-center space-x-1.5 px-2.5 py-1 rounded-lg text-xs font-bold border ${roleBadge.color}`}>
             <span className={`w-2 h-2 rounded-full ${roleBadge.dot}`}></span>
             <span>{roleBadge.label}</span>
           </div>
 
-          {/* AI Assistant Button */}
+          {/* AI Assistant Floating Trigger */}
           {currentRole !== 'admin' && (
             <button
               onClick={() => setIsAiDrawerOpen(true)}
-              className="flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-gradient-to-r from-blue-700 to-indigo-800 text-white shadow-gov hover:from-blue-800 hover:to-indigo-900 transition-all cursor-pointer"
+              className="flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-gradient-to-r from-[#1B365D] to-[#264092] text-white shadow-sm hover:shadow-md hover:from-[#152c4d] hover:to-[#1e3474] transition-all cursor-pointer"
             >
-              <Sparkles className="w-3.5 h-3.5 text-amber-300 animate-pulse" />
+              <Sparkles className="w-3.5 h-3.5 text-[#FFA730] animate-pulse" />
               <span className="hidden sm:inline">{t('aiAssistant')}</span>
             </button>
           )}
@@ -179,7 +200,7 @@ export const Header = () => {
           <div className="relative">
             <button
               onClick={() => setIsNotifMenuOpen(!isNotifMenuOpen)}
-              className="p-2 rounded-lg text-slate-600 hover:text-gov-navy hover:bg-slate-100 border border-slate-200 relative transition-colors"
+              className="p-2 rounded-lg text-slate-600 hover:text-[#1B365D] hover:bg-slate-100 border border-slate-200 relative transition-colors"
             >
               <Bell className="w-4 h-4" />
               {unreadCount > 0 && (
@@ -225,7 +246,7 @@ export const Header = () => {
             )}
           </div>
 
-          {/* User Profile Avatar & Menu */}
+          {/* User Profile Avatar & Karmayogi Credentials Menu */}
           <div className="relative">
             <button
               onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
@@ -245,15 +266,16 @@ export const Header = () => {
 
             {isProfileMenuOpen && (
               <div className="absolute right-0 mt-2 w-64 bg-white rounded-xl shadow-xl border border-slate-200 py-2 z-50 animate-in fade-in zoom-in-95">
-                <div className="px-4 py-2 border-b border-slate-100">
+                <div className="px-4 py-2 border-b border-slate-100 bg-slate-50 rounded-t-xl">
                   <p className="text-xs font-bold text-slate-900">{userProfile.name}</p>
                   <p className="text-[11px] text-slate-500">{userProfile.email}</p>
-                  <div className="mt-1 flex items-center space-x-2">
-                    <span className="px-1.5 py-0.5 rounded text-[10px] font-semibold bg-blue-100 text-blue-800">
+                  <div className="mt-1.5 flex items-center justify-between">
+                    <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-blue-100 text-blue-900 border border-blue-200">
                       {userProfile.cadre}
                     </span>
-                    <span className="text-[10px] text-emerald-700 font-bold">
-                      {userProfile.karmayogiCredits} {t('credits')}
+                    <span className="text-[10px] text-amber-700 font-bold flex items-center">
+                      <Zap className="w-3 h-3 mr-0.5 fill-amber-500 text-amber-500" />
+                      {userProfile.karmayogiCredits || 1250} Pts
                     </span>
                   </div>
                 </div>
@@ -313,3 +335,4 @@ export const Header = () => {
     </header>
   );
 };
+

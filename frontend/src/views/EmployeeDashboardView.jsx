@@ -7,7 +7,10 @@ import {
   TrendingUp,
   CheckCircle2,
   Clock,
-  BookOpen
+  BookOpen,
+  Zap,
+  Layers,
+  Compass
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 
@@ -30,19 +33,19 @@ export const EmployeeDashboardView = () => {
 
   return (
     <div className="space-y-6 pb-10">
-      {/* Welcome Banner */}
-      <div className="bg-gradient-to-r from-gov-navy via-gov-blue to-slate-900 rounded-2xl p-6 sm:p-8 text-white shadow-gov-md relative overflow-hidden">
-        {/* Subtle Ashoka emblem background watermark */}
+      {/* Karmayogi Mission Welcome Hero Banner */}
+      <div className="karmayogi-header-gradient rounded-2xl p-6 sm:p-8 text-white shadow-md relative overflow-hidden">
+        {/* Subtle decorative crest representation */}
         <div className="absolute right-0 top-0 bottom-0 opacity-10 flex items-center pr-8 pointer-events-none">
-          <div className="w-48 h-48 rounded-full border-8 border-white flex items-center justify-center font-serif text-6xl font-black">
-            ज्ञान
+          <div className="w-56 h-56 rounded-full border-8 border-white flex items-center justify-center font-serif text-6xl font-black">
+            iGOT
           </div>
         </div>
 
-        <div className="max-w-2xl relative z-10 space-y-2">
+        <div className="max-w-2xl relative z-10 space-y-2.5">
           <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-xs border border-white/20 text-amber-300 text-xs font-semibold">
-            <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
-            <span>{t('cadrePosting')}</span>
+            <Compass className="w-3.5 h-3.5 text-amber-400" />
+            <span>Mission Karmayogi • National Programme for Civil Services Capacity Building</span>
           </div>
           <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
             {t('welcomeOfficer')}, {userProfile.name}
@@ -54,49 +57,49 @@ export const EmployeeDashboardView = () => {
           <div className="pt-3 flex flex-wrap gap-3">
             <button
               onClick={() => setCurrentScreen('learning-path')}
-              className="px-4 py-2 rounded-lg bg-white text-gov-navy hover:bg-slate-100 text-xs font-bold transition-all shadow-gov flex items-center space-x-1.5"
+              className="px-4 py-2 rounded-xl bg-white text-[#1B365D] hover:bg-slate-100 text-xs font-bold transition-all shadow-sm flex items-center space-x-1.5 cursor-pointer"
             >
               <span>{t('continueLearningTitle') || 'Resume Active Module'}</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </button>
             <button
               onClick={() => setCurrentScreen('assessment')}
-              className="px-4 py-2 rounded-lg bg-white/15 hover:bg-white/25 border border-white/30 text-white text-xs font-semibold transition-all flex items-center space-x-1.5"
+              className="px-4 py-2 rounded-xl bg-white/15 hover:bg-white/25 border border-white/30 text-white text-xs font-semibold transition-all flex items-center space-x-1.5 cursor-pointer"
             >
               <span>{t('takeAssessmentBtn')}</span>
             </button>
             <button
               onClick={() => setIsAiDrawerOpen(true)}
-              className="px-3.5 py-2 rounded-lg bg-amber-400/20 hover:bg-amber-400/30 border border-amber-400/40 text-amber-200 text-xs font-semibold transition-all flex items-center space-x-1.5"
+              className="px-3.5 py-2 rounded-xl bg-amber-400/20 hover:bg-amber-400/30 border border-amber-400/40 text-amber-200 text-xs font-semibold transition-all flex items-center space-x-1.5 cursor-pointer"
             >
-              <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+              <Sparkles className="w-3.5 h-3.5 text-[#FFA730]" />
               <span>{t('aiAssistant')}</span>
             </button>
           </div>
         </div>
       </div>
 
-      {/* Top KPI Cards */}
+      {/* Karmayogi KPI Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="bg-white rounded-xl border border-slate-200 p-5 shadow-gov">
-          <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider">{t('kpiCompetencyScore')}</p>
+        <div className="bg-white rounded-xl border border-slate-200/90 p-5 shadow-sm hover:shadow-md transition-shadow">
+          <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">{t('kpiCompetencyScore')}</p>
           <div className="flex items-baseline space-x-2 mt-1">
             <h3 className="text-2xl font-black text-slate-900">{competencyOverview.overallScore}%</h3>
-            <span className="text-xs font-semibold text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded">
+            <span className="text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
               {t('kpiScoreDelta')}
             </span>
           </div>
           <div className="w-full bg-slate-100 h-2 rounded-full mt-3 overflow-hidden">
-            <div className="bg-blue-600 h-2 rounded-full transition-all duration-500" style={{ width: `${competencyOverview.overallScore}%` }}></div>
+            <div className="bg-[#264092] h-2 rounded-full transition-all duration-500" style={{ width: `${competencyOverview.overallScore}%` }}></div>
           </div>
           <p className="text-[11px] text-slate-500 mt-2">{t('benchmarkTarget')}</p>
         </div>
 
-        <div className="bg-white rounded-xl border border-slate-200 p-5 shadow-gov">
-          <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider">{t('kpiSkillGaps')}</p>
+        <div className="bg-white rounded-xl border border-slate-200/90 p-5 shadow-sm hover:shadow-md transition-shadow">
+          <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">{t('kpiSkillGaps')}</p>
           <div className="flex items-baseline space-x-2 mt-1">
             <h3 className="text-2xl font-black text-slate-900">{skillGaps.filter(g => g.gap > 0).length}</h3>
-            <span className="text-xs font-semibold text-red-700 bg-red-50 px-1.5 py-0.5 rounded">
+            <span className="text-xs font-bold text-red-700 bg-red-50 px-2 py-0.5 rounded-full border border-red-200">
               {t('kpiHighPriority')}
             </span>
           </div>
@@ -105,17 +108,23 @@ export const EmployeeDashboardView = () => {
           </p>
           <button
             onClick={() => setCurrentScreen('skill-gaps')}
-            className="text-xs text-blue-700 font-bold hover:underline mt-1 block"
+            className="text-xs text-[#264092] font-bold hover:underline mt-1 block cursor-pointer"
           >
             {t('viewAllGaps')} →
           </button>
         </div>
 
-        <div className="bg-white rounded-xl border border-slate-200 p-5 shadow-gov">
-          <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider">{t('kpiPathwayProgress')}</p>
+        <div className="bg-white rounded-xl border border-slate-200/90 p-5 shadow-sm hover:shadow-md transition-shadow">
+          <div className="flex items-center justify-between">
+            <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">{t('kpiPathwayProgress')}</p>
+            <span className="text-amber-600 font-bold text-xs flex items-center">
+              <Zap className="w-3.5 h-3.5 fill-amber-500 text-amber-500 mr-0.5" />
+              1,250 Pts
+            </span>
+          </div>
           <div className="flex items-baseline space-x-2 mt-1">
             <h3 className="text-2xl font-black text-slate-900">64%</h3>
-            <span className="text-xs font-semibold text-blue-700 bg-blue-50 px-1.5 py-0.5 rounded">
+            <span className="text-xs font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded-full border border-blue-200">
               {t('kpiMilestones')}
             </span>
           </div>
@@ -125,36 +134,39 @@ export const EmployeeDashboardView = () => {
           <p className="text-[11px] text-slate-500 mt-2">{t('kpiKarmayogiCredits')}: 420</p>
         </div>
 
-        <div className="bg-white rounded-xl border border-slate-200 p-5 shadow-gov">
-          <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider">{t('trainingHours')}</p>
+        <div className="bg-white rounded-xl border border-slate-200/90 p-5 shadow-sm hover:shadow-md transition-shadow">
+          <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">{t('trainingHours')}</p>
           <div className="flex items-baseline space-x-2 mt-1">
             <h3 className="text-2xl font-black text-slate-900">42 {t('hours')}</h3>
-            <span className="text-xs font-semibold text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded">
+            <span className="text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
               +6 {t('hours')}
             </span>
           </div>
           <p className="text-[11px] text-slate-500 mt-4">{t('verifiedVia')}</p>
           <button
             onClick={() => setCurrentScreen('progress')}
-            className="text-xs text-blue-700 font-bold hover:underline mt-1 block"
+            className="text-xs text-[#264092] font-bold hover:underline mt-1 block cursor-pointer"
           >
             {t('navProgress')} →
           </button>
         </div>
       </div>
 
-      {/* Main Section: Competency Overview Bars */}
-      <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-gov">
+      {/* Main Section: FRAC Competency Overview Bars */}
+      <div className="bg-white rounded-xl border border-slate-200/90 p-6 shadow-sm">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 mb-4 border-b border-slate-100 gap-2">
           <div>
-            <h3 className="text-base font-bold text-slate-900">{t('competenciesTitle')}</h3>
+            <h3 className="text-base font-extrabold text-[#1B365D] flex items-center space-x-2">
+              <Layers className="w-4 h-4 text-[#264092]" />
+              <span>{t('competenciesTitle')} (FRAC Matrix)</span>
+            </h3>
             <p className="text-xs text-slate-500">
               {t('competenciesSub')}
             </p>
           </div>
           <button
             onClick={() => setCurrentScreen('competencies')}
-            className="text-xs font-semibold text-blue-700 hover:text-blue-900 flex items-center"
+            className="text-xs font-bold text-[#264092] hover:text-[#1B365D] flex items-center cursor-pointer"
           >
             <span>{t('viewDetails')}</span>
             <ArrowRight className="w-3.5 h-3.5 ml-1" />
@@ -163,7 +175,7 @@ export const EmployeeDashboardView = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {competencyOverview.categories.map((cat) => (
-            <div key={cat.id} className="space-y-2 p-3 rounded-lg bg-slate-50 border border-slate-200/60">
+            <div key={cat.id} className="space-y-2 p-3.5 rounded-xl bg-slate-50 border border-slate-200/70">
               <div className="flex items-center justify-between text-xs">
                 <span className="font-bold text-slate-800">{cat.name}</span>
                 <div className="space-x-1.5">
@@ -174,14 +186,14 @@ export const EmployeeDashboardView = () => {
               <div className="w-full bg-slate-200 h-2.5 rounded-full overflow-hidden">
                 <div
                   className={`h-2.5 rounded-full transition-all duration-700 ${
-                    cat.score >= 80 ? 'bg-emerald-600' : cat.score >= 70 ? 'bg-blue-600' : 'bg-amber-500'
+                    cat.score >= 80 ? 'bg-emerald-600' : cat.score >= 70 ? 'bg-[#264092]' : 'bg-amber-500'
                   }`}
                   style={{ width: `${cat.score}%` }}
                 ></div>
               </div>
               <div className="flex items-center justify-between text-[11px] text-slate-500 pt-0.5">
                 <span>{cat.count} {t('navCompetencies')}</span>
-                <span className={cat.score >= cat.target ? 'text-emerald-700 font-medium' : 'text-amber-700 font-medium'}>
+                <span className={cat.score >= cat.target ? 'text-emerald-700 font-bold' : 'text-amber-700 font-bold'}>
                   {cat.score >= cat.target ? '✓ Target Achieved' : `${cat.target - cat.score}% Gap`}
                 </span>
               </div>
@@ -194,14 +206,14 @@ export const EmployeeDashboardView = () => {
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <div>
-            <h3 className="text-base font-bold text-slate-900">{t('urgentGapsTitle')}</h3>
+            <h3 className="text-base font-extrabold text-[#1B365D]">{t('urgentGapsTitle')}</h3>
             <p className="text-xs text-slate-500">
               {t('urgentGapsDesc')}
             </p>
           </div>
           <button
             onClick={() => setCurrentScreen('skill-gaps')}
-            className="text-xs font-semibold text-blue-700 hover:underline"
+            className="text-xs font-bold text-[#264092] hover:underline cursor-pointer"
           >
             {t('viewAllGaps')} ({skillGaps.length}) →
           </button>
@@ -209,13 +221,13 @@ export const EmployeeDashboardView = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {skillGaps.filter(g => g.gap > 0).slice(0, 3).map((gap) => (
-            <div key={gap.id} className="bg-white rounded-xl border border-slate-200 p-5 shadow-gov flex flex-col justify-between hover:border-blue-300 transition-all">
+            <div key={gap.id} className="bg-white rounded-xl border border-slate-200/90 p-5 shadow-sm flex flex-col justify-between hover:border-blue-300 transition-all">
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
                   <span className="px-2 py-0.5 rounded text-[11px] font-semibold bg-slate-100 text-slate-700">
                     {gap.category}
                   </span>
-                  <span className={`px-2 py-0.5 rounded text-[11px] font-bold ${
+                  <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
                     gap.priority === 'High' ? 'bg-red-50 text-red-700 border border-red-200' : 'bg-amber-50 text-amber-700 border border-amber-200'
                   }`}>
                     {gap.priority === 'High' ? t('highSeverity') : t('mediumSeverity')}
@@ -248,13 +260,13 @@ export const EmployeeDashboardView = () => {
               <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between gap-2">
                 <button
                   onClick={() => setCurrentScreen('skill-gaps')}
-                  className="px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-700 hover:bg-slate-100 border border-slate-200 transition-colors"
+                  className="px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-700 hover:bg-slate-100 border border-slate-200 transition-colors cursor-pointer"
                 >
                   {t('viewDetails')}
                 </button>
                 <button
                   onClick={() => setCurrentScreen('learning-path')}
-                  className="px-3 py-1.5 rounded-lg text-xs font-bold text-white bg-gov-blue hover:bg-gov-navy transition-colors flex items-center space-x-1"
+                  className="px-3 py-1.5 rounded-lg text-xs font-bold text-white bg-[#1B365D] hover:bg-[#152c4d] transition-colors flex items-center space-x-1 cursor-pointer"
                 >
                   <span>{t('startLearning')}</span>
                   <ArrowRight className="w-3" />
@@ -265,18 +277,18 @@ export const EmployeeDashboardView = () => {
         </div>
       </div>
 
-      {/* Recommended For You Section */}
-      <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-gov space-y-4">
+      {/* Recommended iGOT Karmayogi Courses */}
+      <div className="bg-white rounded-xl border border-slate-200/90 p-6 shadow-sm space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-slate-100 gap-2">
           <div>
-            <h3 className="text-base font-bold text-slate-900">{t('coursesTitle')}</h3>
+            <h3 className="text-base font-extrabold text-[#1B365D]">{t('coursesTitle')} (iGOT Karmayogi)</h3>
             <p className="text-xs text-slate-500">
               {t('coursesSub')}
             </p>
           </div>
           <button
             onClick={() => setCurrentScreen('courses')}
-            className="text-xs font-semibold text-blue-700 hover:underline"
+            className="text-xs font-bold text-[#264092] hover:underline cursor-pointer"
           >
             {t('viewAll')} →
           </button>
@@ -284,7 +296,7 @@ export const EmployeeDashboardView = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {courses.filter(c => c.isRecommended).slice(0, 2).map((crs) => (
-            <div key={crs.id} className="p-4 rounded-xl border border-slate-200 bg-slate-50/50 hover:bg-white hover:border-blue-300 transition-all flex flex-col justify-between space-y-3">
+            <div key={crs.id} className="p-4 rounded-xl border border-slate-200/90 bg-slate-50/50 hover:bg-white hover:border-blue-300 transition-all flex flex-col justify-between space-y-3">
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
                   <span className={`px-2 py-0.5 rounded text-[11px] font-bold ${
@@ -292,7 +304,7 @@ export const EmployeeDashboardView = () => {
                   }`}>
                     {crs.provider}
                   </span>
-                  <span className="text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+                  <span className="text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
                     {crs.matchScore}% Match
                   </span>
                 </div>
@@ -305,7 +317,7 @@ export const EmployeeDashboardView = () => {
                 <span>⏱ {crs.duration} • {crs.difficulty}</span>
                 <button
                   onClick={() => setCurrentScreen('learning-path')}
-                  className="px-3 py-1.5 rounded-lg bg-gov-blue hover:bg-gov-navy text-white font-bold text-xs transition-colors"
+                  className="px-3.5 py-1.5 rounded-lg bg-[#1B365D] hover:bg-[#152c4d] text-white font-bold text-xs transition-colors cursor-pointer"
                 >
                   {t('startLearning')}
                 </button>
@@ -316,13 +328,13 @@ export const EmployeeDashboardView = () => {
       </div>
 
       {/* Continue Learning Strip */}
-      <div className="bg-blue-50/60 rounded-xl border border-blue-200 p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div className="bg-blue-50/80 rounded-xl border border-blue-200 p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div className="flex items-center space-x-3">
-          <div className="w-10 h-10 rounded-lg bg-blue-600 text-white flex items-center justify-center font-bold flex-shrink-0">
+          <div className="w-10 h-10 rounded-xl bg-[#264092] text-white flex items-center justify-center font-bold flex-shrink-0 shadow-sm">
             ▶
           </div>
           <div>
-            <span className="text-[11px] font-bold uppercase tracking-wider text-blue-800">{t('continueLearningTitle')}</span>
+            <span className="text-[11px] font-bold uppercase tracking-wider text-blue-900">{t('continueLearningTitle')}</span>
             <h4 className="text-sm font-bold text-slate-900">Python for Microdata Processing & NSS Vectorization</h4>
             <p className="text-xs text-slate-600">{t('step')} 4/6 • 65% {t('completed')}</p>
           </div>
@@ -330,7 +342,7 @@ export const EmployeeDashboardView = () => {
 
         <button
           onClick={() => setCurrentScreen('learning-path')}
-          className="px-4 py-2 bg-gov-blue hover:bg-gov-navy text-white text-xs font-bold rounded-lg transition-colors whitespace-nowrap"
+          className="px-4 py-2 bg-[#1B365D] hover:bg-[#152c4d] text-white text-xs font-bold rounded-xl transition-colors whitespace-nowrap cursor-pointer"
         >
           {t('continueLearningTitle')} →
         </button>
@@ -338,3 +350,4 @@ export const EmployeeDashboardView = () => {
     </div>
   );
 };
+
