@@ -1,5 +1,5 @@
 import React from 'react';
-import { TrendingUp, Award, Clock, BookOpen, CheckCircle2, Calendar, FileText, Zap, Shield } from 'lucide-react';
+import { TrendingUp, Award, Clock, BookOpen, CheckCircle2, Calendar, FileText, Shield } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 
 export const ProgressView = () => {
@@ -64,7 +64,7 @@ export const ProgressView = () => {
         <div className="bg-[#111F38] rounded-2xl border border-[#1E2E4A] p-5 shadow-lg">
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Karma Points</span>
-            <Zap className="w-4 h-4 text-amber-400 fill-amber-400" />
+            <Award className="w-4 h-4 text-amber-400" />
           </div>
           <h3 className="text-2xl font-black text-amber-300 mt-2">{userProfile.karmayogiCredits || 799} Pts</h3>
           <p className="text-[11px] text-slate-400 mt-2">Synced with Service Record</p>

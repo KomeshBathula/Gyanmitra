@@ -12,7 +12,6 @@ import {
   Eye,
   Home,
   Check,
-  Zap,
   AlertTriangle
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';

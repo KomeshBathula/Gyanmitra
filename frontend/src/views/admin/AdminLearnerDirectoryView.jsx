@@ -12,7 +12,6 @@ import {
   PlusCircle,
   X,
   Shield,
-  Zap,
   Clock,
   Send,
   Lock

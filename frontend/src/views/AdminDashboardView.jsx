@@ -7,7 +7,7 @@ import {
   Users,
   CheckCircle2,
   PieChart,
-  Zap,
+  ClipboardCheck,
   ArrowRight,
   Clock,
   FileText
@@ -54,8 +54,8 @@ export const AdminDashboardView = () => {
               onClick={() => setCurrentScreen('admin-quiz-studio')}
               className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold shadow-md transition-all flex items-center space-x-2 cursor-pointer"
             >
-              <Zap className="w-4 h-4 text-amber-300" />
-              <span>AI Quiz Studio</span>
+              <ClipboardCheck className="w-4 h-4 text-white" />
+              <span>Assessment Studio</span>
             </button>
             <button
               onClick={() => setCurrentScreen('admin-learners')}

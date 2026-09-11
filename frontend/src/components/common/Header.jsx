@@ -9,7 +9,7 @@ import {
   Globe,
   Sliders,
   Check,
-  Zap,
+  Award,
   Sun,
   Moon
 } from 'lucide-react';
@@ -247,7 +247,7 @@ export const Header = () => {
                         </span>
                       ) : (
                         <span className="text-[10px] text-amber-400 font-bold flex items-center">
-                          <Zap className="w-3 h-3 mr-0.5 fill-amber-400 text-amber-400" />
+                          <Award className="w-3 h-3 mr-0.5 text-amber-400" />
                           {userProfile?.karmayogiCredits ?? 799} Pts
                         </span>
                       )}

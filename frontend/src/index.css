@@ -70,14 +70,62 @@
    GYANMITRA THEME SYSTEM: DARK & LIGHT PALETTES
    ============================================================ */
 
-/* Dark Mode Defaults */
+/* Dark Mode: Clean, Minimal Government Slate Palette (No heavy dark navy) */
 html.dark {
   color-scheme: dark;
 }
 
 html.dark body {
-  background-color: #0B1528;
+  background-color: #0F172A;
   color: #F8FAFC;
+}
+
+/* Dark Mode Minimal Slate Theme Overrides */
+html.dark .bg-\[\#0B1528\],
+html.dark .bg-\[\#070D18\],
+html.dark .bg-\[\#081326\],
+html.dark .bg-\[\#0F2942\],
+html.dark .bg-\[\#060D1A\] {
+  background-color: #0F172A !important;
+}
+
+html.dark header.sticky {
+  background-color: #0F172A !important;
+  border-bottom-color: #334155 !important;
+}
+
+html.dark aside {
+  background-color: #0F172A !important;
+  border-right-color: #334155 !important;
+}
+
+html.dark .bg-\[\#111F38\] {
+  background-color: #1E293B !important;
+  border-color: #334155 !important;
+}
+
+html.dark .bg-\[\#080E1C\],
+html.dark .bg-\[\#0A1324\],
+html.dark .bg-\[\#162544\],
+html.dark .bg-\[\#1A2C4E\],
+html.dark .bg-\[\#162A4D\],
+html.dark .bg-\[\#12233F\],
+html.dark .bg-\[\#13223D\],
+html.dark .bg-\[\#1E2E4A\] {
+  background-color: #1E293B !important;
+  border-color: #334155 !important;
+}
+
+html.dark .border-\[\#1E2E4A\],
+html.dark .border-\[\#1E3A6D\],
+html.dark .border-\[\#1E335A\],
+html.dark .border-\[\#2A3E66\],
+html.dark .border-\[\#15284F\],
+html.dark .border-\[\#2A4374\],
+html.dark .border-\[\#1D3663\],
+html.dark .border-\[\#1E3A5F\],
+html.dark .border-\[\#1A2C4E\] {
+  border-color: #334155 !important;
 }
 
 /* Light Mode Comprehensive Color Palette Overrides */

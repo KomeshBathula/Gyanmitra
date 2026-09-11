@@ -6,7 +6,6 @@ import {
   Play,
   Clock,
   Award,
-  Zap,
   BookOpen,
   Filter,
   Check,
@@ -393,7 +392,7 @@ export const CoursesView = () => {
                 <div className="bg-[#111F38] p-3 rounded-2xl border border-[#1E2E4A] text-center">
                   <span className="text-[10px] text-slate-400 uppercase font-bold block">Reward</span>
                   <span className="text-xs font-bold text-amber-400 flex items-center justify-center">
-                    <Zap className="w-3 h-3 mr-0.5 fill-amber-400" />
+                    <Award className="w-3.5 h-3.5 mr-0.5 text-amber-400" />
                     +{activeCourseModal.karmaPoints || 100} Pts
                   </span>
                 </div>

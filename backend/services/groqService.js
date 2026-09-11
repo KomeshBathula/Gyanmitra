@@ -54,58 +54,65 @@ Respond strictly in valid JSON format with this exact structure:
 }
 Important: "correctAnswer" MUST be an integer 0, 1, 2, or 3 representing the zero-based index of the correct option in the "options" array.`;
 
-        const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${apiKey.trim()}`
-          },
-          body: JSON.stringify({
-            model: config.groqModel || 'qwen/qwen3.8-27b',
-            messages: [
-              {
-                role: 'system',
-                content: 'You are a professional MoSPI / NSSTA assessment generator. You must respond only with a valid JSON object matching the requested schema.'
+        const modelsToTry = [config.groqModel || 'qwen/qwen3.8-27b', 'openai/gpt-oss-20b'];
+        for (const model of modelsToTry) {
+          try {
+            const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${apiKey.trim()}`
               },
-              {
-                role: 'user',
-                content: prompt
-              }
-            ],
-            response_format: { type: 'json_object' },
-            temperature: 0.3,
-            max_tokens: 500
-          })
-        });
+              body: JSON.stringify({
+                model,
+                messages: [
+                  {
+                    role: 'system',
+                    content: 'You are a professional MoSPI / NSSTA assessment generator. You must respond only with a valid JSON object matching the requested schema.'
+                  },
+                  {
+                    role: 'user',
+                    content: prompt
+                  }
+                ],
+                response_format: { type: 'json_object' },
+                temperature: 0.2,
+                max_tokens: 700
+              })
+            });
 
-        if (response.ok) {
-          const data = await response.json();
-          const content = data.choices?.[0]?.message?.content;
-          if (content) {
-            const parsed = JSON.parse(content);
-            if (parsed.questions && Array.isArray(parsed.questions) && parsed.questions.length > 0) {
-              return {
-                mode: "groq-ai",
-                model: config.groqModel,
-                questions: parsed.questions.map((q, idx) => ({
-                  id: q.id || (idx + 1),
-                  question: q.question,
-                  options: Array.isArray(q.options) && q.options.length === 4 ? q.options : [
-                    q.options?.[0] || "Option A",
-                    q.options?.[1] || "Option B",
-                    q.options?.[2] || "Option C",
-                    q.options?.[3] || "Option D"
-                  ],
-                  correctAnswer: typeof q.correctAnswer === 'number' ? q.correctAnswer : 0,
-                  explanation: q.explanation || "Official MoSPI methodology rationale.",
-                  sourceCitation: q.sourceCitation || `${documentName} (Section 2)`
-                }))
-              };
+            if (response.ok) {
+              const data = await response.json();
+              const content = data.choices?.[0]?.message?.content;
+              if (content) {
+                const parsed = JSON.parse(content);
+                if (parsed.questions && Array.isArray(parsed.questions) && parsed.questions.length > 0) {
+                  return {
+                    mode: "groq-ai",
+                    model,
+                    questions: parsed.questions.map((q, idx) => ({
+                      id: q.id || (idx + 1),
+                      question: q.question,
+                      options: Array.isArray(q.options) && q.options.length === 4 ? q.options : [
+                        q.options?.[0] || "Option A",
+                        q.options?.[1] || "Option B",
+                        q.options?.[2] || "Option C",
+                        q.options?.[3] || "Option D"
+                      ],
+                      correctAnswer: typeof q.correctAnswer === 'number' ? q.correctAnswer : 0,
+                      explanation: q.explanation || "Official MoSPI methodology rationale.",
+                      sourceCitation: q.sourceCitation || `${documentName} (Section 2)`
+                    }))
+                  };
+                }
+              }
+            } else {
+              const errText = await response.text();
+              console.warn(`[Groq API] Model ${model} HTTP ${response.status} Error:`, errText);
             }
+          } catch (mErr) {
+            console.warn(`[Groq API] Quiz generation attempt on ${model} failed:`, mErr.message);
           }
-        } else {
-          const errText = await response.text();
-          console.warn(`[Groq API] HTTP ${response.status} Error:`, errText);
         }
       } catch (err) {
         console.warn("[Groq API] Generation exception:", err.message);
@@ -120,15 +127,30 @@ Important: "correctAnswer" MUST be an integer 0, 1, 2, or 3 representing the zer
   },
 
   /**
-   * AI Assistant Chat powered by Groq LLM
+   * AI Assistant Chat powered exclusively by Groq LLM with strict domain guardrails
    */
   chatAssistant: async ({ message, chatHistory = [], userCadre = "Statistical Officer" }) => {
+    const FORMAL_REFUSAL_MESSAGE = "I am GyanMitra AI, dedicated exclusively to the iGOT Karmayogi & MoSPI Capacity Building Framework. I can only assist with official competencies, courses, assessment preparation, and learning pathways within this application. Please submit inquiries regarding official statistics, your competency profile, or portal courses.";
+
     const apiKey = config.groqApiKey || process.env.GROQ_API_KEY;
 
     if (apiKey && apiKey.trim() !== '') {
       try {
-        const systemPrompt = `You are GyanMitra AI — an intelligent official statistics and competency assistant for Government of India employees (MoSPI, NSSTA, DoPT, iGOT Karmayogi).
-You answer statistical methodology, survey design, sampling, National Accounts (GDP/GVA), APAR compliance, and civil service capacity building questions with precision, citing official government frameworks where applicable. User cadre: ${userCadre}. Keep responses clear, helpful, professional, and well-grounded.`;
+        const systemPrompt = `You are GyanMitra AI, the official AI Learning and Competency Assistant for the GyanMitra portal (iGOT Karmayogi & MoSPI Capacity Building Framework, Government of India).
+CRITICAL DIRECTIVE - STRICT DOMAIN BOUNDARY:
+You are strictly confined to answering questions concerning:
+1. The GyanMitra application, its features, workflows, and modules (competency matrix, skill gap analysis, personalized learning pathways, course assessments, department admin quizzes, APAR compliance, and Karma Points).
+2. iGOT Karmayogi civil service capacity building framework, Mission Karmayogi, DoPT guidelines.
+3. Official statistics, MoSPI, NSSTA curricula, survey sampling methodology (NSS, PLFS, HCES, ASI, CPI, GDP/GVA compilation), and statistical data processing courses (such as Python for Microdata, R for Official Statistics, Data Governance).
+4. Courses offered or recommended on this portal.
+User cadre: ${userCadre}.
+
+REFUSAL POLICY:
+If the user's question is NOT directly related to the GyanMitra application, iGOT Karmayogi, civil service competency building, MoSPI statistical frameworks, or related courses (for example, general trivia, entertainment, recipes, general coding unrelated to the curriculum, personal advice, politics, gaming, sports, or casual chit-chat outside this scope), you MUST REFUSE politely and formally.
+Respond with this exact formal institutional message:
+"${FORMAL_REFUSAL_MESSAGE}"
+
+DO NOT answer off-topic queries under any circumstances, even if requested or hypothesized. For on-topic queries, provide clear, authoritative, and helpful guidance grounded in official Indian Government training frameworks. Keep response under 300 words.`;
 
         const messages = [
           { role: 'system', content: systemPrompt },
@@ -136,42 +158,77 @@ You answer statistical methodology, survey design, sampling, National Accounts (
           { role: 'user', content: message }
         ];
 
-        const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${apiKey.trim()}`
-          },
-          body: JSON.stringify({
-            model: config.groqModel || 'qwen/qwen3.8-27b',
-            messages,
-            temperature: 0.5,
-            max_tokens: 1000
-          })
-        });
+        // Try primary model, fallback to alternate Groq model if rate limited
+        const modelsToTry = [config.groqModel || 'qwen/qwen3.8-27b', 'openai/gpt-oss-20b'];
+        let reply = null;
+        let usedModel = modelsToTry[0];
 
-        if (response.ok) {
-          const data = await response.json();
-          const reply = data.choices?.[0]?.message?.content;
-          if (reply) {
-            return {
-              mode: "groq-ai",
-              model: config.groqModel || 'qwen/qwen3.8-27b',
-              reply: reply.trim(),
-              groundedSource: "MoSPI Official Frameworks & NSSTA Guidelines"
-            };
+        for (const model of modelsToTry) {
+          try {
+            const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${apiKey.trim()}`
+              },
+              body: JSON.stringify({
+                model,
+                messages,
+                temperature: 0.2,
+                max_tokens: 450
+              })
+            });
+
+            if (response.ok) {
+              const data = await response.json();
+              reply = data.choices?.[0]?.message?.content;
+              if (reply) {
+                usedModel = model;
+                break;
+              }
+            } else {
+              const errBody = await response.text();
+              console.warn(`[Groq API] Model ${model} HTTP ${response.status}:`, errBody);
+            }
+          } catch (modelErr) {
+            console.warn(`[Groq API] Attempt with ${model} failed:`, modelErr.message);
           }
+        }
+
+        if (reply) {
+          return {
+            mode: "groq-ai",
+            model: usedModel,
+            reply: reply.trim(),
+            groundedSource: "MoSPI Official Frameworks & NSSTA Guidelines (Groq AI)"
+          };
         }
       } catch (err) {
         console.warn("[Groq API] Chat exception:", err.message);
       }
     }
 
-    // Fallback response when offline
-    let reply = "GyanMitra Statistical RAG: I have referenced MoSPI guidelines and NSSTA manuals to assist your inquiry.";
+    // Fallback response when offline or network unreachable
+    const msg = (message || '').toLowerCase();
+    const isDomainRelevant = msg.includes("gap") || msg.includes("python") || msg.includes("skill") ||
+      msg.includes("sampling") || msg.includes("nss") || msg.includes("fsu") || msg.includes("ssu") ||
+      msg.includes("apar") || msg.includes("cbp") || msg.includes("karmayogi") || msg.includes("course") ||
+      msg.includes("igot") || msg.includes("competency") || msg.includes("mospi") || msg.includes("nssta") ||
+      msg.includes("assessment") || msg.includes("quiz") || msg.includes("gdp") || msg.includes("gva") ||
+      msg.includes("cpi") || msg.includes("plfs") || msg.includes("hces") || msg.includes("dpdp") ||
+      msg.includes("waterfall") || msg.includes("insolvency") || msg.includes("admin");
+
+    if (!isDomainRelevant) {
+      return {
+        mode: "mock",
+        reply: FORMAL_REFUSAL_MESSAGE,
+        groundedSource: "MoSPI Official Capacity Building Guidelines"
+      };
+    }
+
+    let reply = "GyanMitra Statistical Advisor: I have referenced official MoSPI guidelines and NSSTA manuals to assist your inquiry.";
     let sources = ["MoSPI ACBP Framework 2026", "NSSTA Training Manual"];
 
-    const msg = (message || '').toLowerCase();
     if (msg.includes("gap") || msg.includes("python") || msg.includes("skill")) {
       reply = "Your primary skill gap is in Python for Data Analysis (Level 2 vs Level 4 required for official microdata processing). I recommend completing the NSSTA 'Python for Microdata' module.";
       sources = ["MoSPI ACBP Competency Matrix 2026"];

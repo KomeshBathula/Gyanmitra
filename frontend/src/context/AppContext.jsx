@@ -553,7 +553,7 @@ export const AppProvider = ({ children }) => {
     setCurrentScreen('learning-path');
   };
 
-  // AI Chat send message
+  // AI Chat send message (Exclusively powered by Groq Cloud API with institutional guardrails)
   const sendAiMessage = async (userText) => {
     const userMsg = {
       id: `msg-${Date.now()}`,
@@ -564,25 +564,53 @@ export const AppProvider = ({ children }) => {
 
     setAiChatMessages(prev => [...prev, userMsg]);
 
-    // Call /api/ai/assistant-chat
-    const apiRes = await api.sendAIChat(userText);
-
-    let replyText = apiRes?.reply || "Based on MoSPI guidelines and your current competency matrix, I recommend focusing on vectorization in Python before advancing to machine learning models.";
+    let replyText = "";
     let suggestions = ["Show recommended courses", "View my skill gap breakdown"];
 
-    const lower = userText.toLowerCase();
-    if (lower.includes("gap") || lower.includes("skill")) {
-      replyText = `You currently have 4 identified skill gaps. Your two highest priority gaps are:\n1. **Python for Data Analysis** (Current Level 2 vs Required Level 4)\n2. **AI/ML in Official Statistics** (Current Level 1 vs Required Level 3)\n\nAddressing Python will resolve data validation bottlenecks in SDRD survey tabulation.`;
-      suggestions = ["Generate personalized learning path", "Take Python assessment now"];
-    } else if (lower.includes("why") || lower.includes("recommended") || lower.includes("path")) {
-      replyText = `The course **'Python for Microdata Processing & NSS Vectorization'** from NSSTA Greater Noida was recommended because your ISS Deputy Director role mandates Level 4 proficiency in processing large-scale survey unit data (such as NSS Schedule 10 and Periodic Labour Force Survey).`;
-      suggestions = ["View full course syllabus", "Go to learning path"];
-    } else if (lower.includes("sampling") || lower.includes("stratified")) {
-      replyText = `**Multi-Stage Stratified Sampling** in the National Sample Survey (NSS) operates in two or more hierarchical stages:\n\n• **First Stage Units (FSUs)**: Census villages in rural sectors or Urban Frame Survey (UFS) blocks in urban sectors, selected with Probability Proportional to Size (PPSWR).\n• **Second Stage Units (SSUs)**: Households selected through circular systematic sampling after on-ground listing.\n\nThis optimizes field resource costs while preserving unbiased national estimates.`;
-      suggestions = ["Generate quiz on Sampling Methodology", "View NSSTA Sampling Manual"];
-    } else if (lower.includes("dpdp") || lower.includes("privacy") || lower.includes("governance")) {
-      replyText = `Under the **DPDP Act 2023**, MoSPI data dissemination requires Statistical Disclosure Control (SDC). Unit-level records must apply *k-anonymity* and perturb direct identifiers to ensure citizen privacy while preserving macro-economic aggregations.`;
-      suggestions = ["View Data Privacy Course", "Check compliance checklist"];
+    try {
+      // Call Express backend -> Groq LLM API
+      const apiRes = await api.sendAIChat(userText);
+      if (apiRes && apiRes.reply) {
+        replyText = apiRes.reply;
+        if (replyText.includes("exclusively to the iGOT Karmayogi")) {
+          // Off-topic refusal formal response
+          suggestions = [
+            "Explain Multi-Stage Stratified Sampling in NSS",
+            "What are my highest priority skill gaps?",
+            "How does MoSPI compile National Accounts?"
+          ];
+        }
+      }
+    } catch (err) {
+      console.warn('[AI Assistant] Groq API call error, applying local MoSPI fallback:', err);
+    }
+
+    if (!replyText) {
+      // Fallback only if server completely unreachable
+      const lower = userText.toLowerCase();
+      const isRelevant = lower.includes("gap") || lower.includes("skill") || lower.includes("python") ||
+        lower.includes("sampling") || lower.includes("nss") || lower.includes("karmayogi") ||
+        lower.includes("apar") || lower.includes("cbp") || lower.includes("mospi") || lower.includes("course");
+
+      if (!isRelevant) {
+        replyText = "I am GyanMitra AI, dedicated exclusively to the iGOT Karmayogi & MoSPI Capacity Building Framework. I can only assist with official competencies, courses, assessment preparation, and learning pathways within this application. Please submit inquiries regarding official statistics, your competency profile, or portal courses.";
+        suggestions = [
+          "Explain Multi-Stage Stratified Sampling in NSS",
+          "What are my highest priority skill gaps?",
+          "How does MoSPI compile National Accounts?"
+        ];
+      } else if (lower.includes("gap") || lower.includes("skill")) {
+        replyText = `You currently have 4 identified skill gaps. Your two highest priority gaps are:\n1. **Python for Data Analysis** (Current Level 2 vs Required Level 4)\n2. **AI/ML in Official Statistics** (Current Level 1 vs Required Level 3)\n\nAddressing Python will resolve data validation bottlenecks in SDRD survey tabulation.`;
+        suggestions = ["Generate personalized learning path", "Take Python assessment now"];
+      } else if (lower.includes("why") || lower.includes("recommended") || lower.includes("path")) {
+        replyText = `The course **'Python for Microdata Processing & NSS Vectorization'** from NSSTA Greater Noida was recommended because your ISS Deputy Director role mandates Level 4 proficiency in processing large-scale survey unit data (such as NSS Schedule 10 and Periodic Labour Force Survey).`;
+        suggestions = ["View full course syllabus", "Go to learning path"];
+      } else if (lower.includes("sampling") || lower.includes("stratified")) {
+        replyText = `**Multi-Stage Stratified Sampling** in the National Sample Survey (NSS) operates in two or more hierarchical stages:\n\n• **First Stage Units (FSUs)**: Census villages in rural sectors or Urban Frame Survey (UFS) blocks in urban sectors, selected with Probability Proportional to Size (PPSWR).\n• **Second Stage Units (SSUs)**: Households selected through circular systematic sampling after on-ground listing.\n\nThis optimizes field resource costs while preserving unbiased national estimates.`;
+        suggestions = ["Generate quiz on Sampling Methodology", "View NSSTA Sampling Manual"];
+      } else {
+        replyText = "GyanMitra Official Knowledge Assistant: In accordance with MoSPI guidelines and NSSTA curricula, learning pathways and assessments are aligned with the official civil service competency framework.";
+      }
     }
 
     const aiReply = {

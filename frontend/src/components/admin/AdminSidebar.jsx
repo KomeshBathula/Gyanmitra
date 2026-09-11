@@ -3,7 +3,7 @@ import {
   Shield,
   Users,
   BarChart3,
-  Zap,
+  ClipboardCheck,
   CheckCircle,
   FileText,
   Building2,
@@ -30,7 +30,7 @@ export const AdminSidebar = () => {
     { id: 'admin-dashboard', label: 'Command Center', icon: Shield },
     { id: 'admin-learners', label: 'Learner Directory', icon: Users },
     { id: 'admin-analytics', label: 'Cadre Analytics', icon: BarChart3 },
-    { id: 'admin-quiz-studio', label: 'AI Quiz & Material Studio', icon: Zap },
+    { id: 'admin-quiz-studio', label: 'Assessment Studio', icon: ClipboardCheck },
     { id: 'admin-assessments', label: 'Assessments & Audits', icon: CheckCircle },
     { id: 'admin-reports', label: 'ACBP & Cadre Reports', icon: FileText }
   ];
