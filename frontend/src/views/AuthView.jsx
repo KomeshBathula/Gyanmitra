@@ -10,12 +10,13 @@ import {
   Key,
   CheckCircle2,
   AlertCircle,
-  HelpCircle
+  HelpCircle,
+  Globe
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 
 export const AuthView = () => {
-  const { loginUser, showToast, isAdminPortalMode, setIsAdminPortalMode } = useApp();
+  const { loginUser, showToast, isAdminPortalMode, setIsAdminPortalMode, language, setLanguage, t } = useApp();
 
   // Mode: 'employee' | 'trainer' (for standard user login) or 'admin' (for URL-based admin gateway)
   const [userLoginType, setUserLoginType] = useState('employee'); // 'employee' or 'trainer'
@@ -59,22 +60,51 @@ export const AuthView = () => {
       <div className="h-1 bg-gradient-to-r from-orange-500 via-white to-green-600"></div>
 
       {/* Top Government Strip */}
-      <div className="py-2.5 px-6 flex items-center justify-between border-b border-white/10 text-xs">
+      <div className="py-2 px-6 flex items-center justify-between border-b border-white/10 text-xs">
         <div className="flex items-center space-x-2">
           <Shield className="w-4 h-4 text-amber-400" />
-          <span className="font-semibold tracking-wide">भारत सरकार | Government of India</span>
-          <span className="text-slate-500">|</span>
-          <span className="text-slate-300">Ministry of Statistics & Programme Implementation (MoSPI)</span>
+          <span className="font-semibold tracking-wide">{t('govIndia')}</span>
+          <span className="text-slate-500 hidden sm:inline">|</span>
+          <span className="text-slate-300 hidden md:inline">{t('mospiMinistry')}</span>
         </div>
 
         <div className="flex items-center space-x-3">
+          {/* Multilingual Switcher: English | हिन्दी | తెలుగు */}
+          <div className="flex items-center space-x-1 bg-slate-800/90 p-0.5 rounded-lg border border-slate-700 text-[11px]">
+            <Globe className="w-3.5 h-3.5 text-blue-400 ml-1.5 mr-0.5" />
+            <button
+              onClick={() => setLanguage('en')}
+              className={`px-2 py-0.5 rounded text-[10px] font-bold transition-all ${
+                language === 'en' ? 'bg-blue-600 text-white' : 'text-slate-300 hover:text-white'
+              }`}
+            >
+              English
+            </button>
+            <button
+              onClick={() => setLanguage('hi')}
+              className={`px-2 py-0.5 rounded text-[10px] font-bold transition-all ${
+                language === 'hi' ? 'bg-blue-600 text-white' : 'text-slate-300 hover:text-white'
+              }`}
+            >
+              हिन्दी
+            </button>
+            <button
+              onClick={() => setLanguage('te')}
+              className={`px-2 py-0.5 rounded text-[10px] font-bold transition-all ${
+                language === 'te' ? 'bg-blue-600 text-white' : 'text-slate-300 hover:text-white'
+              }`}
+            >
+              తెలుగు
+            </button>
+          </div>
+
           {isAdminPortalMode ? (
             <span className="px-2.5 py-0.5 rounded bg-purple-900/80 text-purple-200 border border-purple-600 text-[10px] font-mono font-bold">
-              🔐 System Admin Gateway Active
+              🔐 System Admin
             </span>
           ) : (
             <span className="hidden sm:inline-block px-2 py-0.5 rounded bg-white/10 text-amber-300 text-[10px] font-mono">
-              Parichay SSO Gateway
+              Parichay SSO
             </span>
           )}
         </div>
@@ -122,7 +152,7 @@ export const AuthView = () => {
                   }`}
                 >
                   <User className="w-3.5 h-3.5 text-blue-600" />
-                  <span>Official / ISS Login</span>
+                  <span>{t('officialLoginTab')}</span>
                 </button>
 
                 <button
@@ -135,7 +165,7 @@ export const AuthView = () => {
                   }`}
                 >
                   <GraduationCap className="w-3.5 h-3.5 text-emerald-600" />
-                  <span>Trainer / Faculty Login</span>
+                  <span>{t('trainerLoginTab')}</span>
                 </button>
               </div>
 

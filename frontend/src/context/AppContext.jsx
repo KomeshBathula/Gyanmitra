@@ -14,11 +14,25 @@ import {
   ADMIN_ORG_DATA,
   AI_ASSISTANT_PROMPTS
 } from '../data/mockData';
+import { translations } from '../utils/translations';
 import { api } from '../services/api';
 
 const AppContext = createContext();
 
 export const AppProvider = ({ children }) => {
+  // Multilingual State (English, Hindi, Telugu)
+  const [language, setLanguageState] = useState('en'); // 'en' | 'hi' | 'te'
+
+  const setLanguage = (lang) => {
+    setLanguageState(lang);
+    const langNames = { en: 'English', hi: 'हिन्दी (Hindi)', te: 'తెలుగు (Telugu)' };
+    showToast(`Language switched to ${langNames[lang] || lang}`, "info");
+  };
+
+  const t = useCallback((key) => {
+    return translations[language]?.[key] || translations['en']?.[key] || key;
+  }, [language]);
+
   // Authentication & Role State
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [currentRole, setCurrentRole] = useState('employee'); // 'employee' | 'trainer' | 'admin'
@@ -178,7 +192,6 @@ export const AppProvider = ({ children }) => {
   const logoutUser = () => {
     setIsAuthenticated(false);
     setCurrentScreenState('login');
-    window.location.hash = '';
     window.history.pushState(null, '', '/');
     showToast("Signed out successfully from Parichay SSO.", "info");
   };
@@ -296,6 +309,9 @@ export const AppProvider = ({ children }) => {
   return (
     <AppContext.Provider
       value={{
+        language,
+        setLanguage,
+        t,
         isAuthenticated,
         setIsAuthenticated,
         currentRole,

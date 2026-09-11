@@ -21,7 +21,7 @@ import {
 import { useApp } from '../../context/AppContext';
 
 export const Sidebar = () => {
-  const { currentScreen, setCurrentScreen, currentRole, skillGaps, notifications, logoutUser } = useApp();
+  const { currentScreen, setCurrentScreen, currentRole, skillGaps, notifications, logoutUser, t } = useApp();
 
   const highPriorityGapsCount = skillGaps.filter(g => g.priority === 'High').length;
   const unreadNotifCount = notifications.filter(n => !n.read).length;
@@ -31,18 +31,18 @@ export const Sidebar = () => {
     if (currentRole === 'trainer') {
       return [
         {
-          title: "Trainer & Faculty Portal",
+          title: t('trainerRole') || "Trainer & Faculty Portal",
           items: [
-            { id: "trainer-dashboard", label: "Cohort Dashboard", icon: LayoutDashboard },
-            { id: "ai-quiz", label: "AI MCQ Authoring Studio", icon: FileQuestion, badge: "RAG", badgeColor: "purple" },
-            { id: "reports", label: "Batch Analytics & Reports", icon: FileText },
+            { id: "trainer-dashboard", label: t('navTrainerDashboard') || "Cohort Dashboard", icon: LayoutDashboard },
+            { id: "ai-quiz", label: t('navAiQuiz') || "AI MCQ Authoring Studio", icon: FileQuestion, badge: "RAG", badgeColor: "purple" },
+            { id: "reports", label: t('navReports') || "Batch Analytics & Reports", icon: FileText },
           ]
         },
         {
-          title: "Account & Preferences",
+          title: t('navSettings') || "Account & Preferences",
           items: [
-            { id: "notifications", label: "Notification Center", icon: Bell, badge: unreadNotifCount > 0 ? `${unreadNotifCount}` : null, badgeColor: "amber" },
-            { id: "profile", label: "Faculty Profile & Settings", icon: Settings },
+            { id: "notifications", label: t('notificationsTitle') || "Notification Center", icon: Bell, badge: unreadNotifCount > 0 ? `${unreadNotifCount}` : null, badgeColor: "amber" },
+            { id: "profile", label: t('officialServiceProfile') || "Faculty Profile & Settings", icon: Settings },
           ]
         }
       ];
@@ -51,17 +51,17 @@ export const Sidebar = () => {
     if (currentRole === 'admin') {
       return [
         {
-          title: "National Workforce Intelligence",
+          title: t('navAdminDashboard') || "National Workforce Intelligence",
           items: [
-            { id: "admin-dashboard", label: "Workforce Overview", icon: Building2 },
-            { id: "reports", label: "Institutional Reports & ACBP", icon: FileText, badge: "Official", badgeColor: "blue" },
+            { id: "admin-dashboard", label: t('navAdminDashboard') || "Workforce Overview", icon: Building2 },
+            { id: "reports", label: t('navReports') || "Institutional Reports & ACBP", icon: FileText, badge: "Official", badgeColor: "blue" },
           ]
         },
         {
-          title: "System Administration",
+          title: t('systemSettings') || "System Administration",
           items: [
-            { id: "notifications", label: "Ministry Alerts", icon: Bell, badge: unreadNotifCount > 0 ? `${unreadNotifCount}` : null, badgeColor: "amber" },
-            { id: "profile", label: "Administrator Settings", icon: Settings },
+            { id: "notifications", label: t('notificationsTitle') || "Ministry Alerts", icon: Bell, badge: unreadNotifCount > 0 ? `${unreadNotifCount}` : null, badgeColor: "amber" },
+            { id: "profile", label: t('officialServiceProfile') || "Administrator Settings", icon: Settings },
           ]
         }
       ];
@@ -70,30 +70,30 @@ export const Sidebar = () => {
     // Default: Government Employee / Official (ISS / SSS)
     return [
       {
-        title: "Core Learning & Intelligence",
+        title: t('navDashboard') || "Core Learning & Intelligence",
         items: [
-          { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
-          { id: "competencies", label: "My Competencies", icon: Award },
-          { id: "skill-gaps", label: "Skill Gap Analysis", icon: AlertCircle, badge: highPriorityGapsCount > 0 ? `${highPriorityGapsCount} High` : null, badgeColor: "red" },
-          { id: "learning-path", label: "Learning Path", icon: GitBranch, badge: "AI Dynamic", badgeColor: "blue" },
-          { id: "courses", label: "Course Recommendations", icon: BookOpen },
-          { id: "assessment", label: "Competency Assessment", icon: ClipboardCheck },
+          { id: "dashboard", label: t('navDashboard') || "Dashboard", icon: LayoutDashboard },
+          { id: "competencies", label: t('navCompetencies') || "My Competencies", icon: Award },
+          { id: "skill-gaps", label: t('navSkillGaps') || "Skill Gap Analysis", icon: AlertCircle, badge: highPriorityGapsCount > 0 ? `${highPriorityGapsCount} High` : null, badgeColor: "red" },
+          { id: "learning-path", label: t('navLearningPath') || "Learning Path", icon: GitBranch, badge: "AI Dynamic", badgeColor: "blue" },
+          { id: "courses", label: t('navCourses') || "Course Recommendations", icon: BookOpen },
+          { id: "assessment", label: t('takeAssessment') || "Competency Assessment", icon: ClipboardCheck },
         ]
       },
       {
-        title: "AI Capacity Tools",
+        title: t('aiAssistant') || "AI Capacity Tools",
         items: [
-          { id: "ai-quiz", label: "AI MCQ / Quiz Generator", icon: FileQuestion, badge: "RAG", badgeColor: "purple" },
+          { id: "ai-quiz", label: t('navAiQuiz') || "AI MCQ / Quiz Generator", icon: FileQuestion, badge: "RAG", badgeColor: "purple" },
           { id: "ai-assistant", label: "GyanMitra AI Assistant", icon: Sparkles },
-          { id: "progress", label: "Learning Progress & Analytics", icon: TrendingUp },
+          { id: "progress", label: t('navProgress') || "Learning Progress & Analytics", icon: TrendingUp },
         ]
       },
       {
-        title: "Service Record & System",
+        title: t('officialServiceProfile') || "Service Record & System",
         items: [
-          { id: "notifications", label: "Notification Center", icon: Bell, badge: unreadNotifCount > 0 ? `${unreadNotifCount}` : null, badgeColor: "amber" },
-          { id: "profile-wizard", label: "Profile Setup Wizard", icon: Sliders },
-          { id: "profile", label: "Profile & Settings", icon: Settings },
+          { id: "notifications", label: t('notificationsTitle') || "Notification Center", icon: Bell, badge: unreadNotifCount > 0 ? `${unreadNotifCount}` : null, badgeColor: "amber" },
+          { id: "profile-wizard", label: t('cadreSkillWizard') || "Profile Setup Wizard", icon: Sliders },
+          { id: "profile", label: t('navSettings') || "Profile & Settings", icon: Settings },
         ]
       }
     ];
@@ -183,7 +183,7 @@ export const Sidebar = () => {
           className="w-full mt-1 py-1 px-2 text-[10px] font-bold bg-slate-800 hover:bg-rose-900/40 text-slate-300 hover:text-rose-200 rounded border border-slate-700 transition-colors flex items-center justify-center space-x-1"
         >
           <LogOut className="w-3 h-3" />
-          <span>Sign Out</span>
+          <span>{t('signOut')}</span>
         </button>
       </div>
     </aside>

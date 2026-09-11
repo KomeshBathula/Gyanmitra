@@ -22,8 +22,9 @@ export const Header = () => {
     setCurrentScreen,
     notifications,
     setIsAiDrawerOpen,
-    fontScale,
-    setFontScale,
+    language,
+    setLanguage,
+    t,
     logoutUser,
     showToast
   } = useApp();
@@ -33,28 +34,23 @@ export const Header = () => {
 
   const unreadCount = notifications.filter(n => !n.read).length;
 
-  const handleFontChange = (scale) => {
-    setFontScale(scale);
-    showToast(`Font scale set to ${scale}% (Default: 150%)`, "info");
-  };
-
   const getRoleBadge = () => {
     if (currentRole === 'admin') {
       return {
-        label: "MoSPI System Admin",
+        label: t('adminRole') || "MoSPI System Admin",
         color: "bg-purple-100 text-purple-900 border-purple-300",
         dot: "bg-purple-600"
       };
     }
     if (currentRole === 'trainer') {
       return {
-        label: "NSSTA Faculty / Trainer",
+        label: t('trainerRole') || "NSSTA Faculty / Trainer",
         color: "bg-emerald-100 text-emerald-900 border-emerald-300",
         dot: "bg-emerald-600"
       };
     }
     return {
-      label: "Government Official (ISS)",
+      label: t('officialRole') || "Government Official (ISS)",
       color: "bg-blue-100 text-blue-900 border-blue-300",
       dot: "bg-blue-600"
     };
@@ -69,58 +65,50 @@ export const Header = () => {
         <div className="flex items-center space-x-3">
           <div className="flex items-center space-x-1.5 font-medium tracking-wide">
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-            <span>भारत सरकार | Government of India</span>
+            <span>{t('govIndia')}</span>
           </div>
           <span className="text-slate-600">|</span>
           <span className="hidden sm:inline text-slate-300">
-            सांख्यिकी एवं कार्यक्रम कार्यान्वयन मंत्रालय (MoSPI)
+            {t('mospiMinistry')}
           </span>
         </div>
 
         <div className="flex items-center space-x-3 sm:space-x-4">
-          {/* Accessibility Font Size Controls (150% Default) */}
-          <div className="flex items-center space-x-1 bg-slate-800/90 px-2 py-0.5 rounded border border-slate-700 text-xs">
-            <Type className="w-3 h-3 text-slate-400 mr-1" />
-            <span className="text-[10px] text-slate-400 mr-1 hidden sm:inline">Text Size:</span>
-            <button
-              onClick={() => handleFontChange(125)}
-              className={`px-1.5 py-0.5 rounded text-[10px] font-bold ${
-                fontScale === 125 ? 'bg-blue-600 text-white' : 'text-slate-300 hover:text-white'
-              }`}
-              title="125% Text Size"
-            >
-              A-
-            </button>
-            <button
-              onClick={() => handleFontChange(150)}
-              className={`px-1.5 py-0.5 rounded text-[10px] font-bold ${
-                fontScale === 150 ? 'bg-blue-600 text-white' : 'text-slate-300 hover:text-white'
-              }`}
-              title="150% Text Size (Standard Default)"
-            >
-              A (150%)
-            </button>
-            <button
-              onClick={() => handleFontChange(175)}
-              className={`px-1.5 py-0.5 rounded text-[10px] font-bold ${
-                fontScale === 175 ? 'bg-blue-600 text-white' : 'text-slate-300 hover:text-white'
-              }`}
-              title="175% Large Text Size"
-            >
-              A+
-            </button>
-          </div>
-
           <span className="hidden md:inline-flex items-center text-slate-300 text-xs">
             <Shield className="w-3 h-3 mr-1 text-amber-400" />
-            Parichay SSO
+            {t('parichaySso')}
           </span>
 
-          <div className="flex items-center space-x-1.5 text-[10px] bg-slate-800 px-2 py-0.5 rounded text-slate-300">
-            <Globe className="w-3 h-3 text-blue-400" />
-            <span className="font-semibold text-white">EN</span>
-            <span className="text-slate-500">/</span>
-            <span>हिन्दी</span>
+          {/* Multilingual Selector: English | हिन्दी | తెలుగు */}
+          <div className="flex items-center space-x-1 bg-slate-800/90 p-0.5 rounded-lg border border-slate-700 text-[11px]">
+            <Globe className="w-3.5 h-3.5 text-blue-400 ml-1.5 mr-0.5" />
+            <button
+              onClick={() => setLanguage('en')}
+              className={`px-2 py-0.5 rounded text-[10px] font-bold transition-all ${
+                language === 'en' ? 'bg-blue-600 text-white shadow-xs' : 'text-slate-300 hover:text-white'
+              }`}
+              title="English"
+            >
+              English
+            </button>
+            <button
+              onClick={() => setLanguage('hi')}
+              className={`px-2 py-0.5 rounded text-[10px] font-bold transition-all ${
+                language === 'hi' ? 'bg-blue-600 text-white shadow-xs' : 'text-slate-300 hover:text-white'
+              }`}
+              title="हिन्दी (Hindi)"
+            >
+              हिन्दी
+            </button>
+            <button
+              onClick={() => setLanguage('te')}
+              className={`px-2 py-0.5 rounded text-[10px] font-bold transition-all ${
+                language === 'te' ? 'bg-blue-600 text-white shadow-xs' : 'text-slate-300 hover:text-white'
+              }`}
+              title="తెలుగు (Telugu)"
+            >
+              తెలుగు
+            </button>
           </div>
         </div>
       </div>
@@ -153,7 +141,7 @@ export const Header = () => {
               </span>
             </div>
             <p className="text-[11px] text-slate-500 hidden md:block">
-              AI-Powered Capacity Building & Skill Intelligence for India's Official Statistical System
+              {t('tagline')}
             </p>
           </div>
         </div>
@@ -163,7 +151,7 @@ export const Header = () => {
           <Search className="w-4 h-4 text-slate-400 absolute left-3" />
           <input
             type="text"
-            placeholder="Search NSS, SNA, Python, iGOT courses..."
+            placeholder={t('searchPlaceholder')}
             className="w-full pl-9 pr-3 py-1.5 text-xs bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-600 focus:bg-white text-slate-800"
           />
         </div>
@@ -183,7 +171,7 @@ export const Header = () => {
               className="flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-gradient-to-r from-blue-700 to-indigo-800 text-white shadow-gov hover:from-blue-800 hover:to-indigo-900 transition-all cursor-pointer"
             >
               <Sparkles className="w-3.5 h-3.5 text-amber-300 animate-pulse" />
-              <span className="hidden sm:inline">AI Assistant</span>
+              <span className="hidden sm:inline">{t('aiAssistant')}</span>
             </button>
           )}
 
@@ -204,7 +192,7 @@ export const Header = () => {
             {isNotifMenuOpen && (
               <div className="absolute right-0 mt-2 w-80 sm:w-96 bg-white rounded-xl shadow-xl border border-slate-200 py-2 z-50 animate-in fade-in zoom-in-95">
                 <div className="px-4 py-2 border-b border-slate-100 flex items-center justify-between">
-                  <span className="text-xs font-bold text-slate-800">MoSPI Mandates & Notifications</span>
+                  <span className="text-xs font-bold text-slate-800">{t('notificationsTitle')}</span>
                   <button
                     onClick={() => {
                       setCurrentScreen('notifications');
@@ -212,7 +200,7 @@ export const Header = () => {
                     }}
                     className="text-[11px] text-blue-600 font-semibold hover:underline"
                   >
-                    View All
+                    {t('viewAll')}
                   </button>
                 </div>
                 <div className="max-h-80 overflow-y-auto divide-y divide-slate-100">
@@ -265,7 +253,7 @@ export const Header = () => {
                       {userProfile.cadre}
                     </span>
                     <span className="text-[10px] text-emerald-700 font-bold">
-                      {userProfile.karmayogiCredits} Credits
+                      {userProfile.karmayogiCredits} {t('credits')}
                     </span>
                   </div>
                 </div>
@@ -279,7 +267,7 @@ export const Header = () => {
                     className="w-full text-left px-4 py-2 text-xs text-slate-700 hover:bg-slate-50 flex items-center space-x-2"
                   >
                     <User className="w-4 h-4 text-slate-500" />
-                    <span>Official Service Profile</span>
+                    <span>{t('officialServiceProfile')}</span>
                   </button>
                   {currentRole === 'employee' && (
                     <button
@@ -290,7 +278,7 @@ export const Header = () => {
                       className="w-full text-left px-4 py-2 text-xs text-slate-700 hover:bg-slate-50 flex items-center space-x-2"
                     >
                       <Sliders className="w-4 h-4 text-slate-500" />
-                      <span>Update Cadre & Skill Wizard</span>
+                      <span>{t('cadreSkillWizard')}</span>
                     </button>
                   )}
                   <button
@@ -301,7 +289,7 @@ export const Header = () => {
                     className="w-full text-left px-4 py-2 text-xs text-slate-700 hover:bg-slate-50 flex items-center space-x-2"
                   >
                     <Settings className="w-4 h-4 text-slate-500" />
-                    <span>System Settings & Preferences</span>
+                    <span>{t('systemSettings')}</span>
                   </button>
                 </div>
 
@@ -314,7 +302,7 @@ export const Header = () => {
                     className="w-full text-left px-4 py-2 text-xs text-rose-700 hover:bg-rose-50 flex items-center space-x-2 font-medium"
                   >
                     <LogOut className="w-4 h-4 text-rose-600" />
-                    <span>Sign Out (Parichay SSO)</span>
+                    <span>{t('signOut')}</span>
                   </button>
                 </div>
               </div>
