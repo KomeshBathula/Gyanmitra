@@ -4,6 +4,7 @@ import { Header } from './components/common/Header';
 import { Sidebar } from './components/common/Sidebar';
 import { Toast } from './components/common/Toast';
 import { AIAssistantDrawer } from './components/ai/AIAssistantDrawer';
+import { Sparkles, Bot, MessageSquare } from 'lucide-react';
 
 // Views
 import { AuthView } from './views/AuthView';
@@ -26,7 +27,7 @@ import { NotificationsView } from './views/NotificationsView';
 import { ProfileSettingsView } from './views/ProfileSettingsView';
 
 export default function App() {
-  const { isAuthenticated, currentScreen, t } = useApp();
+  const { isAuthenticated, currentScreen, setIsAiDrawerOpen, t } = useApp();
 
   // If not authenticated or on login screen, render AuthView
   if (!isAuthenticated || currentScreen === 'login') {
@@ -118,6 +119,18 @@ export default function App() {
         </main>
       </div>
 
+      {/* Floating iGOT AI Assistant Mascot Button */}
+      <button
+        onClick={() => setIsAiDrawerOpen(true)}
+        className="fixed bottom-6 right-6 z-40 w-14 h-14 rounded-full bg-gradient-to-tr from-[#1B365D] via-[#2087d8] to-blue-400 text-white shadow-xl hover:shadow-2xl hover:scale-105 transition-all flex items-center justify-center border-2 border-white cursor-pointer group animate-bounce duration-1000"
+        title="GyanMitra AI Assistant"
+      >
+        <div className="relative">
+          <Bot className="w-7 h-7 text-white group-hover:rotate-6 transition-transform" />
+          <Sparkles className="w-3.5 h-3.5 text-amber-300 fill-amber-300 absolute -top-1 -right-1 animate-pulse" />
+        </div>
+      </button>
+
       {/* Floating Global AI Assistant Drawer */}
       <AIAssistantDrawer />
 
@@ -126,4 +139,3 @@ export default function App() {
     </div>
   );
 }
-

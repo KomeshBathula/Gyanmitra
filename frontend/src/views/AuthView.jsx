@@ -3,14 +3,14 @@ import {
   Shield,
   Lock,
   Mail,
-  ArrowRight,
+  HelpCircle,
+  Globe,
   User,
   GraduationCap,
   Key,
-  Globe,
-  Sparkles,
-  Award,
-  CheckCircle2
+  CheckSquare,
+  Square,
+  ArrowRight
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 
@@ -19,11 +19,11 @@ export const AuthView = () => {
 
   // Mode: 'employee' | 'trainer' (for standard user login) or 'admin' (for URL-based admin gateway)
   const [userLoginType, setUserLoginType] = useState('employee'); // 'employee' or 'trainer'
+  const [loginMethod, setLoginMethod] = useState('password'); // 'password' | 'otp'
   const [email, setEmail] = useState('rajesh.kumar@gov.in');
   const [password, setPassword] = useState('••••••••••••');
   const [adminToken, setAdminToken] = useState('MOSPI-SEC-AUTH-2026');
-  const [captchaInput, setCaptchaInput] = useState('7N9KP');
-  const [rememberMe, setRememberMe] = useState(true);
+  const [isCaptchaChecked, setIsCaptchaChecked] = useState(true);
 
   // Sync email defaults when login type changes
   useEffect(() => {
@@ -47,299 +47,353 @@ export const AuthView = () => {
   };
 
   const handleSsoLogin = () => {
-    showToast("Connecting to Jan Parichay (National SSO Gateway)...", "info");
+    showToast("Redirecting to Jan Parichay (National SSO Gateway)...", "info");
     setTimeout(() => {
       loginUser(userLoginType, { email });
-    }, 800);
+    }, 700);
   };
 
   return (
-    <div className="min-h-screen bg-[#0F2942] flex flex-col justify-between text-slate-100 relative">
-      {/* Tricolor Top Bar */}
-      <div className="tricolor-border"></div>
+    <div className="min-h-screen flex flex-col lg:flex-row bg-[#0E468A] text-slate-800 font-sans">
+      {/* Left Instructions Panel (Matching iGOT Karmayogi Portal Login Design) */}
+      <div className="lg:w-1/2 bg-gradient-to-b from-[#0E468A] via-[#104F9B] to-[#0A3972] p-8 lg:p-14 text-white flex flex-col justify-between relative overflow-hidden">
+        {/* Subtle geometric pattern / circles background */}
+        <div className="absolute inset-0 opacity-10 pointer-events-none bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:24px_24px]"></div>
 
-      {/* Top Government of India & iGOT Karmayogi Strip */}
-      <div className="py-2 px-6 flex items-center justify-between border-b border-white/10 text-xs bg-[#0a1c2e]">
-        <div className="flex items-center space-x-2">
-          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-          <span className="font-semibold tracking-wide text-white">{t('govIndia')}</span>
-          <span className="text-slate-500 hidden sm:inline">|</span>
-          <span className="text-slate-300 font-medium hidden sm:inline">कर्मयोगी भारत • Karmayogi Bharat</span>
-          <span className="text-slate-500 hidden md:inline">|</span>
-          <span className="text-slate-400 hidden md:inline">{t('mospiMinistry')}</span>
+        <div className="relative z-10 space-y-8">
+          {/* Header Title */}
+          <div>
+            <p className="text-amber-300 font-semibold text-sm tracking-wide">Welcome to iGOT Karmayogi & GyanMitra</p>
+            <h1 className="text-3xl lg:text-4xl font-extrabold tracking-tight mt-1">
+              How To <span className="border-b-4 border-amber-400 pb-0.5">Login</span>
+            </h1>
+          </div>
+
+          {/* Step 1: Email Login Guide */}
+          <div className="flex items-start space-x-4">
+            <div className="w-9 h-9 rounded-full bg-amber-500 text-slate-900 flex items-center justify-center font-bold text-base flex-shrink-0 shadow-md">
+              1
+            </div>
+            <div className="space-y-2 text-xs lg:text-sm text-slate-100">
+              <h3 className="font-bold text-white text-sm lg:text-base">
+                In case you face issues while logging in with your email ID
+              </h3>
+              <ul className="space-y-1.5 text-slate-200 list-disc list-inside text-xs leading-relaxed">
+                <li>Clear the browser cache</li>
+                <li>Open the browser's private window by pressing <strong className="text-white font-mono bg-white/10 px-1 py-0.5 rounded">Ctrl+Shift+N</strong></li>
+                <li>Login with mobile OTP after selecting the <span className="text-amber-300 font-semibold">'Log in with OTP'</span> option</li>
+              </ul>
+            </div>
+          </div>
+
+          {/* Step 2: Parichay SSO Guide */}
+          <div className="flex items-start space-x-4 pt-2">
+            <div className="w-9 h-9 rounded-full bg-amber-500 text-slate-900 flex items-center justify-center font-bold text-base flex-shrink-0 shadow-md">
+              2
+            </div>
+            <div className="space-y-2 text-xs lg:text-sm text-slate-100">
+              <h3 className="font-bold text-white text-sm lg:text-base">
+                In case you face issues while logging in with Parichay
+              </h3>
+              <ul className="space-y-1.5 text-slate-200 list-disc list-inside text-xs leading-relaxed">
+                <li>Log out from all open Parichay websites/tabs</li>
+                <li>Clear the browser cache</li>
+                <li>Open the browser's private window by pressing <strong className="text-white font-mono bg-white/10 px-1 py-0.5 rounded">Ctrl+Shift+N</strong></li>
+                <li>Login to the iGOT Karmayogi portal with Parichay credentials and enter OTP</li>
+                <li>Tick both the Mobile Number and Primary Email to continue</li>
+              </ul>
+            </div>
+          </div>
         </div>
 
-        <div className="flex items-center space-x-3">
-          {/* Multilingual Switcher: English | हिन्दी | తెలుగు */}
-          <div className="flex items-center space-x-1 bg-slate-800 p-0.5 rounded-lg border border-slate-700 text-[11px]">
-            <Globe className="w-3.5 h-3.5 text-blue-400 ml-1.5 mr-0.5" />
+        {/* Left Footer Badges */}
+        <div className="relative z-10 pt-8 mt-8 border-t border-white/15 flex items-center justify-between text-[11px] text-slate-300">
+          <div className="flex items-center space-x-2">
+            <Shield className="w-4 h-4 text-emerald-400" />
+            <span>Ministry of Statistics & Programme Implementation (MoSPI)</span>
+          </div>
+          <span className="font-mono text-amber-300">NPCSCB 2026</span>
+        </div>
+      </div>
+
+      {/* Right Login Form Panel (Crisp White matching iGOT Karmayogi Portal) */}
+      <div className="lg:w-1/2 bg-white p-8 lg:p-14 flex flex-col justify-between relative shadow-2xl">
+        {/* Top Controls: Multilingual switcher & Help icon */}
+        <div className="flex items-center justify-between">
+          {/* Multilingual Selector: English | हिन्दी | తెలుగు */}
+          <div className="flex items-center space-x-1 bg-slate-100 p-1 rounded-xl border border-slate-200 text-xs">
+            <Globe className="w-3.5 h-3.5 text-blue-600 ml-1 mr-0.5" />
             <button
               onClick={() => setLanguage('en')}
-              className={`px-2 py-0.5 rounded text-[10px] font-bold transition-all ${
-                language === 'en' ? 'bg-blue-600 text-white shadow-xs' : 'text-slate-300 hover:text-white'
+              className={`px-2 py-0.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                language === 'en' ? 'bg-[#1B365D] text-white shadow-xs' : 'text-slate-600 hover:text-slate-900'
               }`}
             >
               English
             </button>
             <button
               onClick={() => setLanguage('hi')}
-              className={`px-2 py-0.5 rounded text-[10px] font-bold transition-all ${
-                language === 'hi' ? 'bg-blue-600 text-white shadow-xs' : 'text-slate-300 hover:text-white'
+              className={`px-2 py-0.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                language === 'hi' ? 'bg-[#1B365D] text-white shadow-xs' : 'text-slate-600 hover:text-slate-900'
               }`}
             >
               हिन्दी
             </button>
             <button
               onClick={() => setLanguage('te')}
-              className={`px-2 py-0.5 rounded text-[10px] font-bold transition-all ${
-                language === 'te' ? 'bg-blue-600 text-white shadow-xs' : 'text-slate-300 hover:text-white'
+              className={`px-2 py-0.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                language === 'te' ? 'bg-[#1B365D] text-white shadow-xs' : 'text-slate-600 hover:text-slate-900'
               }`}
             >
               తెలుగు
             </button>
           </div>
 
-          {isAdminPortalMode ? (
-            <span className="px-2.5 py-0.5 rounded bg-purple-900/90 text-purple-200 border border-purple-600 text-[10px] font-mono font-bold">
-              🔐 System Admin
-            </span>
-          ) : (
-            <span className="hidden sm:inline-flex items-center px-2 py-0.5 rounded bg-slate-800 text-amber-300 text-[10px] font-semibold border border-slate-700">
-              <Shield className="w-3 h-3 mr-1 text-amber-400" />
-              Parichay SSO
-            </span>
-          )}
+          <button
+            onClick={() => showToast("Helpdesk: helpdesk-igot@gov.in | MoSPI Toll-Free 1800-111-2026", "info")}
+            className="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center justify-center font-bold text-sm cursor-pointer transition-colors"
+            title="Help"
+          >
+            ?
+          </button>
         </div>
-      </div>
 
-      {/* Main Container */}
-      <div className="flex-1 flex items-center justify-center p-4 sm:p-6 my-6">
-        <div className="w-full max-w-md bg-white text-slate-900 rounded-2xl shadow-2xl border border-slate-200/90 overflow-hidden">
-          {/* Header Banner */}
-          <div className={`p-6 text-white text-center relative ${
-            isAdminPortalMode
-              ? 'bg-gradient-to-r from-purple-950 via-slate-900 to-indigo-950'
-              : 'karmayogi-header-gradient'
-          }`}>
-            {/* Dual Emblem Badge */}
-            <div className="w-14 h-14 mx-auto rounded-2xl bg-white/10 border border-white/20 flex items-center justify-center shadow-inner mb-3">
-              {isAdminPortalMode ? (
-                <Shield className="w-7 h-7 text-purple-300" />
-              ) : (
+        {/* Center Auth Form */}
+        <div className="max-w-md w-full mx-auto my-6 space-y-6">
+          {/* Karmayogi Bharat Official Logo & Tagline */}
+          <div className="text-center space-y-1">
+            <div className="inline-flex items-center justify-center space-x-3 mb-2">
+              <div className="w-12 h-12 rounded-2xl bg-[#1B365D] flex items-center justify-center text-white shadow-md border border-blue-900">
                 <div className="text-center leading-none">
                   <span className="text-[#FF9933] text-sm block font-serif font-black">iGOT</span>
-                  <span className="text-white text-[9px] font-sans tracking-wider uppercase font-bold">Bharat</span>
+                  <span className="text-white text-[9px] font-sans tracking-widest uppercase font-bold">Bharat</span>
                 </div>
-              )}
+              </div>
+              <div className="text-left">
+                <h2 className="text-2xl font-black text-[#1B365D] tracking-tight">
+                  कर्मयोगी भारत
+                </h2>
+                <p className="text-[11px] font-serif text-slate-500 tracking-wider">
+                  — लोकहितं मम करणीयम् —
+                </p>
+              </div>
             </div>
-
-            <h2 className="text-xl font-extrabold tracking-tight">
-              {isAdminPortalMode ? "MoSPI System Admin Gateway" : "GyanMitra | ज्ञानमित्र"}
-            </h2>
-            <p className="text-xs text-blue-200 mt-1 font-medium">
-              {isAdminPortalMode
-                ? "National Workforce Competency Intelligence Administration"
-                : "Mission Karmayogi • MoSPI Statistical Capacity Platform"}
-            </p>
+            <div className="inline-block px-3 py-0.5 rounded-full bg-blue-50 border border-blue-200 text-[#1B365D] text-xs font-bold">
+              GyanMitra • Official Statistical System Wing
+            </div>
           </div>
 
-          {/* If NOT Admin Mode: User Login Tabs (Official vs Trainer) */}
+          {/* User Mode Tabs (Official vs Trainer vs Admin) */}
           {!isAdminPortalMode ? (
-            <div>
-              {/* User Role Switch Tabs */}
-              <div className="grid grid-cols-2 p-1.5 bg-slate-100 border-b border-slate-200 text-xs font-bold">
-                <button
-                  type="button"
-                  onClick={() => setUserLoginType('employee')}
-                  className={`py-2 px-3 rounded-lg transition-all flex items-center justify-center space-x-1.5 cursor-pointer ${
-                    userLoginType === 'employee'
-                      ? 'bg-white text-[#1B365D] shadow-sm font-extrabold'
-                      : 'text-slate-600 hover:text-slate-900'
-                  }`}
-                >
-                  <User className="w-3.5 h-3.5 text-blue-600" />
-                  <span className="truncate">{t('officialLoginTab', 'Government Official (ISS / SSS / MoSPI)')}</span>
-                </button>
+            <div className="grid grid-cols-2 p-1 bg-slate-100 rounded-xl border border-slate-200 text-xs font-bold">
+              <button
+                type="button"
+                onClick={() => setUserLoginType('employee')}
+                className={`py-2 px-2 rounded-lg transition-all flex items-center justify-center space-x-1.5 cursor-pointer ${
+                  userLoginType === 'employee'
+                    ? 'bg-white text-[#1B365D] shadow-sm font-extrabold'
+                    : 'text-slate-600 hover:text-slate-900'
+                }`}
+              >
+                <User className="w-3.5 h-3.5 text-blue-600" />
+                <span className="truncate">{t('officialLoginTab', 'Government Official (ISS / SSS / MoSPI)')}</span>
+              </button>
 
-                <button
-                  type="button"
-                  onClick={() => setUserLoginType('trainer')}
-                  className={`py-2 px-3 rounded-lg transition-all flex items-center justify-center space-x-1.5 cursor-pointer ${
-                    userLoginType === 'trainer'
-                      ? 'bg-white text-[#1B365D] shadow-sm font-extrabold'
-                      : 'text-slate-600 hover:text-slate-900'
-                  }`}
-                >
-                  <GraduationCap className="w-3.5 h-3.5 text-emerald-600" />
-                  <span className="truncate">{t('trainerLoginTab', 'NSSTA Faculty / Trainer')}</span>
-                </button>
+              <button
+                type="button"
+                onClick={() => setUserLoginType('trainer')}
+                className={`py-2 px-2 rounded-lg transition-all flex items-center justify-center space-x-1.5 cursor-pointer ${
+                  userLoginType === 'trainer'
+                    ? 'bg-white text-[#1B365D] shadow-sm font-extrabold'
+                    : 'text-slate-600 hover:text-slate-900'
+                }`}
+              >
+                <GraduationCap className="w-3.5 h-3.5 text-emerald-600" />
+                <span className="truncate">{t('trainerLoginTab', 'NSSTA Faculty / Trainer')}</span>
+              </button>
+            </div>
+          ) : (
+            <div className="p-3 bg-purple-50 rounded-xl border border-purple-200 text-xs text-purple-900 font-bold flex items-center space-x-2">
+              <Shield className="w-4 h-4 text-purple-700" />
+              <span>Restricted: MoSPI System Administrator Gateway</span>
+            </div>
+          )}
+
+          {/* Form */}
+          {!isAdminPortalMode ? (
+            <form onSubmit={handleUserSignIn} className="space-y-4">
+              {/* Radio options: Login with password vs Login with OTP */}
+              <div className="flex items-center space-x-6 text-xs font-semibold text-slate-700">
+                <label className="flex items-center space-x-2 cursor-pointer">
+                  <input
+                    type="radio"
+                    name="loginMethod"
+                    checked={loginMethod === 'password'}
+                    onChange={() => setLoginMethod('password')}
+                    className="text-[#2087d8] focus:ring-[#2087d8] w-4 h-4"
+                  />
+                  <span>Login with password</span>
+                </label>
+                <label className="flex items-center space-x-2 cursor-pointer">
+                  <input
+                    type="radio"
+                    name="loginMethod"
+                    checked={loginMethod === 'otp'}
+                    onChange={() => setLoginMethod('otp')}
+                    className="text-[#2087d8] focus:ring-[#2087d8] w-4 h-4"
+                  />
+                  <span>Login with OTP</span>
+                </label>
               </div>
 
-              {/* Login Form for Official / Trainer */}
-              <form onSubmit={handleUserSignIn} className="p-6 sm:p-8 space-y-4">
-                <div className="p-2.5 rounded-xl bg-blue-50 border border-blue-200 text-[11px] text-blue-900 flex items-center space-x-2">
-                  <span className="w-2 h-2 rounded-full bg-blue-600"></span>
-                  <span>
-                    Logging in as: <strong>{userLoginType === 'employee' ? 'Government Employee / ISS Officer' : 'NSSTA Faculty / Course Trainer'}</strong>
-                  </span>
-                </div>
+              {/* Email field */}
+              <div>
+                <label className="block text-xs font-semibold text-slate-700 mb-1">
+                  Email
+                </label>
+                <input
+                  type="text"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="name@gov.in"
+                  required
+                  className="w-full px-3.5 py-2 text-xs bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2087d8] focus:border-transparent text-slate-900"
+                />
+              </div>
 
+              {/* Password field or OTP field */}
+              {loginMethod === 'password' ? (
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
-                    {userLoginType === 'employee' ? 'Official NIC Email / ISS ID' : 'Faculty Email / NSSTA ID'}
-                  </label>
-                  <div className="relative">
-                    <Mail className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
-                    <input
-                      type="text"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      required
-                      className="w-full pl-9 pr-3 py-2 text-xs bg-slate-50 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#264092] focus:bg-white transition-all"
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <div className="flex items-center justify-between mb-1.5">
-                    <label className="text-xs font-semibold text-slate-700 uppercase tracking-wider">
-                      Password / Security PIN
+                  <div className="flex items-center justify-between mb-1">
+                    <label className="text-xs font-semibold text-slate-700">
+                      Password
                     </label>
-                    <a href="#" onClick={(e) => { e.preventDefault(); showToast("Password reset OTP sent to registered NIC mail.", "info"); }} className="text-[11px] text-blue-700 hover:underline">
+                    <a
+                      href="#"
+                      onClick={(e) => { e.preventDefault(); showToast("Password reset link sent to official email.", "info"); }}
+                      className="text-xs text-[#2087d8] hover:underline font-semibold"
+                    >
                       Forgot Password?
                     </a>
                   </div>
-                  <div className="relative">
-                    <Lock className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
-                    <input
-                      type="password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      required
-                      className="w-full pl-9 pr-3 py-2 text-xs bg-slate-50 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#264092] focus:bg-white transition-all"
-                    />
-                  </div>
-                </div>
-
-                {/* Simulated Captcha */}
-                <div className="bg-slate-50 p-2.5 rounded-xl border border-slate-200 flex items-center justify-between">
-                  <div className="flex items-center space-x-2">
-                    <span className="font-mono text-xs tracking-widest px-2.5 py-1 bg-slate-200 text-slate-800 font-bold rounded select-none line-through">
-                      7 N 9 K P
-                    </span>
-                    <span className="text-[10px] text-slate-500">Security Check</span>
-                  </div>
-                  <input
-                    type="text"
-                    value={captchaInput}
-                    onChange={(e) => setCaptchaInput(e.target.value)}
-                    className="w-20 px-2 py-1 text-xs border border-slate-300 rounded text-center uppercase font-mono font-bold"
-                  />
-                </div>
-
-                {/* Remember Me */}
-                <div className="flex items-center justify-between text-xs text-slate-600">
-                  <label className="flex items-center space-x-2 cursor-pointer">
-                    <input
-                      type="checkbox"
-                      checked={rememberMe}
-                      onChange={(e) => setRememberMe(e.target.checked)}
-                      className="rounded border-slate-300 text-blue-600 focus:ring-blue-500 w-3.5 h-3.5"
-                    />
-                    <span>Remember terminal</span>
-                  </label>
-                  <span className="text-[11px] text-slate-400">SSL 256-Bit</span>
-                </div>
-
-                {/* Sign In Buttons */}
-                <button
-                  type="submit"
-                  className="w-full py-2.5 px-4 bg-[#1B365D] hover:bg-[#152c4d] text-white text-xs font-bold rounded-lg shadow-sm hover:shadow-md transition-all flex items-center justify-center space-x-2 cursor-pointer"
-                >
-                  <span>Sign In as {userLoginType === 'employee' ? 'Official' : 'Trainer'}</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
-
-                <div className="relative flex py-1 items-center">
-                  <div className="flex-grow border-t border-slate-200"></div>
-                  <span className="flex-shrink mx-3 text-[11px] text-slate-400 font-medium">OR</span>
-                  <div className="flex-grow border-t border-slate-200"></div>
-                </div>
-
-                {/* Parichay SSO Button */}
-                <button
-                  type="button"
-                  onClick={handleSsoLogin}
-                  className="w-full py-2.5 px-4 bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold rounded-lg border border-slate-300 transition-colors flex items-center justify-center space-x-2 cursor-pointer"
-                >
-                  <Shield className="w-4 h-4 text-blue-700" />
-                  <span>Single Sign-On (Jan Parichay SSO)</span>
-                </button>
-              </form>
-            </div>
-          ) : (
-            /* Dedicated Admin URL Gateway Form (/admin or #admin) */
-            <form onSubmit={handleAdminSignIn} className="p-6 sm:p-8 space-y-4 animate-in fade-in">
-              <div className="p-3 rounded-xl bg-purple-50 border border-purple-200 text-xs text-purple-900 space-y-1">
-                <div className="flex items-center space-x-1.5 font-bold">
-                  <Lock className="w-3.5 h-3.5 text-purple-700" />
-                  <span>Restricted Access: System Administrator</span>
-                </div>
-                <p className="text-[11px] text-purple-800 leading-relaxed">
-                  Authorized exclusively for MoSPI Headquarter Workforce Planning Officers. All logins are audit-logged.
-                </p>
-              </div>
-
-              <div>
-                <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
-                  Admin NIC Account
-                </label>
-                <div className="relative">
-                  <Mail className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
-                  <input
-                    type="text"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                    className="w-full pl-9 pr-3 py-2 text-xs bg-slate-50 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600 focus:bg-white font-medium"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
-                  Root Admin Passkey & 2FA
-                </label>
-                <div className="relative">
-                  <Key className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
                   <input
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
-                    className="w-full pl-9 pr-3 py-2 text-xs bg-slate-50 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600 focus:bg-white"
+                    className="w-full px-3.5 py-2 text-xs bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2087d8] focus:border-transparent text-slate-900"
                   />
+                </div>
+              ) : (
+                <div>
+                  <label className="block text-xs font-semibold text-slate-700 mb-1">
+                    Mobile / Email OTP
+                  </label>
+                  <input
+                    type="text"
+                    defaultValue="849201"
+                    placeholder="Enter 6-digit OTP"
+                    className="w-full px-3.5 py-2 text-xs bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2087d8] font-mono tracking-widest"
+                  />
+                </div>
+              )}
+
+              {/* reCAPTCHA Checkbox Box */}
+              <div className="bg-[#f9f9f9] p-3 rounded-lg border border-slate-300 flex items-center justify-between">
+                <label
+                  onClick={() => setIsCaptchaChecked(!isCaptchaChecked)}
+                  className="flex items-center space-x-3 cursor-pointer select-none"
+                >
+                  {isCaptchaChecked ? (
+                    <CheckSquare className="w-5 h-5 text-emerald-600" />
+                  ) : (
+                    <Square className="w-5 h-5 text-slate-400" />
+                  )}
+                  <span className="text-xs text-slate-700 font-medium">I'm not a robot</span>
+                </label>
+
+                <div className="text-right">
+                  <div className="w-7 h-7 mx-auto bg-blue-600 rounded-full flex items-center justify-center text-white text-[9px] font-bold">
+                    ♻
+                  </div>
+                  <span className="text-[9px] text-slate-400 block font-sans">reCAPTCHA</span>
                 </div>
               </div>
 
+              {/* Login Button */}
+              <button
+                type="submit"
+                className="w-full py-2.5 px-4 bg-[#2087d8] hover:bg-[#1a74ba] text-white text-sm font-bold rounded-lg shadow-sm transition-all flex items-center justify-center space-x-2 cursor-pointer"
+              >
+                <span>Login</span>
+              </button>
+
+              {/* Divider */}
+              <div className="relative flex py-1 items-center">
+                <div className="flex-grow border-t border-slate-200"></div>
+                <span className="flex-shrink mx-3 text-xs text-slate-400 font-medium">or</span>
+                <div className="flex-grow border-t border-slate-200"></div>
+              </div>
+
+              {/* Jan Parichay SSO Login */}
+              <div className="space-y-1.5">
+                <p className="text-xs font-semibold text-slate-600 text-center">Login with Providers</p>
+                <button
+                  type="button"
+                  onClick={handleSsoLogin}
+                  className="w-full py-2.5 px-4 bg-[#1B365D] hover:bg-[#142947] text-white text-xs font-bold rounded-lg shadow-sm transition-colors flex items-center justify-center space-x-2 cursor-pointer"
+                >
+                  <Shield className="w-4 h-4 text-amber-400" />
+                  <span>Select Provider (Jan Parichay SSO)</span>
+                </button>
+              </div>
+            </form>
+          ) : (
+            /* Admin Form */
+            <form onSubmit={handleAdminSignIn} className="space-y-4">
               <div>
-                <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
+                <label className="block text-xs font-semibold text-slate-700 mb-1">
+                  Administrator NIC ID
+                </label>
+                <input
+                  type="text"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  className="w-full px-3.5 py-2 text-xs bg-white border border-slate-300 rounded-lg focus:ring-2 focus:ring-purple-600"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-slate-700 mb-1">
+                  Root Admin Passkey
+                </label>
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  className="w-full px-3.5 py-2 text-xs bg-white border border-slate-300 rounded-lg focus:ring-2 focus:ring-purple-600"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-slate-700 mb-1">
                   MoSPI Security Token
                 </label>
                 <input
                   type="text"
                   value={adminToken}
                   onChange={(e) => setAdminToken(e.target.value)}
-                  className="w-full px-3 py-2 text-xs bg-slate-100 border border-slate-300 rounded-lg font-mono text-purple-900 font-bold"
+                  className="w-full px-3.5 py-2 text-xs bg-slate-100 border border-slate-300 rounded-lg font-mono text-purple-900 font-bold"
                 />
               </div>
 
               <button
                 type="submit"
-                className="w-full py-2.5 px-4 bg-purple-900 hover:bg-purple-950 text-white text-xs font-bold rounded-lg shadow-sm transition-all flex items-center justify-center space-x-2 cursor-pointer"
+                className="w-full py-2.5 px-4 bg-purple-900 hover:bg-purple-950 text-white text-sm font-bold rounded-lg shadow-sm transition-all flex items-center justify-center space-x-2 cursor-pointer"
               >
-                <Shield className="w-4 h-4 text-purple-300" />
-                <span>Authenticate as System Administrator</span>
+                <span>Authenticate System Admin</span>
               </button>
 
               <div className="pt-2 text-center">
@@ -351,43 +405,25 @@ export const AuthView = () => {
                   }}
                   className="text-xs text-blue-700 hover:underline cursor-pointer"
                 >
-                  ← Return to Official / Trainer Login Portal
+                  ← Return to Official Login Portal
                 </button>
               </div>
             </form>
           )}
 
           {/* Footer Notice */}
-          <div className="p-4 bg-slate-50 border-t border-slate-200 text-center text-[11px] text-slate-500">
-            <p className="flex items-center justify-center space-x-1">
-              <Lock className="w-3 h-3 text-emerald-600 inline" />
-              <span>Integrated with Mission Karmayogi (NPCSCB) & MoSPI</span>
-            </p>
-            {!isAdminPortalMode && (
-              <p className="mt-2 text-[10px] text-slate-400">
-                System Administrator access is restricted to official gateway:{" "}
-                <a
-                  href="/admin"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setIsAdminPortalMode(true);
-                    window.history.pushState(null, '', '/admin');
-                  }}
-                  className="text-blue-600 hover:underline"
-                >
-                  /admin URL Gateway
-                </a>
-              </p>
-            )}
+          <div className="pt-2 text-center text-[11px] text-slate-400">
+            <span>Powered by iGOT Karmayogi Bharat Framework & MoSPI</span>
           </div>
         </div>
-      </div>
 
-      {/* Page Footer */}
-      <footer className="py-3 px-6 text-center text-[11px] text-slate-400 border-t border-white/10 bg-[#0a1c2e]">
-        <p>© 2026 Ministry of Statistics & Programme Implementation (MoSPI) & Karmayogi Bharat, Government of India. All Rights Reserved.</p>
-      </footer>
+        {/* Right Footer */}
+        <div className="text-center text-[11px] text-slate-400 border-t border-slate-100 pt-3">
+          © 2026 Karmayogi Bharat & Ministry of Statistics & Programme Implementation (MoSPI).
+        </div>
+      </div>
     </div>
   );
 };
+
 
