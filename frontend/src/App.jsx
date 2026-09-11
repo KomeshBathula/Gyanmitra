@@ -4,6 +4,7 @@ import { Header } from './components/common/Header';
 import { Sidebar } from './components/common/Sidebar';
 import { Toast } from './components/common/Toast';
 import { InitialAssessmentModal } from './components/common/InitialAssessmentModal';
+import { AdminLayout } from './components/admin/AdminLayout';
 import { AIAssistantDrawer } from './components/ai/AIAssistantDrawer';
 import { Sparkles, Bot } from 'lucide-react';
 
@@ -29,7 +30,7 @@ import { NotificationsView } from './views/NotificationsView';
 import { ProfileSettingsView } from './views/ProfileSettingsView';
 
 export default function App() {
-  const { isAuthenticated, currentScreen, setIsAiDrawerOpen, t } = useApp();
+  const { isAuthenticated, currentScreen, userProfile, setIsAiDrawerOpen, t } = useApp();
 
   // If not authenticated or on login screen, render AuthView
   if (!isAuthenticated || currentScreen === 'login') {
@@ -49,6 +50,11 @@ export default function App() {
         <Toast />
       </div>
     );
+  }
+
+  // Dedicated Completely Independent Admin Portal Layout for Administrators
+  if (userProfile?.role === 'admin') {
+    return <AdminLayout />;
   }
 
   // Render appropriate view based on currentScreen state

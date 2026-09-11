@@ -12,7 +12,10 @@ import {
   REPORTS_CATALOG,
   TRAINER_BATCH_DATA,
   ADMIN_ORG_DATA,
-  AI_ASSISTANT_PROMPTS
+  AI_ASSISTANT_PROMPTS,
+  ADMIN_DEPARTMENTS_CONFIG,
+  ADMIN_LEARNERS_DIRECTORY,
+  ADMIN_ASSESSMENTS_AUDIT_DATA
 } from '../data/mockData';
 import { translations } from '../utils/translations';
 import { api } from '../services/api';
@@ -39,6 +42,8 @@ export const AppProvider = ({ children }) => {
   const [currentScreen, setCurrentScreenState] = useState('login'); // screen identifier
   const [userProfile, setUserProfile] = useState(INITIAL_USER);
   const [isAdminPortalMode, setIsAdminPortalMode] = useState(false);
+  const [adminDepartment, setAdminDepartment] = useState('civil'); // 'civil' | 'municipal' | 'statistical' | 'revenue'
+  const [adminLearners, setAdminLearners] = useState(ADMIN_LEARNERS_DIRECTORY);
   const [isLoadingApi, setIsLoadingApi] = useState(false);
 
   // Competency & Pathway State (Closed-Loop)
@@ -176,28 +181,35 @@ export const AppProvider = ({ children }) => {
     };
   }, [isAuthenticated]);
 
-  // Secure Login Handler
-  const loginUser = async (role, credentials = {}) => {
-    const preset = USER_PRESETS[role] || USER_PRESETS.employee;
+  // Secure Login Handler (Supports 'employee', 'trainer', 'admin', or 'admin_civil', 'admin_municipal', etc.)
+  const loginUser = async (roleOrPresetKey, credentials = {}) => {
+    let preset = USER_PRESETS[roleOrPresetKey] || USER_PRESETS[roleOrPresetKey.replace('admin_', '')] || USER_PRESETS.employee;
+    if (roleOrPresetKey.startsWith('admin')) {
+      preset = USER_PRESETS[roleOrPresetKey] || USER_PRESETS.admin;
+    }
     const finalProfile = { ...preset, ...credentials };
-    
-    // Call backend Auth API
-    await api.login({ email: credentials.email || preset.email, role }, { user: finalProfile });
+    const effectiveRole = finalProfile.role || 'employee';
 
-    setCurrentRole(role);
+    // Call backend Auth API
+    await api.login({ email: credentials.email || preset.email, role: effectiveRole }, { user: finalProfile });
+
+    setCurrentRole(effectiveRole);
     setUserProfile(finalProfile);
+    if (finalProfile.departmentId) {
+      setAdminDepartment(finalProfile.departmentId);
+    }
     setIsAuthenticated(true);
 
     const assessmentKey = `gyanmitra_initial_assessment_${finalProfile.email || 'user'}`;
     const alreadyTaken = localStorage.getItem(assessmentKey) === 'true';
     setHasCompletedInitialAssessment(alreadyTaken);
 
-    if (role === 'trainer') {
+    if (effectiveRole === 'trainer') {
       setCurrentScreen('trainer-dashboard');
-      showToast(`Welcome Dr. Meenakshi Sundaram! Logged into NSSTA Trainer Portal.`, "success");
-    } else if (role === 'admin') {
+      showToast(`Welcome ${finalProfile.name}! Logged into NSSTA Trainer Portal.`, "success");
+    } else if (effectiveRole === 'admin') {
       setCurrentScreen('admin-dashboard');
-      showToast(`Welcome Dr. Arvind Mehta! Logged into MoSPI Workforce Intelligence Gateway.`, "success");
+      showToast(`Welcome ${finalProfile.name}! Logged into ${finalProfile.department || 'Governance Admin Portal'}.`, "success");
     } else {
       setCurrentScreen('dashboard');
       if (!alreadyTaken) {
@@ -205,6 +217,35 @@ export const AppProvider = ({ children }) => {
       }
       showToast(`Welcome ${finalProfile.name}! Logged into iGOT Karmayogi Bharat.`, "success");
     }
+  };
+
+  // Switch Admin Department Console
+  const switchAdminDepartment = (deptId) => {
+    const presetMap = {
+      civil: USER_PRESETS.admin_civil,
+      municipal: USER_PRESETS.admin_municipal,
+      statistical: USER_PRESETS.admin_statistical,
+      revenue: USER_PRESETS.admin_revenue
+    };
+    const targetAdmin = presetMap[deptId] || USER_PRESETS.admin;
+    setAdminDepartment(deptId);
+    setUserProfile(targetAdmin);
+    showToast(`Admin Console switched to ${targetAdmin.department}`, "info");
+  };
+
+  // Assign Program to Learner from Admin Learner Dashboard
+  const assignProgramToLearner = (learnerId, programTitle) => {
+    setAdminLearners(prev => prev.map(lrn => {
+      if (lrn.id === learnerId) {
+        return {
+          ...lrn,
+          activeCoursesCount: (lrn.activeCoursesCount || 0) + 1,
+          aparStatus: "Assignment Mandated"
+        };
+      }
+      return lrn;
+    }));
+    showToast(`Assigned '${programTitle}' to learner. Notification dispatched.`, "success");
   };
 
   // Launch Assessment in Full Screen Mode
@@ -378,6 +419,14 @@ export const AppProvider = ({ children }) => {
         logoutUser,
         isAdminPortalMode,
         setIsAdminPortalMode,
+        adminDepartment,
+        setAdminDepartment,
+        adminLearners,
+        setAdminLearners,
+        switchAdminDepartment,
+        assignProgramToLearner,
+        adminDepartmentsConfig: ADMIN_DEPARTMENTS_CONFIG,
+        adminAuditData: ADMIN_ASSESSMENTS_AUDIT_DATA,
         currentScreen,
         setCurrentScreen,
         isLoadingApi,
