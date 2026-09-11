@@ -42,6 +42,14 @@
   background: linear-gradient(135deg, #0F2942 0%, #1B365D 50%, #264092 100%);
 }
 
+.gov-gradient-header {
+  background: linear-gradient(135deg, #0F2942 0%, #1B365D 50%, #264092 100%);
+}
+
+.gov-subtle-glow {
+  box-shadow: 0 4px 20px -2px rgba(15, 41, 66, 0.08);
+}
+
 .karmayogi-card {
   @apply bg-white rounded-xl border border-slate-200/90 shadow-sm hover:shadow-md transition-all duration-200;
 }
@@ -57,4 +65,3 @@
 .karmayogi-badge-green {
   @apply inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-900 border border-emerald-200;
 }
-

@@ -250,7 +250,7 @@ export const Header = () => {
           <div className="relative">
             <button
               onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
-              className="flex items-center space-x-2 p-1 rounded-lg hover:bg-slate-100 border border-slate-200 transition-colors"
+              className="flex items-center space-x-2 p-1 rounded-lg hover:bg-slate-100 border border-slate-200 transition-colors cursor-pointer"
             >
               <img
                 src={userProfile.avatar}
@@ -286,7 +286,7 @@ export const Header = () => {
                       setCurrentScreen('profile');
                       setIsProfileMenuOpen(false);
                     }}
-                    className="w-full text-left px-4 py-2 text-xs text-slate-700 hover:bg-slate-50 flex items-center space-x-2"
+                    className="w-full text-left px-4 py-2 text-xs text-slate-700 hover:bg-slate-50 flex items-center space-x-2 cursor-pointer"
                   >
                     <User className="w-4 h-4 text-slate-500" />
                     <span>{t('officialServiceProfile')}</span>
@@ -297,7 +297,7 @@ export const Header = () => {
                         setCurrentScreen('profile-wizard');
                         setIsProfileMenuOpen(false);
                       }}
-                      className="w-full text-left px-4 py-2 text-xs text-slate-700 hover:bg-slate-50 flex items-center space-x-2"
+                      className="w-full text-left px-4 py-2 text-xs text-slate-700 hover:bg-slate-50 flex items-center space-x-2 cursor-pointer"
                     >
                       <Sliders className="w-4 h-4 text-slate-500" />
                       <span>{t('cadreSkillWizard')}</span>
@@ -308,7 +308,7 @@ export const Header = () => {
                       setCurrentScreen('settings');
                       setIsProfileMenuOpen(false);
                     }}
-                    className="w-full text-left px-4 py-2 text-xs text-slate-700 hover:bg-slate-50 flex items-center space-x-2"
+                    className="w-full text-left px-4 py-2 text-xs text-slate-700 hover:bg-slate-50 flex items-center space-x-2 cursor-pointer"
                   >
                     <Settings className="w-4 h-4 text-slate-500" />
                     <span>{t('systemSettings')}</span>
@@ -321,7 +321,7 @@ export const Header = () => {
                       setIsProfileMenuOpen(false);
                       logoutUser();
                     }}
-                    className="w-full text-left px-4 py-2 text-xs text-rose-700 hover:bg-rose-50 flex items-center space-x-2 font-medium"
+                    className="w-full text-left px-4 py-2 text-xs text-rose-700 hover:bg-rose-50 flex items-center space-x-2 font-medium cursor-pointer"
                   >
                     <LogOut className="w-4 h-4 text-rose-600" />
                     <span>{t('signOut')}</span>
@@ -331,6 +331,142 @@ export const Header = () => {
             )}
           </div>
         </div>
+      </div>
+
+      {/* Horizontal iGOT Karmayogi Hubs Bar */}
+      <div className="bg-[#1B365D] text-white px-4 sm:px-6 flex items-center space-x-1 sm:space-x-2 overflow-x-auto text-xs font-semibold shadow-inner">
+        {currentRole === 'employee' ? (
+          <>
+            <button
+              onClick={() => setCurrentScreen('dashboard')}
+              className={`px-3 py-2 border-b-2 whitespace-nowrap transition-all cursor-pointer ${
+                currentScreen === 'dashboard'
+                  ? 'border-[#FF9933] text-white font-bold bg-white/10'
+                  : 'border-transparent text-slate-200 hover:text-white hover:bg-white/5'
+              }`}
+            >
+              Learn Hub
+            </button>
+            <button
+              onClick={() => setCurrentScreen('courses')}
+              className={`px-3 py-2 border-b-2 whitespace-nowrap transition-all cursor-pointer ${
+                currentScreen === 'courses'
+                  ? 'border-[#FF9933] text-white font-bold bg-white/10'
+                  : 'border-transparent text-slate-200 hover:text-white hover:bg-white/5'
+              }`}
+            >
+              {t('navCourses') || "Course Catalog"}
+            </button>
+            <button
+              onClick={() => setCurrentScreen('competencies')}
+              className={`px-3 py-2 border-b-2 whitespace-nowrap transition-all cursor-pointer ${
+                currentScreen === 'competencies'
+                  ? 'border-[#FF9933] text-white font-bold bg-white/10'
+                  : 'border-transparent text-slate-200 hover:text-white hover:bg-white/5'
+              }`}
+            >
+              Competency Hub (FRAC)
+            </button>
+            <button
+              onClick={() => setCurrentScreen('skill-gaps')}
+              className={`px-3 py-2 border-b-2 whitespace-nowrap transition-all cursor-pointer ${
+                currentScreen === 'skill-gaps'
+                  ? 'border-[#FF9933] text-white font-bold bg-white/10'
+                  : 'border-transparent text-slate-200 hover:text-white hover:bg-white/5'
+              }`}
+            >
+              {t('navSkillGaps') || "Role Gaps"}
+            </button>
+            <button
+              onClick={() => setCurrentScreen('assessment')}
+              className={`px-3 py-2 border-b-2 whitespace-nowrap transition-all cursor-pointer ${
+                currentScreen === 'assessment' || currentScreen === 'quiz-taking'
+                  ? 'border-[#FF9933] text-white font-bold bg-white/10'
+                  : 'border-transparent text-slate-200 hover:text-white hover:bg-white/5'
+              }`}
+            >
+              Assessments
+            </button>
+            <button
+              onClick={() => setCurrentScreen('ai-quiz')}
+              className={`px-3 py-2 border-b-2 whitespace-nowrap transition-all cursor-pointer flex items-center space-x-1 ${
+                currentScreen === 'ai-quiz'
+                  ? 'border-[#FF9933] text-white font-bold bg-white/10'
+                  : 'border-transparent text-slate-200 hover:text-white hover:bg-white/5'
+              }`}
+            >
+              <Sparkles className="w-3 h-3 text-[#FFA730]" />
+              <span>AI Quiz Studio</span>
+            </button>
+            <button
+              onClick={() => setCurrentScreen('progress')}
+              className={`px-3 py-2 border-b-2 whitespace-nowrap transition-all cursor-pointer ${
+                currentScreen === 'progress'
+                  ? 'border-[#FF9933] text-white font-bold bg-white/10'
+                  : 'border-transparent text-slate-200 hover:text-white hover:bg-white/5'
+              }`}
+            >
+              {t('navProgress') || "Analytics"}
+            </button>
+          </>
+        ) : currentRole === 'trainer' ? (
+          <>
+            <button
+              onClick={() => setCurrentScreen('trainer-dashboard')}
+              className={`px-3 py-2 border-b-2 whitespace-nowrap transition-all cursor-pointer ${
+                currentScreen === 'trainer-dashboard'
+                  ? 'border-[#FF9933] text-white font-bold bg-white/10'
+                  : 'border-transparent text-slate-200 hover:text-white hover:bg-white/5'
+              }`}
+            >
+              NSSTA Cohort Hub
+            </button>
+            <button
+              onClick={() => setCurrentScreen('ai-quiz')}
+              className={`px-3 py-2 border-b-2 whitespace-nowrap transition-all cursor-pointer flex items-center space-x-1 ${
+                currentScreen === 'ai-quiz'
+                  ? 'border-[#FF9933] text-white font-bold bg-white/10'
+                  : 'border-transparent text-slate-200 hover:text-white hover:bg-white/5'
+              }`}
+            >
+              <Sparkles className="w-3 h-3 text-[#FFA730]" />
+              <span>AI MCQ Authoring</span>
+            </button>
+            <button
+              onClick={() => setCurrentScreen('reports')}
+              className={`px-3 py-2 border-b-2 whitespace-nowrap transition-all cursor-pointer ${
+                currentScreen === 'reports'
+                  ? 'border-[#FF9933] text-white font-bold bg-white/10'
+                  : 'border-transparent text-slate-200 hover:text-white hover:bg-white/5'
+              }`}
+            >
+              Batch Reports
+            </button>
+          </>
+        ) : (
+          <>
+            <button
+              onClick={() => setCurrentScreen('admin-dashboard')}
+              className={`px-3 py-2 border-b-2 whitespace-nowrap transition-all cursor-pointer ${
+                currentScreen === 'admin-dashboard'
+                  ? 'border-[#FF9933] text-white font-bold bg-white/10'
+                  : 'border-transparent text-slate-200 hover:text-white hover:bg-white/5'
+              }`}
+            >
+              MoSPI Workforce Intel Hub
+            </button>
+            <button
+              onClick={() => setCurrentScreen('reports')}
+              className={`px-3 py-2 border-b-2 whitespace-nowrap transition-all cursor-pointer ${
+                currentScreen === 'reports'
+                  ? 'border-[#FF9933] text-white font-bold bg-white/10'
+                  : 'border-transparent text-slate-200 hover:text-white hover:bg-white/5'
+              }`}
+            >
+              ACBP Annual Capacity Reports
+            </button>
+          </>
+        )}
       </div>
     </header>
   );
