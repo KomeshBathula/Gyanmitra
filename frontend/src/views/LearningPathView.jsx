@@ -228,7 +228,7 @@ export const LearningPathView = () => {
                           <span>{course.progress}%</span>
                           {course.progress < 100 && (
                             <span className="text-[10px] text-slate-400 font-normal ml-1">
-                              (Admin Quiz unlocks at 100%)
+                              (Quiz unlocks at 100%)
                             </span>
                           )}
                         </div>
@@ -241,19 +241,19 @@ export const LearningPathView = () => {
                       </div>
 
                       {/* Action Buttons */}
-                      <div className="flex items-center space-x-2">
+                      <div className="flex items-center space-x-2 flex-shrink-0">
                         {course.progress >= 100 ? (
                           <button
                             onClick={() => startCourseQuiz(course)}
-                            className="px-4 py-1.5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white text-xs font-bold transition-all shadow-md flex items-center space-x-1.5 cursor-pointer"
+                            className="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white text-xs font-bold transition-all shadow-md flex items-center space-x-1.5 cursor-pointer whitespace-nowrap"
                           >
-                            <Sparkles className="w-3.5 h-3.5 text-amber-300" />
-                            <span>Take Admin Quiz</span>
+                            <Sparkles className="w-3.5 h-3.5 text-amber-300 flex-shrink-0" />
+                            <span className="whitespace-nowrap">Take Quiz</span>
                           </button>
                         ) : (
                           <button
                             onClick={() => setActiveCourseModal(course)}
-                            className="px-4 py-1.5 rounded-xl bg-[#15284F] hover:bg-[#1D3A74] text-white text-xs font-bold transition-all shadow-md flex items-center space-x-1.5 border border-[#1E3A6D] cursor-pointer"
+                            className="px-4 py-1.5 rounded-xl bg-[#15284F] hover:bg-[#1D3A74] text-white text-xs font-bold transition-all shadow-md flex items-center space-x-1.5 border border-[#1E3A6D] cursor-pointer whitespace-nowrap"
                           >
                             <span>{course.progress > 0 ? 'Resume' : 'Start'}</span>
                             <Play className="w-3 h-3 fill-white" />
@@ -263,22 +263,22 @@ export const LearningPathView = () => {
                     </div>
                   </div>
                 ) : activePill === 'completed' ? (
-                  <div className="flex items-center justify-between gap-2">
-                    <div className="flex items-center space-x-1 text-xs text-emerald-400 font-bold">
+                  <div className="flex items-center justify-between gap-3 pt-0.5">
+                    <div className="flex items-center space-x-1.5 text-xs text-emerald-400 font-bold flex-shrink-0">
                       <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0" />
-                      <span className="truncate">100% Completed</span>
+                      <span className="whitespace-nowrap">100% Completed</span>
                     </div>
-                    <div className="flex items-center space-x-2">
+                    <div className="flex items-center space-x-2 flex-shrink-0">
                       <button
                         onClick={() => startCourseQuiz(course)}
-                        className="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white text-xs font-bold shadow-md flex items-center space-x-1 cursor-pointer transition-all"
+                        className="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white text-xs font-bold shadow-md flex items-center space-x-1.5 cursor-pointer transition-all whitespace-nowrap hover:shadow-indigo-500/25"
                       >
-                        <Sparkles className="w-3 h-3 text-amber-300" />
-                        <span>Take Admin Quiz</span>
+                        <Sparkles className="w-3.5 h-3.5 text-amber-300 flex-shrink-0" />
+                        <span className="whitespace-nowrap">Take Quiz</span>
                       </button>
                       <button
                         onClick={() => setActiveCourseModal(course)}
-                        className="px-3 py-1.5 rounded-xl bg-[#162544] hover:bg-[#1E335A] text-slate-200 text-xs font-semibold cursor-pointer"
+                        className="px-3 py-1.5 rounded-xl bg-[#162544] hover:bg-[#1E335A] text-slate-200 text-xs font-semibold cursor-pointer border border-[#1E3A6D]/50 transition-colors whitespace-nowrap"
                       >
                         Review
                       </button>
@@ -458,10 +458,10 @@ export const LearningPathView = () => {
                       setActiveCourseModal(null);
                       startCourseQuiz(selectedCourse);
                     }}
-                    className="px-5 py-2 text-xs font-bold text-white bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 rounded-2xl shadow-xl transition-all cursor-pointer flex items-center space-x-1.5"
+                    className="px-5 py-2 text-xs font-bold text-white bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 rounded-2xl shadow-xl transition-all cursor-pointer flex items-center space-x-1.5 whitespace-nowrap"
                   >
-                    <Sparkles className="w-3.5 h-3.5 text-amber-300" />
-                    <span>Take Admin Quiz (Full-Screen)</span>
+                    <Sparkles className="w-3.5 h-3.5 text-amber-300 flex-shrink-0" />
+                    <span>Take Quiz (Full-Screen)</span>
                   </button>
                 ) : (
                   <button
