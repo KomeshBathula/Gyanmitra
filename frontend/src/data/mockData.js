@@ -653,7 +653,7 @@ export const NOTIFICATIONS_LIST = [
     priority: "low",
     read: true,
     type: "document",
-    actionLink: "ai-quiz"
+    actionLink: "learning-path"
   }
 ];
 

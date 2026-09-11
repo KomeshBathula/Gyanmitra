@@ -369,16 +369,6 @@ export const LearningPathView = () => {
               </button>
               <div className="flex items-center space-x-2">
                 <button
-                  onClick={() => {
-                    setActiveCourseModal(null);
-                    setCurrentScreen('ai-quiz');
-                  }}
-                  className="px-4 py-2 text-xs font-bold text-amber-300 bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 rounded-2xl transition-all cursor-pointer flex items-center space-x-1"
-                >
-                  <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-                  <span>Generate AI Assessment</span>
-                </button>
-                <button
                   onClick={async () => {
                     const newProgress = Math.min(100, activeCourseModal.progress + 25);
                     await api.updateCourseProgress(activeCourseModal.id, newProgress);
