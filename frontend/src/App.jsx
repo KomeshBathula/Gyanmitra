@@ -15,6 +15,7 @@ import { AssessmentView } from './views/AssessmentView';
 import { SkillGapView } from './views/SkillGapView';
 import { LearningPathView } from './views/LearningPathView';
 import { CoursesView } from './views/CoursesView';
+import { MarketplaceView } from './views/MarketplaceView';
 import { AIQuizGeneratorView } from './views/AIQuizGeneratorView';
 import { QuizTakingView } from './views/QuizTakingView';
 import { QuizResultsView } from './views/QuizResultsView';
@@ -51,8 +52,9 @@ export default function App() {
       case 'learning-path':
         return <LearningPathView />;
       case 'courses':
-      case 'marketplace':
         return <CoursesView />;
+      case 'marketplace':
+        return <MarketplaceView />;
       case 'assessment':
         return <AssessmentView />;
       case 'ai-quiz':
@@ -119,7 +121,7 @@ export default function App() {
         </main>
       </div>
 
-      {/* Floating iGOT AI Assistant Mascot Button (matching screenshot avatar) */}
+      {/* Floating iGOT AI Assistant Mascot Button */}
       <button
         onClick={() => setIsAiDrawerOpen(true)}
         className="fixed bottom-6 right-6 z-40 w-14 h-14 rounded-full bg-[#1D4ED8] hover:bg-[#2563EB] text-white shadow-2xl hover:scale-105 transition-all flex items-center justify-center border-2 border-white/80 cursor-pointer group"
