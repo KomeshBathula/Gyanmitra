@@ -87,17 +87,14 @@ export const AIQuizGeneratorView = () => {
               </span>
               <span className="text-xs text-slate-400">Grounded Generation</span>
             </div>
-            <h2 className="text-xl font-bold text-slate-900 mt-1">AI Assessment Generator</h2>
             <h2 className="text-xl font-bold text-slate-900 mt-1">{t('aiQuizTitle')}</h2>
             <p className="text-xs text-slate-500">
-              Upload official learning materials (PDF/PPT/DOCX) and generate source-grounded quizzes, MCQs, and competency checks.
               {t('aiQuizSub')}
             </p>
           </div>
 
           <div className="flex items-center space-x-2 text-xs font-medium text-purple-700 bg-purple-50 px-3 py-1.5 rounded-lg border border-purple-200">
             <Sparkles className="w-4 h-4 text-purple-600" />
-            <span>RAG Verified Grounding</span>
             <span>{t('ragSourcesGrounding')}</span>
           </div>
         </div>
@@ -156,9 +153,9 @@ export const AIQuizGeneratorView = () => {
               </div>
 
               <div>
-                <h3 className="text-base font-bold text-slate-900">Upload Learning Material or Manual</h3>
+                <h3 className="text-base font-bold text-slate-900">{t('uploadMaterial')}</h3>
                 <p className="text-xs text-slate-500 mt-1">
-                  Drag and drop files here, or browse from your government workstation
+                  {t('dragDropText')}
                 </p>
               </div>
 
@@ -268,7 +265,7 @@ export const AIQuizGeneratorView = () => {
 
               {/* Question Count */}
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1.5">Number of Questions</label>
+                <label className="block text-xs font-semibold text-slate-700 mb-1.5">{t('numQuestions')}</label>
                 <div className="grid grid-cols-3 gap-2">
                   {[5, 10, 20].map((num) => (
                     <button
@@ -280,7 +277,7 @@ export const AIQuizGeneratorView = () => {
                           : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
                       }`}
                     >
-                      {num} Questions
+                      {num} {t('questionCount')}
                     </button>
                   ))}
                 </div>
@@ -288,16 +285,16 @@ export const AIQuizGeneratorView = () => {
 
               {/* Difficulty Level */}
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1.5">Target Cadre Difficulty</label>
+                <label className="block text-xs font-semibold text-slate-700 mb-1.5">{t('selectDifficulty')}</label>
                 <select
                   value={difficulty}
                   onChange={(e) => setDifficulty(e.target.value)}
                   className="w-full px-3 py-2 text-xs bg-slate-50 border border-slate-300 rounded-lg focus:ring-1 focus:ring-blue-600"
                 >
-                  <option>Foundational (Level 1-2 • SSS Cadre)</option>
-                  <option>Medium (Level 3 • ISS Probationer/AD)</option>
-                  <option>Hard (Level 4 • ISS Deputy Director)</option>
-                  <option>Adaptive AI Calibration</option>
+                  <option value="Basic">{t('difficultyBasic')}</option>
+                  <option value="Medium">{t('difficultyIntermediate')}</option>
+                  <option value="Hard">{t('difficultyAdvanced')}</option>
+                  <option value="Adaptive">Adaptive AI Calibration</option>
                 </select>
               </div>
 
@@ -305,17 +302,17 @@ export const AIQuizGeneratorView = () => {
               <div>
                 <label className="block text-xs font-semibold text-slate-700 mb-1.5">Question Format</label>
                 <div className="grid grid-cols-2 gap-2">
-                  {['MCQ', 'True / False', 'Assertion-Reason', 'Case Study'].map((t) => (
+                  {['MCQ', 'True / False', 'Assertion-Reason', 'Case Study'].map((qt) => (
                     <button
-                      key={t}
-                      onClick={() => setQuestionType(t)}
+                      key={qt}
+                      onClick={() => setQuestionType(qt)}
                       className={`py-1.5 text-xs font-semibold rounded-lg border transition-all ${
-                        questionType === t
+                        questionType === qt
                           ? 'bg-blue-50 text-blue-900 border-blue-400 font-bold'
                           : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'
                       }`}
                     >
-                      {t}
+                      {qt}
                     </button>
                   ))}
                 </div>
@@ -361,7 +358,7 @@ export const AIQuizGeneratorView = () => {
                   className="w-full py-2.5 bg-gradient-to-r from-gov-blue to-purple-800 hover:from-gov-navy hover:to-purple-900 text-white text-xs font-bold rounded-xl shadow-gov hover:shadow-gov-md transition-all flex items-center justify-center space-x-2"
                 >
                   <Sparkles className="w-4 h-4 text-amber-300" />
-                  <span>Generate Assessment</span>
+                  <span>{t('generateQuizBtn')}</span>
                 </button>
               </div>
             </div>
