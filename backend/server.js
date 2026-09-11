@@ -7,7 +7,7 @@ import { errorMiddleware, notFoundMiddleware } from './middleware/errorMiddlewar
 import { connectDatabase, getDbStatus } from './config/database.js';
 
 import authRoutes from './routes/authRoutes.js';
-import competencyRoutes from './routes/competencyRoutes.js';
+import competencyRoutes, { handleSkillGaps } from './routes/competencyRoutes.js';
 import courseRoutes from './routes/courseRoutes.js';
 import assessmentRoutes from './routes/assessmentRoutes.js';
 import learningRoutes from './routes/learningRoutes.js';
@@ -45,12 +45,7 @@ app.get('/api/health', (req, res) => {
 // Mount Phase 1 Routers
 app.use('/api/auth', authRoutes);
 app.use('/api/competencies', competencyRoutes);
-app.use('/api/skill-gaps', (req, res, next) => {
-  if (req.path === '/' || req.path === '') {
-    req.url = '/gaps';
-  }
-  next();
-}, competencyRoutes);
+app.get(['/api/skill-gaps', '/api/skill-gaps/gaps'], handleSkillGaps);
 app.use('/api/courses', courseRoutes);
 app.use('/api/assessment', assessmentRoutes);
 app.use('/api/assessments', assessmentRoutes);
