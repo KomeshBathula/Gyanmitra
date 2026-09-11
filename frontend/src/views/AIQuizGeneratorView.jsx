@@ -25,11 +25,17 @@ export const AIQuizGeneratorView = () => {
     setCurrentQuizData,
     setGeneratedQuizzes,
     startGeneratedQuiz,
+    courses,
     showToast,
     t
   } = useApp();
 
   const isAdmin = userProfile?.role === 'admin';
+
+  const [targetCourseId, setTargetCourseId] = useState("cnt-1");
+  const [targetDepartment, setTargetDepartment] = useState("Survey Design and Research Division (SDRD)");
+  const [targetUserId, setTargetUserId] = useState("usr_001");
+  const [targetUserName, setTargetUserName] = useState("Rajesh Kumar (Deputy Director)");
 
   const [selectedFile, setSelectedFile] = useState({
     name: "MoSPI_NSS79_Sampling_Methodology_Guidelines.pdf",
@@ -54,8 +60,8 @@ export const AIQuizGeneratorView = () => {
   const generationStages = [
     t('generatingStep1', 'Parsing & chunking official statistical document...'),
     t('generatingStep2', 'Calling Groq AI Engine (Llama 3.3) for psychometric validation...'),
-    t('generatingStep3', 'Cross-referencing MoSPI FRAC competency indicators...'),
-    t('generatingStep4', 'Publishing live assessment to all User Dashboards...')
+    t('generatingStep3', 'Mapping questions to Course Syllabus Modules & FRAC competency indicators...'),
+    t('generatingStep4', 'Assigning assessment to Target Course & User Dashboard...')
   ];
 
   // Access Guard: Non-admins cannot access quiz generation
@@ -94,6 +100,18 @@ export const AIQuizGeneratorView = () => {
     setGenerationStep(0);
     setCreatedQuiz(null);
 
+    const availableCourses = courses || [];
+    const targetCourse = availableCourses.find(c => c.id === targetCourseId) || {
+      id: targetCourseId,
+      title: "Understanding Corporate Insolvency Resolution Process",
+      syllabus: [
+        "Module 1: Overview of IBC 2016 & Legislative Intent",
+        "Module 2: Admission of CIRP & Moratorium Provisions",
+        "Module 3: CoC Constitution, Voting Rights & Resolution Plans",
+        "Module 4: Liquidation Process & Priority Waterfall Mechanism"
+      ]
+    };
+
     try {
       // Trigger REST API call to Express backend (Groq AI integration)
       const res = await api.generateAIQuiz({
@@ -101,21 +119,36 @@ export const AIQuizGeneratorView = () => {
         topic: selectedFile.topic || selectedFile.name,
         questionCount,
         difficulty,
-        questionType
+        questionType,
+        courseId: targetCourse.id,
+        courseTitle: targetCourse.title,
+        targetDepartment,
+        targetUserId,
+        targetUserName
       });
 
       const generatedData = res?.data?.quiz || res?.quiz || {
         id: `quiz-gen-${Date.now()}`,
-        title: `AI Assessment: ${selectedFile.name.replace(/\.[^/.]+$/, '').replace(/_/g, ' ')}`,
+        title: `Department Admin Assessment: ${targetCourse.title || selectedFile.name.replace(/\.[^/.]+$/, '').replace(/_/g, ' ')}`,
         documentName: selectedFile.name,
-        topic: selectedFile.topic || "Official Statistics Capacity Building",
+        topic: selectedFile.topic || "Official Capacity Building",
+        courseId: targetCourse.id,
+        courseTitle: targetCourse.title,
+        targetDepartment,
+        targetUserId,
+        targetUserName,
         difficulty,
+        passingScorePercentage: 70,
         questionCount: res?.data?.questions?.length || questionCount,
         createdAt: "Just now",
         createdBy: `${userProfile.name} (Admin)`,
         isLive: true,
         mode: res?.mode || res?.data?.mode || "groq-ai",
-        questions: res?.data?.questions || res?.questions || []
+        questions: (res?.data?.questions || res?.questions || []).map((q, idx) => ({
+          ...q,
+          relatedModule: q.relatedModule || (targetCourse.syllabus?.[idx] || `Module ${idx + 1}`),
+          moduleId: idx + 1
+        }))
       };
 
       const stepInterval = setInterval(() => {
@@ -130,7 +163,7 @@ export const AIQuizGeneratorView = () => {
               generatedData,
               ...prevList.filter((q) => q.id !== generatedData.id)
             ]);
-            showToast("Quiz generated & published to User Dashboards!", "success");
+            showToast(`Quiz generated & assigned to "${targetCourse.title}"!`, "success");
             return prev;
           }
         });
@@ -434,11 +467,66 @@ export const AIQuizGeneratorView = () => {
                 </h4>
               </div>
 
+              {/* Target Course Association */}
+              <div>
+                <label className="block text-xs font-semibold text-slate-300 mb-1.5">Target Course (To Unlock Upon Completion)</label>
+                <select
+                  value={targetCourseId}
+                  onChange={(e) => setTargetCourseId(e.target.value)}
+                  className="w-full px-3 py-2 text-xs bg-[#0B1528] text-slate-200 border border-[#1E2E4A] rounded-xl focus:ring-1 focus:ring-blue-500"
+                >
+                  {(courses || []).map((c) => (
+                    <option key={c.id} value={c.id}>
+                      {c.title} ({c.provider})
+                    </option>
+                  ))}
+                  <option value="cnt-1">Understanding Corporate Insolvency Resolution Process</option>
+                  <option value="cnt-2">Central Civil Services (Conduct) Rules 1964</option>
+                  <option value="ml-1">Post Office Act 2023</option>
+                  <option value="crs-101">Python for Microdata Processing & NSS Vectorization</option>
+                </select>
+              </div>
+
+              {/* Target Department & Cadre */}
+              <div className="grid grid-cols-1 gap-2">
+                <div>
+                  <label className="block text-xs font-semibold text-slate-300 mb-1.5">Target Division</label>
+                  <select
+                    value={targetDepartment}
+                    onChange={(e) => setTargetDepartment(e.target.value)}
+                    className="w-full px-3 py-2 text-xs bg-[#0B1528] text-slate-200 border border-[#1E2E4A] rounded-xl focus:ring-1 focus:ring-blue-500"
+                  >
+                    <option value="Survey Design and Research Division (SDRD)">Survey Design and Research Division (SDRD)</option>
+                    <option value="Data Quality Assurance Division (DQAD)">Data Quality Assurance Division (DQAD)</option>
+                    <option value="National Accounts Division (NAD)">National Accounts Division (NAD)</option>
+                    <option value="National Statistical Systems Training Academy (NSSTA)">National Statistical Systems Training Academy (NSSTA)</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-slate-300 mb-1.5">Target Learner</label>
+                  <select
+                    value={targetUserId}
+                    onChange={(e) => {
+                      setTargetUserId(e.target.value);
+                      if (e.target.value === 'usr_001') setTargetUserName('Rajesh Kumar (Deputy Director)');
+                      else if (e.target.value === 'usr_002') setTargetUserName('Smt. Priyanka Sen (Assistant Director)');
+                      else setTargetUserName('All Division Officers');
+                    }}
+                    className="w-full px-3 py-2 text-xs bg-[#0B1528] text-slate-200 border border-[#1E2E4A] rounded-xl focus:ring-1 focus:ring-blue-500"
+                  >
+                    <option value="usr_001">Rajesh Kumar (Deputy Director, SDRD)</option>
+                    <option value="usr_002">Smt. Priyanka Sen (Assistant Director, FOD)</option>
+                    <option value="all">All Enrolled Cadre Officers</option>
+                  </select>
+                </div>
+              </div>
+
               {/* Question Count */}
               <div>
                 <label className="block text-xs font-semibold text-slate-300 mb-1.5">{t('numQuestions')}</label>
                 <div className="grid grid-cols-3 gap-2">
-                  {[5, 10, 20].map((num) => (
+                  {[3, 5, 10].map((num) => (
                     <button
                       key={num}
                       onClick={() => setQuestionCount(num)}

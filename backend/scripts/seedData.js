@@ -395,8 +395,14 @@ export const seedGeneratedQuizzes = [
     difficulty: "Medium",
     questionCount: 3,
     createdAt: "Today, 11:45 AM",
-    createdBy: "Dr. Arvind Mehta (Admin)",
+    createdBy: "Dr. Arvind Mehta (ADG, SDRD)",
     departmentId: "statistical",
+    targetDepartment: "Survey Design and Research Division (SDRD)",
+    targetUserId: "usr_001",
+    targetUserName: "Rajesh Kumar",
+    courseId: "ml-c-1",
+    courseTitle: "Foundation Training on Python for Large Microdata",
+    passingScorePercentage: 70,
     isLive: true,
     questions: [
       {
@@ -410,7 +416,9 @@ export const seedGeneratedQuizzes = [
         ],
         correctAnswer: 0,
         explanation: "As specified in Section 2.4.1 (page 18): 'In rural sector, all large villages having population 5,000 or more as per Census 2011 shall form a separate sub-stratum to avoid sampling variance.'",
-        sourceCitation: "Page 18, Para 2.4.1 (Sampling Methodology Manual)"
+        sourceCitation: "Page 18, Para 2.4.1 (Sampling Methodology Manual)",
+        relatedModule: "Module 1: Vectorized operations on multi-gigabyte survey files",
+        moduleId: 1
       },
       {
         id: 2,
@@ -423,7 +431,9 @@ export const seedGeneratedQuizzes = [
         ],
         correctAnswer: 1,
         explanation: "Para 3.12 (Casualty Handling): Sample weights are dynamically re-adjusted by the ratio of allocated over surveyed sampling units.",
-        sourceCitation: "Page 34, Formula 3.12 (Casualty Multiplier Equation)"
+        sourceCitation: "Page 34, Formula 3.12 (Casualty Multiplier Equation)",
+        relatedModule: "Module 2: Handling complex survey weights & stratified multipliers",
+        moduleId: 2
       },
       {
         id: 3,
@@ -436,7 +446,207 @@ export const seedGeneratedQuizzes = [
         ],
         correctAnswer: 0,
         explanation: "Section 4.1.2: Uniqueness of FSU-Segment-Household combination is a hard automated primary key validation constraint.",
-        sourceCitation: "Page 42, Para 4.1.2 (CAPI Data Integrity Protocol)"
+        sourceCitation: "Page 42, Para 4.1.2 (CAPI Data Integrity Protocol)",
+        relatedModule: "Module 3: Automated consistency checks & outlier detection rules",
+        moduleId: 3
+      }
+    ]
+  },
+  {
+    _id: "quiz-course-cnt-1",
+    id: "quiz-course-cnt-1",
+    title: "Department Admin Certification Assessment: Corporate Insolvency Resolution",
+    documentName: "IBC_2016_Regulatory_Framework_MoSPI_Guidance.pdf",
+    topic: "Corporate Governance & Insolvency Law",
+    difficulty: "Intermediate",
+    questionCount: 3,
+    createdAt: "Today",
+    createdBy: "Shri S. K. Roy (Joint Secretary, Admin)",
+    departmentId: "statistical",
+    targetDepartment: "Survey Design and Research Division (SDRD)",
+    targetUserId: "usr_001",
+    targetUserName: "Rajesh Kumar",
+    courseId: "cnt-1",
+    courseTitle: "Understanding Corporate Insolvency Resolution Process",
+    passingScorePercentage: 70,
+    isLive: true,
+    questions: [
+      {
+        id: 1,
+        question: "Under Section 14 of the IBC 2016, what is the legal effect of declaring a moratorium during the Corporate Insolvency Resolution Process (CIRP)?",
+        options: [
+          "Prohibits institution or continuation of suits and execution of any judgment against the corporate debtor.",
+          "Authorizes creditors to seize corporate assets without NCLT permission.",
+          "Allows the corporate debtor to transfer and sell assets to third parties freely.",
+          "Liquidates all financial debts immediately without adjudication."
+        ],
+        correctAnswer: 0,
+        explanation: "Section 14 of IBC 2016 creates a statutory shield preventing recovery proceedings and execution of judicial decrees during CIRP.",
+        sourceCitation: "IBC 2016, Section 14 (Moratorium Provisions)",
+        relatedModule: "Module 2: Admission of CIRP & Moratorium Provisions (Section 14)",
+        moduleId: 2
+      },
+      {
+        id: 2,
+        question: "What minimum voting share of the Committee of Creditors (CoC) is mandated to approve a Corporate Resolution Plan?",
+        options: [
+          "51% of voting share of financial creditors.",
+          "66% of voting share of financial creditors present and voting.",
+          "75% of total operational creditors.",
+          "100% unanimous consent of all secured lenders."
+        ],
+        correctAnswer: 1,
+        explanation: "As amended, Section 30(4) of the IBC mandates at least 66% affirmative voting share of the Committee of Creditors for resolution approval.",
+        sourceCitation: "Section 30(4) of IBC 2016 & CoC Regulations",
+        relatedModule: "Module 3: CoC Constitution, Voting Rights & Resolution Plans",
+        moduleId: 3
+      },
+      {
+        id: 3,
+        question: "In the liquidation priority waterfall under Section 53 of IBC, which category holds first priority alongside insolvency resolution process costs?",
+        options: [
+          "Unsecured financial creditors.",
+          "Workmen's dues for the period of 24 months preceding liquidation.",
+          "Central Government direct tax arrears.",
+          "Preference shareholders capital redemption."
+        ],
+        correctAnswer: 1,
+        explanation: "Section 53(1)(b) ranks workmen's dues for 24 months pari passu with secured creditors who have relinquished security interest.",
+        sourceCitation: "Section 53(1)(b) Waterfall Mechanism, IBC 2016",
+        relatedModule: "Module 4: Liquidation Process & Priority Waterfall Mechanism",
+        moduleId: 4
+      }
+    ]
+  },
+  {
+    _id: "quiz-course-ml-1",
+    id: "quiz-course-ml-1",
+    title: "Department Admin Assessment: Post Office Act 2023 & Regulatory Compliance",
+    documentName: "Post_Office_Act_2023_Official_Gazette.pdf",
+    topic: "Postal Governance & Security Directives",
+    difficulty: "Intermediate",
+    questionCount: 3,
+    createdAt: "Today",
+    createdBy: "Dr. Arvind Mehta (ADG, SDRD)",
+    departmentId: "statistical",
+    targetDepartment: "Survey Design and Research Division (SDRD)",
+    targetUserId: "usr_001",
+    targetUserName: "Rajesh Kumar",
+    courseId: "ml-1",
+    courseTitle: "POST OFFICE ACT 2023",
+    passingScorePercentage: 70,
+    isLive: true,
+    questions: [
+      {
+        id: 1,
+        question: "Which landmark provision distinguishes the Post Office Act 2023 from the archaic Indian Post Office Act of 1898?",
+        options: [
+          "Elimination of the government's exclusive privilege of conveying letters, enabling citizen-centric digital logistics.",
+          "Mandating physical paper stamps for all government communications.",
+          "Banning private courier services across tier-2 cities.",
+          "Decentralizing postal tariffs to village panchayats."
+        ],
+        correctAnswer: 0,
+        explanation: "The 2023 Act revokes the colonial monopoly in Section 4 of the 1898 Act, establishing a modern regulatory baseline.",
+        sourceCitation: "Gazette of India, Post Office Act 2023, Section 3",
+        relatedModule: "Module 1: Overview and Objectives of Post Office Act 2023",
+        moduleId: 1
+      },
+      {
+        id: 2,
+        question: "Under Section 9 of the Post Office Act 2023, under what grounds can an authorized officer intercept, open, or detain postal shipments?",
+        options: [
+          "In the interest of state security, friendly relations with foreign states, public order, emergency, or public safety.",
+          "For routine market research and commercial advertising profiling.",
+          "Whenever shipping weights deviate by more than 50 grams.",
+          "Upon any anonymous telephonic complaint."
+        ],
+        correctAnswer: 0,
+        explanation: "Section 9 strictly restricts interception powers to constitutional public order, national security, and public health exigencies.",
+        sourceCitation: "Section 9, Post Office Act 2023 (Security & Interception)",
+        relatedModule: "Module 3: Powers of Interception, Security & Customs Regulations",
+        moduleId: 3
+      },
+      {
+        id: 3,
+        question: "What digital delivery framework is integrated into India Post's service level agreement (SLA) under the 2023 modernization plan?",
+        options: [
+          "End-to-end digital tracking, Centralized Public Grievance Redressal (CPGRAMS) integration, and Digital Addressing Grid.",
+          "Manual ledger maintenance with physical receipt books.",
+          "Mandatory telegraphic confirmation for all parcel deliveries.",
+          "Non-computerized postal order processing."
+        ],
+        correctAnswer: 0,
+        explanation: "Modernization mandates DIGIPIN integration, CPGRAMS syncing, and digital auditability across all branch post offices.",
+        sourceCitation: "Module 4 (Digital Services & Grievance SLA)",
+        relatedModule: "Module 4: Grievance Redressal and Digital Services Integration",
+        moduleId: 4
+      }
+    ]
+  },
+  {
+    _id: "quiz-course-crs-101",
+    id: "quiz-course-crs-101",
+    title: "Department Admin Assessment: Python for Microdata Processing & NSS Vectorization",
+    documentName: "NSSTA_Python_Microdata_Vectorization_Manual.pdf",
+    topic: "Survey Vectorization & Multipliers",
+    difficulty: "Intermediate",
+    questionCount: 3,
+    createdAt: "Today",
+    createdBy: "Dr. Arvind Mehta (ADG, SDRD)",
+    departmentId: "statistical",
+    targetDepartment: "Survey Design and Research Division (SDRD)",
+    targetUserId: "usr_001",
+    targetUserName: "Rajesh Kumar",
+    courseId: "crs-101",
+    courseTitle: "Python for Microdata Processing & NSS Vectorization",
+    passingScorePercentage: 70,
+    isLive: true,
+    questions: [
+      {
+        id: 1,
+        question: "Why is vectorized computation using NumPy/Polars preferred over iterative row-by-row looping when processing multi-round NSS unit datasets?",
+        options: [
+          "Vectorization executes compiled SIMD C-level instructions, reducing execution time from hours to seconds for 10M+ rows.",
+          "Vectorization is mandatory only because Python loops are syntactically illegal in MoSPI scripts.",
+          "It disables all memory caching on local computers.",
+          "It automatically encrypts survey results into PDF format."
+        ],
+        correctAnswer: 0,
+        explanation: "Vectorized operations leverage underlying BLAS/LAPACK optimizations and contiguous memory layout to achieve high throughput on massive microdata files.",
+        sourceCitation: "NSSTA Technical Guide, Module 1 (Vectorized Operations)",
+        relatedModule: "Module 1: Vectorized operations on multi-gigabyte survey files",
+        moduleId: 1
+      },
+      {
+        id: 2,
+        question: "When applying multi-stage stratified multipliers in Polars, how should the base weight `W_base` be combined with sub-sample weight multipliers?",
+        options: [
+          "df.with_columns(adjusted_wt = pl.col('w_base') * (pl.col('total_ssu') / pl.col('surveyed_ssu')))",
+          "df.select(pl.col('w_base') + 100)",
+          "By deleting all missing rows and setting weights to 1.0",
+          "By dividing the state population by total survey pages"
+        ],
+        correctAnswer: 0,
+        explanation: "Stratified weighting calculates post-stratified inflation factors using vectorized columnar multiplication.",
+        sourceCitation: "NSSTA Technical Guide, Module 2 (Survey Multipliers)",
+        relatedModule: "Module 2: Handling complex survey weights & stratified multipliers",
+        moduleId: 2
+      },
+      {
+        id: 3,
+        question: "Which automated validation check in Python ensures microdata consistency for Periodic Labour Force Survey (PLFS) activity status codes?",
+        options: [
+          "Verifying that Principal Activity Status (ps_code) and Subsidiary Status (ss_code) satisfy valid 2-digit NSSO classification ranges.",
+          "Verifying that respondent names are sorted alphabetically.",
+          "Checking that survey dates are always Mondays.",
+          "Ensuring file sizes are exactly 50 megabytes."
+        ],
+        correctAnswer: 0,
+        explanation: "Activity status consistency matrices check cross-tabulated bounds between weekly status and principal status codes.",
+        sourceCitation: "NSSTA Technical Guide, Module 3 (Consistency Rules)",
+        relatedModule: "Module 3: Automated consistency checks & outlier detection rules",
+        moduleId: 3
       }
     ]
   }

@@ -551,55 +551,68 @@ export const ASSESSMENT_QUESTIONS = [
 ];
 
 export const MOCK_GENERATED_QUIZ = {
-  title: "AI Generated Assessment: NSS 79th Round Sampling & Estimation Protocol",
-  documentSource: "MoSPI_NSS79_Sampling_Methodology_Guidelines.pdf",
+  id: "quiz-course-cnt-1",
+  title: "Department Admin Certification Assessment: Corporate Insolvency Resolution",
+  documentSource: "IBC_2016_Regulatory_Framework_MoSPI_Guidance.pdf",
+  courseId: "cnt-1",
+  courseTitle: "Understanding Corporate Insolvency Resolution Process",
+  department: "Survey Design and Research Division (SDRD)",
+  createdBy: "Shri S. K. Roy (Joint Secretary, Admin)",
+  targetUserName: "Rajesh Kumar",
   fileSize: "4.8 MB",
   uploadedAt: "Today, 11:42 AM",
-  totalQuestions: 5,
-  difficulty: "Medium (Cadre Level 3)",
+  totalQuestions: 3,
+  difficulty: "Intermediate (Cadre Level 3)",
   estimatedTime: "8 Minutes",
+  passingScorePercentage: 70,
   questions: [
     {
       id: "ai-q1",
-      question: "According to Chapter 2 of the uploaded NSS 79th Round manual, what is the exact criterion for carving out Sub-Strata in rural sectors with high population villages?",
+      question: "Under Section 14 of the IBC 2016, what is the legal effect of declaring a moratorium during the Corporate Insolvency Resolution Process (CIRP)?",
       options: [
-        "Villages with 2011 census population > 5,000 are designated as independent sub-stratum.",
-        "Villages with census population > 10,000 are split into two equal geographical sub-districts.",
-        "Sub-stratification is solely decided by the State DES Director without fixed threshold.",
-        "Only villages with 100% electrified households form Sub-stratum 1."
+        "Prohibits institution or continuation of suits and execution of any judgment against the corporate debtor.",
+        "Authorizes creditors to seize corporate assets without NCLT permission.",
+        "Allows the corporate debtor to transfer and sell assets to third parties freely.",
+        "Liquidates all financial debts immediately without adjudication."
       ],
       correctAnswer: 0,
-      explanation: "As stated in Section 2.4.1 (page 18 of the manual): 'In rural sector, all large villages having population 5,000 or more as per Census 2011 shall form a separate sub-stratum to ensure adequate representation.'",
-      sourceCitation: "MoSPI_NSS79_Sampling_Methodology_Guidelines.pdf (Page 18, Para 2.4.1)",
-      competencyImpact: "Survey Sampling & Design"
+      explanation: "Section 14 of IBC 2016 creates a statutory shield preventing recovery proceedings and execution of judicial decrees during CIRP.",
+      sourceCitation: "IBC 2016, Section 14 (Moratorium Provisions)",
+      competencyImpact: "Corporate Governance & Compliance",
+      relatedModule: "Module 2: Admission of CIRP & Moratorium Provisions (Section 14)",
+      moduleId: 2
     },
     {
       id: "ai-q2",
-      question: "How does the manual specify the adjustment multiplier for multiplier weight when an allocated sample hamlet-group cannot be surveyed due to local physical access constraints?",
+      question: "What minimum voting share of the Committee of Creditors (CoC) is mandated to approve a Corporate Resolution Plan?",
       options: [
-        "The entire village sample is discarded from state aggregations without substitute.",
-        "A casualty adjustment factor (Total allocated SSUs / Surveyed SSUs) is applied to the sample multiplier for that specific sub-stratum.",
-        "The missing sample is arbitrarily replaced with an urban slum observation.",
-        "The weight of all other districts in India is incremented by 1%."
+        "51% of voting share of financial creditors.",
+        "66% of voting share of financial creditors present and voting.",
+        "75% of total operational creditors.",
+        "100% unanimous consent of all secured lenders."
       ],
       correctAnswer: 1,
-      explanation: "Section 5.3 (Estimation Procedure, page 42) explicitly defines the Casualty Adjustment Formula as: W_adj = W_base * (N_allocated / N_surveyed) to prevent downward bias in population totals.",
-      sourceCitation: "MoSPI_NSS79_Sampling_Methodology_Guidelines.pdf (Page 42, Formula 5.3)",
-      competencyImpact: "Statistical Estimation & Multipliers"
+      explanation: "As amended, Section 30(4) of the IBC mandates at least 66% affirmative voting share of the Committee of Creditors for resolution approval.",
+      sourceCitation: "Section 30(4) of IBC 2016 & CoC Regulations",
+      competencyImpact: "Corporate Governance & Compliance",
+      relatedModule: "Module 3: CoC Constitution, Voting Rights & Resolution Plans",
+      moduleId: 3
     },
     {
       id: "ai-q3",
-      question: "Which data integrity verification rule is mandated for Schedule 21.1 during electronic Tablet-assisted personal interviewing (CAPI)?",
+      question: "In the liquidation priority waterfall under Section 53 of IBC, which category holds first priority alongside insolvency resolution process costs?",
       options: [
-        "Hard-check validation: Monthly household consumer expenditure cannot exceed 50x of monthly reported income without supervisor sign-off.",
-        "Interviewers are permitted to skip household asset inventory questions if time is limited.",
-        "Data is stored in unencrypted plain text on the mobile tablet for rapid offline sync.",
-        "GPS coordinates are only recorded if the respondent agrees to a photo."
+        "Unsecured financial creditors.",
+        "Workmen's dues for the period of 24 months preceding liquidation.",
+        "Central Government direct tax arrears.",
+        "Preference shareholders capital redemption."
       ],
-      correctAnswer: 0,
-      explanation: "Page 67, CAPI Protocol Annexure: 'Automated range checks and ratio validation (Expenditure/Income anomaly hard checks) must trigger real-time supervisor verification before form finalization.'",
-      sourceCitation: "MoSPI_NSS79_Sampling_Methodology_Guidelines.pdf (Annexure C, Page 67)",
-      competencyImpact: "Digital Governance & CAPI QA"
+      correctAnswer: 1,
+      explanation: "Section 53(1)(b) ranks workmen's dues for 24 months pari passu with secured creditors who have relinquished security interest.",
+      sourceCitation: "Section 53(1)(b) Waterfall Mechanism, IBC 2016",
+      competencyImpact: "Corporate Governance & Compliance",
+      relatedModule: "Module 4: Liquidation Process & Priority Waterfall Mechanism",
+      moduleId: 4
     }
   ]
 };

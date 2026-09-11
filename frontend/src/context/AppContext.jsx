@@ -386,12 +386,69 @@ export const AppProvider = ({ children }) => {
     showToast(`Competency Profile Updated! Score: ${scorePercentage}%`, "success");
   };
 
-  // Launch AI-generated quiz
+  // Launch AI-generated quiz or course completion quiz
+  const [targetModuleForReview, setTargetModuleForReview] = useState(null);
+
   const startGeneratedQuiz = (quizData) => {
     setCurrentQuizData(quizData);
     setActiveQuizType('ai-generated');
     setCurrentScreen('quiz-taking');
     showToast(`Starting Quiz: ${quizData.title}`, "info");
+  };
+
+  const startCourseQuiz = (course, customQuiz = null) => {
+    let quizToUse = customQuiz;
+    if (!quizToUse) {
+      quizToUse = generatedQuizzes.find(
+        (q) => q.courseId === course.id || q.courseId === course.courseId || q.courseTitle === course.title
+      );
+    }
+    if (!quizToUse) {
+      // Create fallback department admin quiz customized for the course syllabus
+      quizToUse = {
+        id: `quiz-course-${course.id}`,
+        title: `Department Admin Assessment: ${course.title}`,
+        documentName: `${course.title.replace(/\s+/g, '_')}_Curriculum.pdf`,
+        topic: course.competency || course.domain || "Official Capacity Building",
+        courseId: course.id,
+        courseTitle: course.title,
+        department: userProfile?.department || "Survey Design and Research Division (SDRD)",
+        createdBy: "Dr. Arvind Mehta (ADG, SDRD - Department Admin)",
+        targetUserName: userProfile?.name || "Rajesh Kumar",
+        difficulty: course.difficulty || course.level || "Intermediate",
+        totalQuestions: course.syllabus?.length || 3,
+        passingScorePercentage: 70,
+        questions: (course.syllabus || [
+          "Core Regulatory & Theoretical Foundations",
+          "Operational SOPs & Implementation Protocols",
+          "Verification, Quality Assurance & Audit Trails"
+        ]).map((mod, idx) => ({
+          id: idx + 1,
+          question: `In ${course.title}, what is the mandatory official procedure established in ${mod}?`,
+          options: [
+            `Strict adherence to the verified operational workflow outlined in ${mod}.`,
+            "Bypassing supervisory authorization if timeline is tight.",
+            "Informal unrecorded verbal communications without audit trails.",
+            "Delegating statutory verification to unverified external contractors."
+          ],
+          correctAnswer: 0,
+          explanation: `Official Ministry directives mandate rigorous compliance with standard operating procedures specified under ${mod}.`,
+          sourceCitation: `${course.title} Guidelines (${mod})`,
+          relatedModule: mod,
+          moduleId: idx + 1
+        }))
+      };
+    }
+
+    setCurrentQuizData(quizToUse);
+    setActiveQuizType('course-admin-quiz');
+    setCurrentScreen('quiz-taking');
+    showToast(`🎯 Unlocked: Department Admin Assessment for "${course.title}"`, "info");
+  };
+
+  const openCourseModule = (courseId, moduleIdx = 0) => {
+    setTargetModuleForReview({ courseId, moduleIdx });
+    setCurrentScreen('learning-path');
   };
 
   // AI Chat send message
@@ -482,6 +539,10 @@ export const AppProvider = ({ children }) => {
         generatedQuizzes,
         setGeneratedQuizzes,
         startGeneratedQuiz,
+        startCourseQuiz,
+        openCourseModule,
+        targetModuleForReview,
+        setTargetModuleForReview,
         notifications,
         setNotifications,
         isAiDrawerOpen,

@@ -262,6 +262,24 @@ async function runTests() {
     }
   });
 
+  // 17b. AI Quiz Submit & Module Recommendations
+  await assertTest('POST /api/ai/quiz-submit - Validates answers and returns specific module recommendations', async () => {
+    const res = await fetch(`${baseUrl}/api/ai/quiz-submit`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        quizId: 'quiz-course-cnt-1',
+        answers: { 1: 0, 2: 0, 3: 1 }, // Q1 correct (0), Q2 incorrect (got 0, expected 1), Q3 correct (1)
+        courseId: 'cnt-1'
+      })
+    });
+    if (res.status !== 200) throw new Error(`Expected 200, got ${res.status}`);
+    const json = await res.json();
+    if (!json.success || json.data.scorePercentage === undefined || !json.data.recommendedModules) {
+      throw new Error('AI Quiz submit validation or recommendations failed');
+    }
+  });
+
   // 18. AI Assistant Chat
   await assertTest('POST /api/ai/assistant-chat - Provides grounded responses from MoSPI frameworks', async () => {
     const res = await fetch(`${baseUrl}/api/ai/assistant-chat`, {

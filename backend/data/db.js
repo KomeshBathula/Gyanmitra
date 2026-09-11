@@ -4,6 +4,7 @@ import { mockCompetencies, mockCompetencyOverview } from './mockCompetencies.js'
 import { mockAssessments } from './mockAssessments.js';
 import { mockTrainingPrograms } from './mockTrainingPrograms.js';
 import { mockNotifications } from './mockNotifications.js';
+import { seedGeneratedQuizzes } from '../scripts/seedData.js';
 
 /**
  * GyanMitra In-Memory Database Store
@@ -25,60 +26,7 @@ export const db = {
   // 4. Assessments & Question Bank
   assessments: [...mockAssessments],
   assessmentResults: [],
-  generatedQuizzes: [
-    {
-      id: "quiz-gen-101",
-      title: "AI Assessment: NSS 79th Round Sampling & Estimation Protocol",
-      documentName: "MoSPI_NSS79_Sampling_Methodology_Guidelines.pdf",
-      topic: "Survey Sampling & Estimation",
-      difficulty: "Medium",
-      questionCount: 3,
-      createdAt: "Today, 11:45 AM",
-      createdBy: "Dr. Mehta (Admin)",
-      isLive: true,
-      questions: [
-        {
-          id: 1,
-          question: "According to Section 2.4 of the uploaded NSS 79th Round manual, what is the exact population threshold for forming an independent rural sub-stratum?",
-          options: [
-            "Villages with census population of 5,000 or more form an independent sub-stratum.",
-            "Villages with census population of 10,000 or more are split into two sub-districts.",
-            "Sub-stratification is solely decided at the discretion of the State DES Director.",
-            "Only villages with 100% electrified households form Sub-stratum 1."
-          ],
-          correctAnswer: 0,
-          explanation: "As specified in Section 2.4.1 (page 18): 'In rural sector, all large villages having population 5,000 or more as per Census 2011 shall form a separate sub-stratum to avoid sampling variance.'",
-          sourceCitation: "Page 18, Para 2.4.1 (Sampling Methodology Manual)"
-        },
-        {
-          id: 2,
-          question: "How does the manual mandate calculating the casualty multiplier adjustment when an allocated sample hamlet cannot be surveyed due to physical inaccessibility?",
-          options: [
-            "The entire district's survey results are invalidated.",
-            "A casualty adjustment factor (Total allocated SSUs / Surveyed SSUs) is applied to the sample multiplier.",
-            "The missing hamlet is arbitrarily substituted with a neighboring village without record.",
-            "The weight of all other states in India is increased by 0.5%."
-          ],
-          correctAnswer: 1,
-          explanation: "Section 5.3 (Estimation Procedure, page 42) explicitly mandates: Multiplier_adj = Multiplier_base * (Allocated_SSUs / Surveyed_SSUs).",
-          sourceCitation: "Page 42, Formula 5.3 (Estimation & Multipliers)"
-        },
-        {
-          id: 3,
-          question: "Which data consistency rule is enforced for CAPI Schedule 21.1 electronic survey forms?",
-          options: [
-            "Automated ratio checks trigger a supervisor hard-warning if household consumer expenditure exceeds 50x monthly income.",
-            "Field investigators can bypass household roster verification if time is short.",
-            "All data must be stored in plaintext XML without encryption on Android tablets.",
-            "Geo-tagging is strictly optional for rural First Stage Units."
-          ],
-          correctAnswer: 0,
-          explanation: "Page 67, CAPI Protocol Annexure: Automated ratio validation prevents illogical consumer expenditure entries before tablet form submission.",
-          sourceCitation: "Annexure C, Page 67 (CAPI Quality Assurance)"
-        }
-      ]
-    }
-  ],
+  generatedQuizzes: [...seedGeneratedQuizzes],
 
   // 5. NSSTA Training Programs
   trainingPrograms: [...mockTrainingPrograms],

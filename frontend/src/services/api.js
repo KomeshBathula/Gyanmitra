@@ -131,6 +131,13 @@ export const api = {
     return apiRequest(`/ai/quizzes/${id}`, {}, fallback);
   },
 
+  submitAIQuiz: async (payload, fallback) => {
+    return apiRequest('/ai/quiz-submit', {
+      method: 'POST',
+      body: JSON.stringify(payload)
+    }, fallback);
+  },
+
   sendAIChat: async (message, fallback) => {
     return apiRequest('/ai/assistant-chat', {
       method: 'POST',

@@ -13,7 +13,13 @@ import { useApp } from '../context/AppContext';
 import { api } from '../services/api';
 
 export const LearningPathView = () => {
-  const { setCurrentScreen, showToast } = useApp();
+  const {
+    setCurrentScreen,
+    showToast,
+    startCourseQuiz,
+    targetModuleForReview,
+    setTargetModuleForReview
+  } = useApp();
   const [activeTab, setActiveTab] = useState('contents'); // 'contents', 'events'
   const [activePill, setActivePill] = useState('inprogress'); // 'inprogress', 'completed', 'unenrolled'
   const [activeCourseModal, setActiveCourseModal] = useState(null);
@@ -37,6 +43,25 @@ export const LearningPathView = () => {
   useEffect(() => {
     loadMyLearningData();
   }, []);
+
+  // Handle auto-opening module review if requested from quiz results
+  useEffect(() => {
+    if (targetModuleForReview) {
+      const allCourses = [...inprogressList, ...completedList];
+      const target = allCourses.find(
+        c => c.id === targetModuleForReview.courseId || c.title?.includes(targetModuleForReview.courseId)
+      );
+      if (target) {
+        setActiveCourseModal(target);
+        if (target.progress >= 100) {
+          setActivePill('completed');
+        } else {
+          setActivePill('inprogress');
+        }
+      }
+      setTargetModuleForReview(null);
+    }
+  }, [targetModuleForReview, inprogressList, completedList]);
 
   const currentList =
     activePill === 'inprogress'
@@ -194,42 +219,70 @@ export const LearningPathView = () => {
               {/* Bottom Progress Bar & CTA Row */}
               <div className="px-5 pb-5 pt-2 border-t border-[#1E2E4A]/80 space-y-2">
                 {activePill === 'inprogress' ? (
-                  <div className="flex items-center justify-between gap-4">
-                    {/* Progress Info & Bar */}
-                    <div className="flex-1 space-y-1">
-                      <div className="flex items-center space-x-1.5 text-[11px] font-bold text-slate-300">
-                        <Clock className="w-3 h-3 text-amber-400" />
-                        <span>{course.progress}%</span>
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between gap-4">
+                      {/* Progress Info & Bar */}
+                      <div className="flex-1 space-y-1">
+                        <div className="flex items-center space-x-1.5 text-[11px] font-bold text-slate-300">
+                          <Clock className="w-3 h-3 text-amber-400" />
+                          <span>{course.progress}%</span>
+                          {course.progress < 100 && (
+                            <span className="text-[10px] text-slate-400 font-normal ml-1">
+                              (Admin Quiz unlocks at 100%)
+                            </span>
+                          )}
+                        </div>
+                        <div className="w-full bg-[#162544] h-1.5 rounded-full overflow-hidden">
+                          <div
+                            className="bg-[#F59E0B] h-1.5 rounded-full transition-all duration-500"
+                            style={{ width: `${course.progress}%` }}
+                          />
+                        </div>
                       </div>
-                      <div className="w-full bg-[#162544] h-1.5 rounded-full overflow-hidden">
-                        <div
-                          className="bg-[#F59E0B] h-1.5 rounded-full transition-all duration-500"
-                          style={{ width: `${course.progress}%` }}
-                        />
+
+                      {/* Action Buttons */}
+                      <div className="flex items-center space-x-2">
+                        {course.progress >= 100 ? (
+                          <button
+                            onClick={() => startCourseQuiz(course)}
+                            className="px-4 py-1.5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white text-xs font-bold transition-all shadow-md flex items-center space-x-1.5 cursor-pointer"
+                          >
+                            <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+                            <span>Take Admin Quiz</span>
+                          </button>
+                        ) : (
+                          <button
+                            onClick={() => setActiveCourseModal(course)}
+                            className="px-4 py-1.5 rounded-xl bg-[#15284F] hover:bg-[#1D3A74] text-white text-xs font-bold transition-all shadow-md flex items-center space-x-1.5 border border-[#1E3A6D] cursor-pointer"
+                          >
+                            <span>{course.progress > 0 ? 'Resume' : 'Start'}</span>
+                            <Play className="w-3 h-3 fill-white" />
+                          </button>
+                        )}
                       </div>
                     </div>
-
-                    {/* Resume / Start CTA Button */}
-                    <button
-                      onClick={() => setActiveCourseModal(course)}
-                      className="px-4 py-1.5 rounded-xl bg-[#15284F] hover:bg-[#1D3A74] text-white text-xs font-bold transition-all shadow-md flex items-center space-x-1.5 border border-[#1E3A6D] cursor-pointer"
-                    >
-                      <span>{course.progress > 0 ? 'Resume' : 'Start'}</span>
-                      <Play className="w-3 h-3 fill-white" />
-                    </button>
                   </div>
                 ) : activePill === 'completed' ? (
-                  <div className="flex items-center justify-between">
+                  <div className="flex items-center justify-between gap-2">
                     <div className="flex items-center space-x-1 text-xs text-emerald-400 font-bold">
-                      <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-                      <span>Completed on {course.completedOn}</span>
+                      <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0" />
+                      <span className="truncate">100% Completed</span>
                     </div>
-                    <button
-                      onClick={() => setActiveCourseModal(course)}
-                      className="px-3 py-1 rounded-xl bg-[#162544] hover:bg-[#1E335A] text-slate-200 text-xs font-semibold cursor-pointer"
-                    >
-                      Review
-                    </button>
+                    <div className="flex items-center space-x-2">
+                      <button
+                        onClick={() => startCourseQuiz(course)}
+                        className="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white text-xs font-bold shadow-md flex items-center space-x-1 cursor-pointer transition-all"
+                      >
+                        <Sparkles className="w-3 h-3 text-amber-300" />
+                        <span>Take Admin Quiz</span>
+                      </button>
+                      <button
+                        onClick={() => setActiveCourseModal(course)}
+                        className="px-3 py-1.5 rounded-xl bg-[#162544] hover:bg-[#1E335A] text-slate-200 text-xs font-semibold cursor-pointer"
+                      >
+                        Review
+                      </button>
+                    </div>
                   </div>
                 ) : (
                   <div className="flex items-center justify-between">
@@ -313,13 +366,43 @@ export const LearningPathView = () => {
                     <Play className="w-7 h-7 fill-white ml-1" />
                   </div>
                   <p className="text-xs font-bold text-white">
-                    {activeCourseModal.progress > 0
+                    {activeCourseModal.progress >= 100
+                      ? 'Course 100% Completed! All modules mastered.'
+                      : activeCourseModal.progress > 0
                       ? `Continue from ${activeCourseModal.progress}% completion mark`
                       : 'Begin interactive e-learning module'}
                   </p>
                   <p className="text-[11px] text-slate-400">Total runtime: {activeCourseModal.duration}</p>
                 </div>
               </div>
+
+              {/* Department Admin Quiz Status Banner */}
+              {activeCourseModal.progress >= 100 ? (
+                <div className="p-4 rounded-2xl bg-gradient-to-r from-purple-950/80 to-indigo-950/80 border border-purple-500/50 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-purple-500/30 text-purple-300 border border-purple-400/40 flex items-center space-x-1">
+                      <Sparkles className="w-3 h-3 text-amber-300" />
+                      <span>Department Admin Assessment Unlocked</span>
+                    </span>
+                    <span className="text-[10px] text-emerald-400 font-bold">100% Completed</span>
+                  </div>
+                  <p className="text-xs text-purple-200">
+                    Your Department Admin has published a certification quiz specifically for your cadre role. Completing this quiz in full-screen mode will validate your competencies and generate targeted module recommendations.
+                  </p>
+                </div>
+              ) : (
+                <div className="p-3.5 rounded-2xl bg-[#111F38] border border-[#1E2E4A] flex items-center space-x-3 text-xs text-slate-400">
+                  <div className="w-8 h-8 rounded-xl bg-slate-800 text-amber-400 flex items-center justify-center flex-shrink-0 font-bold">
+                    🔒
+                  </div>
+                  <div>
+                    <p className="font-bold text-slate-300">Department Admin Assessment Quiz Locked</p>
+                    <p className="text-[11px] text-slate-400">
+                      Complete all syllabus modules ({activeCourseModal.progress}% / 100%) to unlock the official assessment quiz.
+                    </p>
+                  </div>
+                </div>
+              )}
 
               {/* Syllabus Module List */}
               <div className="space-y-2">
@@ -368,19 +451,38 @@ export const LearningPathView = () => {
                 Close
               </button>
               <div className="flex items-center space-x-2">
-                <button
-                  onClick={async () => {
-                    const newProgress = Math.min(100, activeCourseModal.progress + 25);
-                    await api.updateCourseProgress(activeCourseModal.id, newProgress);
-                    setActiveCourseModal(null);
-                    showToast(`Updated progress for ${activeCourseModal.title} to ${newProgress}%`, "success");
-                    loadMyLearningData();
-                  }}
-                  className="px-5 py-2 text-xs font-bold text-white bg-blue-600 hover:bg-blue-500 rounded-2xl shadow-lg transition-all cursor-pointer flex items-center space-x-1"
-                >
-                  <Play className="w-3.5 h-3.5 fill-white" />
-                  <span>Play Module (+25% Progress)</span>
-                </button>
+                {activeCourseModal.progress >= 100 ? (
+                  <button
+                    onClick={() => {
+                      const selectedCourse = activeCourseModal;
+                      setActiveCourseModal(null);
+                      startCourseQuiz(selectedCourse);
+                    }}
+                    className="px-5 py-2 text-xs font-bold text-white bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 rounded-2xl shadow-xl transition-all cursor-pointer flex items-center space-x-1.5"
+                  >
+                    <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+                    <span>Take Admin Quiz (Full-Screen)</span>
+                  </button>
+                ) : (
+                  <button
+                    onClick={async () => {
+                      const newProgress = Math.min(100, activeCourseModal.progress + 25);
+                      await api.updateCourseProgress(activeCourseModal.id, newProgress);
+                      setActiveCourseModal(prev => ({ ...prev, progress: newProgress }));
+                      showToast(
+                        newProgress >= 100
+                          ? `🎉 Course completed 100%! Department Admin Quiz is now unlocked.`
+                          : `Updated progress for ${activeCourseModal.title} to ${newProgress}%`,
+                        "success"
+                      );
+                      loadMyLearningData();
+                    }}
+                    className="px-5 py-2 text-xs font-bold text-white bg-blue-600 hover:bg-blue-500 rounded-2xl shadow-lg transition-all cursor-pointer flex items-center space-x-1"
+                  >
+                    <Play className="w-3.5 h-3.5 fill-white" />
+                    <span>Play Module (+25% Progress)</span>
+                  </button>
+                )}
               </div>
             </div>
           </div>
