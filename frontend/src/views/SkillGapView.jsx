@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   ArrowRight,
   CheckCircle2,
@@ -17,13 +17,26 @@ import {
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { api } from '../services/api';
+import { INITIAL_SKILL_GAPS } from '../data/mockData';
 
 export const SkillGapView = () => {
   const { skillGaps, setCurrentScreen, showToast, t } = useApp();
-  const [selectedGap, setSelectedGap] = useState(skillGaps[0]);
+  const safeSkillGaps = Array.isArray(skillGaps) && skillGaps.length > 0
+    ? skillGaps
+    : (Array.isArray(skillGaps?.gaps) && skillGaps.gaps.length > 0
+      ? skillGaps.gaps
+      : INITIAL_SKILL_GAPS);
+
+  const [selectedGap, setSelectedGap] = useState(safeSkillGaps[0] || null);
   const [apiGapDetails, setApiGapDetails] = useState(null);
   const [isLoadingGapApi, setIsLoadingGapApi] = useState(false);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
+
+  useEffect(() => {
+    if (!selectedGap && safeSkillGaps.length > 0) {
+      setSelectedGap(safeSkillGaps[0]);
+    }
+  }, [safeSkillGaps, selectedGap]);
 
   // Fetch gap intelligence from API when "View Details" is clicked
   const handleViewGapDetails = async (gap) => {
@@ -144,7 +157,7 @@ export const SkillGapView = () => {
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
-              {skillGaps.map((gap) => {
+              {safeSkillGaps.map((gap) => {
                 const isSelected = selectedGap?.id === gap.id;
                 return (
                   <tr

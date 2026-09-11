@@ -152,7 +152,14 @@ export const AppProvider = ({ children }) => {
       }).catch(() => setIsLoadingApi(false));
     } else if (screenId === 'skill-gaps') {
       api.getSkillGaps(INITIAL_SKILL_GAPS).then(res => {
-        if (res?.data) setSkillGaps(res.data);
+        const payload = Array.isArray(res?.data?.gaps)
+          ? res.data.gaps
+          : (Array.isArray(res?.data)
+            ? res.data
+            : (Array.isArray(res?.gaps)
+              ? res.gaps
+              : (Array.isArray(res) ? res : INITIAL_SKILL_GAPS)));
+        setSkillGaps(payload);
         setIsLoadingApi(false);
       }).catch(() => setIsLoadingApi(false));
     } else if (screenId === 'learning-path') {

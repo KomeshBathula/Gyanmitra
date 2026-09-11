@@ -56,7 +56,7 @@ export const CompetenciesView = () => {
 
         {/* Categories Bar */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-6 pt-6 border-t border-slate-100">
-          {competencyOverview.categories.map((c) => (
+          {(competencyOverview?.categories || []).map((c) => (
             <div key={c.id} className="p-3 bg-slate-50 rounded-xl border border-slate-200/80 text-center">
               <span className="text-[10px] text-slate-500 font-bold uppercase block">{c.name}</span>
               <p className="text-xl font-black text-slate-900 mt-0.5">{c.score}%</p>
