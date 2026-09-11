@@ -117,7 +117,11 @@ export const AppProvider = ({ children }) => {
 
     if (screenId === 'competencies' || screenId === 'dashboard') {
       api.getCompetenciesOverview(COMPETENCY_OVERVIEW).then(res => {
-        if (res?.data) setCompetencyOverview(res.data);
+        if (res?.overview) {
+          setCompetencyOverview(res.overview);
+        } else if (res?.data && !Array.isArray(res.data) && res.data.categories) {
+          setCompetencyOverview(res.data);
+        }
       });
       api.getGeneratedQuizzes([MOCK_GENERATED_QUIZ]).then(res => {
         if (res?.data && Array.isArray(res.data)) setGeneratedQuizzes(res.data);
@@ -315,75 +319,95 @@ export const AppProvider = ({ children }) => {
 
   // Closed Loop Competency Update after completing Quiz/Assessment
   const updateCompetencyAfterQuiz = async (quizResult) => {
-    const { scorePercentage, competencyImpacted = "Python for Data Analysis" } = quizResult;
-    
-    if (userProfile?.email) {
-      localStorage.setItem(`gyanmitra_initial_assessment_${userProfile.email}`, 'true');
-      setHasCompletedInitialAssessment(true);
-    }
-    
-    // Trigger POST to /api/competencies/update-from-assessment
-    await api.updateCompetencyFromAssessment({ scorePercentage, competencyImpacted });
+    const { scorePercentage = 80, competencyImpacted = "Python for Data Analysis" } = quizResult || {};
+    try {
+      if (userProfile?.email) {
+        localStorage.setItem(`gyanmitra_initial_assessment_${userProfile.email}`, 'true');
+        setHasCompletedInitialAssessment(true);
+      }
+      
+      // Trigger POST to /api/competencies/update-from-assessment
+      try {
+        await api.updateCompetencyFromAssessment({ scorePercentage, competencyImpacted });
+      } catch (err) {
+        console.warn('[Competency] API update skipped:', err);
+      }
 
-    // 1. Update overall competency score
-    setCompetencyOverview(prev => {
-      const scoreDelta = scorePercentage >= 70 ? 4 : 1;
-      const newScore = Math.min(100, prev.overallScore + scoreDelta);
-      const updatedCategories = prev.categories.map(cat => {
-        if (cat.name.includes("Technical") || cat.name.includes("Statistical")) {
-          return { ...cat, score: Math.min(100, cat.score + (scorePercentage >= 70 ? 6 : 2)) };
-        }
-        return cat;
-      });
-      return {
-        ...prev,
-        overallScore: newScore,
-        monthlyDelta: `+${parseInt(prev.monthlyDelta) + scoreDelta}%`,
-        categories: updatedCategories
-      };
-    });
-
-    // 2. Reduce Skill Gap
-    setSkillGaps(prev => prev.map(gap => {
-      if (gap.competency.toLowerCase().includes(competencyImpacted.toLowerCase()) || gap.id === 'gap-1') {
-        const newCurrent = Math.min(gap.requiredLevel, gap.currentLevel + 1);
-        const newGap = Math.max(0, gap.requiredLevel - newCurrent);
+      // 1. Update overall competency score defensively
+      setCompetencyOverview(prev => {
+        const base = (prev && !Array.isArray(prev) && Array.isArray(prev.categories))
+          ? prev
+          : COMPETENCY_OVERVIEW;
+        const scoreDelta = scorePercentage >= 70 ? 4 : 1;
+        const currentOverall = typeof base.overallScore === 'number' ? base.overallScore : 78;
+        const newScore = Math.min(100, currentOverall + scoreDelta);
+        const categories = Array.isArray(base.categories) ? base.categories : (COMPETENCY_OVERVIEW.categories || []);
+        const updatedCategories = categories.map(cat => {
+          if (cat?.name && (cat.name.includes("Technical") || cat.name.includes("Statistical"))) {
+            return { ...cat, score: Math.min(100, (cat.score || 70) + (scorePercentage >= 70 ? 6 : 2)) };
+          }
+          return cat;
+        });
+        const currentDelta = parseInt(base.monthlyDelta) || 8;
         return {
-          ...gap,
-          currentLevel: newCurrent,
-          gap: newGap,
-          priority: newGap === 0 ? 'Completed' : (newGap === 1 ? 'Medium' : 'High'),
-          why: `Updated on ${new Date().toLocaleDateString()}: Competency demonstrated at Level ${newCurrent} following verified assessment score of ${scorePercentage}%.`
+          ...base,
+          overallScore: newScore,
+          monthlyDelta: `+${currentDelta + scoreDelta}%`,
+          categories: updatedCategories
         };
-      }
-      return gap;
-    }));
+      });
 
-    // 3. Advance Learning Pathway
-    setLearningPathway(prev => prev.map((step, idx) => {
-      if (step.status === 'current') {
-        return { ...step, status: 'completed', progress: 100, score: `${scorePercentage}% Certified` };
-      }
-      if (idx === 2 && prev[1].status === 'current') {
-        return { ...step, status: 'current', progress: 15, score: 'In Progress' };
-      }
-      return step;
-    }));
+      // 2. Reduce Skill Gap
+      setSkillGaps(prev => {
+        const baseGaps = Array.isArray(prev) ? prev : INITIAL_SKILL_GAPS;
+        return baseGaps.map(gap => {
+          if (gap?.competency?.toLowerCase().includes((competencyImpacted || "").toLowerCase()) || gap?.id === 'gap-1') {
+            const reqLevel = gap.requiredLevel || 3;
+            const curLevel = gap.currentLevel || 1;
+            const newCurrent = Math.min(reqLevel, curLevel + 1);
+            const newGap = Math.max(0, reqLevel - newCurrent);
+            return {
+              ...gap,
+              currentLevel: newCurrent,
+              gap: newGap,
+              priority: newGap === 0 ? 'Completed' : (newGap === 1 ? 'Medium' : 'High'),
+              why: `Updated on ${new Date().toLocaleDateString()}: Competency demonstrated at Level ${newCurrent} following verified assessment score of ${scorePercentage}%.`
+            };
+          }
+          return gap;
+        });
+      });
 
-    // 4. Trigger Notification
-    const newNotif = {
-      id: `notif-${Date.now()}`,
-      title: `Competency Updated: ${scorePercentage}% in Assessment`,
-      description: `Your competency in ${competencyImpacted} has advanced. Skill gaps and learning pathways have been re-calibrated.`,
-      time: "Just now",
-      priority: "high",
-      read: false,
-      type: "assessment",
-      actionLink: "learning-path"
-    };
-    setNotifications(prev => [newNotif, ...prev]);
+      // 3. Advance Learning Pathway
+      setLearningPathway(prev => {
+        const basePathway = Array.isArray(prev) ? prev : LEARNING_PATHWAY;
+        return basePathway.map((step, idx) => {
+          if (step.status === 'current') {
+            return { ...step, status: 'completed', progress: 100, score: `${scorePercentage}% Certified` };
+          }
+          if (idx === 2 && basePathway[1]?.status === 'current') {
+            return { ...step, status: 'current', progress: 15, score: 'In Progress' };
+          }
+          return step;
+        });
+      });
+      // 4. Trigger Notification
+      const newNotif = {
+        id: `notif-${Date.now()}`,
+        title: `Competency Updated: ${scorePercentage}% in Assessment`,
+        description: `Your competency in ${competencyImpacted} has advanced. Skill gaps and learning pathways have been re-calibrated.`,
+        time: "Just now",
+        priority: "high",
+        read: false,
+        type: "assessment",
+        actionLink: "learning-path"
+      };
+      setNotifications(prev => [newNotif, ...(Array.isArray(prev) ? prev : [])]);
 
-    showToast(`Competency Profile Updated! Score: ${scorePercentage}%`, "success");
+      showToast(`Competency Profile Updated! Score: ${scorePercentage}%`, "success");
+    } catch (error) {
+      console.warn('Could not update competency after quiz:', error);
+    }
   };
 
   // Launch AI-generated quiz or course completion quiz

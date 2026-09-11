@@ -6,13 +6,19 @@ const API_BASE_URL = '/api';
 async function apiRequest(endpoint, options = {}, fallbackData = null) {
   const url = `${API_BASE_URL}${endpoint}`;
   try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 4000);
+
     const response = await fetch(url, {
+      signal: options.signal || controller.signal,
       headers: {
         'Content-Type': 'application/json',
         ...(options.headers || {})
       },
       ...options
     });
+
+    clearTimeout(timeoutId);
 
     if (!response.ok) {
       throw new Error(`HTTP ${response.status}: ${response.statusText}`);

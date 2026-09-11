@@ -173,121 +173,134 @@ export const QuizTakingView = () => {
 
   const handleCompleteQuiz = async () => {
     setIsSubmitting(true);
-    let correct = 0;
-    const reviewList = [];
-    const missedQuestions = [];
-    const recommendedModules = [];
+    try {
+      let correct = 0;
+      const reviewList = [];
+      const missedQuestions = [];
+      const recommendedModules = [];
 
-    quiz.questions.forEach((q, idx) => {
-      const selected = selectedAnswers[q.id];
-      const isCorrect = selected === q.correctAnswer;
-      if (isCorrect) {
-        correct++;
-      } else {
-        missedQuestions.push({
+      (quiz.questions || []).forEach((q, idx) => {
+        const selected = selectedAnswers[q.id];
+        const isCorrect = selected === q.correctAnswer;
+        if (isCorrect) {
+          correct++;
+        } else {
+          missedQuestions.push({
+            id: q.id,
+            question: q.question,
+            selectedAnswer: selected,
+            correctAnswer: q.correctAnswer,
+            explanation: q.explanation,
+            sourceCitation: q.sourceCitation,
+            relatedModule: q.relatedModule || `Module ${idx + 1}`
+          });
+
+          if (q.relatedModule) {
+            recommendedModules.push({
+              moduleName: q.relatedModule,
+              moduleId: q.moduleId || idx + 1,
+              courseId: quiz.courseId,
+              courseTitle: quiz.courseTitle,
+              reason: `Targeted revision recommended for concept assessed in Q${idx + 1}`
+            });
+          }
+        }
+
+        reviewList.push({
           id: q.id,
           question: q.question,
+          options: q.options,
           selectedAnswer: selected,
           correctAnswer: q.correctAnswer,
+          isCorrect,
           explanation: q.explanation,
           sourceCitation: q.sourceCitation,
           relatedModule: q.relatedModule || `Module ${idx + 1}`
         });
+      });
 
-        if (q.relatedModule) {
-          recommendedModules.push({
-            moduleName: q.relatedModule,
-            moduleId: q.moduleId || idx + 1,
+      const totalQ = quiz.questions?.length || 1;
+      const scorePct = Math.round((correct / totalQ) * 100);
+      const isPassed = scorePct >= (quiz.passingScorePercentage || 70);
+
+      // Non-blocking fire-and-forget sync to backend with safety timeout
+      try {
+        await Promise.race([
+          api.submitAIQuiz({
+            quizId: quiz.id,
+            answers: selectedAnswers,
             courseId: quiz.courseId,
-            courseTitle: quiz.courseTitle,
-            reason: `Targeted revision recommended for concept assessed in Q${idx + 1}`
-          });
+            userProfile
+          }),
+          new Promise((_, reject) => setTimeout(() => reject(new Error('Backend submission timed out')), 2000))
+        ]);
+      } catch (e) {
+        console.warn('[Quiz] Backend sync skipped or timed out, evaluated locally:', e.message);
+      }
+
+      // Dynamic Follow-up Course Recommendations
+      const recommendedCourses = [
+        {
+          id: "crs-101",
+          title: "Python for Microdata Processing & NSS Vectorization",
+          provider: "NSSTA Greater Noida",
+          difficulty: "Level 3 (Proficient)",
+          duration: "20 Hours",
+          matchScore: isPassed ? 98 : 92,
+          recommendationReason: isPassed
+            ? "Next-level advanced competency track for high-throughput official survey processing."
+            : "Remedial core curriculum to strengthen multi-stage sampling and survey script vectorization."
+        },
+        {
+          id: "crs-102",
+          title: "Applied Machine Learning for National Accounts & Imputation",
+          provider: "iGOT Karmayogi",
+          difficulty: "Level 3-4 (Advanced)",
+          duration: "24 Hours",
+          matchScore: 94,
+          recommendationReason: "Recommended follow-up module for missing-value imputation and automated classification."
         }
-      }
+      ];
 
-      reviewList.push({
-        id: q.id,
-        question: q.question,
-        options: q.options,
-        selectedAnswer: selected,
-        correctAnswer: q.correctAnswer,
-        isCorrect,
-        explanation: q.explanation,
-        sourceCitation: q.sourceCitation,
-        relatedModule: q.relatedModule || `Module ${idx + 1}`
-      });
-    });
-
-    const scorePct = Math.round((correct / totalQ) * 100);
-    const isPassed = scorePct >= (quiz.passingScorePercentage || 70);
-
-    // Call backend submit endpoint if connected
-    try {
-      await api.submitAIQuiz({
-        quizId: quiz.id,
-        answers: selectedAnswers,
+      const resultObj = {
+        scorePercentage: scorePct,
+        correctCount: correct,
+        totalCount: totalQ,
+        isPassed,
+        quizTitle: quiz.title,
         courseId: quiz.courseId,
-        userProfile
-      });
-    } catch (e) {
-      // Offline fallback handling
-    }
+        courseTitle: quiz.courseTitle,
+        department: quiz.department,
+        createdBy: quiz.createdBy,
+        targetUserName: quiz.targetUserName,
+        evaluatedAt: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        documentTitle: quiz.documentSource,
+        questions: quiz.questions,
+        reviewList,
+        missedQuestions,
+        recommendedModules,
+        recommendedCourses,
+        selectedAnswers
+      };
 
-    // Dynamic Follow-up Course Recommendations
-    const recommendedCourses = [
-      {
-        id: "crs-101",
-        title: "Python for Microdata Processing & NSS Vectorization",
-        provider: "NSSTA Greater Noida",
-        difficulty: "Level 3 (Proficient)",
-        duration: "20 Hours",
-        matchScore: isPassed ? 98 : 92,
-        recommendationReason: isPassed
-          ? "Next-level advanced competency track for high-throughput official survey processing."
-          : "Remedial core curriculum to strengthen multi-stage sampling and survey script vectorization."
-      },
-      {
-        id: "crs-102",
-        title: "Applied Machine Learning for National Accounts & Imputation",
-        provider: "iGOT Karmayogi",
-        difficulty: "Level 3-4 (Advanced)",
-        duration: "24 Hours",
-        matchScore: 94,
-        recommendationReason: "Recommended follow-up module for missing-value imputation and automated classification."
+      setLastQuizResult(resultObj);
+
+      try {
+        await updateCompetencyAfterQuiz(resultObj);
+      } catch (e) {
+        console.warn('[Quiz] Competency update skipped:', e);
       }
-    ];
+    } catch (err) {
+      console.error('[Quiz] Error during quiz evaluation:', err);
+    } finally {
+      // Exit full-screen on finish if active
+      if (document.fullscreenElement) {
+        document.exitFullscreen().catch(() => {});
+      }
 
-    const resultObj = {
-      scorePercentage: scorePct,
-      correctCount: correct,
-      totalCount: totalQ,
-      isPassed,
-      quizTitle: quiz.title,
-      courseId: quiz.courseId,
-      courseTitle: quiz.courseTitle,
-      department: quiz.department,
-      createdBy: quiz.createdBy,
-      targetUserName: quiz.targetUserName,
-      evaluatedAt: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-      documentTitle: quiz.documentSource,
-      questions: quiz.questions,
-      reviewList,
-      missedQuestions,
-      recommendedModules,
-      recommendedCourses,
-      selectedAnswers
-    };
-
-    setLastQuizResult(resultObj);
-    updateCompetencyAfterQuiz(resultObj);
-
-    // Exit full-screen on finish if active
-    if (document.fullscreenElement) {
-      document.exitFullscreen().catch(() => {});
+      setIsSubmitting(false);
+      setCurrentScreen('quiz-results');
     }
-
-    setIsSubmitting(false);
-    setCurrentScreen('quiz-results');
   };
 
   const minutes = Math.floor(secondsRemaining / 60);
