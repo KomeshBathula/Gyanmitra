@@ -4,7 +4,6 @@ import {
   MoreVertical,
   Edit2,
   Check,
-  CheckCircle2,
   Award,
   Zap,
   FileText,
@@ -31,14 +30,14 @@ export const ProfileSettingsView = () => {
 
   // Form State for editing
   const [formData, setFormData] = useState({
-    name: userProfile.name || 'Rajeswari Malluri',
-    designation: userProfile.designation || 'Branch Postmaster',
-    circle: userProfile.cadre || 'Andhra Pradesh Postal Circle',
+    name: userProfile?.name || 'Rajeswari Malluri',
+    designation: userProfile?.designation || 'Branch Postmaster',
+    circle: userProfile?.cadre || 'Andhra Pradesh Postal Circle',
     group: 'GDS',
-    email: userProfile.email || 'mallurirajeswari8@gmail.com',
-    phone: userProfile.phone || '+91 6304299961',
-    employeeId: userProfile.employeeId || 'AP-GDS-89211',
-    bio: userProfile.bio || ''
+    email: userProfile?.email || 'mallurirajeswari8@gmail.com',
+    phone: userProfile?.phone || '+91 6304299961',
+    employeeId: userProfile?.employeeId || 'AP-GDS-89211',
+    bio: userProfile?.bio || ''
   });
 
   const handleSaveProfile = (e) => {
@@ -186,7 +185,7 @@ export const ProfileSettingsView = () => {
                   <div className="w-6 h-6 rounded-full bg-amber-400 flex items-center justify-center text-amber-950 font-black text-xs shadow-xs">
                     🪙
                   </div>
-                  <span className="text-lg font-black text-white">{userProfile.karmayogiCredits || 799}</span>
+                  <span className="text-lg font-black text-white">{userProfile?.karmayogiCredits || 799}</span>
                 </div>
                 <button
                   onClick={() => setCurrentScreen('progress')}
@@ -224,7 +223,7 @@ export const ProfileSettingsView = () => {
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-2">
                   <span className="text-red-400 text-base">🎖️</span>
-                  <span className="text-lg font-black text-white">{userProfile.badgesEarned || 0}</span>
+                  <span className="text-lg font-black text-white">{userProfile?.badgesEarned || 0}</span>
                 </div>
                 <button
                   onClick={() => setCurrentScreen('progress')}
