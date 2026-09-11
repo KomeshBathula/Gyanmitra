@@ -1,0 +1,47 @@
+import { db } from '../data/db.js';
+import { calculateSkillGaps } from '../utils/skillGapCalculator.js';
+
+export const competencyService = {
+  getOverview: async (userId) => {
+    return db.competencies;
+  },
+
+  getCompetenciesList: async () => {
+    return db.competenciesList;
+  },
+
+  updateFromAssessmentResult: async (userId, { scorePercentage, competencyImpacted, assessmentDomain }) => {
+    // 1. Calculate Score Delta
+    const scoreDelta = scorePercentage >= 70 ? 4 : 1;
+    db.competencies.overallScore = Math.min(100, db.competencies.overallScore + scoreDelta);
+    db.competencies.monthlyDelta = "+12%";
+
+    // 2. Update category domain score in radar
+    const domainCat = db.competencies.categories.find(
+      c => c.name.toLowerCase().includes((assessmentDomain || "statistical").toLowerCase()) ||
+           c.id === (assessmentDomain || "stat")
+    );
+    if (domainCat) {
+      domainCat.score = Math.min(100, domainCat.score + (scorePercentage >= 70 ? 5 : 2));
+    }
+
+    // 3. Update demonstrated competency level in user profile
+    const user = db.users.find(u => u._id === userId) || db.users[0];
+    if (user && user.competencies) {
+      const comp = user.competencies.find(c => c.name.toLowerCase() === (competencyImpacted || "").toLowerCase());
+      if (comp) {
+        comp.currentLevel = Math.min(comp.targetLevel, comp.currentLevel + (scorePercentage >= 70 ? 1 : 0));
+      }
+    }
+
+    // 4. Update Karma points
+    if (user) {
+      user.karmayogiCredits = (user.karmayogiCredits || 799) + (scorePercentage >= 70 ? 100 : 25);
+    }
+
+    return {
+      updatedOverview: db.competencies,
+      updatedUserCredits: user?.karmayogiCredits
+    };
+  }
+};
