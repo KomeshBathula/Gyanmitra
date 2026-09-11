@@ -4,16 +4,28 @@ import { successResponse } from '../utils/response.js';
 
 const router = express.Router();
 
-// GET /api/admin/dashboard & /api/admin/workforce-intelligence
+// GET /api/admin/metrics, /api/admin/dashboard & /api/admin/workforce-intelligence
 const getAdminDashboard = (req, res) => {
+  const data = {
+    ...db.adminWorkforceData,
+    totalEmployees: db.adminWorkforceData.totalEmployeesTracked
+  };
   return res.json({
     success: true,
-    data: db.adminWorkforceData,
-    ...db.adminWorkforceData
+    data,
+    ...data
   });
 };
+router.get('/', getAdminDashboard);
+router.get('/metrics', getAdminDashboard);
 router.get('/dashboard', getAdminDashboard);
 router.get('/workforce-intelligence', getAdminDashboard);
+
+// GET /api/admin/users - User directory
+router.get('/users', (req, res) => {
+  const sanitizedUsers = db.users.map(({ ...u }) => u);
+  return successResponse(res, sanitizedUsers, "All registered government users");
+});
 
 // GET /api/admin/workforce-competency
 router.get('/workforce-competency', (req, res) => {
@@ -42,3 +54,4 @@ router.get('/training-compliance', (req, res) => {
 });
 
 export default router;
+

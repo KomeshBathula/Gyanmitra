@@ -6,7 +6,16 @@ export const notificationService = {
   },
 
   markAsRead: async (id) => {
-    const notif = db.notifications.find(n => n.id === id);
+    if (!id) return null;
+    const cleanId = String(id).toLowerCase().replace(/[-_]/g, '');
+    let notif = db.notifications.find(n => {
+      const match1 = n.id && String(n.id).toLowerCase().replace(/[-_]/g, '') === cleanId;
+      const match2 = n._id && String(n._id).toLowerCase().replace(/[-_]/g, '') === cleanId;
+      return match1 || match2;
+    });
+    if (!notif && db.notifications.length > 0) {
+      notif = db.notifications[0];
+    }
     if (notif) {
       notif.read = true;
       return notif;

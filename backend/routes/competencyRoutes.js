@@ -7,15 +7,23 @@ import { successResponse } from '../utils/response.js';
 
 const router = express.Router();
 
-// GET /api/competencies/overview - ACBP Competency Radar & Domain Breakdown
-router.get('/overview', async (req, res, next) => {
+// GET /api/competencies & /api/competencies/overview
+const handleOverview = async (req, res, next) => {
   try {
     const overview = await competencyService.getOverview(req.user?._id);
-    return res.json({ success: true, data: overview });
+    const list = await competencyService.getCompetenciesList();
+    return res.json({
+      success: true,
+      data: list,
+      overview,
+      domains: list
+    });
   } catch (err) {
     next(err);
   }
-});
+};
+router.get('/', handleOverview);
+router.get('/overview', handleOverview);
 
 // GET /api/competencies/list - All competencies list
 router.get('/list', async (req, res, next) => {
@@ -27,31 +35,47 @@ router.get('/list', async (req, res, next) => {
   }
 });
 
-// GET /api/competencies/skill-gaps - Prioritized Skill Gaps
-router.get('/skill-gaps', async (req, res, next) => {
+// GET /api/competencies/skill-gaps & /api/competencies/gaps
+const handleSkillGaps = async (req, res, next) => {
   try {
     const gaps = await skillGapService.getUserSkillGaps(req.user?._id);
-    return res.json({ success: true, data: gaps });
+    return res.json({
+      success: true,
+      data: {
+        totalGaps: gaps.length,
+        gaps
+      }
+    });
   } catch (err) {
     next(err);
   }
-});
+};
+router.get('/skill-gaps', handleSkillGaps);
+router.get('/gaps', handleSkillGaps);
 
-// GET /api/competencies/learning-path - Tailored Learning Path based on Skill Gaps
-router.get('/learning-path', async (req, res, next) => {
+// GET /api/competencies/learning-path & /api/competencies/path
+const handleLearningPath = async (req, res, next) => {
   try {
     const path = await learningService.getPersonalizedPathway(req.user?._id);
     return res.json({ success: true, data: path });
   } catch (err) {
     next(err);
   }
-});
+};
+router.get('/learning-path', handleLearningPath);
+router.get('/path', handleLearningPath);
 
-// GET /api/competencies/recommendations - Rule-based course & program recommendations
+// GET /api/competencies/recommendations
 router.get('/recommendations', async (req, res, next) => {
   try {
     const recs = await recommendationService.getPersonalizedRecommendations(req.user?._id);
-    return successResponse(res, recs, "Rule-based personalized recommendations");
+    return res.json({
+      success: true,
+      data: {
+        recommendedCourses: recs,
+        courses: recs
+      }
+    });
   } catch (err) {
     next(err);
   }
@@ -72,3 +96,4 @@ router.post('/update-from-assessment', async (req, res, next) => {
 });
 
 export default router;
+

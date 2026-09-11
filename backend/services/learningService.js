@@ -28,17 +28,26 @@ export const learningService = {
       };
     });
 
-    return pathway.length > 0 ? pathway : db.learningPathway;
+    const resultRoadmap = pathway.length > 0 ? pathway : [];
+    return {
+      roadmap: resultRoadmap,
+      steps: resultRoadmap,
+      totalSteps: resultRoadmap.length,
+      pathway: resultRoadmap
+    };
   },
 
   getMyLearning: async (status = '') => {
     if (status === 'completed') {
-      return { total: db.completedCourses.length, courses: db.completedCourses };
+      return { total: db.completedCourses.length, courses: db.completedCourses, data: db.completedCourses };
     }
     if (status === 'unenrolled') {
-      return { total: db.unenrolledCourses.length, courses: db.unenrolledCourses };
+      return { total: db.unenrolledCourses.length, courses: db.unenrolledCourses, data: db.unenrolledCourses };
     }
+    const allCourses = [...db.myLearningCourses, ...db.completedCourses, ...db.unenrolledCourses];
     return {
+      courses: allCourses,
+      total: allCourses.length,
       inprogress: db.myLearningCourses,
       completed: db.completedCourses,
       unenrolled: db.unenrolledCourses

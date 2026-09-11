@@ -55,6 +55,8 @@ export const calculateSkillGaps = (userCompetencies = [], coursesCatalog = []) =
       currentLevel: current,
       targetLevel: target,
       gap,
+      gapSeverity: priorityLabel,
+      severity: priorityLabel,
       priority: priorityLabel,
       priorityScore: Number(priorityScore.toFixed(2)),
       why: explanation,

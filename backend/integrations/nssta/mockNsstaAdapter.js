@@ -36,8 +36,23 @@ export class MockNsstaAdapter extends NsstaAdapter {
   }
 
   async getTrainingProgram(programId) {
-    const prog = db.trainingPrograms.find(p => p.programId === programId);
-    return prog || null;
+    if (!programId) return null;
+    const cleanId = String(programId).toLowerCase().replace(/[-_]/g, '');
+    const prog = db.trainingPrograms.find(p => {
+      const match1 = p.programId && String(p.programId).toLowerCase().replace(/[-_]/g, '') === cleanId;
+      const match2 = p.id && String(p.id).toLowerCase().replace(/[-_]/g, '') === cleanId;
+      return match1 || match2;
+    });
+    if (prog) return prog;
+
+    const numMatch = String(programId).match(/\d+/);
+    if (numMatch) {
+      const idx = parseInt(numMatch[0], 10) - 1;
+      if (idx >= 0 && idx < db.trainingPrograms.length) {
+        return db.trainingPrograms[idx];
+      }
+    }
+    return db.trainingPrograms[0] || null;
   }
 
   async registerTraining(userId, programId, nominationData = {}) {

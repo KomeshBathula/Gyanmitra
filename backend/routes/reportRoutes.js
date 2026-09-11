@@ -14,15 +14,24 @@ router.get('/', async (req, res, next) => {
   }
 });
 
-// GET /api/reports/competency
-router.get('/competency', async (req, res, next) => {
+// GET /api/reports/competency & /api/reports/competency-summary
+const handleCompetencyReport = async (req, res, next) => {
   try {
     const rep = await reportService.getCompetencyReport();
-    return successResponse(res, rep, "Competency report generated");
+    return res.json({
+      success: true,
+      data: {
+        summary: rep,
+        ...rep
+      },
+      summary: rep
+    });
   } catch (err) {
     next(err);
   }
-});
+};
+router.get('/competency', handleCompetencyReport);
+router.get('/competency-summary', handleCompetencyReport);
 
 // GET /api/reports/training & /api/reports/compliance
 const getComplianceReport = async (req, res, next) => {
@@ -37,3 +46,4 @@ router.get('/training', getComplianceReport);
 router.get('/compliance', getComplianceReport);
 
 export default router;
+

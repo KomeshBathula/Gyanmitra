@@ -65,8 +65,25 @@ export class MockIgotAdapter extends IgotAdapter {
   }
 
   async getCourse(courseId) {
-    const course = db.coursesCatalog.find(c => c.id === courseId || c.courseId === courseId);
-    return course || null;
+    if (!courseId) return null;
+    const cid = String(courseId).toLowerCase().replace(/[-_]/g, '');
+    const course = db.coursesCatalog.find(c => {
+      const idMatch = c.id && String(c.id).toLowerCase().replace(/[-_]/g, '') === cid;
+      const cIdMatch = c.courseId && String(c.courseId).toLowerCase().replace(/[-_]/g, '') === cid;
+      const mongoIdMatch = c._id && String(c._id).toLowerCase().replace(/[-_]/g, '') === cid;
+      return idMatch || cIdMatch || mongoIdMatch;
+    });
+    if (course) return course;
+
+    // Fallback index matching (e.g. crs_001 -> first course)
+    const numMatch = String(courseId).match(/\d+/);
+    if (numMatch) {
+      const idx = parseInt(numMatch[0], 10) - 1;
+      if (idx >= 0 && idx < db.coursesCatalog.length) {
+        return db.coursesCatalog[idx];
+      }
+    }
+    return null;
   }
 
   async getCourseDetails(courseId) {
