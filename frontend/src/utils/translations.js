@@ -197,7 +197,17 @@ export const translations = {
     saveChanges: "Save Changes",
     editProfile: "Edit Profile",
     downloadReport: "Download Report",
-    loading: "Loading..."
+    loading: "Loading...",
+
+    // Auth & Gateway
+    officialLoginTab: "Government Official (ISS / SSS / MoSPI)",
+    trainerLoginTab: "NSSTA Faculty / Trainer",
+    loginTitle: "National Statistical Capacity Building Portal",
+    loginSub: "Access personalized competency frameworks, iGOT modules, and AI assessments",
+    adminGatewayTitle: "MoSPI Workforce Intelligence Gateway",
+    emailPlaceholder: "official.name@mospi.gov.in",
+    passwordPlaceholder: "Enter Parichay SSO Password",
+    signInButton: "Sign In via Parichay SSO"
   },
 
   hi: {
@@ -396,7 +406,17 @@ export const translations = {
     saveChanges: "परिवर्तन सहेजें",
     editProfile: "प्रोफाइल संपादित करें",
     downloadReport: "रिपोर्ट डाउनलोड करें",
-    loading: "लोड हो रहा है..."
+    loading: "लोड हो रहा है...",
+
+    // Auth & Gateway
+    officialLoginTab: "सरकारी अधिकारी (भा.सां.से. / अ.सां.से.)",
+    trainerLoginTab: "एनएसएसटीए संकाय / प्रशिक्षक",
+    loginTitle: "राष्ट्रीय सांख्यिकी क्षमता निर्माण पोर्टल",
+    loginSub: "व्यक्तिगत दक्षता ढांचे, आईगॉट मॉड्यूल और एआई मूल्यांकन तक पहुंचें",
+    adminGatewayTitle: "एमओएसपीआई राष्ट्रीय कार्यबल आसूचना गेटवे",
+    emailPlaceholder: "official.name@mospi.gov.in",
+    passwordPlaceholder: "परिचय एसएसओ पासवर्ड दर्ज करें",
+    signInButton: "परिचय एसएसओ के माध्यम से साइन इन करें"
   },
 
   te: {
@@ -595,6 +615,16 @@ export const translations = {
     saveChanges: "మార్పులను భద్రపరచండి",
     editProfile: "ప్రొఫైల్ సవరించండి",
     downloadReport: "రిపోర్ట్ డౌన్‌లోడ్ చేయండి",
-    loading: "లోడ్ అవుతోంది..."
+    loading: "లోడ్ అవుతోంది...",
+
+    // Auth & Gateway
+    officialLoginTab: "ప్రభుత్వ అధికారి (ISS / SSS / MoSPI)",
+    trainerLoginTab: "NSSTA ఫ్యాకల్టీ / ట్రైనర్",
+    loginTitle: "జాతీయ గణాంక సామర్థ్య పెంపుదల పోర్టల్",
+    loginSub: "వ్యక్తిగతీకరించిన నైపుణ్య ఫ్రేమ్‌వర్క్‌లు, iGOT మాడ్యూల్స్ మరియు AI మూల్యాంకనాలను పొందండి",
+    adminGatewayTitle: "MoSPI వర్క్‌ఫోర్స్ ఇంటెలిజెన్స్ గేట్‌వే",
+    emailPlaceholder: "official.name@mospi.gov.in",
+    passwordPlaceholder: "పరిచయ్ SSO పాస్‌వర్డ్ నమోదు చేయండి",
+    signInButton: "పరిచయ్ SSO ద్వారా సైన్ ఇన్ చేయండి"
   }
 };

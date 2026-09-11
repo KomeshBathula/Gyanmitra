@@ -29,8 +29,8 @@ export const AppProvider = ({ children }) => {
     showToast(`Language switched to ${langNames[lang] || lang}`, "info");
   };
 
-  const t = useCallback((key) => {
-    return translations[language]?.[key] || translations['en']?.[key] || key;
+  const t = useCallback((key, fallback) => {
+    return translations[language]?.[key] || translations['en']?.[key] || fallback || key;
   }, [language]);
 
   // Authentication & Role State

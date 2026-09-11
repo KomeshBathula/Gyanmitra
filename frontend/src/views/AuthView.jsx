@@ -152,7 +152,7 @@ export const AuthView = () => {
                   }`}
                 >
                   <User className="w-3.5 h-3.5 text-blue-600" />
-                  <span>{t('officialLoginTab')}</span>
+                  <span>{t('officialLoginTab', 'Government Official (ISS / SSS / MoSPI)')}</span>
                 </button>
 
                 <button
@@ -165,7 +165,7 @@ export const AuthView = () => {
                   }`}
                 >
                   <GraduationCap className="w-3.5 h-3.5 text-emerald-600" />
-                  <span>{t('trainerLoginTab')}</span>
+                  <span>{t('trainerLoginTab', 'NSSTA Faculty / Trainer')}</span>
                 </button>
               </div>
 
