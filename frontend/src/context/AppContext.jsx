@@ -75,13 +75,14 @@ export const AppProvider = ({ children }) => {
     document.documentElement.style.fontSize = `${fontScale}%`;
   }, [fontScale]);
 
-  // URL & API Synchronization on Screen Navigation
+  // URL & API Synchronization on Screen Navigation (Clean URLs: /dashboard, /competencies, etc.)
   const setCurrentScreen = useCallback((screenId) => {
     setCurrentScreenState(screenId);
 
-    // Sync browser URL hash
-    if (window.location.hash !== `#${screenId}`) {
-      window.history.pushState(null, '', `#${screenId}`);
+    // Sync browser URL clean path (e.g. /dashboard, /competencies, /skill-gaps)
+    const targetPath = (screenId === 'login' || !screenId) ? '/' : `/${screenId}`;
+    if (window.location.pathname !== targetPath) {
+      window.history.pushState(null, '', targetPath);
     }
 
     // Trigger Section-Specific REST API calls
@@ -124,21 +125,30 @@ export const AppProvider = ({ children }) => {
     }
   }, []);
 
-  // Listen to browser back/forward and initial URL
+  // Listen to browser popstate (back/forward) and initial URL
   useEffect(() => {
-    const handleUrlHash = () => {
-      const hash = window.location.hash.replace('#', '').toLowerCase();
-      if (hash === 'admin') {
+    const handleUrlChange = () => {
+      let path = window.location.pathname.replace(/^\/+/, '').toLowerCase();
+      const hash = window.location.hash.replace(/^#\/?/, '').toLowerCase();
+      if (!path && hash) path = hash;
+
+      if (path === 'admin') {
         setIsAdminPortalMode(true);
-      } else if (hash && hash !== 'login' && isAuthenticated) {
-        setCurrentScreen(hash);
+      } else if (path && path !== 'login' && isAuthenticated) {
+        setCurrentScreenState(path);
+      } else if (!path && isAuthenticated) {
+        setCurrentScreenState('dashboard');
       }
     };
 
-    handleUrlHash();
-    window.addEventListener('hashchange', handleUrlHash);
-    return () => window.removeEventListener('hashchange', handleUrlHash);
-  }, [isAuthenticated, setCurrentScreen]);
+    handleUrlChange();
+    window.addEventListener('popstate', handleUrlChange);
+    window.addEventListener('hashchange', handleUrlChange);
+    return () => {
+      window.removeEventListener('popstate', handleUrlChange);
+      window.removeEventListener('hashchange', handleUrlChange);
+    };
+  }, [isAuthenticated]);
 
   // Secure Login Handler
   const loginUser = async (role, credentials = {}) => {
@@ -168,7 +178,7 @@ export const AppProvider = ({ children }) => {
   const logoutUser = () => {
     setIsAuthenticated(false);
     setCurrentScreenState('login');
-    window.location.hash = '';
+    window.history.pushState(null, '', '/');
     showToast("Signed out successfully from Parichay SSO.", "info");
   };
 

@@ -311,7 +311,7 @@ export const AuthView = () => {
                   type="button"
                   onClick={() => {
                     setIsAdminPortalMode(false);
-                    window.location.hash = '';
+                    window.history.pushState(null, '', '/');
                   }}
                   className="text-xs text-blue-700 hover:underline"
                 >
@@ -329,7 +329,18 @@ export const AuthView = () => {
             </p>
             {!isAdminPortalMode && (
               <p className="mt-2 text-[10px] text-slate-400">
-                System Administrator access is restricted to official gateway: <a href="#admin" onClick={() => setIsAdminPortalMode(true)} className="text-blue-600 hover:underline">/admin URL Gateway</a>
+                System Administrator access is restricted to official gateway:{" "}
+                <a
+                  href="/admin"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setIsAdminPortalMode(true);
+                    window.history.pushState(null, '', '/admin');
+                  }}
+                  className="text-blue-600 hover:underline"
+                >
+                  /admin URL Gateway
+                </a>
               </p>
             )}
           </div>
