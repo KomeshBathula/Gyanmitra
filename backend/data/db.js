@@ -214,6 +214,50 @@ export const db = {
         "Module 3: Citizen-Centric Service Delivery & Accountability",
         "Module 4: Whistleblower Protection and Official Vigilance Protocols"
       ]
+    },
+    {
+      id: "ml-c-3",
+      courseId: "NSSTA-STAT-78-03",
+      title: "MoSPI NSS 78th Round: Multiple Indicator Survey Methodology",
+      provider: "National Statistical Systems Training Academy (NSSTA)",
+      type: "Course",
+      level: "Intermediate",
+      duration: "3h 15m",
+      progress: 100,
+      isRetired: false,
+      status: "completed",
+      bgGradient: "from-blue-900 via-slate-900 to-indigo-950",
+      thumbnailText: "NSS 78th Round Survey",
+      thumbnailSub: "NSSTA Greater Noida",
+      completedOn: "12 May 2024",
+      syllabus: [
+        "Module 1: NSS Multi-stage Stratified Sampling Design",
+        "Module 2: CAPI (Computer-Assisted Personal Interviewing) Schedules",
+        "Module 3: Survey Data Scrubbing, Validation Rules and Error Flags",
+        "Module 4: State vs Central Sample Multiplier Application"
+      ]
+    },
+    {
+      id: "ml-c-4",
+      courseId: "MOSPI-NAD-2024-04",
+      title: "National Accounts Statistics: GDP Base Year Revision & SUT",
+      provider: "National Accounts Division (NAD) & MoSPI",
+      type: "Course",
+      level: "Advanced",
+      duration: "5h 00m",
+      progress: 100,
+      isRetired: false,
+      status: "completed",
+      bgGradient: "from-blue-950 via-slate-900 to-slate-950",
+      thumbnailText: "GDP & Supply-Use Tables",
+      thumbnailSub: "MoSPI National Accounts",
+      completedOn: "20 Feb 2024",
+      syllabus: [
+        "Module 1: SNA 2008 Guidelines & Indian National Accounts System",
+        "Module 2: Supply and Use Table (SUT) Commodity Balance Matrix",
+        "Module 3: Deflator Selection & Real vs Nominal GDP Estimation",
+        "Module 4: Quarterly GDP Flash Estimates & High-Frequency Indicators"
+      ]
     }
   ],
 

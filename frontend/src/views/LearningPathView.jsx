@@ -178,26 +178,28 @@ export const LearningPathView = () => {
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pt-2">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
             {currentList.map((course) => (
             <div
               key={course.id}
-              className="bg-[#0B1528] rounded-3xl border border-[#1E2E4A] overflow-hidden hover:border-blue-500 hover:shadow-2xl transition-all duration-200 flex flex-col justify-between group"
+              className="bg-[#0E1A2E] rounded-2xl border border-[#1E335A] hover:border-blue-500/60 hover:shadow-xl hover:shadow-blue-950/40 transition-all duration-200 flex flex-col justify-between group overflow-hidden"
             >
               {/* Top Card Body */}
-              <div className="p-5 space-y-4">
+              <div className="p-5 space-y-3.5">
                 {/* Top Badges Row */}
                 <div className="flex items-center justify-between gap-2">
-                  <span className="px-2.5 py-0.5 rounded-md text-[10px] font-black bg-amber-400/20 text-amber-400 border border-amber-400/40 flex items-center space-x-1">
-                    <Play className="w-2.5 h-2.5 fill-amber-400" />
-                    <span>{course.type}</span>
+                  <span className="px-2.5 py-0.5 rounded-md text-[10px] font-bold bg-amber-400/15 text-amber-300 border border-amber-400/30 flex items-center space-x-1.5">
+                    <Play className="w-2.5 h-2.5 fill-amber-300" />
+                    <span>{course.type || 'Course'}</span>
                   </span>
 
                   <span
                     className={`px-2.5 py-0.5 rounded-md text-[10px] font-bold flex items-center space-x-1 ${
                       course.level === 'Beginner'
-                        ? 'bg-emerald-950/80 text-emerald-300 border border-emerald-600/50'
-                        : 'bg-blue-950/80 text-blue-300 border border-blue-600/50'
+                        ? 'bg-emerald-950/70 text-emerald-300 border border-emerald-600/40'
+                        : course.level === 'Intermediate'
+                        ? 'bg-blue-950/70 text-blue-300 border border-blue-600/40'
+                        : 'bg-indigo-950/70 text-indigo-300 border border-indigo-600/40'
                     }`}
                   >
                     <span>▲</span>
@@ -206,121 +208,125 @@ export const LearningPathView = () => {
                 </div>
 
                 {/* Course Graphic & Info Layout */}
-                <div className="flex items-start space-x-4">
+                <div className="flex items-start gap-4">
                   {/* Thumbnail with overlay duration & optional Retired Ribbon */}
-                  <div className="relative w-28 h-20 rounded-xl overflow-hidden flex-shrink-0 bg-slate-800 border border-[#1E2E4A] shadow-inner flex flex-col justify-between p-1.5">
-                    {/* Retired Diagonal Ribbon */}
+                  <div className="relative w-28 h-20 sm:w-32 sm:h-22 rounded-xl overflow-hidden flex-shrink-0 bg-gradient-to-br from-blue-900/90 via-slate-900 to-[#0A1628] border border-blue-500/30 shadow-md flex flex-col justify-between p-2">
                     {course.isRetired && (
-                      <div className="absolute top-0 left-0 bg-[#E11D48] text-white text-[8px] font-black px-3 py-0.5 -rotate-45 -translate-x-3 translate-y-1 shadow-md uppercase tracking-wider z-20">
+                      <div className="absolute top-0 left-0 bg-red-600 text-white text-[8px] font-black px-3 py-0.5 -rotate-45 -translate-x-3 translate-y-1 shadow-md uppercase tracking-wider z-20">
                         Retired
                       </div>
                     )}
 
-                    <div className={`absolute inset-0 bg-gradient-to-br ${course.bgGradient || 'from-slate-800 to-slate-950'} opacity-90`} />
+                    <div className={`absolute inset-0 bg-gradient-to-br ${course.bgGradient || 'from-blue-900 to-slate-950'} opacity-85`} />
 
-                    <div className="relative z-10 text-[9px] font-extrabold text-white leading-tight line-clamp-2 drop-shadow-md">
+                    <div className="relative z-10 text-[10px] font-bold text-white leading-tight line-clamp-2 drop-shadow">
                       {course.thumbnailText || course.title}
                     </div>
 
                     {/* Duration Badge */}
-                    <div className="relative z-10 self-end px-1.5 py-0.5 bg-black/80 rounded text-[9px] font-mono text-slate-200 flex items-center space-x-1">
+                    <div className="relative z-10 self-end px-1.5 py-0.5 bg-black/75 backdrop-blur-xs rounded text-[9px] font-mono text-slate-200 flex items-center space-x-1 border border-white/10">
                       <Clock className="w-2.5 h-2.5 text-amber-400" />
                       <span>{course.duration}</span>
                     </div>
                   </div>
 
                   {/* Title and Provider */}
-                  <div className="flex-1 min-w-0 space-y-1">
+                  <div className="flex-1 min-w-0 space-y-1.5">
                     <h3
                       onClick={() => setActiveCourseModal(course)}
-                      className="text-xs sm:text-sm font-extrabold text-white leading-snug line-clamp-2 hover:text-blue-400 cursor-pointer transition-colors"
+                      className="text-sm font-bold text-white leading-snug line-clamp-2 hover:text-blue-300 cursor-pointer transition-colors"
+                      title={course.title}
                     >
                       {course.title}
                     </h3>
-                    <p className="text-[11px] text-slate-400 truncate flex items-center space-x-1">
-                      <Building2 className="w-3 h-3 text-slate-500 inline mr-1 flex-shrink-0" />
-                      <span>By {course.provider}</span>
+                    <p className="text-xs text-slate-400 truncate flex items-center space-x-1.5">
+                      <Building2 className="w-3.5 h-3.5 text-slate-500 flex-shrink-0" />
+                      <span className="truncate">By {course.provider}</span>
                     </p>
                     {(course.provider || '').includes('NSSTA') && (
-                      <span className="inline-block mt-0.5 px-2 py-0.5 rounded text-[9px] font-extrabold bg-purple-900/70 text-purple-300 border border-purple-500/50">
-                        NSSTA TPAC Recommended Programme
+                      <span className="inline-block px-2 py-0.5 rounded text-[9px] font-bold bg-blue-950/80 text-blue-300 border border-blue-600/40">
+                        NSSTA TPAC Recommended
                       </span>
                     )}
                   </div>
                 </div>
               </div>
 
-              {/* Bottom Progress Bar & CTA Row */}
-              <div className="px-5 pb-5 pt-2 border-t border-[#1E2E4A]/80 space-y-2">
+              {/* Bottom Progress Bar & CTA Footer */}
+              <div className="px-5 py-3.5 bg-[#0B1528]/80 border-t border-[#1E335A]/80">
                 {activePill === 'inprogress' ? (
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-between gap-4">
-                      {/* Progress Info & Bar */}
-                      <div className="flex-1 space-y-1">
-                        <div className="flex items-center space-x-1.5 text-[11px] font-bold text-slate-300">
-                          <Clock className="w-3 h-3 text-amber-400" />
-                          <span>{course.progress}%</span>
-                          {course.progress < 100 && (
-                            <span className="text-[10px] text-slate-400 font-normal ml-1">
-                              (Quiz unlocks at 100%)
-                            </span>
-                          )}
-                        </div>
-                        <div className="w-full bg-[#162544] h-1.5 rounded-full overflow-hidden">
-                          <div
-                            className="bg-[#F59E0B] h-1.5 rounded-full transition-all duration-500"
-                            style={{ width: `${course.progress}%` }}
-                          />
-                        </div>
+                  <div className="space-y-2.5">
+                    <div className="flex items-center justify-between text-xs">
+                      <div className="flex items-center space-x-1.5 text-slate-300 font-bold">
+                        <Clock className="w-3.5 h-3.5 text-amber-400" />
+                        <span>{course.progress}% Completed</span>
                       </div>
+                      <span className="text-[11px] text-slate-400 font-medium">
+                        {course.progress < 100 ? `${100 - course.progress}% to certification` : 'Assessment Ready'}
+                      </span>
+                    </div>
 
-                      {/* Action Buttons */}
-                      <div className="flex items-center space-x-2 flex-shrink-0">
-                        {course.progress >= 100 ? (
-                          <button
-                            onClick={() => startCourseQuiz(course)}
-                            className="px-3.5 py-1.5 rounded-xl bg-[#1B365D] hover:bg-[#254A80] border border-blue-500/40 text-white text-xs font-bold transition-all shadow-sm flex items-center space-x-1.5 cursor-pointer whitespace-nowrap"
-                          >
-                            <Award className="w-3.5 h-3.5 text-amber-300 flex-shrink-0" />
-                            <span className="whitespace-nowrap">Take Assessment</span>
-                          </button>
-                        ) : (
-                          <button
-                            onClick={() => setActiveCourseModal(course)}
-                            className="px-4 py-1.5 rounded-xl bg-[#15284F] hover:bg-[#1D3A74] text-white text-xs font-bold transition-all shadow-md flex items-center space-x-1.5 border border-[#1E3A6D] cursor-pointer whitespace-nowrap"
-                          >
-                            <span>{course.progress > 0 ? 'Resume' : 'Start'}</span>
-                            <Play className="w-3 h-3 fill-white" />
-                          </button>
-                        )}
-                      </div>
+                    <div className="w-full bg-[#162544] h-2 rounded-full overflow-hidden border border-slate-700/40 p-0.5">
+                      <div
+                        className="bg-gradient-to-r from-amber-500 to-amber-400 h-full rounded-full transition-all duration-500"
+                        style={{ width: `${course.progress}%` }}
+                      />
+                    </div>
+
+                    <div className="pt-0.5">
+                      {course.progress >= 100 ? (
+                        <button
+                          onClick={() => startCourseQuiz(course)}
+                          className="w-full py-2 px-3 rounded-xl bg-[#1B365D] hover:bg-[#254A80] border border-blue-500/40 text-white text-xs font-bold transition-all shadow-sm flex items-center justify-center space-x-1.5 cursor-pointer"
+                        >
+                          <Award className="w-3.5 h-3.5 text-amber-300 flex-shrink-0" />
+                          <span>Take Assessment</span>
+                        </button>
+                      ) : (
+                        <button
+                          onClick={() => setActiveCourseModal(course)}
+                          className="w-full py-2 px-3 rounded-xl bg-[#15284F] hover:bg-[#1D3A74] text-white text-xs font-bold transition-all shadow-md flex items-center justify-center space-x-1.5 border border-[#1E3A6D] cursor-pointer"
+                        >
+                          <span>{course.progress > 0 ? 'Resume Course' : 'Start Course'}</span>
+                          <Play className="w-3 h-3 fill-white ml-1" />
+                        </button>
+                      )}
                     </div>
                   </div>
                 ) : activePill === 'completed' ? (
-                  <div className="flex items-center justify-between gap-3 pt-0.5">
-                    <div className="flex items-center space-x-1.5 text-xs text-emerald-400 font-bold flex-shrink-0">
-                      <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0" />
-                      <span className="whitespace-nowrap">100% Completed</span>
+                  <div className="space-y-2.5">
+                    <div className="flex items-center justify-between text-xs">
+                      <span className="flex items-center space-x-1.5 text-emerald-400 font-bold">
+                        <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0" />
+                        <span>100% Completed</span>
+                      </span>
+                      <span className="text-[10px] font-bold bg-emerald-950/70 text-emerald-300 border border-emerald-500/30 px-2 py-0.5 rounded-md">
+                        MoSPI Cadre Certified
+                      </span>
                     </div>
-                    <div className="flex items-center space-x-2 flex-shrink-0">
+
+                    <div className="flex items-center gap-2 pt-0.5">
                       <button
                         onClick={() => startCourseQuiz(course)}
-                        className="px-3.5 py-1.5 rounded-xl bg-[#1B365D] hover:bg-[#254A80] border border-blue-500/40 text-white text-xs font-bold shadow-sm flex items-center space-x-1.5 cursor-pointer transition-all whitespace-nowrap"
+                        className="flex-1 py-2 px-3 rounded-xl bg-[#1B365D] hover:bg-[#254A80] border border-blue-500/40 text-white text-xs font-bold shadow-sm flex items-center justify-center space-x-1.5 cursor-pointer transition-all whitespace-nowrap"
                       >
                         <Award className="w-3.5 h-3.5 text-amber-300 flex-shrink-0" />
-                        <span className="whitespace-nowrap">Take Assessment</span>
+                        <span>Take Assessment</span>
                       </button>
                       <button
                         onClick={() => setActiveCourseModal(course)}
-                        className="px-3 py-1.5 rounded-xl bg-[#162544] hover:bg-[#1E335A] text-slate-200 text-xs font-semibold cursor-pointer border border-[#1E3A6D]/50 transition-colors whitespace-nowrap"
+                        className="py-2 px-4 rounded-xl bg-[#162544] hover:bg-[#1E335A] text-slate-200 text-xs font-semibold cursor-pointer border border-[#1E3A6D]/60 transition-colors whitespace-nowrap"
                       >
                         Review
                       </button>
                     </div>
                   </div>
                 ) : (
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs text-slate-400">Available to re-enroll</span>
+                  <div className="flex items-center justify-between pt-0.5">
+                    <span className="text-xs text-slate-400 flex items-center space-x-1.5">
+                      <BookOpen className="w-3.5 h-3.5 text-slate-500" />
+                      <span>Available on iGOT</span>
+                    </span>
                     <button
                       onClick={async () => {
                         await api.enrollCourse({
@@ -333,7 +339,7 @@ export const LearningPathView = () => {
                         setActivePill('inprogress');
                         loadMyLearningData();
                       }}
-                      className="px-4 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold cursor-pointer"
+                      className="py-2 px-5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold cursor-pointer transition-all shadow-md"
                     >
                       Enroll Now
                     </button>
