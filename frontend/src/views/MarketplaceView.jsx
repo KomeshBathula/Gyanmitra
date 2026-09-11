@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Search,
   ChevronRight,
@@ -8,124 +8,46 @@ import {
   Zap,
   Globe,
   CheckCircle2,
-  Sparkles
+  Sparkles,
+  Loader2
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
+import { api } from '../services/api';
 
 export const MarketplaceView = () => {
   const { setCurrentScreen, showToast, t } = useApp();
   const [activeTab, setActiveTab] = useState('providers'); // 'providers', 'ar'
   const [searchQuery, setSearchQuery] = useState('');
   const [activeProviderModal, setActiveProviderModal] = useState(null);
+  const [providers, setProviders] = useState([]);
+  const [arModules, setArModules] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
-  // Exact 5 providers matching iGOT Marketplace screenshot (media_1789127554352.png)
-  const marketplaceProviders = [
-    {
-      id: 'p-1',
-      name: 'SIMPLILEARN',
-      bannerColor: 'bg-[#0097A7]',
-      logoText: 'simplilearn',
-      logoTextColor: 'text-blue-600',
-      category: 'EdTech & Certifications',
-      description: 'Global digital skills provider offering curated masterclasses in Python, Cloud Computing, Data Science, and Public Sector AI Governance.',
-      activeCoursesCount: 42,
-      courses: [
-        'Post Graduate Program in Data Engineering',
-        'Python for Data Science & Predictive Analytics',
-        'Certified Cloud Solutions Architect',
-        'AI for Public Administrators'
-      ]
-    },
-    {
-      id: 'p-2',
-      name: 'National Urban Learning Platform',
-      bannerColor: 'bg-[#0097A7]',
-      logoText: 'NULP / NIUA',
-      logoTextColor: 'text-teal-700',
-      category: 'Urban Governance & Municipal Systems',
-      description: 'National Institute of Urban Affairs platform delivering municipal capacity, GIS city mapping, urban data analytics, and AMRUT mission planning.',
-      activeCoursesCount: 28,
-      courses: [
-        'Urban GIS Mapping & Spatial Analytics',
-        'Municipal Finance & Revenue Mobilization',
-        'Smart Cities Digital Infrastructure',
-        'Sustainable Urban Water Management'
-      ]
-    },
-    {
-      id: 'p-3',
-      name: 'eCornell',
-      bannerColor: 'bg-[#94612A]',
-      logoText: 'eCornell',
-      logoTextColor: 'text-red-700',
-      category: 'Executive Education & Leadership',
-      description: 'Cornell University professional certificates in Strategic Leadership, Public Policy, Data-Driven Decision Making, and Administrative Excellence.',
-      activeCoursesCount: 35,
-      courses: [
-        'Executive Leadership in Public Administration',
-        'Data-Driven Decision Making for Policy Makers',
-        'Strategic HR & Performance Management',
-        'Public Sector Negotiation Strategies'
-      ]
-    },
-    {
-      id: 'p-4',
-      name: 'Coursera',
-      bannerColor: 'bg-[#4163E9]',
-      logoText: 'coursera',
-      logoTextColor: 'text-blue-600',
-      category: 'Global University Consortium',
-      description: 'World-leading universities offering official government-subsidized specializations in Econometrics, Statistics, Machine Learning, and Public Finance.',
-      activeCoursesCount: 110,
-      courses: [
-        'Applied Econometrics & Time Series Analysis (Yale)',
-        'Machine Learning for Public Sector (Stanford)',
-        'Survey Analysis with R & Python (Johns Hopkins)',
-        'Public Financial Management (IMF)'
-      ]
-    },
-    {
-      id: 'p-5',
-      name: 'Harvard Business Impact',
-      bannerColor: 'bg-[#4163E9]',
-      logoText: 'HARVARD BUSINESS IMPACT',
-      logoTextColor: 'text-red-900',
-      category: 'Strategic Leadership & Governance',
-      description: 'Harvard Business Publishing programs focused on adaptive leadership, crisis communication, inter-ministerial coordination, and transformational public governance.',
-      activeCoursesCount: 19,
-      courses: [
-        'Adaptive Leadership in Times of Crisis',
-        'Driving Transformational Public Innovation',
-        'Effective Stakeholder Management',
-        'Strategic Governance & Policy Execution'
-      ]
+  // Fetch Marketplace Providers & AR Modules from Express backend API
+  useEffect(() => {
+    let isMounted = true;
+    setIsLoading(true);
+
+    if (activeTab === 'providers') {
+      api.getMarketplaceProviders(searchQuery).then(res => {
+        if (isMounted && res?.data) {
+          setProviders(res.data);
+        }
+        if (isMounted) setIsLoading(false);
+      });
+    } else {
+      api.getMarketplaceAR().then(res => {
+        if (isMounted && res?.data) {
+          setArModules(res.data);
+        }
+        if (isMounted) setIsLoading(false);
+      });
     }
-  ];
 
-  // Augmented Reality AR/VR Modules
-  const arModules = [
-    {
-      id: 'ar-1',
-      title: 'AR 3D Field Survey Simulation: NSS Household Listing',
-      provider: 'NSSTA Greater Noida',
-      duration: '45m',
-      device: 'WebXR / Mobile AR',
-      description: 'Interactive 3D walkthrough of physical FSU village listing, boundary demarcation, and randomized second-stage sampling.'
-    },
-    {
-      id: 'ar-2',
-      title: 'VR Disaster Management & Census Evacuation Protocol',
-      provider: 'National Disaster Management Authority',
-      duration: '30m',
-      device: 'VR Headset / Web 3D',
-      description: 'Simulated flood and emergency evacuation route planning aligned with geospatial Census GIS mapping.'
-    }
-  ];
-
-  const filteredProviders = marketplaceProviders.filter((p) =>
-    p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    p.category.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+    return () => {
+      isMounted = false;
+    };
+  }, [activeTab, searchQuery]);
 
   return (
     <div className="space-y-6 pb-16 text-slate-100 select-none">
@@ -173,11 +95,19 @@ export const MarketplaceView = () => {
         />
       </div>
 
+      {/* Loading Indicator */}
+      {isLoading && (
+        <div className="py-8 flex items-center justify-center space-x-2 text-blue-400 text-xs font-bold">
+          <Loader2 className="w-5 h-5 animate-spin" />
+          <span>Loading official iGOT partners...</span>
+        </div>
+      )}
+
       {/* Content Rendering based on Tab */}
       {activeTab === 'providers' ? (
         /* Provider Cards Grid matching the 4-column layout in the screenshot */
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 pt-2">
-          {filteredProviders.map((provider) => (
+          {providers.map((provider) => (
             <div
               key={provider.id}
               onClick={() => setActiveProviderModal(provider)}
@@ -286,8 +216,14 @@ export const MarketplaceView = () => {
                         <span className="font-semibold">{crs}</span>
                       </div>
                       <button
-                        onClick={() => {
+                        onClick={async () => {
+                          const provName = activeProviderModal.name;
                           setActiveProviderModal(null);
+                          await api.enrollCourse({
+                            title: crs,
+                            provider: provName,
+                            level: 'Beginner'
+                          });
                           showToast(`Enrolled in ${crs}`, "success");
                           setCurrentScreen('learning-path');
                         }}

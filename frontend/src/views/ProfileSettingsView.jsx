@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   ChevronRight,
   MoreVertical,
@@ -18,41 +18,76 @@ import {
   Smartphone,
   Mail,
   Building,
-  Sparkles
+  Sparkles,
+  Loader2
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
+import { api } from '../services/api';
 
 export const ProfileSettingsView = () => {
   const { userProfile, setUserProfile, setCurrentScreen, showToast, t } = useApp();
   const [activeTab, setActiveTab] = useState('about'); // 'about', 'basic', 'service', 'education', 'achievements'
   const [isEditingModal, setIsEditingModal] = useState(false);
   const [editSection, setEditSection] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   // Form State for editing
   const [formData, setFormData] = useState({
     name: userProfile?.name || 'Rajeswari Malluri',
     designation: userProfile?.designation || 'Branch Postmaster',
     circle: userProfile?.cadre || 'Andhra Pradesh Postal Circle',
-    group: 'GDS',
+    group: userProfile?.group || 'GDS',
     email: userProfile?.email || 'mallurirajeswari8@gmail.com',
     phone: userProfile?.phone || '+91 6304299961',
     employeeId: userProfile?.employeeId || 'AP-GDS-89211',
     bio: userProfile?.bio || ''
   });
 
-  const handleSaveProfile = (e) => {
+  // Fetch live profile from backend Express API
+  useEffect(() => {
+    let isMounted = true;
+    setIsLoading(true);
+    api.getProfile().then(res => {
+      if (isMounted && res?.user) {
+        setUserProfile(res.user);
+        setFormData({
+          name: res.user.name || 'Rajeswari Malluri',
+          designation: res.user.designation || 'Branch Postmaster',
+          circle: res.user.cadre || 'Andhra Pradesh Postal Circle',
+          group: res.user.group || 'GDS',
+          email: res.user.email || 'mallurirajeswari8@gmail.com',
+          phone: res.user.phone || '+91 6304299961',
+          employeeId: res.user.employeeId || 'AP-GDS-89211',
+          bio: res.user.bio || ''
+        });
+      }
+      if (isMounted) setIsLoading(false);
+    });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  const handleSaveProfile = async (e) => {
     e.preventDefault();
-    setUserProfile((prev) => ({
-      ...prev,
+    const updatePayload = {
       name: formData.name,
       designation: formData.designation,
       cadre: formData.circle,
+      group: formData.group,
       email: formData.email,
       phone: formData.phone,
       bio: formData.bio
-    }));
+    };
+
+    // Save to backend
+    const res = await api.updateProfile(updatePayload);
+    if (res?.user) {
+      setUserProfile(res.user);
+    }
     setIsEditingModal(false);
-    showToast("Profile details updated successfully", "success");
+    showToast("Profile details saved and synchronized with Karmayogi backend", "success");
   };
 
   // Recommended Communities from screenshot
@@ -100,6 +135,13 @@ export const ProfileSettingsView = () => {
         <span className="text-slate-300">Profile</span>
       </div>
 
+      {isLoading && (
+        <div className="py-4 flex items-center justify-center space-x-2 text-blue-400 text-xs font-bold">
+          <Loader2 className="w-4 h-4 animate-spin" />
+          <span>Synchronizing Karmayogi Service Profile...</span>
+        </div>
+      )}
+
       {/* Main Grid: Left/Center Profile Content + Right Communities Sidebar */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left & Center 2-Columns */}
@@ -134,7 +176,7 @@ export const ProfileSettingsView = () => {
                     RM
                   </div>
                   <span className="mt-1 text-[11px] font-bold text-emerald-400 tracking-wide">
-                    36.7%
+                    {userProfile?.profileCompletion || 36.7}%
                   </span>
                 </div>
 
@@ -170,7 +212,7 @@ export const ProfileSettingsView = () => {
             </div>
           </div>
 
-          {/* 2. Metrics 4-Card Strip (My Karma Points, My Certificates, My Badges, My Posts) */}
+          {/* 2. Metrics 4-Card Strip */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
             {/* Karma Points */}
             <div className="bg-[#0B1528] rounded-2xl border border-[#1E2E4A] p-4 flex flex-col justify-between space-y-3 shadow-md">
@@ -204,7 +246,7 @@ export const ProfileSettingsView = () => {
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-2">
                   <span className="text-amber-400 text-base">📜</span>
-                  <span className="text-lg font-black text-white">75</span>
+                  <span className="text-lg font-black text-white">{userProfile?.certificatesCount || 75}</span>
                 </div>
                 <button
                   onClick={() => setCurrentScreen('competencies')}
@@ -242,7 +284,7 @@ export const ProfileSettingsView = () => {
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-2">
                   <span className="text-amber-400 text-base">💬</span>
-                  <span className="text-lg font-black text-white">0</span>
+                  <span className="text-lg font-black text-white">{userProfile?.postsCount || 0}</span>
                 </div>
               </div>
             </div>

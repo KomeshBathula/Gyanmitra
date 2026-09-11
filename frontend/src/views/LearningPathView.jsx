@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Play,
   Clock,
@@ -6,9 +6,11 @@ import {
   BookOpen,
   CheckCircle2,
   Calendar,
-  Sparkles
+  Sparkles,
+  Loader2
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
+import { api } from '../services/api';
 
 export const LearningPathView = () => {
   const { setCurrentScreen, showToast } = useApp();
@@ -16,186 +18,32 @@ export const LearningPathView = () => {
   const [activePill, setActivePill] = useState('inprogress'); // 'inprogress', 'completed', 'unenrolled'
   const [activeCourseModal, setActiveCourseModal] = useState(null);
 
-  // Exact dataset matching iGOT Karmayogi "My Learning" screenshot (media_1789127587336.png)
-  const myLearningCourses = [
-    {
-      id: 'ml-1',
-      title: 'POST OFFICE ACT 2023',
-      provider: 'RAKNPA',
-      type: 'Course',
-      level: 'Intermediate',
-      duration: '24m 16s',
-      progress: 62,
-      isRetired: true,
-      status: 'inprogress',
-      bgGradient: 'from-slate-700 via-slate-800 to-slate-900',
-      thumbnailText: 'POST OFFICE ACT 2023',
-      thumbnailSub: 'RAK National Postal Academy',
-      syllabus: [
-        'Module 1: Overview and Objectives of Post Office Act 2023',
-        'Module 2: Key Amendments over the Indian Post Office Act 1898',
-        'Module 3: Powers of Interception, Security & Customs Regulations',
-        'Module 4: Grievance Redressal and Digital Services Integration'
-      ]
-    },
-    {
-      id: 'ml-2',
-      title: 'ePost office',
-      provider: 'Department of Posts',
-      type: 'Course',
-      level: 'Beginner',
-      duration: '41m 12s',
-      progress: 70,
-      isRetired: false,
-      status: 'inprogress',
-      bgGradient: 'from-amber-800 via-orange-900 to-amber-950',
-      thumbnailText: 'ePost office',
-      thumbnailSub: 'Department of Posts Portal',
-      syllabus: [
-        'Module 1: Digital Portal Infrastructure & Service Architecture',
-        'Module 2: Electronic Money Order & Instant Money Order Booking',
-        'Module 3: Postal Life Insurance (PLI/RPLI) Online Renewal',
-        'Module 4: Customer Helpdesk and Digital Tracking Protocols'
-      ]
-    },
-    {
-      id: 'ml-3',
-      title: 'Customer Relationship Management in India Post',
-      provider: 'Department of Posts',
-      type: 'Course',
-      level: 'Beginner',
-      duration: '42m 29s',
-      progress: 71,
-      isRetired: false,
-      status: 'inprogress',
-      bgGradient: 'from-teal-800 via-emerald-900 to-teal-950',
-      thumbnailText: 'CRM in India Post',
-      thumbnailSub: 'Citizen Centric Delivery',
-      syllabus: [
-        'Module 1: Principles of Citizen-Centric Public Service Delivery',
-        'Module 2: CRM Software Navigation and Ticket Management',
-        'Module 3: Handling Public Queries, Escalations and TAT SLAs',
-        'Module 4: Feedback Loops and Citizen Satisfaction Metrics'
-      ]
-    },
-    {
-      id: 'ml-4',
-      title: 'Awareness on Marketing Concepts',
-      provider: 'Department of Posts',
-      type: 'Course',
-      level: 'Beginner',
-      duration: '24m 32s',
-      progress: 62,
-      isRetired: false,
-      status: 'inprogress',
-      bgGradient: 'from-yellow-700 via-amber-800 to-yellow-950',
-      thumbnailText: 'Awareness on Marketing Concepts',
-      thumbnailSub: 'Department of Posts',
-      syllabus: [
-        'Module 1: Fundamental Marketing Concepts for Public Undertakings',
-        'Module 2: Product Segmentation: Speed Post, Parcel & Retail',
-        'Module 3: Branding, Promotional Campaigns & Public Reach',
-        'Module 4: B2B vs B2C Government Service Positioning'
-      ]
-    },
-    {
-      id: 'ml-5',
-      title: 'Disciplinary Proceedings in Government',
-      provider: 'National Academy of Audit & Accounts',
-      type: 'Course',
-      level: 'Intermediate',
-      duration: '3h 57m',
-      progress: 10,
-      isRetired: false,
-      status: 'inprogress',
-      bgGradient: 'from-slate-700 via-indigo-950 to-slate-900',
-      thumbnailText: 'Disciplinary Proceedings in Government',
-      thumbnailSub: 'Government of India Rules',
-      syllabus: [
-        'Module 1: Constitutional Provisions: Article 311 & Natural Justice',
-        'Module 2: Framing of Charge-Sheet under CCS (CCA) Rules 1965',
-        'Module 3: Inquiry Officer Duties & Examination of Evidence',
-        'Module 4: Imposition of Minor vs Major Penalties & Appeals'
-      ]
-    },
-    {
-      id: 'ml-6',
-      title: 'Preventive Vigilance',
-      provider: 'Steel Ministry of India',
-      type: 'Course',
-      level: 'Beginner',
-      duration: '1h 33m',
-      progress: 0,
-      isRetired: false,
-      status: 'inprogress',
-      bgGradient: 'from-blue-900 via-cyan-950 to-blue-950',
-      thumbnailText: 'PREVENTIVE VIGILANCE',
-      thumbnailSub: 'Ministry of Steel',
-      syllabus: [
-        'Module 1: Concepts and Importance of Preventive Vigilance',
-        'Module 2: Identification of Sensitive Posts & Rotation Policies',
-        'Module 3: Systemic Improvements, GeM Procurement & Audits',
-        'Module 4: Whistleblower Protection and Integrity Pacts'
-      ]
-    }
-  ];
+  const [inprogressList, setInprogressList] = useState([]);
+  const [completedList, setCompletedList] = useState([]);
+  const [unenrolledList, setUnenrolledList] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const completedCourses = [
-    {
-      id: 'ml-c-1',
-      title: 'Foundation Training on Python for Large Microdata',
-      provider: 'National Statistical Systems Training Academy (NSSTA)',
-      type: 'Course',
-      level: 'Intermediate',
-      duration: '4h 30m',
-      progress: 100,
-      isRetired: false,
-      status: 'completed',
-      bgGradient: 'from-emerald-900 via-slate-900 to-teal-950',
-      thumbnailText: 'Python for Microdata Analysis',
-      thumbnailSub: 'NSSTA Greater Noida',
-      completedOn: '28 Aug 2024'
-    },
-    {
-      id: 'ml-c-2',
-      title: 'Code of Ethics and Conduct for Public Servants',
-      provider: 'LBSNAA Mussoorie',
-      type: 'Course',
-      level: 'Beginner',
-      duration: '1h 45m',
-      progress: 100,
-      isRetired: false,
-      status: 'completed',
-      bgGradient: 'from-indigo-900 via-slate-900 to-blue-950',
-      thumbnailText: 'Public Service Ethics',
-      thumbnailSub: 'Mission Karmayogi Bharat',
-      completedOn: '14 Jul 2024'
-    }
-  ];
+  // Load My Learning datasets from backend Express API
+  const loadMyLearningData = () => {
+    setIsLoading(true);
+    api.getMyLearning().then(res => {
+      if (res?.inprogress) setInprogressList(res.inprogress);
+      if (res?.completed) setCompletedList(res.completed);
+      if (res?.unenrolled) setUnenrolledList(res.unenrolled);
+      setIsLoading(false);
+    });
+  };
 
-  const unenrolledCourses = [
-    {
-      id: 'ml-u-1',
-      title: 'National Accounts Statistics: Supply and Use Tables',
-      provider: 'Ministry of Statistics & Programme Implementation (MoSPI)',
-      type: 'Blended Program',
-      level: 'Advanced',
-      duration: '6h 15m',
-      progress: 0,
-      isRetired: false,
-      status: 'unenrolled',
-      bgGradient: 'from-purple-900 via-slate-900 to-indigo-950',
-      thumbnailText: 'Supply & Use Tables',
-      thumbnailSub: 'MoSPI National Accounts'
-    }
-  ];
+  useEffect(() => {
+    loadMyLearningData();
+  }, []);
 
   const currentList =
     activePill === 'inprogress'
-      ? myLearningCourses
+      ? inprogressList
       : activePill === 'completed'
-      ? completedCourses
-      : unenrolledCourses;
+      ? completedList
+      : unenrolledList;
 
   return (
     <div className="space-y-6 pb-16 text-slate-100 select-none">
@@ -266,6 +114,14 @@ export const LearningPathView = () => {
         </div>
       )}
 
+      {/* Loading State */}
+      {isLoading && (
+        <div className="py-8 flex items-center justify-center space-x-2 text-blue-400 text-xs font-bold">
+          <Loader2 className="w-5 h-5 animate-spin" />
+          <span>Syncing My Learning records...</span>
+        </div>
+      )}
+
       {/* Main Content Area */}
       {activeTab === 'contents' ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pt-2">
@@ -306,10 +162,10 @@ export const LearningPathView = () => {
                       </div>
                     )}
 
-                    <div className={`absolute inset-0 bg-gradient-to-br ${course.bgGradient} opacity-90`} />
+                    <div className={`absolute inset-0 bg-gradient-to-br ${course.bgGradient || 'from-slate-800 to-slate-950'} opacity-90`} />
 
                     <div className="relative z-10 text-[9px] font-extrabold text-white leading-tight line-clamp-2 drop-shadow-md">
-                      {course.thumbnailText}
+                      {course.thumbnailText || course.title}
                     </div>
 
                     {/* Duration Badge */}
@@ -379,9 +235,16 @@ export const LearningPathView = () => {
                   <div className="flex items-center justify-between">
                     <span className="text-xs text-slate-400">Available to re-enroll</span>
                     <button
-                      onClick={() => {
+                      onClick={async () => {
+                        await api.enrollCourse({
+                          title: course.title,
+                          provider: course.provider,
+                          duration: course.duration,
+                          level: course.level
+                        });
                         showToast(`Enrolled in ${course.title}`, "success");
                         setActivePill('inprogress');
+                        loadMyLearningData();
                       }}
                       className="px-4 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold cursor-pointer"
                     >
@@ -444,7 +307,7 @@ export const LearningPathView = () => {
             <div className="p-6 bg-[#080E1C] space-y-5 max-h-[65vh] overflow-y-auto">
               {/* Interactive Player Card */}
               <div className="bg-[#111F38] rounded-2xl border border-[#1E2E4A] p-6 text-center relative overflow-hidden shadow-inner">
-                <div className={`absolute inset-0 bg-gradient-to-br ${activeCourseModal.bgGradient} opacity-40`} />
+                <div className={`absolute inset-0 bg-gradient-to-br ${activeCourseModal.bgGradient || 'from-slate-800 to-slate-950'} opacity-40`} />
                 <div className="relative z-10 space-y-3">
                   <div className="w-14 h-14 rounded-full bg-blue-600 hover:bg-blue-500 text-white flex items-center justify-center mx-auto shadow-2xl cursor-pointer hover:scale-110 transition-transform">
                     <Play className="w-7 h-7 fill-white ml-1" />
@@ -516,14 +379,17 @@ export const LearningPathView = () => {
                   <span>Generate AI Assessment</span>
                 </button>
                 <button
-                  onClick={() => {
+                  onClick={async () => {
+                    const newProgress = Math.min(100, activeCourseModal.progress + 25);
+                    await api.updateCourseProgress(activeCourseModal.id, newProgress);
                     setActiveCourseModal(null);
-                    showToast(`Launching ${activeCourseModal.title}`, "success");
+                    showToast(`Updated progress for ${activeCourseModal.title} to ${newProgress}%`, "success");
+                    loadMyLearningData();
                   }}
                   className="px-5 py-2 text-xs font-bold text-white bg-blue-600 hover:bg-blue-500 rounded-2xl shadow-lg transition-all cursor-pointer flex items-center space-x-1"
                 >
                   <Play className="w-3.5 h-3.5 fill-white" />
-                  <span>Play Module</span>
+                  <span>Play Module (+25% Progress)</span>
                 </button>
               </div>
             </div>

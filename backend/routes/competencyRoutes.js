@@ -22,8 +22,9 @@ router.get('/learning-path', (req, res) => {
 router.post('/update-from-assessment', (req, res) => {
   const { scorePercentage, competencyImpacted } = req.body;
 
-  // Closed-loop competency update logic
-  db.competencies.overallScore = Math.min(100, db.competencies.overallScore + (scorePercentage >= 70 ? 4 : 1));
+  // Closed-loop competency ledger calculation
+  const scoreDelta = scorePercentage >= 70 ? 4 : 1;
+  db.competencies.overallScore = Math.min(100, db.competencies.overallScore + scoreDelta);
   db.competencies.monthlyDelta = "+12%";
 
   // Update specific skill gap
@@ -36,11 +37,17 @@ router.post('/update-from-assessment', (req, res) => {
     }
   }
 
+  // Also update user's karma points in profile
+  if (db.users[0]) {
+    db.users[0].karmayogiCredits = (db.users[0].karmayogiCredits || 799) + (scorePercentage >= 70 ? 50 : 20);
+  }
+
   res.json({
     success: true,
-    message: "Competency ledger updated successfully",
+    message: "Competency ledger and Karma Points updated successfully",
     updatedOverview: db.competencies,
-    updatedGaps: db.skillGaps
+    updatedGaps: db.skillGaps,
+    userCredits: db.users[0]?.karmayogiCredits
   });
 });
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Search,
   ChevronDown,
@@ -13,9 +13,11 @@ import {
   Building2,
   Layers,
   Sparkles,
-  ExternalLink
+  ExternalLink,
+  Loader2
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
+import { api } from '../services/api';
 
 export const CoursesView = () => {
   const { setCurrentScreen, showToast, t } = useApp();
@@ -29,162 +31,30 @@ export const CoursesView = () => {
   const [sortBy, setSortBy] = useState('newest');
   const [isSortOpen, setIsSortOpen] = useState(false);
   const [activeCourseModal, setActiveCourseModal] = useState(null);
+  const [coursesList, setCoursesList] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
-  // Exact dataset matching iGOT Karmayogi "Explore all the contents" screenshot
-  const allContents = [
-    {
-      id: 'cnt-1',
-      title: 'Understanding Corporate Insolvency Resolution Process',
-      code: 'IBC-CIRP-2024',
-      type: 'Course',
-      level: 'Intermediate',
-      duration: '1h 10m',
-      language: 'English',
-      provider: 'Ministry of Communications- Department of Telecommunications',
-      category: 'Course',
-      sector: 'Information Technology',
-      subSector: 'Administration',
-      isNew: true,
-      bannerBg: 'from-amber-900 via-slate-900 to-blue-950',
-      bannerBadge: 'IBC 2016: Corporate Insolvency Resolution Process',
-      karmaPoints: 120,
-      description: 'An exhaustive regulatory guide covering CIRP processes, Committee of Creditors (CoC) voting thresholds, Resolution Professional obligations, and NCLT jurisprudence.',
-      syllabus: [
-        'Module 1: Overview of IBC 2016 & Legislative Intent',
-        'Module 2: Admission of CIRP & Moratorium Provisions (Section 14)',
-        'Module 3: CoC Constitution, Voting Rights & Resolution Plans',
-        'Module 4: Liquidation Process & Priority Waterfall Mechanism'
-      ]
-    },
-    {
-      id: 'cnt-2',
-      title: 'Central Civil Services (Conduct) Rules 1964',
-      code: 'CCS-COND-1964',
-      type: 'Course',
-      level: 'Beginner',
-      duration: '25m 17s',
-      language: 'English',
-      provider: 'National Academy of Defence Financial Management (NADFM)',
-      category: 'Course',
-      sector: 'Defence',
-      subSector: 'Administration',
-      isNew: true,
-      bannerBg: 'from-blue-950 via-slate-900 to-indigo-950',
-      bannerBadge: 'Central Civil Services (Conduct) Rules 1964',
-      karmaPoints: 80,
-      description: 'Essential orientation to CCS (Conduct) Rules 1964 governing public servants, integrity maintenance, political non-partisanship, and prevention of conflict of interest.',
-      syllabus: [
-        'Module 1: General Principles of Official Integrity (Rule 3)',
-        'Module 2: Acceptance of Gifts, Hospitality & Awards (Rule 13)',
-        'Module 3: Movable and Immovable Property Disclosures (Rule 18)',
-        'Module 4: Disciplinary Action & Inquiries under CCA Rules'
-      ]
-    },
-    {
-      id: 'cnt-3',
-      title: 'Introduction to Personalized Cheque Books in India Post',
-      code: 'IP-CHQ-2024',
-      type: 'Moderated Course',
-      level: 'Beginner',
-      duration: '32m 23s',
-      language: 'English',
-      provider: 'Department of Posts',
-      category: 'Moderated Course',
-      sector: 'Education',
-      subSector: 'Data',
-      isNew: true,
-      bannerBg: 'from-rose-950 via-slate-900 to-amber-950',
-      bannerBadge: 'Department of Posts, India: Personalized Cheque Books',
-      karmaPoints: 90,
-      description: 'Comprehensive operational manual for postal officers on issuing, personalizing, and validating MICR cheque books for Post Office Savings Bank (POSB) account holders.',
-      syllabus: [
-        'Module 1: POSB Account Regulations & Cheque Facility Eligibility',
-        'Module 2: Finacle CBS Workflow for Cheque Book Requisition',
-        'Module 3: CTS-2010 Clearing Standards & Safety Features',
-        'Module 4: Stop Payment Protocol & Fraud Mitigation'
-      ]
-    },
-    {
-      id: 'cnt-4',
-      title: 'Understanding the Defence Export Import Portal',
-      code: 'DEF-EXIM-2024',
-      type: 'Course',
-      level: 'Beginner',
-      duration: '1h 09m',
-      language: 'English',
-      provider: 'National Academy of Defence Production (NADP) Nagpur',
-      category: 'Course',
-      sector: 'Defence',
-      subSector: 'Heavy Industry',
-      isNew: true,
-      bannerBg: 'from-cyan-950 via-slate-900 to-blue-950',
-      bannerBadge: 'Defence Export Import Portal',
-      karmaPoints: 110,
-      description: 'Step-by-step user walkthrough of the Defence EXIM online portal facilitating authorisations, end-user certification, and SCOMET licensing under Make in India.',
-      syllabus: [
-        'Module 1: Defence Production & Export Policy Framework',
-        'Module 2: Portal Registration & Digital Signature (DSC) Integration',
-        'Module 3: Processing In-Principle Export Authorisations',
-        'Module 4: End-User Certificate (EUC) Verification Workflows'
-      ]
-    },
-    {
-      id: 'cnt-5',
-      title: 'MoSPI NSS 79th Round: Sampling Methodology & Field Guidelines',
-      code: 'MOSPI-NSS79-2024',
-      type: 'Course',
-      level: 'Intermediate',
-      duration: '2h 15m',
-      language: 'English',
-      provider: 'National Statistical Systems Training Academy (NSSTA) Greater Noida',
-      category: 'Course',
-      sector: 'Information Technology',
-      subSector: 'Data',
-      isNew: true,
-      bannerBg: 'from-emerald-950 via-slate-900 to-teal-950',
-      bannerBadge: 'MoSPI NSS 79th Round Sampling Methodology',
-      karmaPoints: 200,
-      description: 'Official NSSTA training module on multi-stage stratified sampling design, circular systematic household selection, and CAPI survey data collection.',
-      syllabus: [
-        'Module 1: NSS Sampling Frame: Census Villages & UFS Blocks',
-        'Module 2: Household Listing, Stratification & Sub-Sample Selection',
-        'Module 3: CAPI Digital Questionnaire Validation Rules',
-        'Module 4: Multiplier Computation & Non-Sampling Error Adjustments'
-      ]
-    },
-    {
-      id: 'cnt-6',
-      title: 'National Accounts Statistics: GDP & GVA Computation Framework',
-      code: 'MOSPI-NAS-2024',
-      type: 'Blended Program',
-      level: 'Intermediate',
-      duration: '3h 40m',
-      language: 'English',
-      provider: 'Ministry of Statistics & Programme Implementation (MoSPI)',
-      category: 'Blended Program',
-      sector: 'Information Technology',
-      subSector: 'Data',
-      isNew: true,
-      bannerBg: 'from-indigo-950 via-slate-900 to-blue-950',
-      bannerBadge: 'National Accounts Statistics: GDP & GVA Framework',
-      karmaPoints: 250,
-      description: 'Methodological framework for compiling Gross Domestic Product (GDP), Gross Value Added (GVA), and Gross Fixed Capital Formation (GFCF) based on SNA 2008 standards.',
-      syllabus: [
-        'Module 1: Production, Income & Expenditure Approaches to GDP',
-        'Module 2: MCA-21 Corporate Database Integration in GVA',
-        'Module 3: Price Indices & Constant Price Deflators (CPI, WPI)',
-        'Module 4: Quarterly GDP Estimation & Advance Release Calendars'
-      ]
-    }
-  ];
+  // Fetch courses dynamically from backend Express API
+  useEffect(() => {
+    let isMounted = true;
+    setIsLoading(true);
 
-  // Filtering Logic
-  const filteredContents = allContents.filter((item) => {
-    if (selectedCategory !== 'all' && item.category !== selectedCategory) return false;
-    if (selectedSector !== 'all' && item.sector !== selectedSector) return false;
-    if (selectedSubSector !== 'all' && item.subSector !== selectedSubSector) return false;
-    return true;
-  });
+    api.getCourses({
+      category: selectedCategory,
+      sector: selectedSector,
+      subSector: selectedSubSector,
+      sortBy
+    }).then(res => {
+      if (isMounted && res?.data) {
+        setCoursesList(res.data);
+      }
+      if (isMounted) setIsLoading(false);
+    });
+
+    return () => {
+      isMounted = false;
+    };
+  }, [selectedCategory, selectedSector, selectedSubSector, sortBy]);
 
   return (
     <div className="flex flex-col lg:flex-row gap-6 pb-16 text-slate-100 select-none">
@@ -348,7 +218,7 @@ export const CoursesView = () => {
               Explore all the contents
             </h1>
             <p className="text-xs font-bold text-slate-400 mt-0.5">
-              Contents ({filteredContents.length > 0 ? '9159' : '0'})
+              Contents ({coursesList.length > 0 ? '9159' : '0'})
             </p>
           </div>
 
@@ -394,9 +264,17 @@ export const CoursesView = () => {
           </div>
         </div>
 
-        {/* Wide Horizontal Course List Cards matching screenshot */}
+        {/* Loading Indicator */}
+        {isLoading && (
+          <div className="py-8 flex items-center justify-center space-x-2 text-blue-400 text-xs font-bold">
+            <Loader2 className="w-5 h-5 animate-spin" />
+            <span>Loading verified Karmayogi contents...</span>
+          </div>
+        )}
+
+        {/* Wide Horizontal Course List Cards */}
         <div className="space-y-4 pt-2">
-          {filteredContents.map((course) => (
+          {coursesList.map((course) => (
             <div
               key={course.id}
               onClick={() => setActiveCourseModal(course)}
@@ -404,7 +282,7 @@ export const CoursesView = () => {
             >
               {/* Left Banner Thumbnail Art */}
               <div
-                className={`w-full md:w-56 h-32 rounded-2xl bg-gradient-to-br ${course.bannerBg} p-3 flex flex-col justify-between flex-shrink-0 relative overflow-hidden shadow-md border border-[#1E2E4A]`}
+                className={`w-full md:w-56 h-32 rounded-2xl bg-gradient-to-br ${course.bannerBg || 'from-blue-900 via-slate-900 to-indigo-950'} p-3 flex flex-col justify-between flex-shrink-0 relative overflow-hidden shadow-md border border-[#1E2E4A]`}
               >
                 {/* Red "New" Pill on Top Left */}
                 {course.isNew && (
@@ -416,14 +294,14 @@ export const CoursesView = () => {
                 {/* Banner Graphic Title */}
                 <div className="z-10">
                   <span className="text-xs font-black text-white leading-tight line-clamp-2 drop-shadow-md">
-                    {course.bannerBadge}
+                    {course.bannerBadge || course.title}
                   </span>
                 </div>
 
                 {/* Bottom Language & Duration Strip */}
                 <div className="flex items-center justify-between z-10 text-[10px] font-bold text-slate-200">
                   <span className="px-1.5 py-0.5 rounded bg-black/60 backdrop-blur-xs">
-                    {course.language}
+                    {course.language || 'English'}
                   </span>
                   <span className="px-1.5 py-0.5 rounded bg-black/60 backdrop-blur-xs font-mono">
                     {course.duration}
@@ -509,12 +387,12 @@ export const CoursesView = () => {
                   <span className="text-[10px] text-slate-400 uppercase font-bold block">Reward</span>
                   <span className="text-xs font-bold text-amber-400 flex items-center justify-center">
                     <Zap className="w-3 h-3 mr-0.5 fill-amber-400" />
-                    +{activeCourseModal.karmaPoints} Pts
+                    +{activeCourseModal.karmaPoints || 100} Pts
                   </span>
                 </div>
                 <div className="bg-[#111F38] p-3 rounded-2xl border border-[#1E2E4A] text-center">
                   <span className="text-[10px] text-slate-400 uppercase font-bold block">Language</span>
-                  <span className="text-xs font-bold text-blue-400">{activeCourseModal.language}</span>
+                  <span className="text-xs font-bold text-blue-400">{activeCourseModal.language || 'English'}</span>
                 </div>
               </div>
 
@@ -549,9 +427,17 @@ export const CoursesView = () => {
                 Close
               </button>
               <button
-                onClick={() => {
+                onClick={async () => {
+                  const course = activeCourseModal;
                   setActiveCourseModal(null);
-                  showToast(`Enrolled in ${activeCourseModal.title}`, "success");
+                  await api.enrollCourse({
+                    courseId: course.id,
+                    title: course.title,
+                    provider: course.provider,
+                    duration: course.duration,
+                    level: course.level
+                  });
+                  showToast(`Enrolled in ${course.title}`, "success");
                   setCurrentScreen('learning-path');
                 }}
                 className="px-5 py-2.5 text-xs font-bold text-white bg-blue-600 hover:bg-blue-500 rounded-2xl shadow-lg transition-all cursor-pointer flex items-center space-x-1.5"
