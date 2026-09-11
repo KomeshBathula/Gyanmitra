@@ -40,7 +40,7 @@ export const Sidebar = () => {
   const navItems = [
     { id: 'dashboard', label: 'Home', icon: Home },
     { id: 'courses', label: 'Explore Content', icon: Compass },
-    { id: 'marketplace', label: 'Marketplace', icon: ShoppingBag, actionId: 'courses' },
+    { id: 'marketplace', label: 'Marketplace', icon: ShoppingBag },
     { id: 'learning-path', label: 'My Learning', icon: BookOpen },
     { id: 'competencies', label: 'Learner Passbook', icon: FileCheck },
     { id: 'ai-assistant', label: 'Discuss', icon: MessageSquare },
@@ -56,14 +56,13 @@ export const Sidebar = () => {
         <div className="space-y-1">
           {navItems.map((item) => {
             const Icon = item.icon;
-            const targetId = item.actionId || item.id;
-            const isActive = currentScreen === targetId || (item.id === 'dashboard' && currentScreen === 'dashboard');
+            const isActive = currentScreen === item.id;
 
             return (
               <button
                 key={item.id}
                 onClick={() => {
-                  setCurrentScreen(targetId);
+                  setCurrentScreen(item.id);
                   if (window.innerWidth < 768) setIsSidebarOpen(false);
                 }}
                 className={`w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
