@@ -37,11 +37,11 @@ export const Sidebar = () => {
 
   // Navigation Items customized per persona
   const trainerPrimaryNavItems = [
-    { id: 'trainer-dashboard', label: 'NSSTA Faculty Portal', icon: GraduationCap },
+    { id: 'trainer-dashboard', label: 'Admin Governance Portal', icon: Shield },
     { id: 'ai-quiz', label: 'AI Assessment Studio', icon: Zap },
     { id: 'reports', label: 'Batch Compliance & Audits', icon: FileCheck },
     { id: 'courses', label: 'Curriculum & Courses', icon: Compass },
-    { id: 'ai-assistant', label: 'Faculty AI Assistant', icon: MessageSquare }
+    { id: 'ai-assistant', label: 'Admin AI Assistant', icon: MessageSquare }
   ];
 
   const employeePrimaryNavItems = [

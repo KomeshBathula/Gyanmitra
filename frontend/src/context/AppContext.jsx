@@ -385,15 +385,12 @@ export const AppProvider = ({ children }) => {
     localStorage.removeItem('gyanmitra_authenticated');
     localStorage.removeItem('gyanmitra_profile');
     localStorage.removeItem('gyanmitra_role');
+    setIsAdminPortalMode(false);
+    setCurrentScreenState('login');
+    window.history.pushState(null, '', '/login');
     if (wasAdmin) {
-      setIsAdminPortalMode(true);
-      setCurrentScreenState('admin-login');
-      window.history.pushState(null, '', '/admin');
       showToast("Signed out of Admin Console.", "info");
     } else {
-      setIsAdminPortalMode(false);
-      setCurrentScreenState('login');
-      window.history.pushState(null, '', '/login');
       showToast("Signed out successfully from Parichay SSO.", "info");
     }
   };

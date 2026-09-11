@@ -10,7 +10,6 @@ import { MessageSquareText } from 'lucide-react';
 
 // Views
 import { AuthView } from './views/AuthView';
-import { AdminAuthView } from './views/AdminAuthView';
 import { ProfileWizardView } from './views/ProfileWizardView';
 import { EmployeeDashboardView } from './views/EmployeeDashboardView';
 import { CompetenciesView } from './views/CompetenciesView';
@@ -35,21 +34,11 @@ export default function App() {
 
   // If not authenticated or on login screen:
   if (!isAuthenticated || currentScreen === 'login' || currentScreen === 'admin-login') {
-    // Check if accessing admin gateway via URL or state
-    const isExplicitAdminRoute = isAdminPortalMode || currentScreen === 'admin-login' || window.location.pathname.startsWith('/admin') || window.location.hash.startsWith('#admin');
-
-    if (isExplicitAdminRoute) {
-      return (
-        <div className="min-h-screen bg-[#081326] font-sans">
-          <AdminAuthView />
-          <Toast />
-        </div>
-      );
-    }
+    const defaultToAdmin = isAdminPortalMode || currentScreen === 'admin-login' || (typeof window !== 'undefined' && (window.location.pathname.startsWith('/admin') || window.location.hash.startsWith('#admin')));
 
     return (
       <div className="min-h-screen bg-[#0F2942] font-sans">
-        <AuthView />
+        <AuthView initialTab={defaultToAdmin ? 'admin' : 'employee'} />
         <Toast />
       </div>
     );

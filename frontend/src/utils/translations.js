@@ -202,8 +202,9 @@ export const translations = {
     loading: "Loading...",
 
     // Auth & Gateway
-    officialLoginTab: "Government Official (ISS / SSS / MoSPI)",
-    trainerLoginTab: "NSSTA Faculty / Trainer",
+    officerLoginTab: "Government Official (ISS / SSS / MoSPI)",
+    trainerLoginTab: "Admin Login",
+    adminLoginTab: "Admin Login",
     loginTitle: "National Statistical Capacity Building Portal",
     loginSub: "Access personalized competency frameworks, iGOT modules, and AI assessments",
     adminGatewayTitle: "MoSPI Workforce Intelligence Gateway",
@@ -221,7 +222,7 @@ export const translations = {
     stepParichayCredentials: "Login to the GyanMitra portal with official credentials and enter OTP",
     stepTickBoth: "Tick both the Mobile Number and Primary Email to continue",
     officerLearner: "Officer / Learner",
-    nsstaFaculty: "NSSTA Faculty",
+    nsstaFaculty: "Admin Login",
     loginWithPassword: "Login with password",
     loginWithOtp: "Login with OTP",
     emailLabel: "Email",
@@ -442,7 +443,8 @@ export const translations = {
 
     // Auth & Gateway
     officialLoginTab: "सरकारी अधिकारी (भा.सां.से. / अ.सां.से.)",
-    trainerLoginTab: "एनएसएसटीए संकाय / प्रशिक्षक",
+    trainerLoginTab: "व्यवस्थापक लॉगिन",
+    adminLoginTab: "व्यवस्थापक लॉगिन",
     loginTitle: "राष्ट्रीय सांख्यिकी क्षमता निर्माण पोर्टल",
     loginSub: "व्यक्तिगत दक्षता ढांचे, आईगॉट मॉड्यूल और एआई मूल्यांकन तक पहुंचें",
     adminGatewayTitle: "एमओएसपीआई राष्ट्रीय कार्यबल आसूचना गेटवे",
@@ -460,7 +462,7 @@ export const translations = {
     stepParichayCredentials: "ज्ञानमित्र पोर्टल में अपने क्रेडेंशियल के साथ लॉगिन करें और ओटीपी दर्ज करें",
     stepTickBoth: "जारी रखने के लिए मोबाइल नंबर और प्राथमिक ईमेल दोनों पर टिक करें",
     officerLearner: "अधिकारी / शिक्षार्थी",
-    nsstaFaculty: "एनएसएसटीए संकाय",
+    nsstaFaculty: "व्यवस्थापक लॉगिन",
     loginWithPassword: "पासवर्ड से लॉगिन करें",
     loginWithOtp: "ओटीपी से लॉगिन करें",
     emailLabel: "ईमेल",
@@ -681,7 +683,8 @@ export const translations = {
 
     // Auth & Gateway
     officialLoginTab: "ప్రభుత్వ అధికారి (ISS / SSS / MoSPI)",
-    trainerLoginTab: "NSSTA ఫ్యాకల్టీ / ట్రైనర్",
+    trainerLoginTab: "అడ్మిన్ లాగిన్",
+    adminLoginTab: "అడ్మిన్ లాగిన్",
     loginTitle: "జాతీయ గణాంక సామర్థ్య పెంపుదల పోర్టల్",
     loginSub: "వ్యక్తిగతీకరించిన నైపుణ్య ఫ్రేమ్‌వర్క్‌లు, iGOT మాడ్యూల్స్ మరియు AI మూల్యాంకనాలను పొందండి",
     adminGatewayTitle: "MoSPI వర్క్‌ఫోర్స్ ఇంటెలిజెన్స్ గేట్‌వే",
@@ -699,7 +702,7 @@ export const translations = {
     stepParichayCredentials: "అధికారిక ఆధారాలతో జ్ఞానమిత్ర పోర్టల్‌లోకి లాగిన్ అయి OTPని నమోదు చేయండి",
     stepTickBoth: "కొనసాగడానికి మొబైల్ నంబర్ మరియు ప్రాథమిక ఇమెయిల్ రెండింటినీ ఎంచుకోండి",
     officerLearner: "అధికారి / అభ్యాసకుడు",
-    nsstaFaculty: "NSSTA ఫ్యాకల్టీ",
+    nsstaFaculty: "అడ్మిన్ లాగిన్",
     loginWithPassword: "పాస్‌వర్డ్‌తో లాగిన్ అవ్వండి",
     loginWithOtp: "OTPతో లాగిన్ అవ్వండి",
     emailLabel: "ఇమెయిల్",
