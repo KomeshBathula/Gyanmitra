@@ -217,3 +217,4 @@ export const translations = {
     adminDirectNotice: "పరిమిత URL గేట్‌వే: అధీకృత డైరెక్టరేట్ సిబ్బందికి మాత్రమే"
   }
 };
+
