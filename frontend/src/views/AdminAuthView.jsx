@@ -15,7 +15,7 @@ import {
 import { useApp } from '../context/AppContext';
 
 export const AdminAuthView = () => {
-  const { loginUser, showToast, setIsAdminPortalMode, setCurrentScreen, language, setLanguage } = useApp();
+  const { loginUser, showToast, setIsAdminPortalMode, setCurrentScreen, language, setLanguage, t } = useApp();
 
   const [adminEmail, setAdminEmail] = useState('admin.workforce@mospi.gov.in');
   const [adminPass, setAdminPass] = useState('••••••••••••');
@@ -119,9 +119,41 @@ export const AdminAuthView = () => {
             <span>Learner & Employee Portal</span>
           </button>
 
-          <span className="px-2.5 py-0.5 rounded text-[10px] font-mono font-bold bg-blue-900/60 text-blue-300 border border-blue-600/40">
-            ADMIN GATEWAY
-          </span>
+          <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-1 bg-[#162544] p-1 rounded-xl border border-[#1E3A6D] text-xs">
+              <Globe className="w-3.5 h-3.5 text-blue-400 ml-1 mr-0.5" />
+              <button
+                type="button"
+                onClick={() => setLanguage('en')}
+                className={`px-2 py-0.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                  language === 'en' ? 'bg-blue-600 text-white shadow-xs' : 'text-slate-300 hover:text-white'
+                }`}
+              >
+                EN
+              </button>
+              <button
+                type="button"
+                onClick={() => setLanguage('hi')}
+                className={`px-2 py-0.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                  language === 'hi' ? 'bg-blue-600 text-white shadow-xs' : 'text-slate-300 hover:text-white'
+                }`}
+              >
+                HI
+              </button>
+              <button
+                type="button"
+                onClick={() => setLanguage('te')}
+                className={`px-2 py-0.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                  language === 'te' ? 'bg-blue-600 text-white shadow-xs' : 'text-slate-300 hover:text-white'
+                }`}
+              >
+                TE
+              </button>
+            </div>
+            <span className="px-2.5 py-1 rounded text-[10px] font-mono font-bold bg-blue-900/60 text-blue-300 border border-blue-600/40">
+              ADMIN GATEWAY
+            </span>
+          </div>
         </div>
 
         {/* Center Administrative Form */}
