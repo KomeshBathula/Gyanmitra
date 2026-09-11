@@ -9,7 +9,7 @@ import {
 import { useApp } from '../context/AppContext';
 
 export const SkillGapView = () => {
-  const { skillGaps, setCurrentScreen, showToast } = useApp();
+  const { skillGaps, setCurrentScreen, showToast, t } = useApp();
   const [selectedGap, setSelectedGap] = useState(skillGaps[0]);
 
   return (
@@ -18,11 +18,11 @@ export const SkillGapView = () => {
       <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-gov flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
           <span className="px-2.5 py-0.5 rounded text-xs font-semibold bg-red-50 text-red-800 border border-red-200">
-            MoSPI Cadre Competency Matrix
+            {t('mandate')}
           </span>
-          <h2 className="text-xl font-bold text-slate-900 mt-1">My Skill Gap Analysis</h2>
+          <h2 className="text-xl font-bold text-slate-900 mt-1">{t('skillGapTitle')}</h2>
           <p className="text-xs text-slate-500">
-            Analytical breakdown comparing your demonstrated competency level against your cadre benchmark.
+            {t('skillGapSub')}
           </p>
         </div>
 
@@ -34,7 +34,7 @@ export const SkillGapView = () => {
           className="px-4 py-2.5 bg-gov-blue hover:bg-gov-navy text-white text-xs font-bold rounded-lg shadow-gov transition-all flex items-center space-x-1.5"
         >
           <Sparkles className="w-3.5 h-3.5 text-amber-300" />
-          <span>Generate Personalized Learning Path</span>
+          <span>{t('learningPathTitle')}</span>
         </button>
       </div>
 
@@ -42,7 +42,7 @@ export const SkillGapView = () => {
       <div className="bg-white rounded-xl border border-slate-200 shadow-gov overflow-hidden">
         <div className="px-6 py-4 border-b border-slate-100 bg-slate-50 flex items-center justify-between">
           <h3 className="text-xs font-bold text-slate-800 uppercase tracking-wider">
-            Competency Benchmark vs Demonstrated Level
+            {t('gapMatrixTable')}
           </h3>
           <span className="text-[11px] text-slate-500">Target Role: Deputy Director (ISS Cadre)</span>
         </div>
@@ -51,13 +51,13 @@ export const SkillGapView = () => {
           <table className="w-full text-left text-xs">
             <thead className="bg-slate-100/80 text-slate-700 font-bold border-b border-slate-200">
               <tr>
-                <th className="px-6 py-3">Competency Area</th>
+                <th className="px-6 py-3">{t('colCompetency')}</th>
                 <th className="px-4 py-3">Category</th>
-                <th className="px-4 py-3 text-center">Current Level</th>
-                <th className="px-4 py-3 text-center">Required Level</th>
-                <th className="px-4 py-3 text-center">Gap Deficit</th>
-                <th className="px-4 py-3">Priority Status</th>
-                <th className="px-6 py-3 text-right">Action</th>
+                <th className="px-4 py-3 text-center">{t('colCurrent')}</th>
+                <th className="px-4 py-3 text-center">{t('colRequired')}</th>
+                <th className="px-4 py-3 text-center">{t('colDeficit')}</th>
+                <th className="px-4 py-3">{t('colPriority')}</th>
+                <th className="px-6 py-3 text-right">{t('colAction')}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
@@ -77,17 +77,17 @@ export const SkillGapView = () => {
                     <td className="px-4 py-3.5 text-slate-600">{gap.category}</td>
                     <td className="px-4 py-3.5 text-center">
                       <span className="px-2 py-0.5 rounded bg-slate-100 text-slate-800 font-semibold">
-                        Level {gap.currentLevel}
+                        {t('level')} {gap.currentLevel}
                       </span>
                     </td>
                     <td className="px-4 py-3.5 text-center">
                       <span className="px-2 py-0.5 rounded bg-blue-100 text-blue-900 font-semibold">
-                        Level {gap.requiredLevel}
+                        {t('level')} {gap.requiredLevel}
                       </span>
                     </td>
                     <td className="px-4 py-3.5 text-center">
                       <span className={`font-bold ${gap.gap > 0 ? 'text-red-600' : 'text-emerald-600'}`}>
-                        {gap.gap === 0 ? '✓ 0' : `-${gap.gap} Level${gap.gap > 1 ? 's' : ''}`}
+                        {gap.gap === 0 ? '✓ 0' : `-${gap.gap} ${t('level')}`}
                       </span>
                     </td>
                     <td className="px-4 py-3.5">
@@ -98,7 +98,7 @@ export const SkillGapView = () => {
                           ? 'bg-amber-50 text-amber-700 border border-amber-200'
                           : 'bg-emerald-50 text-emerald-700 border border-emerald-200'
                       }`}>
-                        {gap.priority}
+                        {gap.priority === 'High' ? t('highSeverity') : gap.priority === 'Medium' ? t('mediumSeverity') : t('completed')}
                       </span>
                     </td>
                     <td className="px-6 py-3.5 text-right">
@@ -109,7 +109,7 @@ export const SkillGapView = () => {
                         }}
                         className="text-xs font-semibold text-blue-700 hover:underline"
                       >
-                        Inspect Audit →
+                        {t('viewDetails')} →
                       </button>
                     </td>
                   </tr>

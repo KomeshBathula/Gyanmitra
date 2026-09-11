@@ -3,7 +3,7 @@ import { BookOpen, Sparkles, Filter, Search, Award } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 
 export const CoursesView = () => {
-  const { courses, setCurrentScreen, showToast } = useApp();
+  const { courses, setCurrentScreen, showToast, t } = useApp();
   const [selectedTab, setSelectedTab] = useState('all'); // 'all', 'recommended', 'igot', 'nssta'
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedDifficulty, setSelectedDifficulty] = useState('all');
@@ -25,18 +25,18 @@ export const CoursesView = () => {
       {/* Top Banner */}
       <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-gov">
         <span className="px-2.5 py-0.5 rounded text-xs font-semibold bg-blue-50 text-blue-800 border border-blue-200">
-          Official Statistics Learning Hub
+          {t('coursesTitle')}
         </span>
-        <h2 className="text-xl font-bold text-slate-900 mt-1">Course Catalog & Recommendations</h2>
+        <h2 className="text-xl font-bold text-slate-900 mt-1">{t('coursesTitle')}</h2>
         <p className="text-xs text-slate-500">
-          Curated training modules from iGOT Karmayogi and National Statistical Systems Training Academy (NSSTA).
+          {t('coursesSub')}
         </p>
 
         {/* Filter Controls */}
         <div className="mt-6 flex flex-col sm:flex-row gap-3 items-center justify-between">
           <div className="flex flex-wrap gap-1.5 w-full sm:w-auto">
             {[
-              { id: 'all', label: 'All Courses' },
+              { id: 'all', label: t('filterAll') },
               { id: 'recommended', label: '★ AI Recommended' },
               { id: 'igot', label: 'iGOT Karmayogi' },
               { id: 'nssta', label: 'NSSTA Greater Noida' }
@@ -58,7 +58,7 @@ export const CoursesView = () => {
           <div className="flex items-center space-x-2 w-full sm:w-auto">
             <input
               type="text"
-              placeholder="Search course title or topic..."
+              placeholder={t('searchCoursePlaceholder')}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full sm:w-64 px-3 py-1.5 text-xs bg-slate-50 border border-slate-300 rounded-lg focus:ring-1 focus:ring-blue-600"

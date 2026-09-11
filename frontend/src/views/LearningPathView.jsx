@@ -8,7 +8,7 @@ import {
 import { useApp } from '../context/AppContext';
 
 export const LearningPathView = () => {
-  const { learningPathway, setCurrentScreen, showToast } = useApp();
+  const { learningPathway, setCurrentScreen, showToast, t } = useApp();
 
   return (
     <div className="space-y-6 pb-12">
@@ -17,11 +17,11 @@ export const LearningPathView = () => {
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div>
             <span className="px-2.5 py-0.5 rounded text-xs font-semibold bg-blue-50 text-blue-800 border border-blue-200">
-              Mission Karmayogi Competency Pathway
+              {t('sourceGrounded')}
             </span>
-            <h2 className="text-xl font-bold text-slate-900 mt-1">Your Personalized Learning Path</h2>
+            <h2 className="text-xl font-bold text-slate-900 mt-1">{t('learningPathTitle')}</h2>
             <p className="text-xs text-slate-500">
-              AI-generated pathway structured to systematically bridge your highest-priority cadre skill gaps.
+              {t('learningPathSub')}
             </p>
           </div>
 
@@ -30,7 +30,7 @@ export const LearningPathView = () => {
             className="px-4 py-2 bg-gradient-to-r from-blue-700 to-indigo-800 hover:from-blue-800 hover:to-indigo-900 text-white text-xs font-bold rounded-lg shadow-gov transition-all flex items-center space-x-1.5"
           >
             <Sparkles className="w-3.5 h-3.5 text-amber-300" />
-            <span>AI Assessment on Uploaded Material</span>
+            <span>{t('generateQuizBtn')}</span>
           </button>
         </div>
 
@@ -38,7 +38,7 @@ export const LearningPathView = () => {
         <div className="mt-4 p-4 rounded-xl bg-blue-50 border border-blue-200 text-xs text-blue-900 flex items-start space-x-3">
           <Sparkles className="w-4 h-4 text-blue-700 flex-shrink-0 mt-0.5" />
           <div>
-            <strong className="block font-bold">Why this specific sequence?</strong>
+            <strong className="block font-bold">{t('whyThisGapTitle')}</strong>
             <p className="mt-0.5 text-blue-800 leading-relaxed">
               This pathway prioritizes <strong>Python for Microdata</strong> and <strong>AI/Machine Learning</strong> because they represent your highest competency gaps (Level 2 → Level 4 deficit) for your current role as Deputy Director in SDRD. Foundational Python has been verified as complete.
             </p>

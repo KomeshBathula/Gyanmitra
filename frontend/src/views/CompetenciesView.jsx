@@ -3,7 +3,7 @@ import { Award, CheckCircle2, TrendingUp, AlertCircle, ArrowRight, Sparkles } fr
 import { useApp } from '../context/AppContext';
 
 export const CompetenciesView = () => {
-  const { competencyOverview, skillGaps, setCurrentScreen } = useApp();
+  const { competencyOverview, skillGaps, setCurrentScreen, t } = useApp();
   const [activeCategory, setActiveCategory] = useState('all');
 
   const detailedSkills = [
@@ -33,11 +33,11 @@ export const CompetenciesView = () => {
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div>
             <span className="px-2.5 py-0.5 rounded text-xs font-semibold bg-blue-50 text-blue-800 border border-blue-200">
-              National Training Framework Benchmark
+              {t('verifiedVia')}
             </span>
-            <h2 className="text-xl font-bold text-slate-900 mt-1">My Competencies Matrix</h2>
+            <h2 className="text-xl font-bold text-slate-900 mt-1">{t('competenciesTitle')}</h2>
             <p className="text-xs text-slate-500">
-              Complete breakdown across Statistical, Technical, Digital Governance, and Managerial disciplines.
+              {t('competenciesSub')}
             </p>
           </div>
 
@@ -45,7 +45,7 @@ export const CompetenciesView = () => {
             onClick={() => setCurrentScreen('assessment')}
             className="px-4 py-2 bg-gov-blue hover:bg-gov-navy text-white text-xs font-bold rounded-lg shadow-gov transition-all"
           >
-            Take Competency Assessment
+            {t('takeAssessmentBtn')}
           </button>
         </div>
 
@@ -55,7 +55,7 @@ export const CompetenciesView = () => {
             <div key={c.id} className="p-3 bg-slate-50 rounded-xl border border-slate-200/80 text-center">
               <span className="text-[10px] text-slate-500 font-bold uppercase block">{c.name}</span>
               <p className="text-xl font-black text-slate-900 mt-0.5">{c.score}%</p>
-              <span className="text-[10px] text-slate-400">Target: {c.target}%</span>
+              <span className="text-[10px] text-slate-400">{t('targetScore')}: {c.target}%</span>
             </div>
           ))}
         </div>
@@ -64,11 +64,11 @@ export const CompetenciesView = () => {
       {/* Filter Tabs */}
       <div className="flex space-x-2 border-b border-slate-200 pb-2">
         {[
-          { id: 'all', label: 'All Competencies (12)' },
-          { id: 'statistical', label: 'Statistical' },
-          { id: 'technical', label: 'Technical & Coding' },
-          { id: 'digital governance', label: 'Digital Governance' },
-          { id: 'behavioural', label: 'Behavioural' }
+          { id: 'all', label: t('filterAll') },
+          { id: 'statistical', label: t('filterStatistical') },
+          { id: 'technical', label: t('filterTechnical') },
+          { id: 'digital governance', label: t('filterGovernance') },
+          { id: 'behavioural', label: 'Behavioural / नेतृत्व' }
         ].map((tab) => (
           <button
             key={tab.id}
