@@ -31,7 +31,9 @@ export const Header = () => {
     setLanguage,
     t,
     logoutUser,
-    showToast
+    showToast,
+    theme,
+    toggleTheme
   } = useApp();
 
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
@@ -152,13 +154,18 @@ export const Header = () => {
             )}
           </div>
 
-          {/* Theme Sun Toggle Button */}
+          {/* Theme Sun/Moon Toggle Button */}
           <button
-            onClick={() => showToast("Theme set to iGOT Dark Mode", "info")}
-            className="p-1.5 rounded-lg text-slate-300 hover:text-amber-300 hover:bg-[#162544] transition-colors cursor-pointer"
-            title="Theme Mode"
+            onClick={toggleTheme}
+            className="p-1.5 rounded-lg text-slate-300 hover:text-amber-300 hover:bg-[#162544] transition-all cursor-pointer flex items-center justify-center"
+            title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+            aria-label="Toggle Theme"
           >
-            <Sun className="w-4 h-4" />
+            {theme === 'dark' ? (
+              <Sun className="w-4 h-4 text-amber-300 hover:rotate-45 transition-transform" />
+            ) : (
+              <Moon className="w-4 h-4 text-blue-600 hover:-rotate-12 transition-transform" />
+            )}
           </button>
 
           {/* Notification Bell with 7+ Red Badge */}

@@ -55,9 +55,9 @@ export const AuthView = () => {
         <div className="relative z-10 space-y-8">
           {/* Header Title */}
           <div>
-            <p className="text-amber-300 font-semibold text-sm tracking-wide">Welcome to iGOT Karmayogi & GyanMitra</p>
+            <p className="text-amber-300 font-semibold text-sm tracking-wide">{t('authWelcome', 'Welcome to iGOT Karmayogi & GyanMitra')}</p>
             <h1 className="text-3xl lg:text-4xl font-extrabold tracking-tight mt-1">
-              How To <span className="border-b-4 border-amber-400 pb-0.5">Login</span>
+              {t('howToLogin', 'How To Login')}
             </h1>
           </div>
 
@@ -68,12 +68,12 @@ export const AuthView = () => {
             </div>
             <div className="space-y-2 text-xs lg:text-sm text-slate-100">
               <h3 className="font-bold text-white text-sm lg:text-base">
-                In case you face issues while logging in with your email ID
+                {t('emailIssueTitle', 'In case you face issues while logging in with your email ID')}
               </h3>
               <ul className="space-y-1.5 text-slate-200 list-disc list-inside text-xs leading-relaxed">
-                <li>Clear the browser cache</li>
-                <li>Open the browser's private window by pressing <strong className="text-white font-mono bg-white/10 px-1 py-0.5 rounded">Ctrl+Shift+N</strong></li>
-                <li>Login with mobile OTP after selecting the <span className="text-amber-300 font-semibold">'Log in with OTP'</span> option</li>
+                <li>{t('stepClearCache', 'Clear the browser cache')}</li>
+                <li>{t('stepPrivateWindow', "Open the browser's private window by pressing")} <strong className="text-white font-mono bg-white/10 px-1 py-0.5 rounded">Ctrl+Shift+N</strong></li>
+                <li>{t('stepOtpOption', "Login with mobile OTP after selecting the 'Log in with OTP' option")}</li>
               </ul>
             </div>
           </div>
@@ -85,14 +85,14 @@ export const AuthView = () => {
             </div>
             <div className="space-y-2 text-xs lg:text-sm text-slate-100">
               <h3 className="font-bold text-white text-sm lg:text-base">
-                In case you face issues while logging in with Parichay
+                {t('parichayIssueTitle', 'In case you face issues while logging in with Parichay')}
               </h3>
               <ul className="space-y-1.5 text-slate-200 list-disc list-inside text-xs leading-relaxed">
-                <li>Log out from all open Parichay websites/tabs</li>
-                <li>Clear the browser cache</li>
-                <li>Open the browser's private window by pressing <strong className="text-white font-mono bg-white/10 px-1 py-0.5 rounded">Ctrl+Shift+N</strong></li>
-                <li>Login to the iGOT Karmayogi portal with Parichay credentials and enter OTP</li>
-                <li>Tick both the Mobile Number and Primary Email to continue</li>
+                <li>{t('stepLogoutParichay', 'Log out from all open Parichay websites/tabs')}</li>
+                <li>{t('stepClearCache', 'Clear the browser cache')}</li>
+                <li>{t('stepPrivateWindow', "Open the browser's private window by pressing")} <strong className="text-white font-mono bg-white/10 px-1 py-0.5 rounded">Ctrl+Shift+N</strong></li>
+                <li>{t('stepParichayCredentials', 'Login to the iGOT Karmayogi portal with Parichay credentials and enter OTP')}</li>
+                <li>{t('stepTickBoth', 'Tick both the Mobile Number and Primary Email to continue')}</li>
               </ul>
             </div>
           </div>
@@ -102,7 +102,7 @@ export const AuthView = () => {
         <div className="relative z-10 pt-8 mt-8 border-t border-white/15 flex items-center justify-between text-[11px] text-slate-300">
           <div className="flex items-center space-x-2">
             <Shield className="w-4 h-4 text-emerald-400" />
-            <span>Ministry of Statistics & Programme Implementation (MoSPI)</span>
+            <span>{t('mospiMinistry', 'Ministry of Statistics & Programme Implementation (MoSPI)')}</span>
           </div>
           <span className="font-mono text-amber-300">NPCSCB 2026</span>
         </div>
@@ -144,7 +144,7 @@ export const AuthView = () => {
           <button
             onClick={() => showToast("Helpdesk: helpdesk-igot@gov.in | MoSPI Toll-Free 1800-111-2026", "info")}
             className="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center justify-center font-bold text-sm cursor-pointer transition-colors"
-            title="Help"
+            title={t('helpDesk', 'Help')}
           >
             ?
           </button>
@@ -171,7 +171,7 @@ export const AuthView = () => {
               </div>
             </div>
             <div className="inline-block px-3 py-0.5 rounded-full bg-blue-50 border border-blue-200 text-[#1B365D] text-xs font-bold">
-              GyanMitra • Official Statistical System Wing
+              {t('gyanmitraWing', 'GyanMitra • Official Statistical System Wing')}
             </div>
           </div>
 
@@ -187,7 +187,7 @@ export const AuthView = () => {
               }`}
             >
               <User className="w-3.5 h-3.5 text-blue-600" />
-              <span className="truncate">Officer / Learner</span>
+              <span className="truncate">{t('officerLearner', 'Officer / Learner')}</span>
             </button>
 
             <button
@@ -200,7 +200,7 @@ export const AuthView = () => {
               }`}
             >
               <GraduationCap className="w-3.5 h-3.5 text-emerald-600" />
-              <span className="truncate">NSSTA Faculty</span>
+              <span className="truncate">{t('nsstaFaculty', 'NSSTA Faculty')}</span>
             </button>
           </div>
 
@@ -216,7 +216,7 @@ export const AuthView = () => {
                     onChange={() => setLoginMethod('password')}
                     className="text-[#2087d8] focus:ring-[#2087d8] w-4 h-4"
                   />
-                  <span>Login with password</span>
+                  <span>{t('loginWithPassword', 'Login with password')}</span>
                 </label>
                 <label className="flex items-center space-x-2 cursor-pointer">
                   <input
@@ -226,14 +226,14 @@ export const AuthView = () => {
                     onChange={() => setLoginMethod('otp')}
                     className="text-[#2087d8] focus:ring-[#2087d8] w-4 h-4"
                   />
-                  <span>Login with OTP</span>
+                  <span>{t('loginWithOtp', 'Login with OTP')}</span>
                 </label>
               </div>
 
               {/* Email field */}
               <div>
                 <label className="block text-xs font-semibold text-slate-700 mb-1">
-                  Email
+                  {t('emailLabel', 'Email')}
                 </label>
                 <input
                   type="text"
@@ -250,14 +250,14 @@ export const AuthView = () => {
                 <div>
                   <div className="flex items-center justify-between mb-1">
                     <label className="text-xs font-semibold text-slate-700">
-                      Password
+                      {t('passwordLabel', 'Password')}
                     </label>
                     <a
                       href="#"
                       onClick={(e) => { e.preventDefault(); showToast("Password reset link sent to official email.", "info"); }}
                       className="text-xs text-[#2087d8] hover:underline font-semibold"
                     >
-                      Forgot Password?
+                      {t('forgotPassword', 'Forgot Password?')}
                     </a>
                   </div>
                   <input
@@ -271,12 +271,12 @@ export const AuthView = () => {
               ) : (
                 <div>
                   <label className="block text-xs font-semibold text-slate-700 mb-1">
-                    Mobile / Email OTP
+                    {t('mobileEmailOtp', 'Mobile / Email OTP')}
                   </label>
                   <input
                     type="text"
                     defaultValue="849201"
-                    placeholder="Enter 6-digit OTP"
+                    placeholder={t('enterOtpPlaceholder', 'Enter 6-digit OTP')}
                     className="w-full px-3.5 py-2 text-xs bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2087d8] font-mono tracking-widest"
                   />
                 </div>
@@ -293,7 +293,7 @@ export const AuthView = () => {
                   ) : (
                     <Square className="w-5 h-5 text-slate-400" />
                   )}
-                  <span className="text-xs text-slate-700 font-medium">I'm not a robot</span>
+                  <span className="text-xs text-slate-700 font-medium">{t('notRobot', "I'm not a robot")}</span>
                 </label>
 
                 <div className="text-right">
@@ -309,39 +309,39 @@ export const AuthView = () => {
                 type="submit"
                 className="w-full py-2.5 px-4 bg-[#2087d8] hover:bg-[#1a74ba] text-white text-sm font-bold rounded-lg shadow-sm transition-all flex items-center justify-center space-x-2 cursor-pointer"
               >
-                <span>Login</span>
+                <span>{t('loginBtn', 'Login')}</span>
               </button>
 
               {/* Divider */}
               <div className="relative flex py-1 items-center">
                 <div className="flex-grow border-t border-slate-200"></div>
-                <span className="flex-shrink mx-3 text-xs text-slate-400 font-medium">or</span>
+                <span className="flex-shrink mx-3 text-xs text-slate-400 font-medium">{t('orDivider', 'or')}</span>
                 <div className="flex-grow border-t border-slate-200"></div>
               </div>
 
               {/* Jan Parichay SSO Login */}
               <div className="space-y-1.5">
-                <p className="text-xs font-semibold text-slate-600 text-center">Login with Providers</p>
+                <p className="text-xs font-semibold text-slate-600 text-center">{t('loginWithProviders', 'Login with Providers')}</p>
                 <button
                   type="button"
                   onClick={handleSsoLogin}
                   className="w-full py-2.5 px-4 bg-[#1B365D] hover:bg-[#142947] text-white text-xs font-bold rounded-lg shadow-sm transition-colors flex items-center justify-center space-x-2 cursor-pointer"
                 >
                   <Shield className="w-4 h-4 text-amber-400" />
-                  <span>Select Provider (Jan Parichay SSO)</span>
+                  <span>{t('selectJanParichay', 'Select Provider (Jan Parichay SSO)')}</span>
                 </button>
               </div>
             </form>
 
             {/* Footer Notice */}
             <div className="pt-2 text-center text-[11px] text-slate-400">
-              <span>Powered by iGOT Karmayogi Bharat Framework & MoSPI</span>
+              <span>{t('poweredByGov', 'Powered by iGOT Karmayogi Bharat Framework & MoSPI')}</span>
             </div>
           </div>
 
         {/* Right Footer */}
         <div className="text-center text-[11px] text-slate-400 border-t border-slate-100 pt-3">
-          © 2026 Karmayogi Bharat & Ministry of Statistics & Programme Implementation (MoSPI).
+          {t('copyrightNotice', '© 2026 Karmayogi Bharat & Ministry of Statistics & Programme Implementation (MoSPI).')}
         </div>
       </div>
     </div>
