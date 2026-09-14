@@ -263,7 +263,7 @@ export const AppProvider = ({ children }) => {
       } else {
         setShowInitialAssessmentModal(false);
       }
-      showToast(`Welcome ${finalProfile.name}! Logged into iGOT Karmayogi Bharat.`, "success");
+      showToast(`Welcome ${finalProfile.name}! Logged into GyanMitra.`, "success");
     }
   };
 

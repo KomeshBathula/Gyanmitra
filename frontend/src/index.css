@@ -206,7 +206,16 @@ html.light .bg-\[\#2563EB\],
 html.light .bg-\[\#E11D48\],
 html.light .bg-\[\#059669\],
 html.light .bg-\[\#FF9933\],
-html.light [class*="bg-gradient-to"] {
+html.light .bg-\[\#1B365D\],
+html.light .bg-\[\#264092\],
+html.light .bg-\[\#124B88\],
+html.light .bg-\[\#1963B5\],
+html.light .bg-\[\#15284F\],
+html.light .bg-\[\#2087d8\],
+html.light [class*="bg-gradient-to"],
+html.light button.bg-\[\#1B365D\],
+html.light button.bg-\[\#124B88\],
+html.light button.bg-blue-600 {
   color: #FFFFFF !important;
 }
 
@@ -226,6 +235,12 @@ html.light .bg-\[\#2563EB\] *,
 html.light .bg-\[\#E11D48\] *,
 html.light .bg-\[\#059669\] *,
 html.light .bg-\[\#FF9933\] *,
+html.light .bg-\[\#1B365D\] *,
+html.light .bg-\[\#264092\] *,
+html.light .bg-\[\#124B88\] *,
+html.light .bg-\[\#1963B5\] *,
+html.light .bg-\[\#15284F\] *,
+html.light .bg-\[\#2087d8\] *,
 html.light [class*="bg-gradient-to"] * {
   color: inherit !important;
 }

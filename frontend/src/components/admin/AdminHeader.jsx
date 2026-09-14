@@ -88,15 +88,15 @@ export const AdminHeader = () => {
               </div>
               <div className="flex flex-col">
                 <div className="flex items-center space-x-1.5">
-                  <span className="text-[#FF9933] font-black text-sm tracking-tight leading-none font-serif">
-                    कर्मयोगी भारत
+                  <span className="text-[#FF9933] font-black text-sm sm:text-base tracking-tight leading-none font-sans font-bold">
+                    GyanMitra (ज्ञानमित्र)
                   </span>
                   <span className="px-1.5 py-0.2 rounded text-[9px] font-bold bg-blue-900/60 text-blue-300 border border-blue-600/40">
                     ADMIN
                   </span>
                 </div>
                 <span className="text-[10px] text-slate-400 font-sans tracking-wide">
-                  GyanMitra Governance
+                  Governance & Workforce Intelligence
                 </span>
               </div>
             </div>

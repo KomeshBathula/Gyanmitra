@@ -55,7 +55,7 @@ export const AuthView = () => {
         <div className="relative z-10 space-y-8">
           {/* Header Title */}
           <div>
-            <p className="text-amber-300 font-semibold text-sm tracking-wide">{t('authWelcome', 'Welcome to iGOT Karmayogi & GyanMitra')}</p>
+            <p className="text-amber-300 font-semibold text-sm tracking-wide">{t('authWelcome', 'Welcome to GyanMitra')}</p>
             <h1 className="text-3xl lg:text-4xl font-extrabold tracking-tight mt-1">
               {t('howToLogin', 'How To Login')}
             </h1>
@@ -152,21 +152,21 @@ export const AuthView = () => {
 
         {/* Center Auth Form */}
         <div className="max-w-md w-full mx-auto my-6 space-y-6">
-          {/* Karmayogi Bharat Official Logo & Tagline */}
+          {/* GyanMitra Official Logo & Tagline */}
           <div className="text-center space-y-1">
             <div className="inline-flex items-center justify-center space-x-3 mb-2">
               <div className="w-12 h-12 rounded-2xl bg-[#1B365D] flex items-center justify-center text-white shadow-md border border-blue-900">
                 <div className="text-center leading-none">
-                  <span className="text-[#FF9933] text-sm block font-serif font-black">iGOT</span>
-                  <span className="text-white text-[9px] font-sans tracking-widest uppercase font-bold">Bharat</span>
+                  <span className="text-[#FF9933] text-xs block font-sans font-black tracking-tight">ज्ञान</span>
+                  <span className="text-white text-[9px] font-sans tracking-widest uppercase font-bold">Mitra</span>
                 </div>
               </div>
               <div className="text-left">
                 <h2 className="text-2xl font-black text-[#1B365D] tracking-tight">
-                  कर्मयोगी भारत
+                  GyanMitra (ज्ञानमित्र)
                 </h2>
                 <p className="text-[11px] font-serif text-slate-500 tracking-wider">
-                  — लोकहितं मम करणीयम् —
+                  — National Capacity Building Platform —
                 </p>
               </div>
             </div>
@@ -335,13 +335,13 @@ export const AuthView = () => {
 
             {/* Footer Notice */}
             <div className="pt-2 text-center text-[11px] text-slate-400">
-              <span>{t('poweredByGov', 'Powered by iGOT Karmayogi Bharat Framework & MoSPI')}</span>
+              <span>{t('poweredByGov', 'Powered by GyanMitra Platform & MoSPI')}</span>
             </div>
           </div>
 
         {/* Right Footer */}
         <div className="text-center text-[11px] text-slate-400 border-t border-slate-100 pt-3">
-          {t('copyrightNotice', '© 2026 Karmayogi Bharat & Ministry of Statistics & Programme Implementation (MoSPI).')}
+          {t('copyrightNotice', '© 2026 GyanMitra • Ministry of Statistics & Programme Implementation (MoSPI).')}
         </div>
       </div>
     </div>

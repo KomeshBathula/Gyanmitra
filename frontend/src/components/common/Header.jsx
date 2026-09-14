@@ -67,11 +67,11 @@ export const Header = () => {
                 </svg>
               </div>
               <div className="flex flex-col">
-                <span className="text-[#FF9933] font-black text-sm tracking-tight leading-none font-serif">
-                  कर्मयोगी भारत
+                <span className="text-[#FF9933] font-black text-sm sm:text-base tracking-tight leading-none font-sans font-bold">
+                  GyanMitra (ज्ञानमित्र)
                 </span>
                 <span className="text-[10px] text-slate-400 font-sans tracking-wide">
-                  GyanMitra MoSPI
+                  Skill Intelligence Platform • MoSPI
                 </span>
               </div>
             </div>
@@ -106,7 +106,7 @@ export const Header = () => {
                   setCurrentScreen('courses');
                 }
               }}
-              className="absolute right-1 top-1/2 -translate-y-1/2 px-3 py-1 text-xs font-semibold bg-[#124B88] hover:bg-[#1963B5] text-slate-100 rounded-full transition-colors cursor-pointer"
+              className="absolute right-1 top-1/2 -translate-y-1/2 px-3 py-1 text-xs font-bold bg-[#1B365D] hover:bg-[#264092] text-white rounded-full transition-colors cursor-pointer shadow-xs"
             >
               Search
             </button>

@@ -132,7 +132,7 @@ export default function App() {
           <footer className="mt-12 pt-6 pb-4 border-t border-[#1E2E4A] text-xs text-slate-400 max-w-7xl mx-auto w-full">
             <div className="flex flex-col md:flex-row items-center justify-between gap-4">
               <div className="flex items-center space-x-2 text-slate-400">
-                <span className="font-bold text-white">कर्मयोगी भारत • GyanMitra</span>
+                <span className="font-bold text-white">GyanMitra (ज्ञानमित्र)</span>
                 <span>•</span>
                 <span>Ministry of Statistics & Programme Implementation (MoSPI)</span>
               </div>
@@ -151,11 +151,11 @@ export default function App() {
         </main>
       </div>
 
-      {/* Floating iGOT AI Assistant Mascot Button */}
+      {/* Floating GyanMitra AI Assistant Mascot Button */}
       <button
         onClick={() => setIsAiDrawerOpen(true)}
         className="fixed bottom-6 right-6 z-40 w-14 h-14 rounded-full bg-[#1D4ED8] hover:bg-[#2563EB] text-white shadow-2xl hover:scale-105 transition-all flex items-center justify-center border-2 border-white/80 cursor-pointer group"
-        title="Ask iGOT AI Assistant"
+        title="Ask GyanMitra AI Assistant"
       >
         <div className="relative flex items-center justify-center">
           <Bot className="w-7 h-7 text-white group-hover:rotate-6 transition-transform" />
