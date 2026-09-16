@@ -15,7 +15,8 @@ import {
   ChevronDown,
   ChevronUp,
   GraduationCap,
-  Users
+  Users,
+  Layers
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 
@@ -45,6 +46,7 @@ export const Sidebar = () => {
 
   const employeePrimaryNavItems = [
     { id: 'dashboard', label: 'User Dashboard', icon: Home },
+    { id: 'skill-gaps', label: 'Skill Gap Matrix', icon: Layers },
     { id: 'assessment', label: 'Competency Assessment', icon: Award },
     { id: 'learning-path', label: 'Learning Path & Recommendations', icon: BookOpen },
     { id: 'progress', label: 'Progress Tracking', icon: Clock }

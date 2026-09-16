@@ -45,6 +45,12 @@ app.get('/api/health', (req, res) => {
 // Mount Phase 1 Routers
 app.use('/api/auth', authRoutes);
 app.use('/api/competencies', competencyRoutes);
+app.use('/api/skill-gaps', (req, res, next) => {
+  if (req.path === '/' || req.path === '') {
+    req.url = '/gaps';
+  }
+  next();
+}, competencyRoutes);
 app.use('/api/courses', courseRoutes);
 app.use('/api/assessment', assessmentRoutes);
 app.use('/api/assessments', assessmentRoutes);
