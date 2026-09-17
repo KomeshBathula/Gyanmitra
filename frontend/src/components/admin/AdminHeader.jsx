@@ -48,7 +48,7 @@ export const AdminHeader = () => {
   const [searchQuery, setSearchQuery] = useState('');
 
   const activeDeptConfig = adminDepartmentsConfig?.find(d => d.id === adminDepartment) || adminDepartmentsConfig?.[0];
-  const unreadCount = notifications.filter(n => !n.read).length;
+  const unreadCount = notifications?.filter(n => !n.read)?.length || 0;
 
   const getInitials = (name) => {
     if (!name) return 'AD';
@@ -264,7 +264,7 @@ export const AdminHeader = () => {
                     </button>
                   </div>
                   <div className="max-h-80 overflow-y-auto divide-y divide-[#1E3A6D]">
-                    {notifications.slice(0, 4).map((n) => (
+                    {(notifications || []).slice(0, 4).map((n) => (
                       <div
                         key={n.id}
                         onClick={() => {
@@ -305,14 +305,14 @@ export const AdminHeader = () => {
                 <div className="fixed inset-0 z-40" onClick={() => setIsProfileDropdownOpen(false)}></div>
                 <div className="absolute right-0 mt-2 w-64 bg-[#111F38] text-slate-200 rounded-2xl shadow-2xl border border-[#1E3A6D] py-2 z-50 animate-in fade-in">
                   <div className="px-4 py-3 border-b border-[#1E3A6D] bg-[#0A1324] rounded-t-2xl">
-                    <p className="text-xs font-bold text-white">{userProfile?.name}</p>
-                    <p className="text-[11px] text-slate-400">{userProfile?.email}</p>
+                    <p className="text-xs font-bold text-white">{userProfile?.name || 'Admin Officer'}</p>
+                    <p className="text-[11px] text-slate-400">{userProfile?.email || 'admin@mospi.gov.in'}</p>
                     <div className="mt-2 flex items-center justify-between">
                       <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-blue-900/60 text-blue-200 border border-blue-700">
                         {userProfile?.adminType || 'Cadre Director'}
                       </span>
                       <span className="text-[10px] text-emerald-400 font-bold">
-                        {activeDeptConfig?.name.split('&')[0]}
+                        {activeDeptConfig?.name?.split('&')?.[0] || 'Cadre'}
                       </span>
                     </div>
                   </div>

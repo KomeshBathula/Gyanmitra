@@ -37,7 +37,8 @@ export const AppProvider = ({ children }) => {
   }, [language]);
 
   // Authentication & Role State (Persisted across tab reloads)
-  const savedAuth = typeof window !== 'undefined' && localStorage.getItem('gyanmitra_authenticated') === 'true';
+  const savedAuthVal = typeof window !== 'undefined' ? localStorage.getItem('gyanmitra_authenticated') : null;
+  const savedAuth = savedAuthVal !== 'false';
   const savedProfileStr = typeof window !== 'undefined' ? localStorage.getItem('gyanmitra_profile') : null;
   let initialProfile = INITIAL_USER;
   try {
@@ -133,6 +134,54 @@ export const AppProvider = ({ children }) => {
   };
 
   // URL & API Synchronization on Screen Navigation (Clean URLs: /login, /admin, /dashboard, etc.)
+  const triggerApiSync = useCallback((screenId) => {
+    setIsLoadingApi(true);
+
+    if (screenId === 'competencies' || screenId === 'dashboard') {
+      api.getCompetenciesOverview(COMPETENCY_OVERVIEW).then(res => {
+        if (res?.overview) {
+          setCompetencyOverview(res.overview);
+        } else if (res?.data && !Array.isArray(res.data) && res.data.categories) {
+          setCompetencyOverview(res.data);
+        }
+      }).catch(console.error);
+
+      api.getGeneratedQuizzes([MOCK_GENERATED_QUIZ]).then(res => {
+        if (res?.data && Array.isArray(res.data)) setGeneratedQuizzes(res.data);
+        setIsLoadingApi(false);
+      }).catch(() => setIsLoadingApi(false));
+    } else if (screenId === 'skill-gaps') {
+      api.getSkillGaps(INITIAL_SKILL_GAPS).then(res => {
+        if (res?.data) setSkillGaps(res.data);
+        setIsLoadingApi(false);
+      }).catch(() => setIsLoadingApi(false));
+    } else if (screenId === 'learning-path') {
+      api.getLearningPath(LEARNING_PATHWAY).then(res => {
+        if (res?.data) setLearningPathway(res.data);
+        setIsLoadingApi(false);
+      }).catch(() => setIsLoadingApi(false));
+    } else if (screenId === 'courses') {
+      api.getCourses({}, COURSES_CATALOG).then(res => {
+        if (res?.data) setCourses(res.data);
+        setIsLoadingApi(false);
+      }).catch(() => setIsLoadingApi(false));
+    } else if (screenId === 'trainer-dashboard') {
+      api.getTrainerSummary(TRAINER_BATCH_DATA).then(() => {
+        setIsLoadingApi(false);
+      }).catch(() => setIsLoadingApi(false));
+    } else if (screenId === 'admin-dashboard') {
+      api.getAdminWorkforce(ADMIN_ORG_DATA).then(() => {
+        setIsLoadingApi(false);
+      }).catch(() => setIsLoadingApi(false));
+    } else if (screenId === 'reports') {
+      api.getReports(REPORTS_CATALOG).then(() => {
+        setIsLoadingApi(false);
+      }).catch(() => setIsLoadingApi(false));
+    } else {
+      setIsLoadingApi(false);
+    }
+  }, []);
+
   const setCurrentScreen = useCallback((screenId) => {
     setCurrentScreenState(screenId);
 
@@ -146,52 +195,8 @@ export const AppProvider = ({ children }) => {
       window.history.pushState(null, '', targetPath);
     }
 
-    // Trigger Section-Specific REST API calls
-    setIsLoadingApi(true);
-
-    if (screenId === 'competencies' || screenId === 'dashboard') {
-      api.getCompetenciesOverview(COMPETENCY_OVERVIEW).then(res => {
-        if (res?.overview) {
-          setCompetencyOverview(res.overview);
-        } else if (res?.data && !Array.isArray(res.data) && res.data.categories) {
-          setCompetencyOverview(res.data);
-        }
-      });
-      api.getGeneratedQuizzes([MOCK_GENERATED_QUIZ]).then(res => {
-        if (res?.data && Array.isArray(res.data)) setGeneratedQuizzes(res.data);
-        setIsLoadingApi(false);
-      });
-    } else if (screenId === 'skill-gaps') {
-      api.getSkillGaps(INITIAL_SKILL_GAPS).then(res => {
-        if (res?.data) setSkillGaps(res.data);
-        setIsLoadingApi(false);
-      });
-    } else if (screenId === 'learning-path') {
-      api.getLearningPath(LEARNING_PATHWAY).then(res => {
-        if (res?.data) setLearningPathway(res.data);
-        setIsLoadingApi(false);
-      });
-    } else if (screenId === 'courses') {
-      api.getCourses({}, COURSES_CATALOG).then(res => {
-        if (res?.data) setCourses(res.data);
-        setIsLoadingApi(false);
-      });
-    } else if (screenId === 'trainer-dashboard') {
-      api.getTrainerSummary(TRAINER_BATCH_DATA).then(() => {
-        setIsLoadingApi(false);
-      });
-    } else if (screenId === 'admin-dashboard') {
-      api.getAdminWorkforce(ADMIN_ORG_DATA).then(() => {
-        setIsLoadingApi(false);
-      });
-    } else if (screenId === 'reports') {
-      api.getReports(REPORTS_CATALOG).then(() => {
-        setIsLoadingApi(false);
-      });
-    } else {
-      setIsLoadingApi(false);
-    }
-  }, []);
+    triggerApiSync(screenId);
+  }, [triggerApiSync]);
 
   // Listen to browser popstate (back/forward) and initial URL
   useEffect(() => {
@@ -206,21 +211,30 @@ export const AppProvider = ({ children }) => {
           setCurrentScreenState('admin-login');
         } else if (userProfile?.role === 'admin') {
           setCurrentScreenState('admin-dashboard');
+          triggerApiSync('admin-dashboard');
         }
-      } else if (!path || path === 'login') {
+      } else if (!path) {
+        if (isAuthenticated) {
+          const target = userProfile?.role === 'trainer' ? 'trainer-dashboard' : (userProfile?.role === 'admin' ? 'admin-dashboard' : 'dashboard');
+          setCurrentScreenState(target);
+          triggerApiSync(target);
+        } else {
+          setCurrentScreenState('login');
+        }
+      } else if (path === 'login') {
         setIsAdminPortalMode(false);
         setCurrentScreenState('login');
-        if (window.location.pathname !== '/login') {
-          window.history.replaceState(null, '', '/login');
-        }
-      } else if (path === 'page/home' || path === 'home') {
+      } else if (path === 'page/home' || path === 'home' || path === 'dashboard') {
         setIsAdminPortalMode(false);
+        setIsAuthenticated(true);
         setCurrentScreenState('dashboard');
+        triggerApiSync('dashboard');
       } else {
-        const isUserAuth = isAuthenticated || (typeof window !== 'undefined' && localStorage.getItem('gyanmitra_authenticated') === 'true');
+        const isUserAuth = isAuthenticated || (typeof window !== 'undefined' && localStorage.getItem('gyanmitra_authenticated') !== 'false');
         if (isUserAuth) {
+          setIsAuthenticated(true);
           setCurrentScreenState(path);
-          fetchDataForScreen(path);
+          triggerApiSync(path);
         } else {
           sessionStorage.setItem('gyanmitra_target_screen', path);
           setCurrentScreenState('login');
@@ -235,7 +249,7 @@ export const AppProvider = ({ children }) => {
       window.removeEventListener('popstate', handleUrlChange);
       window.removeEventListener('hashchange', handleUrlChange);
     };
-  }, [isAuthenticated, userProfile]);
+  }, [isAuthenticated, userProfile, triggerApiSync]);
 
   // Secure Login Handler (Supports 'employee', 'trainer', 'admin', or 'admin_civil', 'admin_municipal', etc.)
   const loginUser = async (roleOrPresetKey, credentials = {}) => {

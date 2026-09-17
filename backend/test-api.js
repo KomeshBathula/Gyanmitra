@@ -187,6 +187,16 @@ async function runTests() {
     }
   });
 
+  // 11c. Skill Gaps Route Alias
+  await assertTest('GET /api/skill-gaps - Returns prioritized skill gaps via alias route', async () => {
+    const res = await fetch(`${baseUrl}/api/skill-gaps`);
+    if (res.status !== 200) throw new Error(`Expected 200, got ${res.status}`);
+    const json = await res.json();
+    if (!json.success || !json.data.gaps || json.data.gaps.length === 0) {
+      throw new Error('Skill gaps alias response invalid');
+    }
+  });
+
   // 12. Personalized Recommendations
   await assertTest('GET /api/competencies/recommendations - Recommends courses matching gaps', async () => {
     const res = await fetch(`${baseUrl}/api/competencies/recommendations`);

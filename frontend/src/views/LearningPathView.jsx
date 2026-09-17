@@ -11,6 +11,11 @@ import {
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { api } from '../services/api';
+import {
+  MY_LEARNING_INPROGRESS,
+  MY_LEARNING_COMPLETED,
+  MY_LEARNING_UNENROLLED
+} from '../data/mockData';
 
 export const LearningPathView = () => {
   const {
@@ -27,15 +32,32 @@ export const LearningPathView = () => {
   const [inprogressList, setInprogressList] = useState([]);
   const [completedList, setCompletedList] = useState([]);
   const [unenrolledList, setUnenrolledList] = useState([]);
+  const [inprogressList, setInprogressList] = useState(MY_LEARNING_INPROGRESS);
+  const [completedList, setCompletedList] = useState(MY_LEARNING_COMPLETED);
+  const [unenrolledList, setUnenrolledList] = useState(MY_LEARNING_UNENROLLED);
   const [isLoading, setIsLoading] = useState(false);
 
   // Load My Learning datasets from backend Express API
+  // Load My Learning datasets from backend Express API with instant fallback
   const loadMyLearningData = () => {
     setIsLoading(true);
     api.getMyLearning().then(res => {
       if (res?.inprogress) setInprogressList(res.inprogress);
       if (res?.completed) setCompletedList(res.completed);
       if (res?.unenrolled) setUnenrolledList(res.unenrolled);
+    api.getMyLearning('', {
+      inprogress: MY_LEARNING_INPROGRESS,
+      completed: MY_LEARNING_COMPLETED,
+      unenrolled: MY_LEARNING_UNENROLLED
+    }).then(res => {
+      const inprog = res?.inprogress || res?.data?.inprogress;
+      const compl = res?.completed || res?.data?.completed;
+      const unenr = res?.unenrolled || res?.data?.unenrolled;
+      if (inprog && inprog.length > 0) setInprogressList(inprog);
+      if (compl && compl.length > 0) setCompletedList(compl);
+      if (unenr && unenr.length > 0) setUnenrolledList(unenr);
+      setIsLoading(false);
+    }).catch(() => {
       setIsLoading(false);
     });
   };
@@ -151,6 +173,23 @@ export const LearningPathView = () => {
       {activeTab === 'contents' ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pt-2">
           {currentList.map((course) => (
+        currentList.length === 0 ? (
+          <div className="bg-[#0B1528] rounded-3xl border border-[#1E2E4A] p-12 text-center space-y-4">
+            <BookOpen className="w-12 h-12 text-slate-500 mx-auto" />
+            <h3 className="text-base font-bold text-white">No courses in this section yet</h3>
+            <p className="text-xs text-slate-400 max-w-sm mx-auto">
+              Explore the courses catalog or MoSPI marketplace to enroll in new competency training programs.
+            </p>
+            <button
+              onClick={() => setCurrentScreen('courses')}
+              className="px-5 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold transition-all shadow-md cursor-pointer"
+            >
+              Browse Course Catalog
+            </button>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pt-2">
+            {currentList.map((course) => (
             <div
               key={course.id}
               className="bg-[#0B1528] rounded-3xl border border-[#1E2E4A] overflow-hidden hover:border-blue-500 hover:shadow-2xl transition-all duration-200 flex flex-col justify-between group"
@@ -314,6 +353,7 @@ export const LearningPathView = () => {
             </div>
           ))}
         </div>
+        )
       ) : (
         /* Events View */
         <div className="bg-[#0B1528] rounded-3xl border border-[#1E2E4A] p-8 text-center space-y-4">

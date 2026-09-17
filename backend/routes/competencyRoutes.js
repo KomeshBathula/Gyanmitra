@@ -36,7 +36,7 @@ router.get('/list', async (req, res, next) => {
 });
 
 // GET /api/competencies/skill-gaps & /api/competencies/gaps
-const handleSkillGaps = async (req, res, next) => {
+export const handleSkillGaps = async (req, res, next) => {
   try {
     const gaps = await skillGapService.getUserSkillGaps(req.user?._id);
     return res.json({

@@ -1202,3 +1202,261 @@ export const ADMIN_ASSESSMENTS_AUDIT_DATA = {
   ]
 };
 
+export const MY_LEARNING_INPROGRESS = [
+  {
+    id: "ml-1",
+    courseId: "IGOT-POST-2023-01",
+    title: "POST OFFICE ACT 2023",
+    provider: "RAKNPA",
+    type: "Course",
+    level: "Intermediate",
+    difficulty: "Intermediate",
+    duration: "24m 16s",
+    progress: 62,
+    isRetired: true,
+    status: "inprogress",
+    bgGradient: "from-slate-700 via-slate-800 to-slate-900",
+    thumbnailText: "POST OFFICE ACT 2023",
+    thumbnailSub: "RAK National Postal Academy",
+    syllabus: [
+      "Module 1: Overview and Objectives of Post Office Act 2023",
+      "Module 2: Key Amendments over the Indian Post Office Act 1898",
+      "Module 3: Powers of Interception, Security & Customs Regulations",
+      "Module 4: Grievance Redressal and Digital Services Integration"
+    ]
+  },
+  {
+    id: "ml-2",
+    courseId: "IGOT-POST-2023-02",
+    title: "ePost office",
+    provider: "Department of Posts",
+    type: "Course",
+    level: "Beginner",
+    difficulty: "Beginner",
+    duration: "41m 12s",
+    progress: 70,
+    isRetired: false,
+    status: "inprogress",
+    bgGradient: "from-amber-800 via-orange-900 to-amber-950",
+    thumbnailText: "ePost office",
+    thumbnailSub: "Department of Posts Portal",
+    syllabus: [
+      "Module 1: Digital Portal Infrastructure & Service Architecture",
+      "Module 2: Electronic Money Order & Instant Money Order Booking",
+      "Module 3: Postal Life Insurance (PLI/RPLI) Online Renewal",
+      "Module 4: Customer Helpdesk and Digital Tracking Protocols"
+    ]
+  },
+  {
+    id: "ml-3",
+    courseId: "IGOT-POST-2023-03",
+    title: "Customer Relationship Management in India Post",
+    provider: "Department of Posts",
+    type: "Course",
+    level: "Beginner",
+    difficulty: "Beginner",
+    duration: "42m 29s",
+    progress: 71,
+    isRetired: false,
+    status: "inprogress",
+    bgGradient: "from-teal-800 via-emerald-900 to-teal-950",
+    thumbnailText: "CRM in India Post",
+    thumbnailSub: "Citizen Centric Delivery",
+    syllabus: [
+      "Module 1: Principles of Citizen-Centric Public Service Delivery",
+      "Module 2: CRM Software Navigation and Ticket Management",
+      "Module 3: Handling Public Queries, Escalations and TAT SLAs",
+      "Module 4: Feedback Loops and Citizen Satisfaction Metrics"
+    ]
+  },
+  {
+    id: "ml-4",
+    courseId: "IGOT-POST-2023-04",
+    title: "Awareness on Marketing Concepts",
+    provider: "Department of Posts",
+    type: "Course",
+    level: "Beginner",
+    difficulty: "Beginner",
+    duration: "24m 32s",
+    progress: 62,
+    isRetired: false,
+    status: "inprogress",
+    bgGradient: "from-yellow-700 via-amber-800 to-yellow-950",
+    thumbnailText: "Awareness on Marketing Concepts",
+    thumbnailSub: "Department of Posts",
+    syllabus: [
+      "Module 1: Fundamental Marketing Concepts for Public Undertakings",
+      "Module 2: Product Segmentation: Speed Post, Parcel & Retail",
+      "Module 3: Branding, Promotional Campaigns & Public Reach",
+      "Module 4: B2B vs B2C Government Service Positioning"
+    ]
+  },
+  {
+    id: "ml-5",
+    courseId: "IGOT-AUDIT-2023-05",
+    title: "Disciplinary Proceedings in Government",
+    provider: "National Academy of Audit & Accounts",
+    type: "Course",
+    level: "Intermediate",
+    difficulty: "Intermediate",
+    duration: "3h 57m",
+    progress: 10,
+    isRetired: false,
+    status: "inprogress",
+    bgGradient: "from-slate-700 via-indigo-950 to-slate-900",
+    thumbnailText: "Disciplinary Proceedings in Government",
+    thumbnailSub: "Government of India Rules",
+    syllabus: [
+      "Module 1: Constitutional Provisions: Article 311 & Natural Justice",
+      "Module 2: Framing of Charge-Sheet under CCS (CCA) Rules 1965",
+      "Module 3: Inquiry Officer Duties & Examination of Evidence",
+      "Module 4: Imposition of Minor vs Major Penalties & Appeals"
+    ]
+  },
+  {
+    id: "ml-6",
+    courseId: "IGOT-STEEL-2023-06",
+    title: "Preventive Vigilance",
+    provider: "Steel Ministry of India",
+    type: "Course",
+    level: "Beginner",
+    difficulty: "Beginner",
+    duration: "1h 33m",
+    progress: 0,
+    isRetired: false,
+    status: "inprogress",
+    bgGradient: "from-blue-900 via-cyan-950 to-blue-950",
+    thumbnailText: "PREVENTIVE VIGILANCE",
+    thumbnailSub: "Ministry of Steel",
+    syllabus: [
+      "Module 1: Concepts and Importance of Preventive Vigilance",
+      "Module 2: Identification of Sensitive Posts & Rotation Policies",
+      "Module 3: Systemic Improvements, GeM Procurement & Audits",
+      "Module 4: Whistleblower Protection and Integrity Pacts"
+    ]
+  }
+];
+
+export const MY_LEARNING_COMPLETED = [
+  {
+    id: "ml-c-1",
+    courseId: "IGOT-POST-2023-01",
+    title: "Post Office Savings Bank (POSB) & IPPB Operations",
+    provider: "Rafi Ahmed Kidwai National Postal Academy (RAKNPA)",
+    type: "Course",
+    level: "Intermediate",
+    duration: "4h 30m",
+    progress: 100,
+    isRetired: false,
+    status: "completed",
+    bgGradient: "from-amber-900 via-slate-900 to-red-950",
+    thumbnailText: "POSB & IPPB Operations",
+    thumbnailSub: "RAK National Postal Academy",
+    completedOn: "28 Aug 2024",
+    syllabus: [
+      "Module 1: POSB Account Regulations & Core Banking (CBS) Procedures",
+      "Module 2: India Post Payments Bank (IPPB) AePS & Micro-ATM Transactions",
+      "Module 3: Direct Benefit Transfer (DBT) & KYC Verification Workflows",
+      "Module 4: Cash Limit Management, Counter Balancing & Fraud Safeguards"
+    ]
+  },
+  {
+    id: "ml-c-2",
+    courseId: "IGOT-CCS-1964-02",
+    title: "Code of Ethics and Conduct for Public Servants",
+    provider: "LBSNAA Mussoorie",
+    type: "Course",
+    level: "Beginner",
+    duration: "1h 45m",
+    progress: 100,
+    isRetired: false,
+    status: "completed",
+    bgGradient: "from-indigo-900 via-slate-900 to-blue-950",
+    thumbnailText: "Public Service Ethics",
+    thumbnailSub: "Mission Karmayogi Bharat",
+    completedOn: "14 Jul 2024",
+    syllabus: [
+      "Module 1: Principles of Public Service Integrity and Impartiality",
+      "Module 2: Prevention of Corruption & Conflict of Interest",
+      "Module 3: Citizen-Centric Service Delivery & Accountability",
+      "Module 4: Whistleblower Protection and Official Vigilance Protocols"
+    ]
+  },
+  {
+    id: "ml-c-3",
+    courseId: "NSSTA-STAT-78-03",
+    title: "MoSPI NSS 78th Round: Multiple Indicator Survey Methodology",
+    provider: "National Statistical Systems Training Academy (NSSTA)",
+    type: "Course",
+    level: "Intermediate",
+    duration: "3h 15m",
+    progress: 100,
+    isRetired: false,
+    status: "completed",
+    bgGradient: "from-purple-900 via-slate-900 to-emerald-950",
+    thumbnailText: "NSS 78th Round Survey",
+    thumbnailSub: "NSSTA Greater Noida",
+    completedOn: "12 May 2024",
+    syllabus: [
+      "Module 1: NSS Multi-stage Stratified Sampling Design",
+      "Module 2: CAPI (Computer-Assisted Personal Interviewing) Schedules",
+      "Module 3: Survey Data Scrubbing, Validation Rules and Error Flags",
+      "Module 4: State vs Central Sample Multiplier Application"
+    ]
+  },
+  {
+    id: "ml-c-4",
+    courseId: "MOSPI-NAD-2024-04",
+    title: "National Accounts Statistics: GDP Base Year Revision & SUT",
+    provider: "National Accounts Division (NAD) & MoSPI",
+    type: "Course",
+    level: "Advanced",
+    duration: "5h 00m",
+    progress: 100,
+    isRetired: false,
+    status: "completed",
+    bgGradient: "from-blue-950 via-slate-900 to-slate-950",
+    thumbnailText: "GDP & Supply-Use Tables",
+    thumbnailSub: "MoSPI National Accounts",
+    completedOn: "20 Feb 2024",
+    syllabus: [
+      "Module 1: SNA 2008 Guidelines & Indian National Accounts System",
+      "Module 2: Supply and Use Table (SUT) Commodity Balance Matrix",
+      "Module 3: Deflator Selection & Real vs Nominal GDP Estimation",
+      "Module 4: Quarterly GDP Flash Estimates & High-Frequency Indicators"
+    ]
+  }
+];
+
+export const MY_LEARNING_UNENROLLED = [
+  {
+    id: "ml-u-1",
+    title: "National Accounts Statistics: Supply and Use Tables",
+    provider: "Ministry of Statistics & Programme Implementation (MoSPI)",
+    type: "Blended Program",
+    level: "Advanced",
+    duration: "6h 15m",
+    progress: 0,
+    isRetired: false,
+    status: "unenrolled",
+    bgGradient: "from-purple-900 via-slate-900 to-indigo-950",
+    thumbnailText: "Supply & Use Tables",
+    thumbnailSub: "MoSPI National Accounts"
+  },
+  {
+    id: "ml-u-2",
+    title: "Survey Data Quality Assurance & CAPI Validation",
+    provider: "NSSTA Greater Noida",
+    type: "Course",
+    level: "Intermediate",
+    duration: "2h 45m",
+    progress: 0,
+    isRetired: false,
+    status: "unenrolled",
+    bgGradient: "from-teal-900 via-slate-900 to-emerald-950",
+    thumbnailText: "Survey Quality & CAPI",
+    thumbnailSub: "NSSTA Greater Noida"
+  }
+];
+
+
