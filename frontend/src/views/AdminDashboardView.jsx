@@ -2,7 +2,6 @@ import React from 'react';
 import {
   Shield,
   Building2,
-  Sparkles,
   TrendingUp,
   AlertTriangle,
   Users,
@@ -197,7 +196,7 @@ export const AdminDashboardView = () => {
             >
               <div>
                 <p className="text-xs font-bold text-white group-hover:text-blue-300">Upload Material & Generate Quiz</p>
-                <p className="text-[10px] text-slate-400 mt-0.5">Groq AI Powered Studio</p>
+                <p className="text-[10px] text-slate-400 mt-0.5">Curriculum & Assessment Studio</p>
               </div>
               <ArrowRight className="w-4 h-4 text-blue-400" />
             </button>

@@ -9,7 +9,6 @@ import {
   ArrowLeft,
   GraduationCap,
   Layers,
-  Sparkles,
   Save
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
@@ -329,7 +328,7 @@ export const ProfileWizardView = () => {
           <div className="space-y-4 animate-in fade-in">
             <div className="text-center py-4 space-y-2">
               <div className="w-12 h-12 bg-blue-50 text-gov-blue rounded-full mx-auto flex items-center justify-center border border-blue-200">
-                <Sparkles className="w-6 h-6 text-blue-600 animate-pulse" />
+                <Award className="w-6 h-6 text-blue-600" />
               </div>
               <h3 className="text-base font-bold text-slate-900">Ready to Synthesize Your Official Competency Profile</h3>
               <p className="text-xs text-slate-500 max-w-lg mx-auto">

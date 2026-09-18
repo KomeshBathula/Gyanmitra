@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Sparkles, X, Send, Bot, User, BookOpen, ExternalLink, HelpCircle, ArrowRight } from 'lucide-react';
+import { MessageSquareText, X, Send, BookOpen, User, ExternalLink, HelpCircle, ArrowRight } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 
 export const AIAssistantDrawer = () => {
@@ -33,11 +33,11 @@ export const AIAssistantDrawer = () => {
         <div className="p-4 border-b border-slate-200 bg-gradient-to-r from-gov-navy to-gov-blue text-white flex items-center justify-between">
           <div className="flex items-center space-x-3">
             <div className="w-9 h-9 rounded-lg bg-white/10 flex items-center justify-center border border-white/20">
-              <Sparkles className="w-5 h-5 text-amber-300" />
+              <MessageSquareText className="w-5 h-5 text-amber-300" />
             </div>
             <div>
               <div className="flex items-center space-x-2">
-                <h3 className="font-semibold text-sm">GyanMitra AI Assistant</h3>
+                <h3 className="font-semibold text-sm">GyanMitra Knowledge Desk</h3>
                 <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-amber-400/20 text-amber-200 border border-amber-400/30">
                   MoSPI RAG
                 </span>
@@ -83,7 +83,7 @@ export const AIAssistantDrawer = () => {
                   msg.sender === 'user' ? 'bg-gov-blue text-white' : 'bg-gov-navy text-amber-300 border border-slate-300'
                 }`}
               >
-                {msg.sender === 'user' ? <User className="w-4 h-4" /> : <Bot className="w-4 h-4" />}
+                {msg.sender === 'user' ? <User className="w-4 h-4" /> : <BookOpen className="w-4 h-4" />}
               </div>
 
               <div className={`max-w-[82%] space-y-2`}>
@@ -138,7 +138,7 @@ export const AIAssistantDrawer = () => {
             </button>
           </div>
           <div className="flex items-center justify-between text-[10px] text-slate-400 mt-2 px-1">
-            <span>Powered by GyanMitra Statistical RAG Engine</span>
+            <span>Official MoSPI Knowledge Reference Base</span>
             <span>MoSPI Internal & Confidential</span>
           </div>
         </form>

@@ -9,7 +9,6 @@ import {
   Bell,
   User,
   LogOut,
-  Sparkles,
   ArrowRightLeft,
   ExternalLink,
   Search,

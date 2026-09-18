@@ -3,7 +3,6 @@ import {
   CheckCircle2,
   XCircle,
   ArrowRight,
-  Sparkles,
   BookOpen,
   Award,
   Building2,
@@ -149,7 +148,7 @@ export const QuizResultsView = () => {
                     ? 'bg-emerald-900/80 text-emerald-300 border-emerald-500/50'
                     : 'bg-amber-900/80 text-amber-300 border-amber-500/50'
                 }`}>
-                  <Sparkles className="w-3.5 h-3.5" />
+                  {isPassed ? <CheckCircle2 className="w-3.5 h-3.5" /> : <BookOpen className="w-3.5 h-3.5" />}
                   <span>{isPassed ? "Assessment Passed • Competency Certified" : "Assessment Completed • Remedial Action Suggested"}</span>
                 </span>
                 <span className="text-xs text-slate-400 font-medium">
@@ -184,7 +183,7 @@ export const QuizResultsView = () => {
         <div className="p-4 rounded-2xl bg-[#111F38] border border-blue-900/50 space-y-2">
           <div className="flex items-center justify-between text-xs font-bold text-blue-300">
             <span className="flex items-center space-x-1.5 uppercase tracking-wider text-[10px]">
-              <Sparkles className="w-3.5 h-3.5 text-blue-400" />
+              <Award className="w-3.5 h-3.5 text-blue-400" />
               <span>Closed-Loop Competency Ledger Update</span>
             </span>
             <span className="text-emerald-400">+120 Karmayogi Credits</span>
@@ -274,7 +273,7 @@ export const QuizResultsView = () => {
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
             <div className="w-8 h-8 rounded-xl bg-blue-500/20 border border-blue-500/40 text-blue-300 flex items-center justify-center font-bold">
-              <Sparkles className="w-4 h-4 text-blue-400" />
+              <BookOpen className="w-4 h-4 text-blue-400" />
             </div>
             <div>
               <h3 className="text-base font-black text-white">

@@ -3,7 +3,6 @@ import {
   CheckCircle,
   AlertTriangle,
   FileText,
-  Sparkles,
   Zap,
   BarChart3,
   Clock,

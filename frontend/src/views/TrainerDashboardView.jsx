@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Users, Sparkles, CheckCircle2, Award, FileText } from 'lucide-react';
+import { Users, CheckCircle2, Award, FileText } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 
 export const TrainerDashboardView = () => {

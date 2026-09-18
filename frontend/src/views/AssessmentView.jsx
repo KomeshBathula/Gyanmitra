@@ -9,7 +9,7 @@ import {
   AlertTriangle,
   BookOpen,
   Award,
-  Sparkles,
+  TrendingUp,
   Maximize2,
   Minimize2,
   Shield,
@@ -248,7 +248,7 @@ export const AssessmentView = () => {
 
               <div className="p-4 rounded-2xl bg-[#0B1528] border border-amber-600/30">
                 <span className="text-xs font-bold text-amber-400 flex items-center space-x-1.5">
-                  <Sparkles className="w-4 h-4 text-amber-400" />
+                  <TrendingUp className="w-4 h-4 text-amber-400" />
                   <span>Priority Calibration Areas</span>
                 </span>
                 <ul className="text-xs text-slate-300 space-y-1.5 mt-2.5">

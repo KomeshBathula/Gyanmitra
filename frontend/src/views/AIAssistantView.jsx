@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Sparkles, Send, Bot, User } from 'lucide-react';
+import { BookOpen, Send, User } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 
 export const AIAssistantView = () => {
@@ -21,11 +21,11 @@ export const AIAssistantView = () => {
           <div>
             <div className="flex items-center space-x-2">
               <span className="px-2.5 py-0.5 rounded text-xs font-semibold bg-blue-50 text-blue-800 border border-blue-200">
-                MoSPI Statistical LLM & RAG Engine
+                MoSPI Statistical Knowledge System
               </span>
               <span className="text-xs text-slate-400">Official Assistant</span>
             </div>
-            <h2 className="text-xl font-bold text-slate-900 mt-1">GyanMitra AI Learning Assistant</h2>
+            <h2 className="text-xl font-bold text-slate-900 mt-1">GyanMitra Knowledge & Competency Assistant</h2>
             <p className="text-xs text-slate-500">
               Your personalized statistical intelligence advisor for official statistics, sampling methodologies, and cadre skill advancement.
             </p>

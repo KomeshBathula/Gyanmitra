@@ -18,7 +18,6 @@ import {
   Smartphone,
   Mail,
   Building,
-  Sparkles,
   Loader2
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';

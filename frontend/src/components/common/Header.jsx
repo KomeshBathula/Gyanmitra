@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import {
   Bell,
-  Sparkles,
   ChevronDown,
   User,
   Settings,

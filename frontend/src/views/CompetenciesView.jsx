@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Award, CheckCircle2, TrendingUp, AlertCircle, ArrowRight, Sparkles, Layers, ShieldCheck } from 'lucide-react';
+import { Award, CheckCircle2, TrendingUp, AlertCircle, ArrowRight, Layers, ShieldCheck } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 
 export const CompetenciesView = () => {

@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import {
   UploadCloud,
   FileText,
-  Sparkles,
+  Award,
+  ShieldCheck,
   Sliders,
   CheckCircle2,
   RefreshCw,
@@ -59,7 +60,7 @@ export const AIQuizGeneratorView = () => {
 
   const generationStages = [
     t('generatingStep1', 'Parsing & chunking official statistical document...'),
-    t('generatingStep2', 'Calling Groq AI Engine (Llama 3.3) for psychometric validation...'),
+    t('generatingStep2', 'Validating questions with MoSPI Competency Framework & Psychometrics...'),
     t('generatingStep3', 'Mapping questions to Course Syllabus Modules & FRAC competency indicators...'),
     t('generatingStep4', 'Assigning assessment to Target Course & User Dashboard...')
   ];
@@ -188,8 +189,8 @@ export const AIQuizGeneratorView = () => {
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div>
             <div className="flex items-center space-x-2">
-              <span className="px-2.5 py-0.5 rounded text-xs font-bold bg-purple-900/60 text-purple-300 border border-purple-600/50">
-                AI / RAG Assessment Engine
+              <span className="px-2.5 py-0.5 rounded text-xs font-bold bg-[#1B365D] text-blue-200 border border-blue-500/40">
+                MoSPI Cadre Assessment Studio
               </span>
               <span className="text-xs text-slate-400">Grounded Generation</span>
             </div>
@@ -199,8 +200,8 @@ export const AIQuizGeneratorView = () => {
             </p>
           </div>
 
-          <div className="flex items-center space-x-2 text-xs font-medium text-purple-300 bg-purple-950/80 px-3 py-1.5 rounded-xl border border-purple-600/50">
-            <Sparkles className="w-4 h-4 text-purple-400" />
+          <div className="flex items-center space-x-2 text-xs font-medium text-blue-300 bg-blue-950/80 px-3 py-1.5 rounded-xl border border-blue-600/50">
+            <ShieldCheck className="w-4 h-4 text-blue-400" />
             <span>{t('ragSourcesGrounding')}</span>
           </div>
         </div>
@@ -209,15 +210,15 @@ export const AIQuizGeneratorView = () => {
       {isGenerating ? (
         /* Live Generation Simulation Pipeline */
         <div className="bg-[#111F38] rounded-2xl border border-[#1E2E4A] p-8 shadow-xl text-center space-y-6 animate-in fade-in">
-          <div className="w-16 h-16 rounded-full bg-purple-900/50 border border-purple-600/50 flex items-center justify-center mx-auto">
-            <RefreshCw className="w-8 h-8 text-purple-400 animate-spin" />
+          <div className="w-16 h-16 rounded-full bg-blue-900/50 border border-blue-600/50 flex items-center justify-center mx-auto">
+            <RefreshCw className="w-8 h-8 text-blue-400 animate-spin" />
           </div>
 
           <div className="space-y-2 max-w-md mx-auto">
             <h3 className="text-lg font-bold text-white">
               Generating Source-Grounded Assessment...
             </h3>
-            <p className="text-xs text-purple-300 font-semibold min-h-[20px]">
+            <p className="text-xs text-blue-300 font-semibold min-h-[20px]">
               {generationStages[generationStep]}
             </p>
           </div>
@@ -231,7 +232,7 @@ export const AIQuizGeneratorView = () => {
                   generationStep > sIdx
                     ? 'bg-emerald-950/70 text-emerald-300 border-emerald-600/50 font-medium'
                     : generationStep === sIdx
-                    ? 'bg-purple-900/60 text-purple-200 border-purple-500 font-bold animate-pulse'
+                    ? 'bg-blue-900/60 text-blue-200 border-blue-500 font-bold animate-pulse'
                     : 'bg-[#0B1528] text-slate-500 border-[#1E2E4A]'
                 }`}
               >
@@ -260,8 +261,8 @@ export const AIQuizGeneratorView = () => {
                   <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-emerald-900/60 text-emerald-300 border border-emerald-500/50">
                     LIVE ON ALL USER DASHBOARDS
                   </span>
-                  <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-purple-900/60 text-purple-300 border border-purple-500/50">
-                    {createdQuiz.mode === 'groq-ai' ? 'Powered by Groq Llama 3.3' : 'MoSPI Verified Grounded'}
+                  <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-[#1B365D] text-blue-200 border border-blue-500/50">
+                    {createdQuiz.mode === 'groq-ai' ? 'MoSPI Standards Aligned' : 'MoSPI Verified Grounded'}
                   </span>
                 </div>
                 <h3 className="text-lg font-black text-white mt-1.5">{createdQuiz.title}</h3>
@@ -281,7 +282,7 @@ export const AIQuizGeneratorView = () => {
               </button>
               <button
                 onClick={() => startGeneratedQuiz(createdQuiz)}
-                className="flex-1 sm:flex-initial px-4 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white text-xs font-black shadow-lg transition-all flex items-center justify-center space-x-1.5 cursor-pointer"
+                className="flex-1 sm:flex-initial px-4 py-2.5 rounded-xl bg-[#1B365D] hover:bg-[#254A80] border border-blue-400/40 text-white text-xs font-bold shadow-lg transition-all flex items-center justify-center space-x-1.5 cursor-pointer"
               >
                 <Eye className="w-4 h-4" />
                 <span>Preview Quiz</span>
@@ -614,9 +615,9 @@ export const AIQuizGeneratorView = () => {
               <div className="pt-3">
                 <button
                   onClick={handleStartGeneration}
-                  className="w-full py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white text-xs font-bold rounded-xl shadow-lg transition-all flex items-center justify-center space-x-2 cursor-pointer"
+                  className="w-full py-2.5 bg-[#1B365D] hover:bg-[#254A80] border border-blue-500/40 text-white text-xs font-bold rounded-xl shadow-lg transition-all flex items-center justify-center space-x-2 cursor-pointer"
                 >
-                  <Sparkles className="w-4 h-4 text-amber-300" />
+                  <Award className="w-4 h-4 text-amber-300" />
                   <span>{t('generateQuizBtn')}</span>
                 </button>
               </div>
