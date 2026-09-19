@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   ArrowRight,
   CheckCircle2,
@@ -17,13 +17,42 @@ import {
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { api } from '../services/api';
+import { INITIAL_SKILL_GAPS } from '../data/mockData';
 
 export const SkillGapView = () => {
-  const { skillGaps, setCurrentScreen, showToast, t } = useApp();
-  const [selectedGap, setSelectedGap] = useState(skillGaps[0]);
+  const { skillGaps, setCurrentScreen, showToast, t, setLearningPathFilter } = useApp();
+  const safeSkillGaps = Array.isArray(skillGaps) && skillGaps.length > 0
+    ? skillGaps
+    : (Array.isArray(skillGaps?.gaps) && skillGaps.gaps.length > 0
+      ? skillGaps.gaps
+      : INITIAL_SKILL_GAPS);
+
+  const [selectedGap, setSelectedGap] = useState(safeSkillGaps[0] || null);
   const [apiGapDetails, setApiGapDetails] = useState(null);
   const [isLoadingGapApi, setIsLoadingGapApi] = useState(false);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
+
+  useEffect(() => {
+    if (!selectedGap && safeSkillGaps.length > 0) {
+      setSelectedGap(safeSkillGaps[0]);
+    }
+  }, [safeSkillGaps, selectedGap]);
+
+  const handleStartLearningPathway = (gap = selectedGap || safeSkillGaps[0]) => {
+    if (gap) {
+      setLearningPathFilter({
+        gapId: gap.id,
+        competency: gap.competency,
+        domain: gap.category || gap.domain || 'Core',
+        priority: gap.priority,
+        currentLevel: gap.currentLevel,
+        targetLevel: gap.requiredLevel ?? gap.targetLevel ?? 3,
+        recommendedCourse: gap.recommendedCourse
+      });
+      showToast(`Activated focused pathway for ${gap.competency}`, "info");
+    }
+    setCurrentScreen('learning-path');
+  };
 
   // Fetch gap intelligence from API when "View Details" is clicked
   const handleViewGapDetails = async (gap) => {
@@ -110,10 +139,7 @@ export const SkillGapView = () => {
         </div>
 
         <button
-          onClick={() => {
-            showToast("Generating optimized learning pathway...", "info");
-            setCurrentScreen('learning-path');
-          }}
+          onClick={() => handleStartLearningPathway(selectedGap || safeSkillGaps[0])}
           className="px-4 py-2.5 bg-[#1B365D] hover:bg-[#152c4d] text-white text-xs font-bold rounded-xl shadow-sm transition-all flex items-center space-x-1.5 cursor-pointer"
         >
           <Compass className="w-3.5 h-3.5 text-[#FFA730]" />
@@ -144,7 +170,7 @@ export const SkillGapView = () => {
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
-              {skillGaps.map((gap) => {
+              {safeSkillGaps.map((gap) => {
                 const isSelected = selectedGap?.id === gap.id;
                 return (
                   <tr
@@ -157,7 +183,7 @@ export const SkillGapView = () => {
                     <td className="px-6 py-3.5 font-bold text-slate-900">
                       {gap.competency}
                     </td>
-                    <td className="px-4 py-3.5 text-slate-600">{gap.category}</td>
+                    <td className="px-4 py-3.5 text-slate-600">{gap.category || gap.domain || 'Statistical'}</td>
                     <td className="px-4 py-3.5 text-center">
                       <span className="px-2.5 py-1 rounded-full bg-slate-100 text-slate-800 font-semibold border border-slate-200">
                         {t('level')} {gap.currentLevel}
@@ -165,7 +191,7 @@ export const SkillGapView = () => {
                     </td>
                     <td className="px-4 py-3.5 text-center">
                       <span className="px-2.5 py-1 rounded-full bg-blue-100 text-blue-900 font-bold border border-blue-200">
-                        {t('level')} {gap.requiredLevel}
+                        {t('level')} {gap.requiredLevel ?? gap.targetLevel ?? 3}
                       </span>
                     </td>
                     <td className="px-4 py-3.5">
@@ -244,7 +270,7 @@ export const SkillGapView = () => {
                     <span className="text-[11px] text-slate-500">Provider: {selectedGap.provider}</span>
                   </div>
                   <button
-                    onClick={() => setCurrentScreen('learning-path')}
+                    onClick={() => handleStartLearningPathway(selectedGap)}
                     className="px-3.5 py-1.5 bg-[#1B365D] hover:bg-[#152c4d] text-white text-xs font-bold rounded-lg transition-colors whitespace-nowrap cursor-pointer"
                   >
                     Start Pathway →
@@ -312,7 +338,7 @@ export const SkillGapView = () => {
                 </div>
                 <div className="text-right">
                   <span className="text-[11px] font-bold text-blue-800 block">Cadre Mandated Level</span>
-                  <span className="text-sm font-extrabold text-blue-900">Level {selectedGap.requiredLevel} / 5</span>
+                  <span className="text-sm font-extrabold text-blue-900">Level {selectedGap.requiredLevel ?? selectedGap.targetLevel ?? 3} / 5</span>
                 </div>
               </div>
 
@@ -408,8 +434,7 @@ export const SkillGapView = () => {
                 <button
                   onClick={() => {
                     setIsDetailModalOpen(false);
-                    showToast(`Enrolled in ${selectedGap.competency} learning pathway!`, "success");
-                    setCurrentScreen('learning-path');
+                    handleStartLearningPathway(selectedGap);
                   }}
                   className="px-4 py-2 rounded-xl bg-[#1B365D] hover:bg-[#152c4d] text-white text-xs font-bold shadow-sm cursor-pointer transition-all flex items-center space-x-1.5"
                 >

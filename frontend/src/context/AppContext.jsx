@@ -61,6 +61,7 @@ export const AppProvider = ({ children }) => {
   const [competencyOverview, setCompetencyOverview] = useState(COMPETENCY_OVERVIEW);
   const [skillGaps, setSkillGaps] = useState(INITIAL_SKILL_GAPS);
   const [learningPathway, setLearningPathway] = useState(LEARNING_PATHWAY);
+  const [learningPathFilter, setLearningPathFilter] = useState(null);
   const [courses, setCourses] = useState(COURSES_CATALOG);
 
   // Assessment & Quiz Engine State
@@ -152,7 +153,20 @@ export const AppProvider = ({ children }) => {
       }).catch(() => setIsLoadingApi(false));
     } else if (screenId === 'skill-gaps') {
       api.getSkillGaps(INITIAL_SKILL_GAPS).then(res => {
-        if (res?.data) setSkillGaps(res.data);
+        const rawPayload = Array.isArray(res?.data?.gaps)
+          ? res.data.gaps
+          : (Array.isArray(res?.data)
+            ? res.data
+            : (Array.isArray(res?.gaps)
+              ? res.gaps
+              : (Array.isArray(res) ? res : INITIAL_SKILL_GAPS)));
+        const normalized = (rawPayload || []).map(g => ({
+          ...g,
+          requiredLevel: g.requiredLevel ?? g.targetLevel ?? 3,
+          targetLevel: g.targetLevel ?? g.requiredLevel ?? 3,
+          category: g.category || g.domain || "Statistical Operations"
+        }));
+        setSkillGaps(normalized);
         setIsLoadingApi(false);
       }).catch(() => setIsLoadingApi(false));
     } else if (screenId === 'learning-path') {
@@ -634,6 +648,8 @@ export const AppProvider = ({ children }) => {
         openCourseModule,
         targetModuleForReview,
         setTargetModuleForReview,
+        learningPathFilter,
+        setLearningPathFilter,
         notifications,
         setNotifications,
         isAiDrawerOpen,

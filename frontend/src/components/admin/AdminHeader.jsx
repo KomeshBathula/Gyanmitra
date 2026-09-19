@@ -15,7 +15,6 @@ import {
   Globe,
   Sun,
   Moon,
-  Menu,
   Check
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
@@ -100,16 +99,6 @@ export const AdminHeader = () => {
               </div>
             </div>
           </div>
-
-          {/* Hamburger Menu Box Button */}
-          <button
-            onClick={toggleSidebar}
-            className="p-1.5 rounded-lg bg-[#162544] hover:bg-[#1E335A] text-slate-300 hover:text-white border border-[#1E3A6D] transition-all cursor-pointer"
-            title={isSidebarOpen ? "Collapse Menu" : "Open Menu"}
-            aria-label="Toggle menu"
-          >
-            <Menu className="w-5 h-5" />
-          </button>
         </div>
 
         {/* Center: Admin Department Switcher */}

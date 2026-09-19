@@ -91,6 +91,7 @@ export const translations = {
     viewDetails: "View Details",
     takeAssessmentBtn: "Take Assessment",
     viewCourseBtn: "View Course",
+    level: "Level",
 
     // Learning Path View
     learningPathTitle: "Personalized iGOT Karmayogi & NSSTA Pathway",
@@ -329,6 +330,7 @@ export const translations = {
     viewDetails: "विवरण देखें",
     takeAssessmentBtn: "मूल्यांकन दें",
     viewCourseBtn: "पाठ्यक्रम देखें",
+    level: "स्तर",
 
     // Learning Path View
     learningPathTitle: "व्यक्तिगत आईगॉट कर्मयोगी एवं एनएसएसटीए मार्ग",
@@ -567,6 +569,7 @@ export const translations = {
     viewDetails: "వివరాలు చూడండి",
     takeAssessmentBtn: "పరీక్ష రాయండి",
     viewCourseBtn: "కోర్సు చూడండి",
+    level: "స్థాయి",
 
     // Learning Path View
     learningPathTitle: "వ్యక్తిగతీకరించిన iGOT కర్మయోగి & NSSTA పాత్‌వే",
