@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Play,
   Clock,
@@ -7,17 +7,14 @@ import {
   CheckCircle2,
   Calendar,
   Award,
-  Loader2,
-  Compass,
-  X
+  Loader2
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { api } from '../services/api';
 import {
   MY_LEARNING_INPROGRESS,
   MY_LEARNING_COMPLETED,
-  MY_LEARNING_UNENROLLED,
-  COURSES_CATALOG
+  MY_LEARNING_UNENROLLED
 } from '../data/mockData';
 
 export const LearningPathView = () => {
@@ -26,9 +23,7 @@ export const LearningPathView = () => {
     showToast,
     startCourseQuiz,
     targetModuleForReview,
-    setTargetModuleForReview,
-    learningPathFilter,
-    setLearningPathFilter
+    setTargetModuleForReview
   } = useApp();
   const [activeTab, setActiveTab] = useState('contents'); // 'contents', 'events'
   const [activePill, setActivePill] = useState('inprogress'); // 'inprogress', 'completed', 'unenrolled'
@@ -82,99 +77,8 @@ export const LearningPathView = () => {
     }
   }, [targetModuleForReview, inprogressList, completedList]);
 
-  // When a learning path filter is active (e.g. from Skill Gap Matrix),
-  // select 2 to 3 curated, highly relevant courses matching the domain / competency.
-  const filteredCourses = useMemo(() => {
-    if (!learningPathFilter) return null;
-
-    const filterComp = (learningPathFilter.competency || '').toLowerCase();
-    const filterDomain = (learningPathFilter.domain || '').toLowerCase();
-    const filterGapId = (learningPathFilter.gapId || '').toLowerCase();
-
-    // Pool all courses from catalog and my-learning lists
-    const allPool = [
-      ...COURSES_CATALOG.map(c => ({
-        ...c,
-        courseId: c.code || c.id,
-        level: c.difficulty ? c.difficulty.split(' ')[0] : (c.level || 'Intermediate'),
-        type: c.type || 'Course',
-        progress: c.progress ?? 25,
-        status: 'inprogress',
-        bgGradient: c.bgGradient || 'from-blue-900 via-slate-900 to-indigo-950',
-        thumbnailText: c.title,
-        thumbnailSub: c.provider,
-        poolSource: 'catalog'
-      })),
-      ...inprogressList.map(c => ({ ...c, poolSource: 'inprogress' })),
-      ...completedList.map(c => ({ ...c, poolSource: 'completed' })),
-      ...unenrolledList.map(c => ({ ...c, poolSource: 'unenrolled' }))
-    ];
-
-    // Score relevance
-    const scored = allPool.map(c => {
-      let score = 0;
-      const cComp = (c.competency || '').toLowerCase();
-      const cCat = (c.category || '').toLowerCase();
-      const cTitle = (c.title || '').toLowerCase();
-      const cDesc = (c.description || '').toLowerCase();
-      const cGapId = (c.gapId || '').toLowerCase();
-
-      // Direct gapId match
-      if (filterGapId && cGapId === filterGapId) score += 100;
-
-      // Direct competency match
-      if (filterComp && (cComp.includes(filterComp) || filterComp.includes(cComp))) score += 80;
-
-      // Domain/category match
-      if (filterDomain && (cCat.includes(filterDomain) || filterDomain.includes(cCat))) score += 40;
-
-      // Keyword overlaps
-      const keywords = [...filterComp.split(/[\s,()&-]+/), ...filterDomain.split(/[\s,()&-]+/)]
-        .filter(w => w.length > 3 && !['post', 'office', 'india', 'operations'].includes(w));
-
-      for (const kw of keywords) {
-        if (cComp.includes(kw)) score += 30;
-        if (cTitle.includes(kw)) score += 25;
-        if (cDesc.includes(kw)) score += 15;
-        if (cCat.includes(kw)) score += 20;
-      }
-
-      // Domain specific boosts
-      if (filterComp.includes('posb') || filterDomain.includes('financial')) {
-        if (cTitle.includes('posb') || cTitle.includes('ippb') || cTitle.includes('finacle') || cTitle.includes('savings')) score += 60;
-      }
-      if (filterComp.includes('dnk') || filterDomain.includes('postal') || filterComp.includes('parcel')) {
-        if (cTitle.includes('dnk') || cTitle.includes('parcel') || cTitle.includes('darpan') || cTitle.includes('export')) score += 60;
-      }
-      if (filterComp.includes('cpgrams') || filterDomain.includes('governance') || filterComp.includes('customer')) {
-        if (cTitle.includes('crm') || cTitle.includes('cpgrams') || cTitle.includes('customer') || cTitle.includes('karmayogi')) score += 60;
-      }
-      if (filterComp.includes('2023') || filterDomain.includes('ethics') || filterComp.includes('compliance')) {
-        if (cTitle.includes('2023') || cTitle.includes('ethics') || cTitle.includes('vigilance') || cTitle.includes('statutory')) score += 60;
-      }
-
-      return { course: c, score };
-    });
-
-    scored.sort((a, b) => b.score - a.score);
-    const seen = new Set();
-    const result = [];
-    for (const item of scored) {
-      const normalized = item.course.title.toLowerCase().replace(/[^a-z0-9]/g, '');
-      if (!seen.has(normalized) && item.score > 20) {
-        seen.add(normalized);
-        result.push(item.course);
-      }
-      if (result.length === 3) break;
-    }
-
-    return result.length > 0 ? result : null;
-  }, [learningPathFilter, inprogressList, completedList, unenrolledList]);
-
   const currentList =
-    learningPathFilter && filteredCourses && filteredCourses.length > 0
-      ? filteredCourses
-      : activePill === 'inprogress'
+    activePill === 'inprogress'
       ? inprogressList
       : activePill === 'completed'
       ? completedList
@@ -188,51 +92,6 @@ export const LearningPathView = () => {
           My Learning
         </h1>
       </div>
-
-      {/* Focused Learning Pathway Banner (when activated from Skill Gap matrix) */}
-      {learningPathFilter && (
-        <div className="bg-gradient-to-r from-[#0F2243] via-[#162D55] to-[#1A3660] border border-blue-500/50 rounded-2xl p-5 shadow-xl space-y-3">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-            <div className="flex items-start space-x-3.5">
-              <div className="w-10 h-10 rounded-xl bg-blue-600/30 border border-blue-400/40 flex items-center justify-center text-[#FFA730] flex-shrink-0 mt-0.5">
-                <Compass className="w-5 h-5" />
-              </div>
-              <div className="space-y-1">
-                <div className="flex flex-wrap items-center gap-2">
-                  <span className="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-amber-400/15 text-amber-300 border border-amber-400/30">
-                    Focused Skill Pathway
-                  </span>
-                  <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-blue-500/20 text-blue-200 border border-blue-400/30">
-                    Domain: {learningPathFilter.domain || 'Competency Gap'}
-                  </span>
-                  {learningPathFilter.targetLevel && (
-                    <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-indigo-500/20 text-indigo-200 border border-indigo-400/30">
-                      Target Level {learningPathFilter.targetLevel}
-                    </span>
-                  )}
-                </div>
-                <h2 className="text-base font-bold text-white tracking-tight">
-                  {learningPathFilter.competency}
-                </h2>
-                <p className="text-xs text-slate-300">
-                  Showing <strong>{filteredCourses?.length || 3} curated courses</strong> specifically recommended to bridge your cadre competency gap.
-                </p>
-              </div>
-            </div>
-
-            <button
-              onClick={() => {
-                setLearningPathFilter(null);
-                showToast("Showing all standard courses", "info");
-              }}
-              className="inline-flex items-center space-x-1.5 px-3.5 py-2 rounded-xl bg-slate-800/90 hover:bg-slate-700 text-slate-200 hover:text-white text-xs font-bold border border-slate-600/60 shadow-sm transition-all cursor-pointer self-start sm:self-center whitespace-nowrap"
-            >
-              <X className="w-4 h-4 text-slate-400" />
-              <span>Show All Courses</span>
-            </button>
-          </div>
-        </div>
-      )}
 
       {/* Main Tabs: Contents | Events */}
       <div className="flex items-center space-x-8 border-b border-[#1E2E4A] pb-0 text-sm font-bold">
@@ -260,53 +119,37 @@ export const LearningPathView = () => {
 
       {/* Sub-Pills: In Progress | Completed | Unenrolled */}
       {activeTab === 'contents' && (
-        <div className="flex items-center justify-between pt-1">
-          {learningPathFilter ? (
-            <div className="flex items-center space-x-3">
-              <span className="px-4 py-1.5 rounded-full text-xs font-bold bg-[#1D4ED8] text-white shadow-md flex items-center space-x-1.5">
-                <span>Targeted Domain Courses ({filteredCourses?.length || 0})</span>
-              </span>
-              <button
-                onClick={() => setLearningPathFilter(null)}
-                className="text-xs text-blue-400 hover:text-blue-300 underline font-semibold cursor-pointer"
-              >
-                Reset to All Enrolled Courses
-              </button>
-            </div>
-          ) : (
-            <div className="flex items-center space-x-3">
-              <button
-                onClick={() => setActivePill('inprogress')}
-                className={`px-5 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer ${
-                  activePill === 'inprogress'
-                    ? 'bg-[#1D4ED8] text-white shadow-md'
-                    : 'bg-[#162544] text-slate-300 hover:text-white hover:bg-[#1E335A]'
-                }`}
-              >
-                In Progress
-              </button>
-              <button
-                onClick={() => setActivePill('completed')}
-                className={`px-5 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer ${
-                  activePill === 'completed'
-                    ? 'bg-[#1D4ED8] text-white shadow-md'
-                    : 'bg-[#162544] text-slate-300 hover:text-white hover:bg-[#1E335A]'
-                }`}
-              >
-                Completed
-              </button>
-              <button
-                onClick={() => setActivePill('unenrolled')}
-                className={`px-5 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer ${
-                  activePill === 'unenrolled'
-                    ? 'bg-[#1D4ED8] text-white shadow-md'
-                    : 'bg-[#162544] text-slate-300 hover:text-white hover:bg-[#1E335A]'
-                }`}
-              >
-                Unenrolled
-              </button>
-            </div>
-          )}
+        <div className="flex items-center space-x-3 pt-1">
+          <button
+            onClick={() => setActivePill('inprogress')}
+            className={`px-5 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer ${
+              activePill === 'inprogress'
+                ? 'bg-[#1D4ED8] text-white shadow-md'
+                : 'bg-[#162544] text-slate-300 hover:text-white hover:bg-[#1E335A]'
+            }`}
+          >
+            In Progress
+          </button>
+          <button
+            onClick={() => setActivePill('completed')}
+            className={`px-5 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer ${
+              activePill === 'completed'
+                ? 'bg-[#1D4ED8] text-white shadow-md'
+                : 'bg-[#162544] text-slate-300 hover:text-white hover:bg-[#1E335A]'
+            }`}
+          >
+            Completed
+          </button>
+          <button
+            onClick={() => setActivePill('unenrolled')}
+            className={`px-5 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer ${
+              activePill === 'unenrolled'
+                ? 'bg-[#1D4ED8] text-white shadow-md'
+                : 'bg-[#162544] text-slate-300 hover:text-white hover:bg-[#1E335A]'
+            }`}
+          >
+            Unenrolled
+          </button>
         </div>
       )}
 
@@ -411,7 +254,7 @@ export const LearningPathView = () => {
 
               {/* Bottom Progress Bar & CTA Footer */}
               <div className="px-5 py-3.5 bg-[#0B1528]/80 border-t border-[#1E335A]/80">
-                {(activePill === 'inprogress' || Boolean(learningPathFilter)) ? (
+                {activePill === 'inprogress' ? (
                   <div className="space-y-2.5">
                     <div className="flex items-center justify-between text-xs">
                       <div className="flex items-center space-x-1.5 text-slate-300 font-bold">
