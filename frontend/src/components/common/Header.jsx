@@ -70,14 +70,14 @@ export const Header = () => {
                     GyanMitra (ज्ञानमित्र)
                   </span>
                   {userProfile?.role === 'trainer' && (
-                    <span className="px-1.5 py-0.5 rounded text-[9px] font-bold bg-emerald-900/70 text-emerald-300 border border-emerald-500/50">
-                      NSSTA FACULTY
+                    <span className="px-1.5 py-0.5 rounded text-[9px] font-bold bg-blue-900/70 text-blue-300 border border-blue-500/50">
+                      ADMIN
                     </span>
                   )}
                 </div>
                 <span className="text-[10px] text-slate-400 font-sans tracking-wide">
                   {userProfile?.role === 'trainer'
-                    ? 'NSSTA Greater Noida • Faculty Portal'
+                    ? 'Ministry Governance & Admin Console'
                     : 'Skill Intelligence Platform • MoSPI'}
                 </span>
               </div>
