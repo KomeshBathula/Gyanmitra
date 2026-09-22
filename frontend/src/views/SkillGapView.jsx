@@ -6,7 +6,6 @@ import {
   BookOpen,
   Layers,
   Compass,
-  Zap,
   X,
   ShieldCheck,
   Clock,

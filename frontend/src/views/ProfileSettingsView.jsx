@@ -5,7 +5,6 @@ import {
   Edit2,
   Check,
   Award,
-  Zap,
   FileText,
   MessageSquare,
   User,

@@ -5,7 +5,6 @@ import {
   ExternalLink,
   BookOpen,
   Award,
-  Zap,
   Globe,
   CheckCircle2,
   Layers,

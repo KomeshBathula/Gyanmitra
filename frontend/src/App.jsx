@@ -6,7 +6,7 @@ import { Toast } from './components/common/Toast';
 import { InitialAssessmentModal } from './components/common/InitialAssessmentModal';
 import { AdminLayout } from './components/admin/AdminLayout';
 import { AIAssistantDrawer } from './components/ai/AIAssistantDrawer';
-import { MessageSquareText } from 'lucide-react';
+import { MessageSquare } from 'lucide-react';
 
 // Views
 import { AuthView } from './views/AuthView';
@@ -140,14 +140,15 @@ export default function App() {
         </main>
       </div>
 
-      {/* Official GyanMitra Helpdesk & Knowledge Support Button */}
+      {/* Official GyanMitra Support & Knowledge Assistant Button */}
       <button
         onClick={() => setIsAiDrawerOpen(true)}
-        className="fixed bottom-6 right-6 z-40 w-13 h-13 rounded-full bg-[#1B365D] hover:bg-[#234578] text-white shadow-xl hover:scale-105 transition-all flex items-center justify-center border-2 border-white/80 cursor-pointer group"
-        title="GyanMitra Knowledge Support"
-        aria-label="Open Knowledge Support"
+        className="fixed bottom-6 right-6 z-40 h-12 px-4 rounded-full bg-slate-800 hover:bg-slate-900 text-white shadow-lg transition-colors flex items-center space-x-2 border border-slate-700 cursor-pointer text-xs font-medium"
+        title="GyanMitra Knowledge Assistant"
+        aria-label="Open Knowledge Assistant"
       >
-        <MessageSquareText className="w-6 h-6 text-white" />
+        <MessageSquare className="w-4 h-4 text-blue-400" />
+        <span>Ask Assistant</span>
       </button>
 
       {/* Floating Global AI Assistant Drawer */}

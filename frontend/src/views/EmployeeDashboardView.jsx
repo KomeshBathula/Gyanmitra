@@ -5,7 +5,6 @@ import {
   Award,
   Clock,
   ShieldCheck,
-  Zap,
   TrendingUp,
   BookOpen,
   BarChart3,
@@ -15,7 +14,8 @@ import {
   Play,
   FileText,
   ArrowRight,
-  Shield
+  Shield,
+  MessageSquare
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 
@@ -163,11 +163,45 @@ export const EmployeeDashboardView = () => {
         </div>
       </div>
 
-      {/* 2. Welcome Greeting */}
-      <div>
+      {/* 2. Welcome Greeting & AI Knowledge Assistant Quick Card */}
+      <div className="space-y-4">
         <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
           Welcome Back, {userProfile?.name || 'Statistical Officer'}
         </h1>
+
+        {/* GyanMitra Official Knowledge Assistant Card */}
+        <div className="bg-[#111F38] rounded-3xl border border-[#1E335A] p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-lg max-w-3xl">
+          <div className="flex items-start sm:items-center space-x-3.5">
+            <div className="w-10 h-10 rounded-2xl bg-blue-600/20 border border-blue-500/40 flex items-center justify-center flex-shrink-0 text-blue-400">
+              <MessageSquare className="w-5 h-5 text-blue-400" />
+            </div>
+            <div>
+              <div className="flex items-center space-x-2">
+                <h3 className="text-sm font-bold text-white">GyanMitra Official Knowledge Assistant</h3>
+                <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-blue-900/60 text-blue-300 border border-blue-500/30">
+                  Groq Cloud AI
+                </span>
+              </div>
+              <p className="text-xs text-slate-300 mt-0.5">
+                Official institutional assistant for MoSPI statistical methodologies, sampling, courses, and competency development.
+              </p>
+            </div>
+          </div>
+          <div className="flex items-center space-x-2 w-full sm:w-auto">
+            <button
+              onClick={() => setIsAiDrawerOpen(true)}
+              className="flex-1 sm:flex-none px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-xl transition-colors cursor-pointer text-center"
+            >
+              Ask Assistant
+            </button>
+            <button
+              onClick={() => setCurrentScreen('ai-assistant')}
+              className="px-3.5 py-2 bg-[#162544] hover:bg-[#1E335A] text-slate-200 border border-[#1E3A6D] text-xs font-semibold rounded-xl transition-colors cursor-pointer"
+            >
+              Full Page
+            </button>
+          </div>
+        </div>
       </div>
 
       {/* 3. Weekly Claps Card */}
@@ -385,8 +419,8 @@ export const EmployeeDashboardView = () => {
               <div className="pt-2 border-t border-[#1E335A] flex items-center justify-between text-[11px] text-slate-400">
                 <span className="truncate max-w-[130px]">{crs.provider}</span>
                 <span className="text-amber-400 font-bold flex items-center">
-                  <Zap className="w-3 h-3 mr-0.5 fill-amber-400" />
-                  +{crs.karmaPoints}
+                  <Award className="w-3.5 h-3.5 mr-0.5 text-amber-400" />
+                  +{crs.karmaPoints} KP
                 </span>
               </div>
             </div>

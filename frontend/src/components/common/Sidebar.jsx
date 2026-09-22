@@ -8,7 +8,6 @@ import {
   MessageSquare,
   Award,
   Clock,
-  Zap,
   Shield,
   HelpCircle,
   Download,
@@ -16,7 +15,9 @@ import {
   ChevronUp,
   GraduationCap,
   Users,
-  Layers
+  Layers,
+  AlertTriangle,
+  ClipboardCheck
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 
@@ -38,7 +39,7 @@ export const Sidebar = () => {
   // Navigation Items customized per persona
   const trainerPrimaryNavItems = [
     { id: 'trainer-dashboard', label: 'Admin Governance Portal', icon: Shield },
-    { id: 'ai-quiz', label: 'AI Assessment Studio', icon: Zap },
+    { id: 'ai-quiz', label: 'Assessment Studio', icon: ClipboardCheck },
     { id: 'reports', label: 'Batch Compliance & Audits', icon: FileCheck },
     { id: 'courses', label: 'Curriculum & Courses', icon: Compass },
     { id: 'ai-assistant', label: 'Admin AI Assistant', icon: MessageSquare }
@@ -169,7 +170,7 @@ export const Sidebar = () => {
 
                 <div className="flex items-start space-x-2.5">
                   <div className="w-7 h-7 rounded-lg bg-amber-950/80 border border-amber-600/50 text-amber-300 flex items-center justify-center flex-shrink-0">
-                    <Zap className="w-4 h-4 text-amber-400 fill-amber-400" />
+                    <AlertTriangle className="w-4 h-4 text-amber-400" />
                   </div>
                   <div className="text-[11px] leading-tight">
                     <p className="text-slate-400">Curriculum Deficits</p>
@@ -225,7 +226,7 @@ export const Sidebar = () => {
                 {/* Karma Points */}
                 <div className="flex items-start space-x-2.5">
                   <div className="w-7 h-7 rounded-lg bg-amber-950/80 border border-amber-600/50 text-amber-300 flex items-center justify-center flex-shrink-0">
-                    <Zap className="w-4 h-4 text-amber-400 fill-amber-400" />
+                    <Award className="w-4 h-4 text-amber-400" />
                   </div>
                   <div className="text-[11px] leading-tight">
                     <p className="text-slate-400">Karma Points</p>
