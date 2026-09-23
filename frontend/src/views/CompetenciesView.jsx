@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Award, CheckCircle2, TrendingUp, AlertCircle, ArrowRight, Layers, ShieldCheck } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 
 export const CompetenciesView = () => {
@@ -26,61 +26,61 @@ export const CompetenciesView = () => {
     return s.category.toLowerCase().includes(activeCategory.toLowerCase());
   });
 
+  const filterTabs = [
+    { id: 'all', label: t('filterAll') },
+    { id: 'domain', label: 'Domain (Statistical & Gov)' },
+    { id: 'functional', label: 'Functional (Technical)' },
+    { id: 'behavioral', label: 'Behavioral' }
+  ];
+
   return (
-    <div className="space-y-6 max-w-5xl mx-auto pb-12">
-      {/* Top Banner */}
-      <div className="bg-white rounded-xl border border-slate-200/90 p-6 shadow-sm">
+    <div className="space-y-5 max-w-5xl mx-auto pb-12 text-[#1F2933]">
+
+      {/* Page Header */}
+      <div className="bg-white border border-[#D5DCE3] rounded p-5">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div>
-            <div className="flex items-center space-x-2">
-              <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-blue-50 text-blue-900 border border-blue-200">
-                FRAC • Competency Hub
+            <div className="flex items-center space-x-2 mb-2">
+              <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-[#EEF2F5] text-[#0B3A63] border border-[#D5DCE3]">
+                FRAC · Competency Hub
               </span>
-              <span className="px-2 py-0.5 rounded-full text-xs font-bold bg-emerald-50 text-emerald-900 border border-emerald-200">
+              <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-[#EEF2F5] text-[#2E7D32] border border-[#D5DCE3]">
                 Mission Karmayogi
               </span>
             </div>
-            <h2 className="text-xl font-extrabold text-[#1B365D] mt-2">{t('competenciesTitle')} (FRAC Framework)</h2>
-            <p className="text-xs text-slate-500">
-              {t('competenciesSub')}
-            </p>
+            <h2 className="text-lg font-bold text-[#0B3A63]">{t('competenciesTitle')} (FRAC Framework)</h2>
+            <p className="text-xs text-[#5B6773] mt-0.5">{t('competenciesSub')}</p>
           </div>
-
           <button
             onClick={() => setCurrentScreen('assessment')}
-            className="px-4 py-2 bg-[#1B365D] hover:bg-[#152c4d] text-white text-xs font-bold rounded-xl shadow-sm transition-all cursor-pointer"
+            className="px-4 py-2 bg-[#0B3A63] hover:bg-[#12304A] text-white text-xs font-semibold rounded transition-colors cursor-pointer flex-shrink-0"
           >
             {t('takeAssessmentBtn')}
           </button>
         </div>
 
-        {/* Categories Bar */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-6 pt-6 border-t border-slate-100">
+        {/* Category Score Grid */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-4 pt-4 border-t border-[#D5DCE3]">
           {(competencyOverview?.categories || []).map((c) => (
-            <div key={c.id} className="p-3 bg-slate-50 rounded-xl border border-slate-200/80 text-center">
-              <span className="text-[10px] text-slate-500 font-bold uppercase block">{c.name}</span>
-              <p className="text-xl font-black text-slate-900 mt-0.5">{c.score}%</p>
-              <span className="text-[10px] text-slate-400">{t('targetScore')}: {c.target}%</span>
+            <div key={c.id} className="p-3 border border-[#D5DCE3] rounded bg-[#F5F7F9] text-center">
+              <span className="text-[10px] text-[#5B6773] font-semibold uppercase block">{c.name}</span>
+              <p className="text-xl font-bold text-[#0B3A63] mt-0.5">{c.score}%</p>
+              <span className="text-[10px] text-[#5B6773]">{t('targetScore')}: {c.target}%</span>
             </div>
           ))}
         </div>
       </div>
 
       {/* Filter Tabs */}
-      <div className="flex space-x-2 border-b border-slate-200 pb-2 overflow-x-auto">
-        {[
-          { id: 'all', label: t('filterAll') },
-          { id: 'domain', label: 'Domain (Statistical & Gov)' },
-          { id: 'functional', label: 'Functional (Technical)' },
-          { id: 'behavioral', label: 'Behavioral / नेतृत्व' }
-        ].map((tab) => (
+      <div className="flex space-x-1 border-b border-[#D5DCE3] overflow-x-auto">
+        {filterTabs.map((tab) => (
           <button
             key={tab.id}
             onClick={() => setActiveCategory(tab.id)}
-            className={`px-3 py-1.5 text-xs font-bold rounded-xl transition-all cursor-pointer whitespace-nowrap ${
+            className={`px-4 py-2 text-xs font-medium transition-all cursor-pointer whitespace-nowrap border-b-2 -mb-px ${
               activeCategory === tab.id
-                ? 'bg-[#1B365D] text-white shadow-sm'
-                : 'text-slate-600 hover:bg-slate-100'
+                ? 'border-[#0B3A63] text-[#0B3A63] font-semibold'
+                : 'border-transparent text-[#5B6773] hover:text-[#1F2933]'
             }`}
           >
             {tab.label}
@@ -88,60 +88,67 @@ export const CompetenciesView = () => {
         ))}
       </div>
 
-      {/* Skills Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {filtered.map((skill, idx) => {
-          const isGap = skill.status.includes('Gap');
-          return (
-            <div key={idx} className="bg-white rounded-xl border border-slate-200/90 p-5 shadow-sm hover:shadow-md transition-all flex flex-col justify-between space-y-3">
-              <div className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-slate-100 text-slate-700">
-                    {skill.category}
-                  </span>
-                  <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
-                    isGap ? 'bg-amber-50 text-amber-800 border border-amber-200' : 'bg-emerald-50 text-emerald-800 border border-emerald-200'
-                  }`}>
-                    {skill.status}
-                  </span>
-                </div>
-
-                <div>
-                  <span className="text-[10px] font-mono font-semibold text-slate-400">{skill.fracId}</span>
-                  <h3 className="text-sm font-bold text-slate-900 mt-0.5">{skill.name}</h3>
-                </div>
-
-                <div className="flex items-center justify-between text-xs text-slate-500">
-                  <span>Proficiency: <strong className="text-slate-800">{skill.level} ({skill.score}%)</strong></span>
-                  <span>Benchmark: {skill.benchmark}%</span>
-                </div>
-
-                <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
-                  <div
-                    className={`h-2 rounded-full ${
-                      skill.score >= skill.benchmark ? 'bg-emerald-600' : 'bg-amber-500'
-                    }`}
-                    style={{ width: `${skill.score}%` }}
-                  ></div>
-                </div>
-              </div>
-
-              {isGap && (
-                <div className="pt-2 border-t border-slate-100 flex items-center justify-between">
-                  <span className="text-[11px] text-slate-500">iGOT Bridge Module Available</span>
-                  <button
-                    onClick={() => setCurrentScreen('skill-gaps')}
-                    className="text-xs font-bold text-[#264092] hover:underline cursor-pointer"
-                  >
-                    View Gap Details →
-                  </button>
-                </div>
-              )}
-            </div>
-          );
-        })}
+      {/* Skills Table */}
+      <div className="bg-white border border-[#D5DCE3] rounded overflow-hidden">
+        <table className="w-full text-left text-xs">
+          <thead className="bg-[#EEF2F5] text-[#1F2933] font-semibold border-b border-[#D5DCE3]">
+            <tr>
+              <th className="px-4 py-3">Competency</th>
+              <th className="px-4 py-3">Category</th>
+              <th className="px-4 py-3">Level & Score</th>
+              <th className="px-4 py-3">Benchmark</th>
+              <th className="px-4 py-3">Status</th>
+              <th className="px-4 py-3 text-right">Action</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-[#D5DCE3]">
+            {filtered.map((skill, idx) => {
+              const isGap = skill.status.includes('Gap');
+              return (
+                <tr key={idx} className="hover:bg-[#F5F7F9] transition-colors">
+                  <td className="px-4 py-3">
+                    <p className="font-semibold text-[#1F2933]">{skill.name}</p>
+                    <p className="text-[10px] font-mono text-[#5B6773] mt-0.5">{skill.fracId}</p>
+                  </td>
+                  <td className="px-4 py-3 text-[#5B6773]">{skill.category}</td>
+                  <td className="px-4 py-3">
+                    <div>
+                      <span className="font-semibold text-[#1F2933]">{skill.level}</span>
+                      <span className="text-[#5B6773] ml-1">({skill.score}%)</span>
+                    </div>
+                    <div className="mt-1 w-24 bg-[#D5DCE3] h-1.5 rounded-full overflow-hidden">
+                      <div
+                        className={`h-1.5 rounded-full ${skill.score >= skill.benchmark ? 'bg-[#2E7D32]' : 'bg-[#B7791F]'}`}
+                        style={{ width: `${skill.score}%` }}
+                      />
+                    </div>
+                  </td>
+                  <td className="px-4 py-3 text-[#5B6773]">{skill.benchmark}%</td>
+                  <td className="px-4 py-3">
+                    <span className={`px-2 py-0.5 rounded text-[10px] font-semibold border ${
+                      isGap
+                        ? 'bg-amber-50 text-[#B7791F] border-amber-200'
+                        : 'bg-green-50 text-[#2E7D32] border-green-200'
+                    }`}>
+                      {skill.status}
+                    </span>
+                  </td>
+                  <td className="px-4 py-3 text-right">
+                    {isGap && (
+                      <button
+                        onClick={() => setCurrentScreen('skill-gaps')}
+                        className="text-xs font-semibold text-[#0B3A63] hover:underline cursor-pointer"
+                      >
+                        View Gap →
+                      </button>
+                    )}
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
       </div>
     </div>
   );
 };
-

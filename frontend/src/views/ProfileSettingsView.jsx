@@ -222,9 +222,9 @@ export const ProfileSettingsView = () => {
               </div>
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-2">
-                  <div className="w-6 h-6 rounded-full bg-amber-400 flex items-center justify-center text-amber-950 font-black text-xs shadow-xs">
-                    🪙
-                  </div>
+                  <span className="px-1.5 py-0.5 rounded bg-amber-100 text-amber-900 font-bold text-[10px]">
+                    KP
+                  </span>
                   <span className="text-lg font-black text-white">{userProfile?.karmayogiCredits || 799}</span>
                 </div>
                 <button
@@ -243,7 +243,6 @@ export const ProfileSettingsView = () => {
               </div>
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-2">
-                  <span className="text-amber-400 text-base">📜</span>
                   <span className="text-lg font-black text-white">{userProfile?.certificatesCount || 75}</span>
                 </div>
                 <button
@@ -262,7 +261,6 @@ export const ProfileSettingsView = () => {
               </div>
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-2">
-                  <span className="text-red-400 text-base">🎖️</span>
                   <span className="text-lg font-black text-white">{userProfile?.badgesEarned || 0}</span>
                 </div>
                 <button
@@ -281,7 +279,6 @@ export const ProfileSettingsView = () => {
               </div>
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-2">
-                  <span className="text-amber-400 text-base">💬</span>
                   <span className="text-lg font-black text-white">{userProfile?.postsCount || 0}</span>
                 </div>
               </div>
@@ -460,7 +457,7 @@ export const ProfileSettingsView = () => {
                   </div>
 
                   <div className="flex items-center space-x-1.5 text-[10px] text-slate-600">
-                    <span className="text-amber-600 font-bold">🏛️</span>
+                    <span className="font-semibold">Publisher:</span>
                     <span>{comm.publisher}</span>
                   </div>
 

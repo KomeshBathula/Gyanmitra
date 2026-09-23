@@ -33,7 +33,19 @@ export default {
           border: '#E2E8F0',
           ashoka: '#0F4C81',
           saffron: '#FF9933',
-          green: '#138808'
+          green: '#138808',
+          // Government of India Design System tokens
+          primary: '#0B3A63',
+          'primary-dark': '#12304A',
+          bg: '#F5F7F9',
+          'bg-light': '#EEF2F5',
+          card: '#FFFFFF',
+          'border-main': '#D5DCE3',
+          text: '#1F2933',
+          secondary: '#5B6773',
+          success: '#2E7D32',
+          warning: '#B7791F',
+          error: '#B42318',
         }
       },
       fontFamily: {

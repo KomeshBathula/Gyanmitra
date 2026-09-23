@@ -448,7 +448,7 @@ export const QuizTakingView = () => {
               </span>
               {currentQ.relatedModule && (
                 <span className="px-3 py-1 rounded-xl text-[11px] font-bold bg-amber-950/60 text-amber-300 border border-amber-600/40 truncate max-w-xs sm:max-w-md">
-                  📖 {currentQ.relatedModule}
+                  Module: {currentQ.relatedModule}
                 </span>
               )}
             </div>
@@ -508,7 +508,7 @@ export const QuizTakingView = () => {
               <p className="text-slate-300 leading-relaxed">{currentQ.explanation}</p>
               {currentQ.sourceCitation && (
                 <div className="text-blue-400 text-[11px] font-mono pt-1">
-                  📍 Verified Citation: <strong>{currentQ.sourceCitation}</strong>
+                  Verified Citation: <strong>{currentQ.sourceCitation}</strong>
                 </div>
               )}
             </div>

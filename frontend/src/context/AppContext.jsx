@@ -103,8 +103,8 @@ export const AppProvider = ({ children }) => {
     }, 4000);
   };
 
-  // Accessibility Font Scale (150% Default)
-  const [fontScale, setFontScale] = useState(150);
+  // Accessibility Font Scale (100% Default)
+  const [fontScale, setFontScale] = useState(100);
 
   useEffect(() => {
     document.documentElement.style.fontSize = `${fontScale}%`;
@@ -545,7 +545,7 @@ export const AppProvider = ({ children }) => {
     setCurrentQuizData(quizToUse);
     setActiveQuizType('course-admin-quiz');
     setCurrentScreen('quiz-taking');
-    showToast(`🎯 Unlocked: Department Admin Assessment for "${course.title}"`, "info");
+    showToast(`Unlocked: Department Admin Assessment for "${course.title}"`, "info");
   };
 
   const openCourseModule = (courseId, moduleIdx = 0) => {

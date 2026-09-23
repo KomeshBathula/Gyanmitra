@@ -1,14 +1,4 @@
 import React from 'react';
-import {
-  CheckCircle,
-  AlertTriangle,
-  FileText,
-  ClipboardCheck,
-  BarChart3,
-  Clock,
-  ArrowRight,
-  Shield
-} from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 
 export const AdminAssessmentsAuditView = () => {
@@ -59,129 +49,121 @@ export const AdminAssessmentsAuditView = () => {
   ];
 
   return (
-    <div className="space-y-6 max-w-7xl mx-auto pb-12 text-slate-100">
-      {/* Top Banner */}
-      <div className="bg-[#111F38] rounded-2xl border border-[#1E2E4A] p-6 shadow-md">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <div>
-            <div className="flex items-center space-x-2">
-              <span className="px-2.5 py-0.5 rounded text-xs font-bold bg-blue-900/60 text-blue-300 border border-blue-600/40">
-                Governance Audit Console
-              </span>
-              <span className="text-xs text-slate-400">MoSPI Examination Integrity</span>
-            </div>
-            <h2 className="text-xl font-bold text-white mt-2">Assessments Governance & Policy Audit</h2>
-            <p className="text-xs text-slate-400 mt-1">
-              Verify examination compliance, monitor passing thresholds, and manage live assessment banks.
-            </p>
+    <div className="space-y-5 max-w-7xl mx-auto pb-12 text-[#1F2933]">
+
+      {/* Page Header */}
+      <div className="bg-white border border-[#D5DCE3] rounded p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div>
+          <div className="flex items-center space-x-2 mb-1.5">
+            <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-[#EEF2F5] text-[#0B3A63] border border-[#D5DCE3]">
+              Governance Audit Console
+            </span>
+            <span className="text-xs text-[#5B6773]">MoSPI Examination Integrity</span>
           </div>
+          <h2 className="text-lg font-bold text-[#0B3A63]">Assessments Governance & Policy Audit</h2>
+          <p className="text-xs text-[#5B6773] mt-0.5">
+            Verify examination compliance, monitor passing thresholds, and manage live assessment banks.
+          </p>
+        </div>
 
-          <button
-            onClick={() => setCurrentScreen('admin-quiz-studio')}
-            className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold shadow-md transition-all flex items-center space-x-2 cursor-pointer"
-          >
-            <ClipboardCheck className="w-4 h-4 text-white" />
-            <span>Assessment Studio</span>
-          </button>
+        <button
+          onClick={() => setCurrentScreen('admin-quiz-studio')}
+          className="px-4 py-2 bg-[#0B3A63] hover:bg-[#12304A] text-white text-xs font-semibold rounded transition-colors cursor-pointer flex-shrink-0"
+        >
+          Assessment Studio
+        </button>
+      </div>
+
+      {/* KPI Summary */}
+      <div className="bg-white border border-[#D5DCE3] rounded overflow-hidden">
+        <div className="grid grid-cols-2 lg:grid-cols-4 divide-x divide-y divide-[#D5DCE3]">
+          <div className="p-4">
+            <p className="text-[10px] font-semibold text-[#5B6773] uppercase tracking-wider">Total Tests Conducted</p>
+            <h3 className="text-2xl font-bold text-[#0B3A63] mt-1">{adminAuditData?.totalAssessmentsConducted}</h3>
+            <p className="text-[11px] text-[#5B6773] mt-1">Nationwide across all cadres</p>
+          </div>
+          <div className="p-4">
+            <p className="text-[10px] font-semibold text-[#5B6773] uppercase tracking-wider">Overall Pass Rate</p>
+            <h3 className="text-2xl font-bold text-[#2E7D32] mt-1">{adminAuditData?.overallPassRate}</h3>
+            <p className="text-[11px] text-[#2E7D32] font-semibold mt-1">Target Threshold: ≥ 70%</p>
+          </div>
+          <div className="p-4">
+            <p className="text-[10px] font-semibold text-[#5B6773] uppercase tracking-wider">Average Examination Score</p>
+            <h3 className="text-2xl font-bold text-[#0B3A63] mt-1">{adminAuditData?.avgScore}</h3>
+            <p className="text-[11px] text-[#5B6773] mt-1">FRAC Matrix Calibrated</p>
+          </div>
+          <div className="p-4">
+            <p className="text-[10px] font-semibold text-[#5B6773] uppercase tracking-wider">Live AI Assessments</p>
+            <h3 className="text-2xl font-bold text-[#0B3A63] mt-1">{generatedQuizzes.length} Quizzes</h3>
+            <p className="text-[11px] text-[#5B6773] mt-1">Published by Administrators</p>
+          </div>
         </div>
       </div>
 
-      {/* KPI Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="bg-[#111F38] rounded-2xl border border-[#1E2E4A] p-5 shadow-lg">
-          <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Total Tests Conducted</span>
-          <h3 className="text-2xl font-black text-white mt-2">{adminAuditData?.totalAssessmentsConducted}</h3>
-          <p className="text-[11px] text-slate-400 mt-1">Nationwide across all cadres</p>
+      {/* Audit Alerts */}
+      <div className="bg-white border border-[#D5DCE3] rounded overflow-hidden">
+        <div className="px-4 py-3 border-b border-[#D5DCE3] bg-[#EEF2F5]">
+          <h3 className="text-xs font-bold text-[#1F2933] uppercase tracking-wider">
+            Recent Cadre Audit & Governance Alerts
+          </h3>
         </div>
-
-        <div className="bg-[#111F38] rounded-2xl border border-[#1E2E4A] p-5 shadow-lg">
-          <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Overall Pass Rate</span>
-          <h3 className="text-2xl font-black text-emerald-400 mt-2">{adminAuditData?.overallPassRate}</h3>
-          <p className="text-[11px] text-emerald-400 font-semibold mt-1">Target Threshold: ≥ 70%</p>
-        </div>
-
-        <div className="bg-[#111F38] rounded-2xl border border-[#1E2E4A] p-5 shadow-lg">
-          <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Average Examination Score</span>
-          <h3 className="text-2xl font-black text-blue-400 mt-2">{adminAuditData?.avgScore}</h3>
-          <p className="text-[11px] text-slate-400 mt-1">FRAC Matrix Calibrated</p>
-        </div>
-
-        <div className="bg-[#111F38] rounded-2xl border border-[#1E2E4A] p-5 shadow-lg">
-          <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Live AI Assessments</span>
-          <h3 className="text-2xl font-black text-purple-300 mt-2">{generatedQuizzes.length} Quizzes</h3>
-          <p className="text-[11px] text-slate-400 mt-1">Published by Administrators</p>
-        </div>
-      </div>
-
-      {/* Live Audit Alerts */}
-      <div className="bg-[#111F38] rounded-3xl border border-[#1E2E4A] p-6 shadow-xl space-y-4">
-        <h3 className="text-xs font-bold text-slate-300 uppercase tracking-wider">
-          Recent Cadre Audit & Governance Alerts
-        </h3>
-        <div className="space-y-2.5">
+        <div className="p-4 space-y-2">
           {adminAuditData?.auditAlerts?.map((alert) => (
             <div
               key={alert.id}
-              className={`p-3.5 rounded-2xl border flex items-center justify-between text-xs ${
+              className={`px-4 py-3 border rounded flex items-center justify-between text-xs ${
                 alert.type === 'warning'
-                  ? 'bg-amber-950/40 border-amber-500/40 text-amber-200'
+                  ? 'bg-amber-50 border-amber-200 text-[#B7791F]'
                   : alert.type === 'success'
-                  ? 'bg-emerald-950/40 border-emerald-500/40 text-emerald-200'
-                  : 'bg-blue-950/40 border-blue-500/40 text-blue-200'
+                  ? 'bg-green-50 border-green-200 text-[#2E7D32]'
+                  : 'bg-[#EEF2F5] border-[#D5DCE3] text-[#0B3A63]'
               }`}
             >
-              <div className="flex items-center space-x-3">
-                {alert.type === 'warning' ? (
-                  <AlertTriangle className="w-4 h-4 text-amber-400 flex-shrink-0" />
-                ) : (
-                  <CheckCircle className="w-4 h-4 text-emerald-400 flex-shrink-0" />
-                )}
-                <span>{alert.message}</span>
-              </div>
-              <span className="text-[10px] text-slate-400 font-mono flex-shrink-0 ml-2">{alert.time}</span>
+              <span className="font-medium">{alert.message}</span>
+              <span className="text-[10px] text-[#5B6773] font-mono ml-2 flex-shrink-0">{alert.time}</span>
             </div>
           ))}
         </div>
       </div>
 
-      {/* Assessment Governance Roster */}
-      <div className="bg-[#111F38] rounded-3xl border border-[#1E2E4A] shadow-xl overflow-hidden">
-        <div className="px-6 py-4 border-b border-[#1E2E4A] bg-[#0E1B33] flex items-center justify-between">
-          <h3 className="text-xs font-bold text-slate-300 uppercase tracking-wider">
+      {/* Assessment Roster Table */}
+      <div className="bg-white border border-[#D5DCE3] rounded overflow-hidden">
+        <div className="px-4 py-3 border-b border-[#D5DCE3] bg-[#EEF2F5] flex items-center justify-between">
+          <h3 className="text-xs font-bold text-[#1F2933] uppercase tracking-wider">
             Mandated Cadre Assessment Roster
           </h3>
           <button
             onClick={() => showToast("Exporting Assessment Audit Roster to CSV...", "info")}
-            className="text-xs text-purple-400 hover:underline font-semibold cursor-pointer"
+            className="text-xs font-semibold text-[#0B3A63] hover:underline cursor-pointer"
           >
             Export Audit Report (CSV)
           </button>
         </div>
 
         <table className="w-full text-left text-xs">
-          <thead className="bg-[#0B1528] text-slate-400 font-bold border-b border-[#1E2E4A]">
+          <thead className="bg-[#EEF2F5] text-[#1F2933] font-semibold border-b border-[#D5DCE3]">
             <tr>
-              <th className="px-6 py-3.5">Assessment Title</th>
-              <th className="px-4 py-3.5">Target Cadre</th>
-              <th className="px-4 py-3.5 text-center">Total Attempts</th>
-              <th className="px-4 py-3.5 text-center">Pass Rate</th>
-              <th className="px-4 py-3.5 text-center">Avg Score</th>
-              <th className="px-6 py-3.5 text-right">Audit Status</th>
+              <th className="px-4 py-3">Assessment Title</th>
+              <th className="px-4 py-3">Target Cadre</th>
+              <th className="px-4 py-3 text-center">Total Attempts</th>
+              <th className="px-4 py-3 text-center">Pass Rate</th>
+              <th className="px-4 py-3 text-center">Avg Score</th>
+              <th className="px-4 py-3 text-right">Audit Status</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-[#1E2E4A]/60">
+          <tbody className="divide-y divide-[#D5DCE3]">
             {assessmentCatalog.map((asm) => (
-              <tr key={asm.id} className="hover:bg-[#162544]/60 transition-colors">
-                <td className="px-6 py-4 font-bold text-white">{asm.title}</td>
-                <td className="px-4 py-4 text-slate-300">{asm.department}</td>
-                <td className="px-4 py-4 text-center font-mono text-slate-300">{asm.attempts.toLocaleString()}</td>
-                <td className="px-4 py-4 text-center font-bold text-emerald-400">{asm.passRate}</td>
-                <td className="px-4 py-4 text-center font-bold text-blue-400">{asm.avgScore}</td>
-                <td className="px-6 py-4 text-right">
-                  <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold ${
+              <tr key={asm.id} className="hover:bg-[#F5F7F9] transition-colors">
+                <td className="px-4 py-3 font-semibold text-[#1F2933]">{asm.title}</td>
+                <td className="px-4 py-3 text-[#5B6773]">{asm.department}</td>
+                <td className="px-4 py-3 text-center font-mono text-[#5B6773]">{asm.attempts.toLocaleString()}</td>
+                <td className="px-4 py-3 text-center font-semibold text-[#2E7D32]">{asm.passRate}</td>
+                <td className="px-4 py-3 text-center font-semibold text-[#0B3A63]">{asm.avgScore}</td>
+                <td className="px-4 py-3 text-right">
+                  <span className={`px-2 py-0.5 rounded text-[10px] font-semibold border ${
                     asm.status.includes('Remedial')
-                      ? 'bg-rose-950 text-rose-300 border border-rose-500/50'
-                      : 'bg-emerald-950 text-emerald-300 border border-emerald-500/50'
+                      ? 'bg-red-50 text-[#B42318] border-red-200'
+                      : 'bg-green-50 text-[#2E7D32] border-green-200'
                   }`}>
                     {asm.status}
                   </span>

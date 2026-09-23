@@ -351,8 +351,8 @@ export const AssessmentView = () => {
       <header className="sticky top-0 z-40 bg-[#0F1E36] border-b border-[#1E2E4A] px-4 sm:px-8 py-3.5 shadow-xl flex items-center justify-between">
         {/* Left: Official Seals & Examination Title */}
         <div className="flex items-center space-x-3.5">
-          <div className="w-9 h-9 rounded-xl bg-blue-900/80 border border-blue-500/50 flex items-center justify-center text-blue-300 font-extrabold text-sm shadow-md">
-            🇮🇳
+          <div className="w-9 h-9 rounded-md bg-[#0B3A63] border border-[#12304A] flex items-center justify-center text-white font-extrabold text-xs">
+            GoI
           </div>
           <div>
             <div className="flex items-center space-x-2">
@@ -465,7 +465,7 @@ export const AssessmentView = () => {
                     : 'bg-[#0B1528] text-slate-300 border-[#1E2E4A] hover:bg-[#162544]'
                 }`}
               >
-                {markedForReview[currentQ.id] ? '★ Marked for Review' : '☆ Mark for Review'}
+                {markedForReview[currentQ.id] ? 'Marked for Review' : 'Mark for Review'}
               </button>
 
               <div className="flex items-center space-x-2.5">
