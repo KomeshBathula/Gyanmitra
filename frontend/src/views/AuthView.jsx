@@ -359,7 +359,7 @@ export const AuthView = ({ initialTab = 'employee' }) => {
                         <p className="text-[10px] text-slate-500 leading-tight">{dept.sub}</p>
                       </div>
                       <p className="text-[10px] text-slate-600 font-semibold pt-1 border-t border-slate-200/80 mt-1.5">
-                        👤 {dept.officer}
+                        Officer: {dept.officer}
                       </p>
                     </button>
                   ))}
@@ -413,10 +413,10 @@ export const AuthView = ({ initialTab = 'employee' }) => {
                   </label>
 
                   <div className="text-right">
-                    <div className="w-6 h-6 mx-auto bg-blue-600 rounded-full flex items-center justify-center text-white text-[9px] font-bold">
-                      ♻
+                    <div className="w-6 h-6 mx-auto bg-blue-600 rounded flex items-center justify-center text-white text-[8px] font-bold">
+                      CAPTCHA
                     </div>
-                    <span className="text-[9px] text-slate-400 block font-sans">reCAPTCHA</span>
+                    <span className="text-[9px] text-slate-400 block font-sans">Security Check</span>
                   </div>
                 </div>
 
@@ -538,10 +538,10 @@ export const AuthView = ({ initialTab = 'employee' }) => {
                 </label>
 
                 <div className="text-right">
-                  <div className="w-7 h-7 mx-auto bg-blue-600 rounded-full flex items-center justify-center text-white text-[9px] font-bold">
-                    ♻
+                  <div className="w-6 h-6 mx-auto bg-blue-600 rounded flex items-center justify-center text-white text-[8px] font-bold">
+                    CAPTCHA
                   </div>
-                  <span className="text-[9px] text-slate-400 block font-sans">reCAPTCHA</span>
+                  <span className="text-[9px] text-slate-400 block font-sans">Security Check</span>
                 </div>
               </div>
 

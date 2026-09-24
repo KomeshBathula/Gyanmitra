@@ -47,7 +47,7 @@ export default function App() {
   // If taking Competency Assessment, render dedicated full-screen examination view
   if (currentScreen === 'assessment') {
     return (
-      <div className="fixed inset-0 z-50 bg-[#0B1528] overflow-y-auto">
+      <div className="fixed inset-0 z-50 bg-[#F5F7F9] overflow-y-auto">
         <AssessmentView />
         <Toast />
       </div>
@@ -105,27 +105,27 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#0B1528] text-slate-100 font-sans selection:bg-blue-600 selection:text-white">
+    <div className="min-h-screen flex flex-col bg-[#F5F7F9] text-[#1F2933] font-sans">
       {/* Top Global GoI & iGOT Karmayogi Header */}
       <Header />
 
       {/* Main Application Shell with Sidebar and View Body */}
       <div className="flex-1 flex flex-row overflow-hidden">
         <Sidebar />
-        <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 bg-[#0B1528] flex flex-col justify-between">
+        <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 bg-[#F5F7F9] flex flex-col justify-between">
           <div className="max-w-7xl mx-auto w-full">
             {renderScreen()}
           </div>
 
           {/* Official Karmayogi Bharat & MoSPI Footer */}
-          <footer className="mt-12 pt-6 pb-4 border-t border-[#1E2E4A] text-xs text-slate-400 max-w-7xl mx-auto w-full">
+          <footer className="mt-12 pt-5 pb-4 border-t border-[#D5DCE3] text-xs text-[#5B6773] max-w-7xl mx-auto w-full">
             <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-              <div className="flex items-center space-x-2 text-slate-400">
-                <span className="font-bold text-white">GyanMitra (ज्ञानमित्र)</span>
+              <div className="flex items-center space-x-2 text-[#5B6773]">
+                <span className="font-bold text-[#1F2933]">GyanMitra (ज्ञानमित्र)</span>
                 <span>•</span>
                 <span>Ministry of Statistics & Programme Implementation (MoSPI)</span>
               </div>
-              <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[11px] text-blue-400 font-medium">
+              <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[11px] text-[#0B3A63] font-medium">
                 <a href="https://igotkarmayogi.gov.in" target="_blank" rel="noreferrer" className="hover:underline">iGOT Karmayogi Bharat</a>
                 <a href="https://mospi.gov.in" target="_blank" rel="noreferrer" className="hover:underline">MoSPI Portal</a>
                 <a href="https://dopt.gov.in" target="_blank" rel="noreferrer" className="hover:underline">DoPT</a>
@@ -133,7 +133,7 @@ export default function App() {
                 <a href="https://nic.in" target="_blank" rel="noreferrer" className="hover:underline">NIC</a>
               </div>
             </div>
-            <div className="mt-2 text-[10px] text-slate-500 text-center md:text-left">
+            <div className="mt-2 text-[10px] text-[#5B6773] text-center md:text-left">
               Content owned by Ministry of Statistics & Programme Implementation (MoSPI), Government of India.
             </div>
           </footer>
@@ -143,11 +143,11 @@ export default function App() {
       {/* Official GyanMitra Support & Knowledge Assistant Button */}
       <button
         onClick={() => setIsAiDrawerOpen(true)}
-        className="fixed bottom-6 right-6 z-40 h-12 px-4 rounded-full bg-slate-800 hover:bg-slate-900 text-white shadow-lg transition-colors flex items-center space-x-2 border border-slate-700 cursor-pointer text-xs font-medium"
+        className="fixed bottom-6 right-6 z-40 h-10 px-4 rounded border border-[#D5DCE3] bg-[#0B3A63] hover:bg-[#12304A] text-white shadow-md transition-colors flex items-center space-x-2 cursor-pointer text-xs font-medium"
         title="GyanMitra Knowledge Assistant"
         aria-label="Open Knowledge Assistant"
       >
-        <MessageSquare className="w-4 h-4 text-blue-400" />
+        <MessageSquare className="w-3.5 h-3.5" />
         <span>Ask Assistant</span>
       </button>
 

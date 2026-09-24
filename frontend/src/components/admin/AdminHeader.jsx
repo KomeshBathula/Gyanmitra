@@ -121,8 +121,8 @@ export const AdminHeader = () => {
           {isDeptDropdownOpen && (
             <>
               <div className="fixed inset-0 z-40" onClick={() => setIsDeptDropdownOpen(false)}></div>
-              <div className="absolute left-0 mt-2 w-80 bg-[#111F38] rounded-2xl border border-[#1E3A6D] shadow-2xl p-2 z-50 animate-in fade-in">
-                <p className="px-3 py-1.5 text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+              <div className="absolute left-0 mt-2 w-80 bg-white dark:bg-[#111F38] rounded-2xl border border-[#D5DCE3] dark:border-[#1E3A6D] shadow-2xl p-2 z-50 animate-in fade-in">
+                <p className="px-3 py-1.5 text-[10px] font-bold text-[#5B6773] dark:text-slate-400 uppercase tracking-wider">
                   Select Administration Cadre
                 </p>
                 <div className="space-y-1">
@@ -138,16 +138,16 @@ export const AdminHeader = () => {
                         }}
                         className={`w-full text-left p-2.5 rounded-xl text-xs flex items-center space-x-3 transition-colors cursor-pointer ${
                           isSelected
-                            ? 'bg-blue-900/60 border border-blue-500/50 text-white font-bold'
-                            : 'hover:bg-[#162544] text-slate-300 border border-transparent'
+                            ? 'bg-[#EEF2F5] dark:bg-blue-900/60 border border-[#0B3A63]/30 dark:border-blue-500/50 text-[#0B3A63] dark:text-white font-bold'
+                            : 'hover:bg-[#F5F7F9] dark:hover:bg-[#162544] text-[#1F2933] dark:text-slate-300 border border-transparent'
                         }`}
                       >
-                        <div className="w-7 h-7 rounded-lg bg-[#0B1528] border border-[#1E2E4A] flex items-center justify-center text-blue-400 flex-shrink-0">
+                        <div className="w-7 h-7 rounded-lg bg-[#EEF2F5] dark:bg-[#0B1528] border border-[#D5DCE3] dark:border-[#1E2E4A] flex items-center justify-center text-[#0B3A63] dark:text-blue-400 flex-shrink-0">
                           <Icon className="w-4 h-4" />
                         </div>
                         <div className="flex-1 truncate">
-                          <p className="font-bold text-white truncate">{dept.name}</p>
-                          <p className="text-[10px] text-slate-400 truncate">{dept.badge} • {dept.totalLearners} Learners</p>
+                          <p className="font-bold text-[#1F2933] dark:text-white truncate">{dept.name}</p>
+                          <p className="text-[10px] text-[#5B6773] dark:text-slate-400 truncate">{dept.badge} • {dept.totalLearners} Learners</p>
                         </div>
                       </button>
                     );
@@ -238,20 +238,20 @@ export const AdminHeader = () => {
             {isNotifMenuOpen && (
               <>
                 <div className="fixed inset-0 z-40" onClick={() => setIsNotifMenuOpen(false)}></div>
-                <div className="absolute right-0 mt-2 w-80 sm:w-96 bg-[#111F38] text-slate-200 rounded-2xl shadow-2xl border border-[#1E3A6D] py-2 z-50 animate-in fade-in">
-                  <div className="px-4 py-2 border-b border-[#1E3A6D] flex items-center justify-between">
-                    <span className="text-xs font-bold text-white">Cadre Notifications</span>
+                <div className="absolute right-0 mt-2 w-80 sm:w-96 bg-white dark:bg-[#111F38] text-[#1F2933] dark:text-slate-200 rounded-2xl shadow-2xl border border-[#D5DCE3] dark:border-[#1E3A6D] py-2 z-50 animate-in fade-in">
+                  <div className="px-4 py-2 border-b border-[#D5DCE3] dark:border-[#1E3A6D] flex items-center justify-between bg-[#EEF2F5] dark:bg-[#0A1324] rounded-t-2xl">
+                    <span className="text-xs font-bold text-[#1F2933] dark:text-white">Cadre Notifications</span>
                     <button
                       onClick={() => {
                         setCurrentScreen('notifications');
                         setIsNotifMenuOpen(false);
                       }}
-                      className="text-[11px] text-blue-400 font-bold hover:underline cursor-pointer"
+                      className="text-[11px] text-[#0B3A63] dark:text-blue-400 font-bold hover:underline cursor-pointer"
                     >
                       View All
                     </button>
                   </div>
-                  <div className="max-h-80 overflow-y-auto divide-y divide-[#1E3A6D]">
+                  <div className="max-h-80 overflow-y-auto divide-y divide-[#D5DCE3] dark:divide-[#1E3A6D]">
                     {(notifications || []).slice(0, 4).map((n) => (
                       <div
                         key={n.id}
@@ -259,13 +259,13 @@ export const AdminHeader = () => {
                           setCurrentScreen(n.actionLink || 'notifications');
                           setIsNotifMenuOpen(false);
                         }}
-                        className="p-3 hover:bg-[#162544] cursor-pointer transition-colors"
+                        className="p-3 hover:bg-[#EEF2F5] dark:hover:bg-[#162544] cursor-pointer transition-colors"
                       >
                         <div className="flex items-start justify-between">
-                          <p className="text-xs font-semibold text-white">{n.title}</p>
-                          <span className="text-[10px] text-slate-400">{n.time}</span>
+                          <p className="text-xs font-semibold text-[#1F2933] dark:text-white">{n.title}</p>
+                          <span className="text-[10px] text-[#5B6773] dark:text-slate-400">{n.time}</span>
                         </div>
-                        <p className="text-[11px] text-slate-400 mt-1 line-clamp-2">{n.description}</p>
+                        <p className="text-[11px] text-[#5B6773] dark:text-slate-400 mt-1 line-clamp-2">{n.description}</p>
                       </div>
                     ))}
                   </div>
@@ -281,7 +281,7 @@ export const AdminHeader = () => {
               className="flex items-center space-x-2 p-0.5 rounded-full hover:ring-2 hover:ring-blue-400 transition-all cursor-pointer"
             >
               <div className="relative">
-                <div className="w-8 h-8 rounded-full bg-[#059669] text-white flex items-center justify-center font-bold text-xs shadow-xs border-2 border-[#1E3A6D]">
+                <div className="w-8 h-8 rounded-full bg-[#059669] text-white flex items-center justify-center font-bold text-xs shadow-xs border-2 border-white/30">
                   {getInitials(userProfile?.name)}
                 </div>
                 <span className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-emerald-400 border-2 border-[#0B1528]"></span>
@@ -291,15 +291,15 @@ export const AdminHeader = () => {
             {isProfileDropdownOpen && (
               <>
                 <div className="fixed inset-0 z-40" onClick={() => setIsProfileDropdownOpen(false)}></div>
-                <div className="absolute right-0 mt-2 w-64 bg-[#111F38] text-slate-200 rounded-2xl shadow-2xl border border-[#1E3A6D] py-2 z-50 animate-in fade-in">
-                  <div className="px-4 py-3 border-b border-[#1E3A6D] bg-[#0A1324] rounded-t-2xl">
-                    <p className="text-xs font-bold text-white">{userProfile?.name || 'Admin Officer'}</p>
-                    <p className="text-[11px] text-slate-400">{userProfile?.email || 'admin@mospi.gov.in'}</p>
+                <div className="absolute right-0 mt-2 w-64 bg-white dark:bg-[#111F38] text-[#1F2933] dark:text-slate-200 rounded-2xl shadow-2xl border border-[#D5DCE3] dark:border-[#1E3A6D] py-2 z-50 animate-in fade-in">
+                  <div className="px-4 py-3 border-b border-[#D5DCE3] dark:border-[#1E3A6D] bg-[#EEF2F5] dark:bg-[#0A1324] rounded-t-2xl">
+                    <p className="text-xs font-bold text-[#1F2933] dark:text-white">{userProfile?.name || 'Admin Officer'}</p>
+                    <p className="text-[11px] text-[#5B6773] dark:text-slate-400">{userProfile?.email || 'admin@mospi.gov.in'}</p>
                     <div className="mt-2 flex items-center justify-between">
-                      <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-blue-900/60 text-blue-200 border border-blue-700">
+                      <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-[#0B3A63] text-white dark:bg-blue-900/60 dark:text-blue-200 border border-transparent dark:border-blue-700">
                         {userProfile?.adminType || 'Cadre Director'}
                       </span>
-                      <span className="text-[10px] text-emerald-400 font-bold">
+                      <span className="text-[10px] text-[#2E7D32] dark:text-emerald-400 font-bold">
                         {activeDeptConfig?.name?.split('&')?.[0] || 'Cadre'}
                       </span>
                     </div>
@@ -311,9 +311,9 @@ export const AdminHeader = () => {
                         loginUser('employee');
                         setIsProfileDropdownOpen(false);
                       }}
-                      className="w-full text-left px-4 py-2 text-xs text-slate-300 hover:bg-[#162544] flex items-center space-x-2 cursor-pointer"
+                      className="w-full text-left px-4 py-2 text-xs text-[#1F2933] dark:text-slate-300 hover:bg-[#EEF2F5] dark:hover:bg-[#162544] flex items-center space-x-2 cursor-pointer"
                     >
-                      <ArrowRightLeft className="w-4 h-4 text-blue-400" />
+                      <ArrowRightLeft className="w-4 h-4 text-[#0B3A63] dark:text-blue-400" />
                       <span>Switch to Learner View</span>
                     </button>
                     <button
@@ -321,7 +321,7 @@ export const AdminHeader = () => {
                         loginUser('trainer');
                         setIsProfileDropdownOpen(false);
                       }}
-                      className="w-full text-left px-4 py-2 text-xs text-slate-300 hover:bg-[#162544] flex items-center space-x-2 cursor-pointer"
+                      className="w-full text-left px-4 py-2 text-xs text-[#1F2933] dark:text-slate-300 hover:bg-[#EEF2F5] dark:hover:bg-[#162544] flex items-center space-x-2 cursor-pointer"
                     >
                       <User className="w-4 h-4 text-slate-400" />
                       <span>Switch to Trainer View</span>

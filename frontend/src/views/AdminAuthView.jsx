@@ -234,7 +234,7 @@ export const AdminAuthView = () => {
                     <p className="text-[10px] text-slate-400">{dept.sub}</p>
                   </div>
                   <p className="text-[10px] text-slate-300 font-semibold pt-1.5 border-t border-[#1E2E4A] mt-2">
-                    👤 {dept.officer}
+                    Officer: {dept.officer}
                   </p>
                 </button>
               ))}

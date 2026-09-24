@@ -2,16 +2,10 @@ import React, { useState } from 'react';
 import {
   Bell,
   ChevronDown,
-  User,
-  Settings,
-  LogOut,
-  Search,
-  Globe,
-  Sliders,
-  Check,
-  Award,
   Sun,
-  Moon
+  Moon,
+  Check,
+  Search
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 
@@ -31,8 +25,27 @@ export const Header = () => {
     logoutUser,
     showToast,
     theme,
-    toggleTheme
+    toggleTheme,
+    fontScale,
+    setFontScale
   } = useApp();
+
+  const handleFontDecrease = () => {
+    const next = Math.max(90, fontScale - 10);
+    setFontScale(next);
+    showToast(`Font size set to ${next}%`, "info");
+  };
+
+  const handleFontReset = () => {
+    setFontScale(100);
+    showToast("Font size reset to 100%", "info");
+  };
+
+  const handleFontIncrease = () => {
+    const next = Math.min(150, fontScale + 10);
+    setFontScale(next);
+    showToast(`Font size set to ${next}%`, "info");
+  };
 
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const [isNotifMenuOpen, setIsNotifMenuOpen] = useState(false);
@@ -49,52 +62,47 @@ export const Header = () => {
   };
 
   return (
-    <header className="sticky top-0 z-40 bg-[#0B1528] text-white border-b border-[#1E2E4A] select-none">
+    <header className="sticky top-0 z-40 bg-[#0B3A63] text-white border-b border-[#12304A] select-none">
+      {/* Top tricolor stripe */}
+      <div className="h-0.5 bg-gradient-to-r from-[#FF9933] via-white to-[#138808]" />
+
       <div className="px-4 sm:px-6 py-2.5 flex items-center justify-between gap-3 sm:gap-6">
-        {/* Left: Orange Karmayogi Emblem & Hamburger */}
+        {/* Left: Logo & Portal Name */}
         <div className="flex items-center space-x-3 sm:space-x-4">
           <div
-            className="flex items-center space-x-2 cursor-pointer"
+            className="flex items-center space-x-2.5 cursor-pointer"
             onClick={() => setCurrentScreen(userProfile?.role === 'trainer' ? 'trainer-dashboard' : 'dashboard')}
           >
-            {/* Orange iGOT Emblem */}
-            <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 flex items-center justify-center text-[#FF9933]">
-                <svg className="w-7 h-7" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 2L14.5 8.5H21.5L16 12.5L18 19L12 15L6 19L8 12.5L2.5 8.5H9.5L12 2Z" />
-                </svg>
-              </div>
-              <div className="flex flex-col">
-                <div className="flex items-center space-x-1.5">
-                  <span className="text-[#FF9933] font-black text-sm sm:text-base tracking-tight leading-none font-sans font-bold">
-                    GyanMitra (ज्ञानमित्र)
-                  </span>
-                  {userProfile?.role === 'trainer' && (
-                    <span className="px-1.5 py-0.5 rounded text-[9px] font-bold bg-blue-900/70 text-blue-300 border border-blue-500/50">
-                      ADMIN
-                    </span>
-                  )}
-                </div>
-                <span className="text-[10px] text-slate-400 font-sans tracking-wide">
-                  {userProfile?.role === 'trainer'
-                    ? 'Ministry Governance & Admin Console'
-                    : 'Skill Intelligence Platform • MoSPI'}
-                </span>
-              </div>
+            {/* Ashoka Chakra placeholder */}
+            <div className="w-8 h-8 rounded bg-white/10 flex items-center justify-center border border-white/20 flex-shrink-0">
+              <span className="text-[#FF9933] font-black text-sm leading-none">G</span>
+            </div>
+            <div className="flex flex-col">
+              <span className="text-white font-bold text-sm sm:text-base tracking-tight leading-tight">
+                GyanMitra
+                {userProfile?.role === 'trainer' && (
+                  <span className="ml-1.5 text-[10px] font-semibold text-blue-200">(Admin)</span>
+                )}
+              </span>
+              <span className="text-[10px] text-blue-200 tracking-wide leading-tight">
+                {userProfile?.role === 'trainer'
+                  ? 'Ministry Administration Console'
+                  : 'iGOT Karmayogi · MoSPI Capacity Building'}
+              </span>
             </div>
           </div>
         </div>
 
-        {/* Center: Search Bar with Blue Search Button inside */}
-        <div className="flex-1 max-w-xl mx-2 sm:mx-6 hidden md:block">
+        {/* Center: Search Bar */}
+        <div className="flex-1 max-w-lg mx-2 sm:mx-6 hidden md:block">
           <div className="relative flex items-center">
-            <Search className="w-4 h-4 text-slate-400 absolute left-3.5 pointer-events-none" />
+            <Search className="w-4 h-4 text-blue-200 absolute left-3 pointer-events-none" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search Anything..."
-              className="w-full pl-10 pr-24 py-1.5 text-xs bg-[#080E1C] border border-[#1E3A6D] rounded-full text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#2087d8] transition-all"
+              placeholder="Search courses, competencies..."
+              className="w-full pl-9 pr-20 py-1.5 text-xs bg-white/10 border border-white/20 rounded text-white placeholder-blue-200 focus:outline-none focus:ring-1 focus:ring-white/40 transition-all"
             />
             <button
               onClick={() => {
@@ -103,30 +111,30 @@ export const Header = () => {
                   setCurrentScreen('courses');
                 }
               }}
-              className="absolute right-1 top-1/2 -translate-y-1/2 px-3 py-1 text-xs font-bold bg-[#1B365D] hover:bg-[#264092] text-white rounded-full transition-colors cursor-pointer shadow-xs"
+              className="absolute right-1 top-1/2 -translate-y-1/2 px-3 py-1 text-xs font-semibold bg-white/15 hover:bg-white/25 text-white rounded border border-white/20 transition-colors cursor-pointer"
             >
               Search
             </button>
           </div>
         </div>
 
-        {/* Right Action Icons */}
-        <div className="flex items-center space-x-2 sm:space-x-3">
-          {/* Language Selector (EN ▾) */}
+        {/* Right Action Items */}
+        <div className="flex items-center space-x-1 sm:space-x-2">
+
+          {/* Language Selector */}
           <div className="relative">
             <button
               onClick={() => setIsLangMenuOpen(!isLangMenuOpen)}
-              className="flex items-center space-x-1 px-2.5 py-1 rounded-lg text-xs font-bold bg-[#162544] hover:bg-[#1E335A] text-slate-200 border border-[#1E3A6D] transition-colors cursor-pointer"
+              className="flex items-center space-x-1 px-2.5 py-1.5 rounded text-xs font-semibold text-blue-100 hover:bg-white/10 border border-white/20 transition-colors cursor-pointer"
             >
-              <Globe className="w-3.5 h-3.5 text-blue-400" />
               <span className="uppercase">{language}</span>
-              <ChevronDown className="w-3 h-3 text-slate-400" />
+              <ChevronDown className="w-3 h-3" />
             </button>
 
             {isLangMenuOpen && (
               <>
-                <div className="fixed inset-0 z-40" onClick={() => setIsLangMenuOpen(false)}></div>
-                <div className="absolute right-0 mt-2 w-36 bg-[#111F38] rounded-xl shadow-xl border border-[#1E3A6D] py-1 z-50">
+                <div className="fixed inset-0 z-40" onClick={() => setIsLangMenuOpen(false)} />
+                <div className="absolute right-0 mt-1 w-36 bg-white rounded border border-[#D5DCE3] shadow-md py-1 z-50">
                   {[
                     { code: 'en', label: 'English (EN)' },
                     { code: 'hi', label: 'हिन्दी (HI)' },
@@ -138,12 +146,12 @@ export const Header = () => {
                         setLanguage(l.code);
                         setIsLangMenuOpen(false);
                       }}
-                      className={`w-full text-left px-3 py-2 text-xs font-semibold flex items-center justify-between hover:bg-[#162544] cursor-pointer ${
-                        language === l.code ? 'text-blue-400 bg-[#162544]' : 'text-slate-300'
+                      className={`w-full text-left px-3 py-2 text-xs font-medium flex items-center justify-between hover:bg-[#EEF2F5] cursor-pointer ${
+                        language === l.code ? 'text-[#0B3A63] font-semibold' : 'text-[#1F2933]'
                       }`}
                     >
                       <span>{l.label}</span>
-                      {language === l.code && <Check className="w-3.5 h-3.5 text-blue-400" />}
+                      {language === l.code && <Check className="w-3.5 h-3.5 text-[#0B3A63]" />}
                     </button>
                   ))}
                 </div>
@@ -151,49 +159,77 @@ export const Header = () => {
             )}
           </div>
 
-          {/* Theme Sun/Moon Toggle Button */}
+          {/* Accessibility Font Size Control */}
+          <div className="hidden sm:flex items-center space-x-0.5 bg-white/10 p-0.5 rounded border border-white/20 text-[11px] font-semibold">
+            <button
+              onClick={handleFontDecrease}
+              className="px-1.5 py-0.5 text-blue-100 hover:text-white hover:bg-white/10 rounded transition-colors cursor-pointer"
+              title="Decrease Font Size"
+            >
+              A-
+            </button>
+            <button
+              onClick={handleFontReset}
+              className={`px-1.5 py-0.5 rounded transition-colors cursor-pointer ${
+                fontScale === 100 ? 'bg-white/20 text-white font-bold' : 'text-blue-100 hover:text-white hover:bg-white/10'
+              }`}
+              title="Reset Font Size (100%)"
+            >
+              A
+            </button>
+            <button
+              onClick={handleFontIncrease}
+              className="px-1.5 py-0.5 text-blue-100 hover:text-white hover:bg-white/10 rounded transition-colors cursor-pointer"
+              title="Increase Font Size"
+            >
+              A+
+            </button>
+          </div>
+
+          {/* Theme Toggle */}
           <button
             onClick={toggleTheme}
-            className="p-1.5 rounded-lg text-slate-300 hover:text-amber-300 hover:bg-[#162544] transition-all cursor-pointer flex items-center justify-center"
+            className="p-1.5 rounded text-blue-100 hover:text-white hover:bg-white/10 transition-all cursor-pointer"
             title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-            aria-label="Toggle Theme"
           >
             {theme === 'dark' ? (
-              <Sun className="w-4 h-4 text-amber-300 hover:rotate-45 transition-transform" />
+              <Sun className="w-4 h-4" />
             ) : (
-              <Moon className="w-4 h-4 text-blue-600 hover:-rotate-12 transition-transform" />
+              <Moon className="w-4 h-4" />
             )}
           </button>
 
-          {/* Notification Bell with 7+ Red Badge */}
+          {/* Notification Bell */}
           <div className="relative">
             <button
               onClick={() => setIsNotifMenuOpen(!isNotifMenuOpen)}
-              className="p-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-[#162544] relative transition-colors cursor-pointer"
+              className="p-1.5 rounded text-blue-100 hover:text-white hover:bg-white/10 relative transition-colors cursor-pointer"
             >
               <Bell className="w-4 h-4" />
-              <span className="absolute -top-1 -right-1 bg-[#E11D48] text-white text-[9px] font-black px-1.5 py-0.2 rounded-full flex items-center justify-center border-2 border-[#0B1528] shadow-xs">
-                {unreadCount > 7 ? '7+' : unreadCount > 0 ? unreadCount : '7+'}
-              </span>
+              {(unreadCount > 0 || true) && (
+                <span className="absolute -top-0.5 -right-0.5 bg-red-500 text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+                  {unreadCount > 9 ? '9+' : unreadCount > 0 ? unreadCount : '7'}
+                </span>
+              )}
             </button>
 
             {isNotifMenuOpen && (
               <>
-                <div className="fixed inset-0 z-40" onClick={() => setIsNotifMenuOpen(false)}></div>
-                <div className="absolute right-0 mt-2 w-80 sm:w-96 bg-[#111F38] text-slate-200 rounded-2xl shadow-2xl border border-[#1E3A6D] py-2 z-50 animate-in fade-in">
-                  <div className="px-4 py-2 border-b border-[#1E3A6D] flex items-center justify-between">
-                    <span className="text-xs font-bold text-white">Notifications</span>
+                <div className="fixed inset-0 z-40" onClick={() => setIsNotifMenuOpen(false)} />
+                <div className="absolute right-0 mt-1 w-80 sm:w-96 bg-white rounded border border-[#D5DCE3] shadow-md py-0 z-50">
+                  <div className="px-4 py-2.5 border-b border-[#D5DCE3] flex items-center justify-between bg-[#EEF2F5]">
+                    <span className="text-xs font-semibold text-[#1F2933]">Notifications</span>
                     <button
                       onClick={() => {
                         setCurrentScreen('notifications');
                         setIsNotifMenuOpen(false);
                       }}
-                      className="text-[11px] text-blue-400 font-bold hover:underline cursor-pointer"
+                      className="text-[11px] text-[#0B3A63] font-semibold hover:underline cursor-pointer"
                     >
                       View All
                     </button>
                   </div>
-                  <div className="max-h-80 overflow-y-auto divide-y divide-[#1E3A6D]">
+                  <div className="max-h-72 overflow-y-auto divide-y divide-[#D5DCE3]">
                     {(notifications || []).slice(0, 4).map((n) => (
                       <div
                         key={n.id}
@@ -201,13 +237,13 @@ export const Header = () => {
                           setCurrentScreen(n.actionLink || 'notifications');
                           setIsNotifMenuOpen(false);
                         }}
-                        className="p-3 hover:bg-[#162544] cursor-pointer transition-colors"
+                        className="p-3 hover:bg-[#EEF2F5] cursor-pointer transition-colors"
                       >
                         <div className="flex items-start justify-between">
-                          <p className="text-xs font-semibold text-white">{n.title}</p>
-                          <span className="text-[10px] text-slate-400">{n.time}</span>
+                          <p className="text-xs font-semibold text-[#1F2933]">{n.title}</p>
+                          <span className="text-[10px] text-[#5B6773] ml-2 whitespace-nowrap">{n.time}</span>
                         </div>
-                        <p className="text-[11px] text-slate-400 mt-1 line-clamp-2">{n.description}</p>
+                        <p className="text-[11px] text-[#5B6773] mt-0.5 line-clamp-2">{n.description}</p>
                       </div>
                     ))}
                   </div>
@@ -216,77 +252,70 @@ export const Header = () => {
             )}
           </div>
 
-          {/* User Avatar (🟢 RM) with Green Dot */}
+          {/* User Profile */}
           <div className="relative">
             <button
               onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
-              className="flex items-center space-x-2 p-0.5 rounded-full hover:ring-2 hover:ring-blue-400 transition-all cursor-pointer"
+              className="flex items-center space-x-2 px-2 py-1 rounded hover:bg-white/10 transition-all cursor-pointer"
             >
-              <div className="relative">
-                <div className="w-8 h-8 rounded-full bg-[#059669] text-white flex items-center justify-center font-bold text-xs shadow-xs border-2 border-[#1E3A6D]">
-                  {getInitials(userProfile?.name)}
-                </div>
-                <span className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-emerald-400 border-2 border-[#0B1528]"></span>
+              <div className="w-7 h-7 rounded bg-[#2E7D32] text-white flex items-center justify-center font-bold text-xs">
+                {getInitials(userProfile?.name)}
               </div>
+              <span className="text-xs text-blue-100 font-medium hidden sm:block max-w-[80px] truncate">
+                {userProfile?.name?.split(' ')[0] || 'Officer'}
+              </span>
+              <ChevronDown className="w-3 h-3 text-blue-200" />
             </button>
 
             {isProfileMenuOpen && (
               <>
-                <div className="fixed inset-0 z-40" onClick={() => setIsProfileMenuOpen(false)}></div>
-                <div className="absolute right-0 mt-2 w-64 bg-[#111F38] text-slate-200 rounded-2xl shadow-2xl border border-[#1E3A6D] py-2 z-50 animate-in fade-in">
-                  <div className="px-4 py-3 border-b border-[#1E3A6D] bg-[#0A1324] rounded-t-2xl">
-                    <p className="text-xs font-bold text-white">{userProfile?.name || 'Statistical Officer'}</p>
-                    <p className="text-[11px] text-slate-400">{userProfile?.email || 'officer@mospi.gov.in'}</p>
-                    <div className="mt-2 flex items-center justify-between">
-                      <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-blue-900/60 text-blue-200 border border-blue-700">
+                <div className="fixed inset-0 z-40" onClick={() => setIsProfileMenuOpen(false)} />
+                <div className="absolute right-0 mt-1 w-64 bg-white rounded border border-[#D5DCE3] shadow-md z-50">
+                  {/* Profile Info */}
+                  <div className="px-4 py-3 border-b border-[#D5DCE3] bg-[#EEF2F5]">
+                    <p className="text-xs font-semibold text-[#1F2933]">{userProfile?.name || 'Statistical Officer'}</p>
+                    <p className="text-[11px] text-[#5B6773]">{userProfile?.email || 'officer@mospi.gov.in'}</p>
+                    <div className="mt-1.5 flex items-center justify-between">
+                      <span className="px-2 py-0.5 rounded text-[10px] font-medium bg-[#0B3A63] text-white">
                         {userProfile?.cadre || 'MoSPI Cadre'}
                       </span>
-                      {userProfile?.role === 'trainer' ? (
-                        <span className="text-[10px] text-emerald-400 font-bold">
-                          Course Director
-                        </span>
-                      ) : (
-                        <span className="text-[10px] text-amber-400 font-bold flex items-center">
-                          <Award className="w-3 h-3 mr-0.5 text-amber-400" />
-                          {userProfile?.karmayogiCredits ?? 799} Pts
-                        </span>
-                      )}
+                      <span className="text-[10px] text-[#5B6773]">
+                        {userProfile?.karmayogiCredits ?? 799} Karma Pts
+                      </span>
                     </div>
                   </div>
 
+                  {/* Menu Items */}
                   <div className="py-1">
                     <button
                       onClick={() => {
                         setCurrentScreen('profile');
                         setIsProfileMenuOpen(false);
                       }}
-                      className="w-full text-left px-4 py-2 text-xs text-slate-300 hover:bg-[#162544] flex items-center space-x-2 cursor-pointer"
+                      className="w-full text-left px-4 py-2 text-xs text-[#1F2933] hover:bg-[#EEF2F5] cursor-pointer"
                     >
-                      <User className="w-4 h-4 text-slate-400" />
-                      <span>{t('officialServiceProfile')}</span>
+                      {t('officialServiceProfile')}
                     </button>
                     <button
                       onClick={() => {
                         setCurrentScreen('settings');
                         setIsProfileMenuOpen(false);
                       }}
-                      className="w-full text-left px-4 py-2 text-xs text-slate-300 hover:bg-[#162544] flex items-center space-x-2 cursor-pointer"
+                      className="w-full text-left px-4 py-2 text-xs text-[#1F2933] hover:bg-[#EEF2F5] cursor-pointer"
                     >
-                      <Settings className="w-4 h-4 text-slate-400" />
-                      <span>{t('systemSettings')}</span>
+                      {t('systemSettings')}
                     </button>
                   </div>
 
-                  <div className="border-t border-[#1E3A6D] pt-1">
+                  <div className="border-t border-[#D5DCE3] py-1">
                     <button
                       onClick={() => {
                         setIsProfileMenuOpen(false);
                         logoutUser();
                       }}
-                      className="w-full text-left px-4 py-2 text-xs text-rose-400 hover:bg-rose-950/40 flex items-center space-x-2 font-medium cursor-pointer"
+                      className="w-full text-left px-4 py-2 text-xs text-red-600 hover:bg-red-50 font-medium cursor-pointer"
                     >
-                      <LogOut className="w-4 h-4 text-rose-400" />
-                      <span>{t('signOut')}</span>
+                      {t('signOut')}
                     </button>
                   </div>
                 </div>

@@ -299,20 +299,12 @@ export const SkillGapView = () => {
             {/* Modal Header */}
             <div className="p-5 border-b border-slate-100 flex items-center justify-between bg-slate-50 sticky top-0 z-10">
               <div className="flex items-center space-x-3">
-                <div className="w-10 h-10 rounded-xl bg-[#1B365D] flex items-center justify-center text-amber-400 font-bold shadow-xs">
-                  <ShieldCheck className="w-5 h-5" />
+                <div className="px-2 py-0.5 rounded text-[10px] font-semibold bg-[#EEF2F5] text-[#0B3A63] border border-[#D5DCE3]">
+                  {selectedGap.category || 'Technical'}
                 </div>
-                <div>
-                  <div className="flex items-center space-x-2">
-                    <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-100 text-blue-900">
-                      {selectedGap.category || 'Technical'}
-                    </span>
-                    <span className="text-xs text-slate-400 font-mono">FRAC ID: {selectedGap.id}</span>
-                  </div>
-                  <h3 className="text-base font-extrabold text-[#1B365D] mt-0.5">
-                    {selectedGap.competency}
-                  </h3>
-                </div>
+                <h3 className="text-base font-extrabold text-[#1B365D] mt-0.5">
+                  {selectedGap.competency}
+                </h3>
               </div>
 
               <button
@@ -325,19 +317,19 @@ export const SkillGapView = () => {
 
             {/* Modal Content */}
             <div className="p-6 space-y-5">
-              {/* Level Benchmark Bar */}
-              <div className="p-4 rounded-xl bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 flex items-center justify-between">
+              {/* Level Benchmark Panel */}
+              <div className="p-4 border border-[#D5DCE3] rounded bg-[#EEF2F5] flex items-center justify-between">
                 <div>
-                  <span className="text-[11px] font-bold text-slate-600 block">Demonstrated Current Level</span>
-                  <span className="text-sm font-extrabold text-slate-900">Level {selectedGap.currentLevel} / 5</span>
+                  <span className="text-[11px] font-semibold text-[#5B6773] block">Demonstrated Current Level</span>
+                  <span className="text-sm font-bold text-[#1F2933]">Level {selectedGap.currentLevel} / 5</span>
                 </div>
                 <div className="text-center">
-                  <ArrowRight className="w-5 h-5 text-blue-600 mx-auto" />
-                  <span className="text-[10px] font-bold text-blue-700">Target Benchmark</span>
+                  <span className="text-lg text-[#0B3A63]">→</span>
+                  <span className="text-[10px] font-semibold text-[#0B3A63] block">Target Benchmark</span>
                 </div>
                 <div className="text-right">
-                  <span className="text-[11px] font-bold text-blue-800 block">Cadre Mandated Level</span>
-                  <span className="text-sm font-extrabold text-blue-900">Level {selectedGap.requiredLevel ?? selectedGap.targetLevel ?? 3} / 5</span>
+                  <span className="text-[11px] font-semibold text-[#0B3A63] block">Cadre Mandated Level</span>
+                  <span className="text-sm font-bold text-[#0B3A63]">Level {selectedGap.requiredLevel ?? selectedGap.targetLevel ?? 3} / 5</span>
                 </div>
               </div>
 

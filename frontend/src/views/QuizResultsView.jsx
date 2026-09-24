@@ -249,7 +249,7 @@ export const QuizResultsView = () => {
                 </h4>
 
                 <p className="text-xs text-slate-300 leading-relaxed">
-                  💡 {mod.reason}
+                  {mod.reason}
                 </p>
               </div>
 
@@ -419,7 +419,7 @@ export const QuizResultsView = () => {
                   <p className="text-slate-300 text-[11px] leading-relaxed">{item.explanation}</p>
                   {item.sourceCitation && (
                     <p className="text-blue-400 font-mono text-[10px] pt-0.5">
-                      📍 {item.sourceCitation}
+                      Citation: {item.sourceCitation}
                     </p>
                   )}
                 </div>

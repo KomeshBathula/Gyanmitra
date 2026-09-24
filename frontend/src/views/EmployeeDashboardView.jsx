@@ -1,22 +1,5 @@
 import React, { useState } from 'react';
-import {
-  ChevronLeft,
-  ChevronRight,
-  Award,
-  Clock,
-  ShieldCheck,
-  TrendingUp,
-  BookOpen,
-  BarChart3,
-  CheckCircle2,
-  XCircle,
-  HelpCircle,
-  Play,
-  FileText,
-  ArrowRight,
-  Shield,
-  MessageSquare
-} from 'lucide-react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 
 export const EmployeeDashboardView = () => {
@@ -30,10 +13,9 @@ export const EmployeeDashboardView = () => {
     t
   } = useApp();
 
-  const [activeTab, setActiveTab] = useState('apar'); // 'apar', 'cbp', 'moderated'
+  const [activeTab, setActiveTab] = useState('apar');
   const [activeSlide, setActiveSlide] = useState(0);
 
-  // Carousel banners
   const carouselSlides = [
     {
       id: 1,
@@ -41,7 +23,6 @@ export const EmployeeDashboardView = () => {
       badgeTitle: "AI Daksh Badge",
       badgeType: "Gold Certified",
       actionText: "Explore AI Tracks",
-      bgGradient: "from-blue-900/60 to-[#111F38]"
     },
     {
       id: 2,
@@ -49,11 +30,9 @@ export const EmployeeDashboardView = () => {
       badgeTitle: "MoSPI Specialist",
       badgeType: "ISS Certified",
       actionText: "Start Sampling Module",
-      bgGradient: "from-emerald-900/60 to-[#111F38]"
     }
   ];
 
-  // Course Recommendations matching iGOT screenshot
   const recommendedCourses = [
     {
       id: 'crs-1',
@@ -61,8 +40,6 @@ export const EmployeeDashboardView = () => {
       duration: '1h 7m',
       rating: '4.3',
       provider: 'Department of Posts & MoSPI',
-      theme: 'postal',
-      bgImg: 'https://images.unsplash.com/photo-1577495508048-b635879837f1?w=400&auto=format&fit=crop&q=80',
       badge: 'Course',
       karmaPoints: 120
     },
@@ -72,8 +49,6 @@ export const EmployeeDashboardView = () => {
       duration: '45m 15s',
       rating: '4.3',
       provider: 'Karmayogi Bharat Foundation',
-      theme: 'customer',
-      bgImg: 'https://images.unsplash.com/photo-1521791136064-7986c2920216?w=400&auto=format&fit=crop&q=80',
       badge: 'Course',
       karmaPoints: 100
     },
@@ -83,8 +58,6 @@ export const EmployeeDashboardView = () => {
       duration: '2h 30m',
       rating: '4.8',
       provider: 'NSSTA Greater Noida',
-      theme: 'statistics',
-      bgImg: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&auto=format&fit=crop&q=80',
       badge: 'Course',
       karmaPoints: 250
     },
@@ -94,109 +67,90 @@ export const EmployeeDashboardView = () => {
       duration: '3h 15m',
       rating: '4.9',
       provider: 'National Statistical Systems Training Academy',
-      theme: 'economy',
-      bgImg: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&auto=format&fit=crop&q=80',
       badge: 'Course',
       karmaPoints: 300
     }
   ];
 
   return (
-    <div className="space-y-6 pb-12 text-slate-100">
-      {/* 1. Top Hero Carousel Banner */}
-      <div className="relative rounded-3xl overflow-hidden bg-white text-slate-900 border border-[#1E3A6D] shadow-xl">
-        <div className="flex flex-col md:flex-row items-center justify-between p-6 sm:p-8 gap-6">
-          {/* Badge Graphic Artwork */}
-          <div className="flex items-center space-x-6 flex-shrink-0">
-            <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl bg-gradient-to-tr from-amber-400 via-yellow-500 to-amber-300 p-1 flex items-center justify-center shadow-lg transform hover:scale-105 transition-transform">
-              <div className="w-full h-full rounded-xl bg-white flex flex-col items-center justify-center p-2 text-center">
-                <Award className="w-10 h-10 text-amber-500 fill-amber-400" />
-                <span className="text-[10px] font-black text-slate-800 uppercase tracking-tight mt-1 leading-none">
-                  {carouselSlides[activeSlide].badgeTitle}
-                </span>
-              </div>
-            </div>
-          </div>
+    <div className="space-y-5 pb-12 text-[#1F2933]">
 
-          {/* Banner Text Content */}
-          <div className="flex-1 space-y-2 text-center md:text-left">
-            <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-blue-50 text-[#0074CB] text-xs font-bold border border-blue-200">
-              <Award className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
-              <span>GyanMitra • Learning Incentive</span>
-            </div>
-            <h2 className="text-lg sm:text-2xl font-black text-[#1B365D] tracking-tight leading-snug">
+      {/* 1. Welcome Greeting */}
+      <div>
+        <h1 className="text-xl font-bold text-[#1F2933]">
+          Welcome back, {userProfile?.name || 'Statistical Officer'}
+        </h1>
+        <p className="text-xs text-[#5B6773] mt-0.5">
+          Ministry of Statistics & Programme Implementation · iGOT Karmayogi
+        </p>
+      </div>
+
+      {/* 2. Announcement Banner */}
+      <div className="bg-white border border-[#D5DCE3] rounded p-4">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          {/* Text Content */}
+          <div className="flex-1 space-y-1">
+            <span className="inline-block px-2 py-0.5 rounded text-[10px] font-semibold bg-[#EEF2F5] text-[#0B3A63] border border-[#D5DCE3]">
+              GyanMitra · Learning Incentive
+            </span>
+            <h2 className="text-sm font-semibold text-[#1F2933] leading-snug">
               {carouselSlides[activeSlide].title}
             </h2>
-            <p className="text-xs text-slate-500">
+            <p className="text-xs text-[#5B6773]">
               Complete the designated modules to validate competencies under MoSPI Annual Capacity Plan.
             </p>
+            <div className="flex items-center space-x-2 pt-1">
+              <span className="text-xs font-semibold text-[#0B3A63]">
+                {carouselSlides[activeSlide].badgeTitle}
+              </span>
+              <span className="px-2 py-0.5 rounded text-[10px] font-medium bg-[#0B3A63] text-white">
+                {carouselSlides[activeSlide].badgeType}
+              </span>
+            </div>
           </div>
-
-          {/* Carousel Arrows */}
-          <div className="flex items-center space-x-2">
+          {/* Carousel Controls */}
+          <div className="flex items-center space-x-2 flex-shrink-0">
             <button
               onClick={() => setActiveSlide((prev) => (prev === 0 ? carouselSlides.length - 1 : prev - 1))}
-              className="w-9 h-9 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center justify-center cursor-pointer transition-colors"
+              className="w-7 h-7 border border-[#D5DCE3] rounded bg-[#F5F7F9] hover:bg-[#EEF2F5] text-[#5B6773] flex items-center justify-center cursor-pointer"
             >
-              <ChevronLeft className="w-5 h-5" />
+              <ChevronLeft className="w-4 h-4" />
             </button>
+            <span className="text-[11px] text-[#5B6773]">{activeSlide + 1}/{carouselSlides.length}</span>
             <button
               onClick={() => setActiveSlide((prev) => (prev === carouselSlides.length - 1 ? 0 : prev + 1))}
-              className="w-9 h-9 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center justify-center cursor-pointer transition-colors"
+              className="w-7 h-7 border border-[#D5DCE3] rounded bg-[#F5F7F9] hover:bg-[#EEF2F5] text-[#5B6773] flex items-center justify-center cursor-pointer"
             >
-              <ChevronRight className="w-5 h-5" />
+              <ChevronRight className="w-4 h-4" />
             </button>
           </div>
-        </div>
-
-        {/* Carousel Pagination Dots */}
-        <div className="flex items-center justify-center pb-3 space-x-1.5">
-          {carouselSlides.map((_, idx) => (
-            <span
-              key={idx}
-              onClick={() => setActiveSlide(idx)}
-              className={`w-2 h-2 rounded-full cursor-pointer transition-all ${
-                activeSlide === idx ? 'bg-[#0074CB] w-5' : 'bg-slate-300'
-              }`}
-            />
-          ))}
         </div>
       </div>
 
-      {/* 2. Welcome Greeting & AI Knowledge Assistant Quick Card */}
-      <div className="space-y-4">
-        <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
-          Welcome Back, {userProfile?.name || 'Statistical Officer'}
-        </h1>
-
-        {/* GyanMitra Official Knowledge Assistant Card */}
-        <div className="bg-[#111F38] rounded-3xl border border-[#1E335A] p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-lg max-w-3xl">
-          <div className="flex items-start sm:items-center space-x-3.5">
-            <div className="w-10 h-10 rounded-2xl bg-blue-600/20 border border-blue-500/40 flex items-center justify-center flex-shrink-0 text-blue-400">
-              <MessageSquare className="w-5 h-5 text-blue-400" />
+      {/* 3. AI Knowledge Assistant Card */}
+      <div className="bg-white border border-[#D5DCE3] rounded p-4">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+          <div>
+            <div className="flex items-center space-x-2">
+              <h3 className="text-sm font-semibold text-[#1F2933]">GyanMitra Knowledge Assistant</h3>
+              <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-[#EEF2F5] text-[#0B3A63] border border-[#D5DCE3]">
+                AI ASSISTED
+              </span>
             </div>
-            <div>
-              <div className="flex items-center space-x-2">
-                <h3 className="text-sm font-bold text-white">GyanMitra Official Knowledge Assistant</h3>
-                <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-blue-900/60 text-blue-300 border border-blue-500/30">
-                  Groq Cloud AI
-                </span>
-              </div>
-              <p className="text-xs text-slate-300 mt-0.5">
-                Official institutional assistant for MoSPI statistical methodologies, sampling, courses, and competency development.
-              </p>
-            </div>
+            <p className="text-xs text-[#5B6773] mt-0.5">
+              Official assistant for MoSPI statistical methodologies, sampling, courses, and competency development.
+            </p>
           </div>
-          <div className="flex items-center space-x-2 w-full sm:w-auto">
+          <div className="flex items-center space-x-2 flex-shrink-0">
             <button
               onClick={() => setIsAiDrawerOpen(true)}
-              className="flex-1 sm:flex-none px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-xl transition-colors cursor-pointer text-center"
+              className="px-4 py-1.5 bg-[#0B3A63] hover:bg-[#12304A] text-white text-xs font-semibold rounded transition-colors cursor-pointer"
             >
               Ask Assistant
             </button>
             <button
               onClick={() => setCurrentScreen('ai-assistant')}
-              className="px-3.5 py-2 bg-[#162544] hover:bg-[#1E335A] text-slate-200 border border-[#1E3A6D] text-xs font-semibold rounded-xl transition-colors cursor-pointer"
+              className="px-3 py-1.5 bg-[#F5F7F9] hover:bg-[#EEF2F5] text-[#5B6773] border border-[#D5DCE3] text-xs font-medium rounded transition-colors cursor-pointer"
             >
               Full Page
             </button>
@@ -204,40 +158,37 @@ export const EmployeeDashboardView = () => {
         </div>
       </div>
 
-      {/* 3. Weekly Claps Card */}
-      <div className="bg-[#111F38] rounded-3xl border border-[#1E335A] p-6 space-y-4 shadow-lg max-w-3xl">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-          <h3 className="text-base font-bold text-white">Weekly Claps</h3>
-          <span className="px-3 py-1 rounded-full bg-[#162544] border border-[#1E3A6D] text-slate-300 text-xs font-semibold self-start sm:self-auto">
-            Mon, 17 Aug - Sun, 13 Sep
+      {/* 4. Weekly Claps */}
+      <div className="bg-white border border-[#D5DCE3] rounded p-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
+          <h3 className="text-sm font-semibold text-[#1F2933]">Weekly Engagement Streak</h3>
+          <span className="px-2 py-0.5 rounded border border-[#D5DCE3] bg-[#F5F7F9] text-[#5B6773] text-xs self-start sm:self-auto">
+            Mon, 17 Aug — Sun, 13 Sep
           </span>
         </div>
 
-        <p className="text-xs text-slate-300 leading-relaxed">
-          This is a fun way to track your engagement on the platform. It reflects your commitment and activity level.{' '}
+        <p className="text-xs text-[#5B6773] leading-relaxed">
+          Track your engagement on the platform. It reflects your commitment and activity level.{' '}
           <button
             onClick={() => showToast("Weekly claps track your continuous learning milestones.", "info")}
-            className="text-blue-400 font-semibold hover:underline cursor-pointer"
+            className="text-[#0B3A63] font-medium hover:underline cursor-pointer"
           >
             Know More
           </button>
         </p>
 
-        {/* Claps Progress Visual */}
-        <div className="pt-2 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div className="flex items-center space-x-4">
-            {/* Clapping Hands Icon */}
-            <div className="w-14 h-14 rounded-2xl bg-[#162544] border border-[#1E3A6D] flex items-center justify-center text-slate-400">
-              <span className="text-3xl">👏</span>
+        <div className="mt-3 pt-3 border-t border-[#D5DCE3] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div className="flex items-center space-x-3">
+            <div className="w-9 h-9 rounded bg-[#EEF2F5] border border-[#D5DCE3] flex items-center justify-center font-bold text-[#0B3A63] text-xs">
+              0W
             </div>
             <div>
-              <p className="text-lg font-black text-white leading-none">0 Weeks</p>
-              <p className="text-[11px] text-slate-400 mt-1">Consistency Streak</p>
+              <p className="text-sm font-bold text-[#1F2933]">0 Weeks</p>
+              <p className="text-[11px] text-[#5B6773]">Consistency Streak</p>
             </div>
           </div>
 
-          {/* Week Circles */}
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-3">
             {[
               { label: 'W1', completed: false },
               { label: 'W2', completed: false },
@@ -245,17 +196,17 @@ export const EmployeeDashboardView = () => {
               { label: 'W4', isCurrent: true }
             ].map((wk, idx) => (
               <div key={idx} className="flex flex-col items-center space-y-1">
-                <span className="text-[10px] font-bold text-slate-400">{wk.label}</span>
+                <span className="text-[10px] font-semibold text-[#5B6773]">{wk.label}</span>
                 <div
-                  className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${
+                  className={`w-7 h-7 rounded border flex items-center justify-center text-xs font-bold ${
                     wk.completed
-                      ? 'bg-emerald-500 text-white'
+                      ? 'bg-[#2E7D32] text-white border-[#2E7D32]'
                       : wk.isCurrent
-                      ? 'border-2 border-amber-400 text-amber-400 bg-amber-400/10'
-                      : 'bg-[#162544] text-slate-500 border border-[#1E3A6D]'
+                      ? 'border-[#B7791F] text-[#B7791F] bg-amber-50'
+                      : 'bg-[#F5F7F9] text-[#5B6773] border-[#D5DCE3]'
                   }`}
                 >
-                  {wk.completed ? '✓' : wk.isCurrent ? '○' : '✕'}
+                  {wk.completed ? '✓' : wk.isCurrent ? '○' : '–'}
                 </div>
               </div>
             ))}
@@ -263,68 +214,59 @@ export const EmployeeDashboardView = () => {
         </div>
       </div>
 
-      {/* 4. Live AI-Generated Quizzes & Material Assessments (From Admin Uploads) */}
-      <div className="space-y-3 pt-2">
+      {/* 5. Live Material Assessments */}
+      <div className="space-y-3">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div>
             <div className="flex items-center space-x-2">
-              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-blue-900/60 text-blue-200 border border-blue-500/40 flex items-center space-x-1.5">
-                <ShieldCheck className="w-3 h-3 text-blue-400" />
-                <span>MoSPI Cadre Assessment</span>
+              <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-[#EEF2F5] text-[#0B3A63] border border-[#D5DCE3]">
+                MoSPI Cadre Assessment
               </span>
-              <span className="text-xs text-slate-400">Official Induction & Training Assessments</span>
+              <span className="text-xs text-[#5B6773]">Official Induction & Training Assessments</span>
             </div>
-            <h3 className="text-lg font-black text-white mt-1">Live Material Assessments</h3>
+            <h3 className="text-sm font-semibold text-[#1F2933] mt-1">Live Material Assessments</h3>
           </div>
-          <span className="text-xs text-slate-400">
+          <span className="text-xs text-[#5B6773]">
             {(generatedQuizzes || []).length} Assessment{(generatedQuizzes || []).length === 1 ? '' : 's'} Available
           </span>
         </div>
 
-        {/* Live Quizzes List */}
         {(!generatedQuizzes || generatedQuizzes.length === 0) ? (
-          <div className="p-6 rounded-3xl bg-[#111F38] border border-[#1E335A] text-center text-xs text-slate-400">
-            No live quizzes published yet. Assessments created by Ministry Administrators will appear here.
+          <div className="p-6 border border-[#D5DCE3] rounded bg-white text-center text-xs text-[#5B6773]">
+            No live assessments published yet. Assessments created by Ministry Administrators will appear here.
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {(generatedQuizzes || []).map((quiz) => (
               <div
                 key={quiz.id}
-                className="bg-[#111F38] rounded-3xl border border-[#1E335A] hover:border-purple-500/80 p-5 shadow-lg flex flex-col justify-between transition-all group"
+                className="bg-white border border-[#D5DCE3] rounded p-4 flex flex-col justify-between hover:border-[#0B3A63] transition-colors"
               >
-                <div className="space-y-3">
+                <div className="space-y-2">
                   <div className="flex items-center justify-between">
-                    <span className="px-2.5 py-0.5 rounded text-[10px] font-bold bg-blue-900/60 text-blue-300 border border-blue-500/40">
+                    <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-[#EEF2F5] text-[#0B3A63] border border-[#D5DCE3]">
                       {quiz.difficulty || 'Medium'} Level
                     </span>
-                    <span className="text-[11px] text-slate-400 flex items-center space-x-1">
-                      <Clock className="w-3 h-3 text-amber-400" />
-                      <span>{quiz.questionCount || quiz.questions?.length || 5} Qs</span>
+                    <span className="text-[11px] text-[#5B6773]">
+                      {quiz.questionCount || quiz.questions?.length || 5} Questions
                     </span>
                   </div>
 
                   <div>
-                    <h4 className="text-xs sm:text-sm font-bold text-white group-hover:text-purple-300 transition-colors line-clamp-2">
-                      {quiz.title}
-                    </h4>
-                    <p className="text-[11px] text-slate-400 mt-1 flex items-center space-x-1 truncate">
-                      <FileText className="w-3.5 h-3.5 text-blue-400 flex-shrink-0" />
-                      <span className="truncate">{quiz.documentName || 'Official MoSPI Guidelines'}</span>
+                    <h4 className="text-xs font-semibold text-[#1F2933] line-clamp-2">{quiz.title}</h4>
+                    <p className="text-[11px] text-[#5B6773] mt-0.5 truncate">
+                      {quiz.documentName || 'Official MoSPI Guidelines'}
                     </p>
                   </div>
                 </div>
 
-                <div className="pt-4 mt-3 border-t border-[#1E335A] flex items-center justify-between">
-                  <span className="text-[10px] text-slate-500 truncate max-w-[120px]">
-                    By {quiz.createdBy || 'MoSPI Admin'}
-                  </span>
+                <div className="pt-3 mt-2 border-t border-[#D5DCE3] flex items-center justify-between">
+                  <span className="text-[10px] text-[#5B6773]">By {quiz.createdBy || 'MoSPI Admin'}</span>
                   <button
                     onClick={() => startGeneratedQuiz(quiz)}
-                    className="px-4 py-2 rounded-xl bg-[#1B365D] hover:bg-[#254A80] border border-blue-500/40 text-white text-xs font-bold transition-all shadow-sm flex items-center space-x-1.5 cursor-pointer"
+                    className="px-3 py-1.5 rounded bg-[#0B3A63] hover:bg-[#12304A] text-white text-xs font-semibold transition-colors cursor-pointer"
                   >
-                    <span>Take Assessment</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
+                    Take Assessment
                   </button>
                 </div>
               </div>
@@ -333,99 +275,64 @@ export const EmployeeDashboardView = () => {
         )}
       </div>
 
-      {/* 5. Course Tabs: APAR Courses, CBP Plan, Moderated Content */}
-      <div className="flex flex-wrap items-center gap-3 pt-2">
-        {/* APAR Courses Blue Button Card */}
-        <button
-          onClick={() => setActiveTab('apar')}
-          className={`flex items-center space-x-3 px-5 py-3 rounded-2xl transition-all cursor-pointer ${
-            activeTab === 'apar'
-              ? 'bg-[#1D4ED8] text-white font-bold shadow-lg ring-2 ring-blue-400'
-              : 'bg-[#162544] hover:bg-[#1E335A] text-slate-300 border border-[#1E3A6D]'
-          }`}
-        >
-          <div className="text-left">
-            <p className="text-xs font-black">APAR Courses</p>
-            <p className="text-[10px] opacity-80 font-normal">Annual Performance Appraisal...</p>
-          </div>
-          <BarChart3 className="w-5 h-5 opacity-90" />
-        </button>
+      {/* 6. Course Category Tabs */}
+      <div>
+        <div className="flex flex-wrap items-center gap-2 mb-4">
+          {[
+            { id: 'apar', label: 'APAR Courses', sub: 'Annual Performance Appraisal' },
+            { id: 'cbp', label: 'CBP Plan' },
+            { id: 'moderated', label: 'Moderated Content' }
+          ].map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`px-4 py-2 rounded border text-xs font-medium transition-all cursor-pointer ${
+                activeTab === tab.id
+                  ? 'bg-[#0B3A63] text-white border-[#0B3A63]'
+                  : 'bg-white text-[#5B6773] border-[#D5DCE3] hover:bg-[#EEF2F5] hover:text-[#1F2933]'
+              }`}
+            >
+              {tab.label}
+              {tab.sub && <span className={`block text-[10px] ${activeTab === tab.id ? 'opacity-80' : 'text-[#5B6773]'}`}>{tab.sub}</span>}
+            </button>
+          ))}
+        </div>
 
-        {/* CBP Plan Tab */}
-        <button
-          onClick={() => setActiveTab('cbp')}
-          className={`px-5 py-3 rounded-2xl text-xs font-bold transition-all cursor-pointer ${
-            activeTab === 'cbp'
-              ? 'bg-[#1D4ED8] text-white shadow-lg'
-              : 'bg-[#162544] hover:bg-[#1E335A] text-slate-300 border border-[#1E3A6D]'
-          }`}
-        >
-          CBP Plan
-        </button>
+        {/* Recommended Course Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {recommendedCourses.map((crs) => (
+            <div
+              key={crs.id}
+              onClick={() => {
+                showToast(`Opening ${crs.title}`, "info");
+                setCurrentScreen('courses');
+              }}
+              className="bg-white border border-[#D5DCE3] rounded hover:border-[#0B3A63] transition-colors cursor-pointer flex flex-col"
+            >
+              {/* Course color bar */}
+              <div className="h-1.5 bg-[#0B3A63] rounded-t" />
 
-        {/* Moderated Content Tab */}
-        <button
-          onClick={() => setActiveTab('moderated')}
-          className={`px-5 py-3 rounded-2xl text-xs font-bold transition-all cursor-pointer ${
-            activeTab === 'moderated'
-              ? 'bg-[#1D4ED8] text-white shadow-lg'
-              : 'bg-[#162544] hover:bg-[#1E335A] text-slate-300 border border-[#1E3A6D]'
-          }`}
-        >
-          Moderated Content
-        </button>
-      </div>
-
-      {/* 5. Recommended Course Cards Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 pt-2">
-        {recommendedCourses.map((crs) => (
-          <div
-            key={crs.id}
-            onClick={() => {
-              showToast(`Opening ${crs.title}`, "info");
-              setCurrentScreen('courses');
-            }}
-            className="group bg-[#111F38] rounded-3xl border border-[#1E335A] overflow-hidden hover:border-blue-500 hover:shadow-xl transition-all duration-200 flex flex-col justify-between cursor-pointer transform hover:-translate-y-1"
-          >
-            {/* Top Thumbnail Image with Duration Badge */}
-            <div className="relative h-36 w-full overflow-hidden bg-slate-800">
-              <img
-                src={crs.bgImg}
-                alt={crs.title}
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-              />
-              <div className="absolute bottom-2 right-2 px-2 py-0.5 rounded-full bg-black/70 backdrop-blur-xs text-white text-[10px] font-mono font-bold flex items-center space-x-1">
-                <Clock className="w-3 h-3 text-amber-400" />
-                <span>{crs.duration}</span>
-              </div>
-            </div>
-
-            {/* Course Card Body */}
-            <div className="p-4 space-y-2 flex-1 flex flex-col justify-between">
-              <div>
-                <div className="flex items-center justify-between mb-1.5">
-                  <span className="px-2 py-0.5 rounded text-[10px] font-black bg-amber-400 text-slate-950 uppercase tracking-tight">
-                    {crs.badge}
-                  </span>
-                  <span className="text-xs font-bold text-amber-400 flex items-center">
-                    ★ {crs.rating}
-                  </span>
+              <div className="p-4 flex-1 flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-[#EEF2F5] text-[#0B3A63] border border-[#D5DCE3] uppercase">
+                      {crs.badge}
+                    </span>
+                    <span className="text-xs text-[#5B6773] font-medium">Score: {crs.rating}/5</span>
+                  </div>
+                  <h4 className="text-xs font-semibold text-[#1F2933] line-clamp-2 leading-snug">
+                    {crs.title}
+                  </h4>
                 </div>
-                <h4 className="text-xs font-bold text-slate-100 line-clamp-2 leading-snug group-hover:text-blue-300 transition-colors">
-                  {crs.title}
-                </h4>
-              </div>
 
-              <div className="pt-2 border-t border-[#1E335A] flex items-center justify-between text-[11px] text-slate-400">
-                <span className="truncate max-w-[130px]">{crs.provider}</span>
-                <span className="text-amber-400 font-bold flex items-center">
-                  <Award className="w-3.5 h-3.5 mr-0.5 text-amber-400" />
-                  +{crs.karmaPoints} KP
-                </span>
+                <div className="pt-3 mt-3 border-t border-[#D5DCE3] flex items-center justify-between text-[11px]">
+                  <span className="text-[#5B6773] truncate max-w-[130px]">{crs.provider}</span>
+                  <span className="text-[#B7791F] font-semibold whitespace-nowrap">+{crs.karmaPoints} KP</span>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );

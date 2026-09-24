@@ -1,24 +1,5 @@
 import React, { useState } from 'react';
-import {
-  Home,
-  Compass,
-  ShoppingBag,
-  BookOpen,
-  FileCheck,
-  MessageSquare,
-  Award,
-  Clock,
-  Shield,
-  HelpCircle,
-  Download,
-  ChevronDown,
-  ChevronUp,
-  GraduationCap,
-  Users,
-  Layers,
-  AlertTriangle,
-  ClipboardCheck
-} from 'lucide-react';
+import { ChevronDown, ChevronUp } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 
 export const Sidebar = () => {
@@ -32,269 +13,183 @@ export const Sidebar = () => {
   } = useApp();
 
   const [isAchievementsOpen, setIsAchievementsOpen] = useState(true);
-  const [isQuickActionsOpen, setIsQuickActionsOpen] = useState(true);
+  const [isQuickActionsOpen, setIsQuickActionsOpen] = useState(false);
 
   const isTrainer = userProfile?.role === 'trainer';
 
-  // Navigation Items customized per persona
+  // Navigation Items — text-first, no icon containers
   const trainerPrimaryNavItems = [
-    { id: 'trainer-dashboard', label: 'Admin Governance Portal', icon: Shield },
-    { id: 'ai-quiz', label: 'Assessment Studio', icon: ClipboardCheck },
-    { id: 'reports', label: 'Batch Compliance & Audits', icon: FileCheck },
-    { id: 'courses', label: 'Curriculum & Courses', icon: Compass },
-    { id: 'ai-assistant', label: 'Admin AI Assistant', icon: MessageSquare }
+    { id: 'trainer-dashboard', label: 'Admin Governance Portal' },
+    { id: 'ai-quiz', label: 'Assessment Studio' },
+    { id: 'reports', label: 'Batch Compliance & Audits' },
+    { id: 'courses', label: 'Curriculum & Courses' },
+    { id: 'ai-assistant', label: 'Admin AI Assistant' }
   ];
 
   const employeePrimaryNavItems = [
-    { id: 'dashboard', label: 'User Dashboard', icon: Home },
-    { id: 'skill-gaps', label: 'Skill Gap Matrix', icon: Layers },
-    { id: 'assessment', label: 'Competency Assessment', icon: Award },
-    { id: 'learning-path', label: 'Learning Path & Recommendations', icon: BookOpen },
-    { id: 'progress', label: 'Progress Tracking', icon: Clock }
+    { id: 'dashboard', label: 'Dashboard' },
+    { id: 'skill-gaps', label: 'Skill Gap Matrix' },
+    { id: 'assessment', label: 'Competency Assessment' },
+    { id: 'learning-path', label: 'My Learning Path' },
+    { id: 'progress', label: 'Progress Tracker' }
   ];
 
   const primaryNavItems = isTrainer ? trainerPrimaryNavItems : employeePrimaryNavItems;
 
   const trainerSecondaryNavItems = [
-    { id: 'marketplace', label: 'MoSPI Marketplace', icon: ShoppingBag },
-    { id: 'competencies', label: 'Competency Framework', icon: Shield },
-    { id: 'dashboard', label: 'Preview Officer View', icon: Home }
+    { id: 'marketplace', label: 'MoSPI Marketplace' },
+    { id: 'competencies', label: 'Competency Framework' },
+    { id: 'dashboard', label: 'Preview Officer View' }
   ];
 
   const employeeSecondaryNavItems = [
-    { id: 'courses', label: 'Explore Content', icon: Compass },
-    { id: 'marketplace', label: 'Marketplace', icon: ShoppingBag },
-    { id: 'competencies', label: 'Learner Passbook', icon: FileCheck },
-    { id: 'ai-assistant', label: 'Ask AI Assistant', icon: MessageSquare }
+    { id: 'courses', label: 'Course Catalog' },
+    { id: 'marketplace', label: 'Marketplace' },
+    { id: 'competencies', label: 'Learner Passbook' },
+    { id: 'ai-assistant', label: 'AI Knowledge Assistant' }
   ];
 
   const secondaryNavItems = isTrainer ? trainerSecondaryNavItems : employeeSecondaryNavItems;
 
+  const NavButton = ({ item }) => {
+    const isActive = currentScreen === item.id;
+    return (
+      <button
+        key={item.id}
+        onClick={() => {
+          setCurrentScreen(item.id);
+          if (window.innerWidth < 768) setIsSidebarOpen(false);
+        }}
+        className={`w-full text-left px-3 py-2 text-xs font-medium transition-all cursor-pointer border-l-2 ${
+          isActive
+            ? 'bg-[#EEF2F5] border-[#0B3A63] text-[#0B3A63] font-semibold'
+            : 'border-transparent text-[#5B6773] hover:text-[#1F2933] hover:bg-[#F5F7F9]'
+        }`}
+      >
+        {item.label}
+      </button>
+    );
+  };
+
   return (
-    <aside className="w-64 bg-[#0B1528] text-slate-200 flex flex-col flex-shrink-0 min-h-[calc(100vh-57px)] border-r border-[#1E2E4A] select-none py-3 justify-between">
+    <aside className="w-64 bg-white text-[#1F2933] flex flex-col flex-shrink-0 min-h-[calc(100vh-57px)] border-r border-[#D5DCE3] select-none">
       {/* Top Navigation Links */}
-      <div className="flex-1 overflow-y-auto px-3 space-y-4">
-        {/* Core Architecture Modules */}
-        <div className="space-y-1">
-          <p className="px-3 text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">
-            {isTrainer ? 'Faculty Studio & Analytics' : 'Core Application Features'}
-          </p>
-          {primaryNavItems.map((item) => {
-            const Icon = item.icon;
-            const isActive = currentScreen === item.id;
+      <div className="flex-1 overflow-y-auto py-4 space-y-4">
 
-            return (
-              <button
-                key={item.id}
-                onClick={() => {
-                  setCurrentScreen(item.id);
-                  if (window.innerWidth < 768) setIsSidebarOpen(false);
-                }}
-                className={`w-full flex items-center space-x-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
-                  isActive
-                    ? 'bg-blue-600 text-white font-bold shadow-md'
-                    : 'text-slate-300 hover:text-white hover:bg-[#162544]'
-                }`}
-              >
-                <Icon className={`w-4 h-4 ${isActive ? 'text-white' : isTrainer ? 'text-emerald-400' : 'text-blue-400'}`} />
-                <span className="truncate">{item.label}</span>
-              </button>
-            );
-          })}
+        {/* Primary Nav Section */}
+        <div>
+          <p className="px-3 pb-1.5 text-[10px] font-bold text-[#5B6773] uppercase tracking-wider">
+            {isTrainer ? 'Administration' : 'Main Navigation'}
+          </p>
+          <div className="space-y-0.5">
+            {primaryNavItems.map((item) => (
+              <NavButton key={item.id} item={item} />
+            ))}
+          </div>
         </div>
 
-        {/* Content & Resources Section */}
-        <div className="space-y-1 pt-2 border-t border-[#1E2E4A]/60">
-          <p className="px-3 text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">
-            {isTrainer ? 'Academic Resources' : 'Content & Repositories'}
+        {/* Secondary Nav Section */}
+        <div className="border-t border-[#D5DCE3] pt-4">
+          <p className="px-3 pb-1.5 text-[10px] font-bold text-[#5B6773] uppercase tracking-wider">
+            {isTrainer ? 'Resources' : 'Content & Resources'}
           </p>
-          {secondaryNavItems.map((item) => {
-            const Icon = item.icon;
-            const isActive = currentScreen === item.id;
-
-            return (
-              <button
-                key={item.id}
-                onClick={() => {
-                  setCurrentScreen(item.id);
-                  if (window.innerWidth < 768) setIsSidebarOpen(false);
-                }}
-                className={`w-full flex items-center space-x-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
-                  isActive
-                    ? 'bg-blue-600 text-white font-bold shadow-md'
-                    : 'text-slate-300 hover:text-white hover:bg-[#162544]'
-                }`}
-              >
-                <Icon className={`w-4 h-4 ${isActive ? 'text-white' : 'text-slate-400'}`} />
-                <span className="truncate">{item.label}</span>
-              </button>
-            );
-          })}
+          <div className="space-y-0.5">
+            {secondaryNavItems.map((item) => (
+              <NavButton key={item.id} item={item} />
+            ))}
+          </div>
         </div>
 
-        {/* Persona-specific Accordion Card */}
-        {isTrainer ? (
-          <div className="bg-[#080E1C] rounded-2xl border border-emerald-900/50 p-3.5 space-y-3">
-            <button
-              onClick={() => setIsAchievementsOpen(!isAchievementsOpen)}
-              className="w-full flex items-center justify-between text-xs font-bold text-emerald-300 hover:text-white cursor-pointer"
-            >
-              <span className="flex items-center space-x-1.5">
-                <Users className="w-3.5 h-3.5 text-emerald-400" />
-                <span>Active Cohort (ISS 2026)</span>
-              </span>
-              {isAchievementsOpen ? <ChevronUp className="w-4 h-4 text-slate-400" /> : <ChevronDown className="w-4 h-4 text-slate-400" />}
-            </button>
-
-            {isAchievementsOpen && (
-              <div className="space-y-3 pt-1 border-t border-[#1E2E4A]/80">
-                <div className="flex items-start space-x-2.5">
-                  <div className="w-7 h-7 rounded-lg bg-emerald-950/80 border border-emerald-600/50 text-emerald-300 flex items-center justify-center flex-shrink-0">
-                    <Users className="w-4 h-4 text-emerald-400" />
-                  </div>
-                  <div className="text-[11px] leading-tight">
-                    <p className="text-slate-400">Probationer Officers</p>
-                    <p className="text-white font-bold">48 Officers Enrolled</p>
-                  </div>
-                </div>
-
-                <div className="flex items-start space-x-2.5">
-                  <div className="w-7 h-7 rounded-lg bg-blue-900/60 border border-blue-600/50 text-blue-300 flex items-center justify-center flex-shrink-0">
-                    <Award className="w-4 h-4 text-blue-400" />
-                  </div>
-                  <div className="text-[11px] leading-tight">
-                    <p className="text-slate-400">Cohort Average Score</p>
-                    <p className="text-blue-300 font-bold">74.8% Competency</p>
-                  </div>
-                </div>
-
-                <div className="flex items-start space-x-2.5">
-                  <div className="w-7 h-7 rounded-lg bg-amber-950/80 border border-amber-600/50 text-amber-300 flex items-center justify-center flex-shrink-0">
-                    <AlertTriangle className="w-4 h-4 text-amber-400" />
-                  </div>
-                  <div className="text-[11px] leading-tight">
-                    <p className="text-slate-400">Curriculum Deficits</p>
-                    <p className="text-amber-300 font-bold">2 Modules Identified</p>
-                  </div>
-                </div>
-
-                <div className="pt-1 text-center">
-                  <button
-                    onClick={() => setCurrentScreen('trainer-dashboard')}
-                    className="w-full py-1.5 px-3 bg-emerald-700/60 hover:bg-emerald-600 text-white rounded-lg text-[11px] font-bold transition-all cursor-pointer shadow-xs border border-emerald-500/40"
-                  >
-                    Open Faculty Studio
-                  </button>
-                </div>
-              </div>
-            )}
-          </div>
-        ) : (
-          <div className="bg-[#080E1C] rounded-2xl border border-[#1E2E4A] p-3.5 space-y-3">
-            <button
-              onClick={() => setIsAchievementsOpen(!isAchievementsOpen)}
-              className="w-full flex items-center justify-between text-xs font-bold text-slate-300 hover:text-white cursor-pointer"
-            >
-              <span>My Achievements</span>
-              {isAchievementsOpen ? <ChevronUp className="w-4 h-4 text-slate-400" /> : <ChevronDown className="w-4 h-4 text-slate-400" />}
-            </button>
-
-            {isAchievementsOpen && (
-              <div className="space-y-3 pt-1 border-t border-[#1E2E4A]/80">
-                {/* Rank */}
-                <div className="flex items-start space-x-2.5">
-                  <div className="w-7 h-7 rounded-lg bg-blue-900/60 border border-blue-600/50 text-blue-300 flex items-center justify-center flex-shrink-0">
-                    <Award className="w-4 h-4 text-blue-400" />
-                  </div>
-                  <div className="text-[11px] leading-tight">
-                    <p className="text-slate-400">Your Current Rank is</p>
-                    <p className="text-white font-bold">{userProfile?.currentRank || '146th Rank'}</p>
-                  </div>
-                </div>
-
-                {/* Learning Hours */}
-                <div className="flex items-start space-x-2.5">
-                  <div className="w-7 h-7 rounded-lg bg-indigo-900/60 border border-indigo-600/50 text-indigo-300 flex items-center justify-center flex-shrink-0">
-                    <Clock className="w-4 h-4 text-indigo-400" />
-                  </div>
-                  <div className="text-[11px] leading-tight">
-                    <p className="text-slate-400">Learning Hours</p>
-                    <p className="text-white font-bold">{userProfile?.learningHours || '146h 34m'}</p>
-                  </div>
-                </div>
-
-                {/* Karma Points */}
-                <div className="flex items-start space-x-2.5">
-                  <div className="w-7 h-7 rounded-lg bg-amber-950/80 border border-amber-600/50 text-amber-300 flex items-center justify-center flex-shrink-0">
-                    <Award className="w-4 h-4 text-amber-400" />
-                  </div>
-                  <div className="text-[11px] leading-tight">
-                    <p className="text-slate-400">Karma Points</p>
-                    <p className="text-amber-300 font-bold">{userProfile?.karmayogiCredits || 799} Karma Points</p>
-                  </div>
-                </div>
-
-                {/* Badges Earned */}
-                <div className="flex items-start space-x-2.5">
-                  <div className="w-7 h-7 rounded-lg bg-emerald-950/80 border border-emerald-600/50 text-emerald-300 flex items-center justify-center flex-shrink-0">
-                    <Shield className="w-4 h-4 text-emerald-400" />
-                  </div>
-                  <div className="text-[11px] leading-tight">
-                    <p className="text-slate-400">You've Earned</p>
-                    <p className="text-white font-bold">{userProfile?.badgesEarned || 0} Badges</p>
-                  </div>
-                </div>
-
-                <div className="pt-1 text-center">
-                  <button
-                    onClick={() => setCurrentScreen('progress')}
-                    className="text-[11px] text-slate-400 hover:text-white underline cursor-pointer"
-                  >
-                    View all achievements
-                  </button>
-                </div>
-              </div>
-            )}
-          </div>
-        )}
-
-        {/* Quick Actions Card */}
-        <div className="bg-[#080E1C] rounded-2xl border border-[#1E2E4A] p-3.5 space-y-2">
+        {/* Achievements / Cohort Info Accordion */}
+        <div className="border-t border-[#D5DCE3] pt-4 mx-3">
           <button
-            onClick={() => setIsQuickActionsOpen(!isQuickActionsOpen)}
-            className="w-full flex items-center justify-between text-xs font-bold text-slate-300 hover:text-white cursor-pointer"
+            onClick={() => setIsAchievementsOpen(!isAchievementsOpen)}
+            className="w-full flex items-center justify-between text-xs font-semibold text-[#1F2933] hover:text-[#0B3A63] cursor-pointer mb-2"
           >
-            <span>Quick Actions</span>
-            {isQuickActionsOpen ? <ChevronUp className="w-4 h-4 text-slate-400" /> : <ChevronDown className="w-4 h-4 text-slate-400" />}
+            <span>{isTrainer ? 'Active Cohort (ISS 2026)' : 'My Achievements'}</span>
+            {isAchievementsOpen
+              ? <ChevronUp className="w-3.5 h-3.5 text-[#5B6773]" />
+              : <ChevronDown className="w-3.5 h-3.5 text-[#5B6773]" />}
           </button>
 
-          {isQuickActionsOpen && (
-            <div className="pt-1 border-t border-[#1E2E4A]/80">
-              <button
-                onClick={() => setCurrentScreen('ai-assistant')}
-                className="w-full text-left p-2 rounded-xl bg-[#111F38] hover:bg-[#162544] flex items-start space-x-2.5 cursor-pointer transition-colors"
-              >
-                <HelpCircle className="w-4 h-4 text-blue-400 flex-shrink-0 mt-0.5" />
-                <div>
-                  <p className="text-xs font-bold text-white">Help Centre</p>
-                  <p className="text-[10px] text-slate-400">Need help? You're in the right place.</p>
-                </div>
-              </button>
+          {isAchievementsOpen && (
+            <div className="border border-[#D5DCE3] rounded bg-[#F5F7F9] divide-y divide-[#D5DCE3]">
+              {isTrainer ? (
+                <>
+                  <div className="px-3 py-2">
+                    <p className="text-[10px] text-[#5B6773]">Probationer Officers</p>
+                    <p className="text-xs font-semibold text-[#1F2933]">48 Officers Enrolled</p>
+                  </div>
+                  <div className="px-3 py-2">
+                    <p className="text-[10px] text-[#5B6773]">Cohort Average Score</p>
+                    <p className="text-xs font-semibold text-[#0B3A63]">74.8% Competency</p>
+                  </div>
+                  <div className="px-3 py-2">
+                    <p className="text-[10px] text-[#5B6773]">Curriculum Deficits</p>
+                    <p className="text-xs font-semibold text-[#B42318]">2 Modules Identified</p>
+                  </div>
+                  <div className="px-3 py-2">
+                    <button
+                      onClick={() => setCurrentScreen('trainer-dashboard')}
+                      className="w-full py-1.5 px-3 bg-[#0B3A63] hover:bg-[#12304A] text-white rounded text-[11px] font-semibold transition-all cursor-pointer"
+                    >
+                      Open Admin Console
+                    </button>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="px-3 py-2">
+                    <p className="text-[10px] text-[#5B6773]">Current Rank</p>
+                    <p className="text-xs font-semibold text-[#1F2933]">{userProfile?.currentRank || '146th Rank'}</p>
+                  </div>
+                  <div className="px-3 py-2">
+                    <p className="text-[10px] text-[#5B6773]">Learning Hours</p>
+                    <p className="text-xs font-semibold text-[#1F2933]">{userProfile?.learningHours || '146h 34m'}</p>
+                  </div>
+                  <div className="px-3 py-2">
+                    <p className="text-[10px] text-[#5B6773]">Karma Points</p>
+                    <p className="text-xs font-semibold text-[#B7791F]">{userProfile?.karmayogiCredits || 799} pts</p>
+                  </div>
+                  <div className="px-3 py-2">
+                    <p className="text-[10px] text-[#5B6773]">Badges Earned</p>
+                    <p className="text-xs font-semibold text-[#2E7D32]">{userProfile?.badgesEarned || 0} Badges</p>
+                  </div>
+                  <div className="px-3 py-2">
+                    <button
+                      onClick={() => setCurrentScreen('progress')}
+                      className="text-[11px] text-[#0B3A63] hover:underline cursor-pointer font-medium"
+                    >
+                      View all achievements →
+                    </button>
+                  </div>
+                </>
+              )}
             </div>
           )}
         </div>
+
+        {/* Help Centre */}
+        <div className="border-t border-[#D5DCE3] pt-4 mx-3">
+          <button
+            onClick={() => setCurrentScreen('ai-assistant')}
+            className="w-full text-left p-3 border border-[#D5DCE3] rounded bg-[#F5F7F9] hover:bg-[#EEF2F5] transition-colors cursor-pointer"
+          >
+            <p className="text-xs font-semibold text-[#1F2933]">Help Centre</p>
+            <p className="text-[10px] text-[#5B6773] mt-0.5">Ask the AI Knowledge Assistant for help.</p>
+          </button>
+        </div>
       </div>
 
-      {/* Bottom Fixed App Download Bar */}
-      <div className="p-3 border-t border-[#1E2E4A]">
+      {/* Bottom: Download App */}
+      <div className="p-3 border-t border-[#D5DCE3]">
         <a
           href="https://play.google.com/store/apps/details?id=igot.karmayogi.gov.in"
           target="_blank"
           rel="noreferrer"
-          className="w-full py-2.5 px-3 rounded-xl bg-[#15284F] hover:bg-[#1D3A74] text-white flex items-center justify-center space-x-2 text-xs font-bold transition-all shadow-md cursor-pointer border border-[#1E3A6D]"
+          className="w-full py-2 px-3 rounded border border-[#D5DCE3] bg-[#F5F7F9] hover:bg-[#EEF2F5] text-[#1F2933] flex items-center justify-center text-xs font-medium transition-all cursor-pointer"
         >
-          <Download className="w-4 h-4 text-amber-400" />
-          <span>Download App</span>
+          Download iGOT Mobile App
         </a>
       </div>
     </aside>
