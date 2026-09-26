@@ -103,6 +103,35 @@ export const AppProvider = ({ children }) => {
     }, 4000);
   };
 
+  // Bookmarked / Saved Courses State (Persisted in localStorage)
+  const [bookmarkedCourseIds, setBookmarkedCourseIds] = useState(() => {
+    try {
+      const saved = localStorage.getItem('gyanmitra_bookmarked_courses');
+      return saved ? JSON.parse(saved) : [];
+    } catch (e) {
+      return [];
+    }
+  });
+
+  const toggleBookmarkCourse = (courseId) => {
+    setBookmarkedCourseIds((prev) => {
+      const isBookmarked = prev.includes(courseId);
+      const updated = isBookmarked ? prev.filter((id) => id !== courseId) : [...prev, courseId];
+      try {
+        localStorage.setItem('gyanmitra_bookmarked_courses', JSON.stringify(updated));
+      } catch (e) {
+        // Fallback for storage errors
+      }
+      showToast(
+        isBookmarked ? "Course removed from your saved list" : "Course saved to your bookmarks",
+        "info"
+      );
+      return updated;
+    });
+  };
+
+  const isCourseBookmarked = (courseId) => bookmarkedCourseIds.includes(courseId);
+
   // Accessibility Font Scale (100% Default)
   const [fontScale, setFontScale] = useState(100);
 
@@ -677,6 +706,9 @@ export const AppProvider = ({ children }) => {
         setLearningPathFilter,
         notifications,
         setNotifications,
+        bookmarkedCourseIds,
+        toggleBookmarkCourse,
+        isCourseBookmarked,
         isAiDrawerOpen,
         setIsAiDrawerOpen,
         isSidebarOpen,
