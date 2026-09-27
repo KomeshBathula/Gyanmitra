@@ -1,0 +1,17 @@
+{
+  "short_name": "GyanMitra",
+  "name": "GyanMitra • MoSPI Capacity Building Platform",
+  "description": "AI-Powered Capacity Building & Competency Intelligence Platform for iGOT Karmayogi Bharat - MoSPI",
+  "icons": [
+    {
+      "src": "/vite.svg",
+      "type": "image/svg+xml",
+      "sizes": "192x192 512x512"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#0B3A63",
+  "theme_color": "#0B3A63",
+  "display": "standalone",
+  "orientation": "portrait-primary"
+}
